@@ -1,0 +1,154 @@
+/* =========================================================
+   SubelJapan — Bản đồ hành trình: mỗi phần là một vùng đất
+   ========================================================= */
+.unit { margin-bottom: 44px; }
+.unit-banner { position: relative; z-index: 3; margin-bottom: 0; }
+.ub-goals { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.ub-goal { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px 3px 6px; border-radius: 999px; background: rgba(255, 255, 255, .22); font: 800 12px var(--f-body); color: #fff; }
+.ub-goal .ic { width: 18px; height: 18px; }
+.ub-goal.got { background: #fff; color: var(--uc); }
+
+.map-zone {
+  --t1: color-mix(in srgb, var(--uc) 7%, var(--bg));
+  --t2: color-mix(in srgb, var(--uc) 17%, var(--bg));
+  position: relative; isolation: isolate; overflow: hidden;
+  margin-top: -36px; padding: 74px 0 128px; border-radius: 0 0 36px 36px;
+  background: linear-gradient(180deg, var(--t1), var(--t2));
+  border: 1.5px solid color-mix(in srgb, var(--uc) 16%, transparent); border-top: 0;
+}
+.map-zone::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; opacity: .55; pointer-events: none;
+  background-image: radial-gradient(color-mix(in srgb, var(--uc) 22%, transparent) 1.5px, transparent 1.8px);
+  background-size: 24px 24px;
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 12%, #000 80%, transparent); mask-image: linear-gradient(180deg, transparent, #000 12%, #000 80%, transparent);
+}
+.zone-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.map-hills { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 140px; }
+.map-hills .h1 { fill: color-mix(in srgb, var(--uc) 20%, var(--card)); }
+.map-hills .h2 { fill: color-mix(in srgb, var(--uc) 32%, var(--card)); }
+.map-hills .snow { fill: #fff; }
+.t-start .map-hills .h1 { fill: color-mix(in srgb, var(--mint) 24%, var(--card)); }
+.t-start .map-hills .h2 { fill: color-mix(in srgb, var(--mint) 38%, var(--card)); }
+.t-vocab .map-hills .h1 { fill: color-mix(in srgb, var(--mint) 26%, var(--card)); }
+
+/* mây trôi */
+.cloud { position: absolute; width: 92px; height: 28px; border-radius: 30px; background: rgba(255, 255, 255, .9); filter: drop-shadow(0 6px 8px rgba(58, 46, 77, .06)); animation: drift 28s ease-in-out infinite alternate; }
+.cloud::before, .cloud::after { content: ""; position: absolute; border-radius: 50%; background: inherit; }
+.cloud::before { width: 42px; height: 42px; left: 14px; top: -20px; }
+.cloud::after { width: 30px; height: 30px; left: 46px; top: -12px; }
+.cloud.c1 { top: 86px; left: 5%; }
+.cloud.c2 { top: 36%; right: 6%; scale: .75; animation-duration: 34s; animation-delay: -9s; }
+.cloud.c3 { top: 64%; left: 4%; scale: .6; opacity: .85; animation-duration: 40s; animation-delay: -16s; }
+@keyframes drift { from { translate: 0 0; } to { translate: 46px 0; } }
+
+/* hoa rơi / lá rơi / sao lấp lánh */
+.fx { position: absolute; top: -40px; left: var(--l); opacity: 0; animation: fxFall var(--d) linear infinite; animation-delay: var(--w); }
+.fx .ic { width: 20px; height: 20px; }
+@keyframes fxFall {
+  0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+  6% { opacity: .85; }
+  50% { transform: translate(34px, 900px) rotate(200deg); }
+  92% { opacity: .85; }
+  100% { transform: translate(-12px, 1800px) rotate(380deg); opacity: 0; }
+}
+.fx-star_s, .fx-sparkle { top: var(--t); animation: twinkle 2.8s ease-in-out infinite; animation-delay: var(--w); }
+.fx-star_s .ic, .fx-sparkle .ic { width: 18px; height: 18px; }
+@keyframes twinkle { 0%, 100% { opacity: .2; transform: scale(.6); } 50% { opacity: .95; transform: scale(1.1); } }
+
+/* con đường */
+.map-road { position: absolute; left: 0; top: 0; z-index: 1; pointer-events: none; overflow: visible; }
+.map-road path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.r-edge { stroke: color-mix(in srgb, var(--uc) 42%, var(--card)); stroke-width: 44; }
+.r-base { stroke: #fff9ef; stroke-width: 34; }
+.r-trail { stroke: color-mix(in srgb, var(--uc) 38%, #fff9ef); stroke-width: 34; }
+.r-dots { stroke: color-mix(in srgb, var(--uc) 55%, #fff); stroke-width: 6; stroke-dasharray: .1 18; }
+.map-zone .path { position: relative; z-index: 2; padding-bottom: 6px; }
+
+/* cảnh vật hai bên đường */
+.map-zone .deco { display: block; position: absolute; z-index: 1; left: calc(50% + var(--f, .7) * 50%); top: calc(50% + var(--dy, 0px)); transform: translate(-50%, -50%) scale(var(--k, 1)); pointer-events: none; }
+.map-zone .deco.big .ic { filter: drop-shadow(0 8px 10px rgba(58, 46, 77, .14)); }
+.map-zone .deco.big::after { content: ""; position: absolute; left: 50%; bottom: -6px; z-index: -1; width: 74%; height: 12px; border-radius: 50%; transform: translateX(-50%); background: color-mix(in srgb, var(--uc) 20%, transparent); }
+.map-zone .deco .tuft { position: absolute; left: 12%; bottom: -8px; width: 30px; height: 14px; fill: none; stroke: color-mix(in srgb, var(--mint) 75%, var(--uc)); stroke-width: 2.6; stroke-linecap: round; }
+.map-zone .deco.tiny .tuft { position: static; display: block; width: 34px; height: 16px; }
+.map-zone .deco.far { opacity: .85; }
+.map-zone .deco.far .ic { animation: float 4s ease-in-out infinite; }
+.map-zone .deco.here { z-index: 4; pointer-events: auto; }
+.map-zone .deco.here .mascot { filter: drop-shadow(0 8px 10px rgba(58, 46, 77, .16)); }
+.here-tag { position: absolute; left: 50%; top: -18px; transform: translateX(-50%); white-space: nowrap; padding: 3px 10px; border-radius: 999px; background: var(--card); box-shadow: var(--sh-1); font: 800 11.5px var(--f-body); color: var(--pri-t); animation: float 2.4s ease-in-out infinite; }
+
+/* nhãn bài học dễ đọc trên nền cảnh */
+.map-zone .pn-label { padding: 3px 11px; border-radius: 999px; background: color-mix(in srgb, var(--card) 90%, transparent); box-shadow: var(--sh-1); color: var(--ink); max-width: 170px; }
+.map-zone .pn-stars { padding: 1px 6px; border-radius: 999px; background: color-mix(in srgb, var(--card) 85%, transparent); }
+/* bóng mochi trên nút */
+.pn-btn::after { content: ""; position: absolute; left: 20%; top: 13%; width: 28%; height: 17%; border-radius: 50%; background: rgba(255, 255, 255, .45); transform: rotate(-28deg); pointer-events: none; }
+.pnode:not(.done):not(.cur) .pn-btn::after { background: color-mix(in srgb, var(--uc) 12%, transparent); }
+.pnode.chest .pn-btn::after, .pnode.bonus .pn-btn::after { display: none; }
+
+/* màn thưởng */
+.pnode.bonus .pn-btn { width: 70px; height: 70px; border-radius: 24px; transform: rotate(45deg); background: var(--card); box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--sun) 70%, var(--card)), 0 12px 22px -12px var(--sun-d); }
+.pnode.bonus .pn-btn > .ic { transform: rotate(-45deg); }
+.pnode.bonus .pn-btn:hover { transform: rotate(45deg) translateY(-3px) scale(1.05); }
+.pnode.bonus .pn-btn:active { transform: rotate(45deg) scale(.9); }
+.pnode.bonus.done .pn-btn { background: linear-gradient(135deg, #ffd85e, #ffb020); box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .08), 0 12px 22px -12px var(--sun-d); }
+.pnode.bonus.pending .pn-btn { animation: wig 1.4s ease-in-out infinite; }
+.pnode.bonus .pn-check { transform: rotate(-45deg); right: -8px; bottom: auto; top: -8px; background: var(--mint); color: #fff; }
+.pnode.bonus .pn-label { margin-top: 12px; }
+.bn-tag { display: inline-block; padding: 0 6px; margin-right: 2px; border-radius: 999px; background: var(--sun); color: #5a3d00; font-size: 10.5px; text-transform: uppercase; letter-spacing: .4px; }
+.bonus-pop { background: linear-gradient(160deg, #ffb020, #ff8f3c); }
+.bonus-pop::before { background: #ffb020; }
+.bonus-pop .btn { --bt: #e8730c; }
+.bonus-pop .pp-meta { font-weight: 900; }
+
+/* vùng trời đêm cho phần Ngữ pháp */
+.map-zone.t-grammar { --t1: #43387a; --t2: #7d67dc; border-color: transparent; }
+.t-grammar::before { background-image: radial-gradient(rgba(255, 255, 255, .25) 1.2px, transparent 1.6px); }
+.t-grammar .cloud { background: rgba(255, 255, 255, .16); filter: none; }
+.t-grammar .map-hills .h1 { fill: #4e4194; }
+.t-grammar .map-hills .h2 { fill: #5d4fb0; }
+.t-grammar .r-edge { stroke: rgba(255, 255, 255, .2); }
+.t-grammar .r-base { stroke: rgba(255, 255, 255, .92); }
+.t-grammar .deco.big::after { background: rgba(0, 0, 0, .18); }
+/* phố Tokyo ánh chiều */
+.map-zone.t-kata { --t1: color-mix(in srgb, var(--sky) 8%, var(--bg)); --t2: color-mix(in srgb, var(--lav) 20%, var(--bg)); }
+.t-kata .map-hills .h1 { fill: color-mix(in srgb, var(--lav) 30%, var(--card)); }
+.t-kata .map-hills .h2 { fill: color-mix(in srgb, var(--sky) 34%, var(--card)); }
+/* núi Phú Sĩ mùa thu */
+.map-zone.t-kanji { --t2: color-mix(in srgb, var(--coral) 18%, var(--bg)); }
+.t-kanji .map-hills .h1 { fill: color-mix(in srgb, var(--sky) 30%, var(--card)); }
+
+/* nhiệm vụ tuần & mục tiêu dài hạn */
+.miles { display: flex; flex-direction: column; }
+.mile { display: flex; align-items: center; gap: 12px; padding: 10px 0; }
+.mile + .mile { border-top: 1.5px solid var(--line); }
+.mile .q-ico { width: 44px; height: 44px; flex: none; display: grid; place-items: center; border-radius: 14px; background: var(--bg2); }
+.mile .q-body { flex: 1; min-width: 0; }
+.mile .q-text { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-weight: 800; font-size: 14px; margin-bottom: 5px; }
+.mile .q-bar { display: flex; align-items: center; gap: 8px; }
+.mile .q-bar .bar { flex: 1; height: 12px; }
+.mile .q-bar small { font: 800 12px var(--f-body); color: var(--ink2); min-width: 54px; text-align: right; }
+.mile-tier { display: inline-flex; gap: 3px; }
+.mile-tier i { width: 9px; height: 9px; border-radius: 50%; background: var(--line); }
+.mile-tier i.on { background: var(--sun); }
+.mile.complete .q-ico { background: var(--sun-l); }
+
+@media (max-width: 760px) {
+  .map-zone { padding: 66px 0 112px; border-radius: 0 0 28px 28px; }
+  .map-zone .deco { --k: .74; }
+  .map-zone .deco.far, .map-zone .deco.tiny { display: none; }
+  .map-zone .deco.here { --k: .8; }
+  .here-tag { display: none; }
+  .r-edge { stroke-width: 36; }
+  .r-base, .r-trail { stroke-width: 27; }
+  .map-zone .pn-label { max-width: 130px; }
+  .cloud.c2 { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .fx { display: none; } }
+@media (max-width: 760px) { .map-zone .deco .ic, .map-zone .deco .mascot { width: auto; height: auto; } }
+/* chừa khoảng cho con đường lộ ra giữa các bài */
+.map-zone .prow { margin: 22px 0; }
+.map-zone .pnode { margin: 0; }
+.map-zone .pnode.cur { margin-top: 40px; }
+.map-zone .pn-stars { position: relative; z-index: 2; margin-top: -11px; box-shadow: var(--sh-1); }
+.map-zone .pn-label { margin-top: 6px; font-size: 12px; padding: 2px 10px; }
+@media (max-width: 760px) { .map-zone .prow { margin: 16px 0; } }
+.map-zone .pnode.bonus .pn-label { max-width: 230px; white-space: nowrap; }

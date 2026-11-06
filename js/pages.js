@@ -33,55 +33,160 @@ window.SJ = window.SJ || {};
         <div class="gc-txt"><b>Mục tiêu ngày</b><span class="muted small bold">${today >= S.goal ? 'Xong rồi! Giỏi quá đi' : `Còn ${S.goal - today} XP nữa thôi`}</span></div></div>
         <div class="week">${week.map(d => `<span class="wday ${d.xp ? 'on' : ''} ${d.frozen ? 'frz' : ''} ${d.key === SJ.store.dayKey() ? 'today' : ''}" title="${d.key}: ${d.xp} XP"><i>${d.xp ? I('fire', 18) : d.frozen ? I('omamori', 18) : ''}</i>${wd[d.d.getDay()]}</span>`).join('')}</div></div>
       ${quests}
+      ${weeklyHTML()}
       <a class="card card-pad hov shop-teaser" href="#/shop">${U().mascot('wink', 76)}<div class="grow"><b class="card-title" style="margin:0 0 4px">Tiệm của Mochi</b><div class="muted small bold">Dùng cá vàng mua phụ kiện, đổi vị cho Mochi và bùa giữ chuỗi</div></div></a>
       <div class="card card-pad"><div class="card-title">${I('sparkle', 26)} Từ của ngày</div>
         <div class="wotd" data-say="${esc(SJ.ui.reading(wotd.jp))}"><span class="chip-pic">${I(wotd.e, 46)}</span><div class="grow"><div class="jp w-jp">${esc(wotd.jp)}</div><div class="muted small bold">${esc(wotd.r)} — ${esc(wotd.vi)}</div></div>${I('speaker', 24)}</div></div>
       <div class="rail-foot">SubelJapan · Nét chữ từ <a href="https://kanjivg.tagaini.net" target="_blank" rel="noopener">KanjiVG</a> (CC BY-SA 3.0)<br>Mochi chúc bạn học vui mỗi ngày!</div>`;
   }
+  /** Thử thách tuần */
+  function weeklyHTML() {
+    const ws = SJ.store.weekly();
+    const now = new Date(), left = 7 - ((now.getDay() + 6) % 7);
+    return `<div class="card card-pad weekly-card"><div class="card-title">${I('calendar', 30)} Thử thách tuần <span class="more muted">còn ${left} ngày</span></div>
+      ${ws.map((q, i) => `<div class="quest ${q.done ? 'done' : ''} ${q.claimed ? 'claimed' : ''}"><span class="q-ico">${I(q.done ? 'chest_open' : q.icon, 32)}</span><div class="q-body"><div class="q-text">${esc(SJ.store.weekText(q))}</div>
+        <div class="q-bar">${U().bar(q.prog / q.target * 100, q.done ? 'green' : 'lav')}<small>${q.prog}/${q.target}</small></div></div>
+        ${q.done && !q.claimed ? `<button class="btn btn-sm btn-yel claim-btn" data-wclaim="${i}">Nhận</button>` : `<span class="q-rew">${I('fishcoin', 18)}${q.fish}</span>`}</div>`).join('')}</div>`;
+  }
+  /** Mục tiêu dài hạn — mỗi bậc nhận thưởng */
+  function milesHTML() {
+    return `<div class="card card-pad"><div class="card-title">${I('medal', 30)} Mục tiêu dài hạn <span class="more muted">mỗi bậc +15 cá trở lên</span></div>
+      <div class="miles">${SJ.store.milestones().map(m => {
+        const tierN = m.tiers.length, pct = m.complete ? 100 : Math.min(100, m.v / m.next * 100);
+        return `<div class="mile ${m.complete ? 'complete' : ''}"><span class="q-ico">${I(m.icon, 32)}</span><div class="q-body"><div class="q-text">${esc(m.name)} <span class="mile-tier">${'<i class="on"></i>'.repeat(Math.min(m.claimed, tierN))}${'<i></i>'.repeat(Math.max(0, tierN - m.claimed))}</span></div>
+          <div class="q-bar">${U().bar(pct, m.canClaim ? 'green' : 'sky')}<small>${m.complete ? 'Xong!' : `${Math.min(m.v, m.next)}/${m.next}`}</small></div></div>
+          ${m.canClaim ? `<button class="btn btn-sm btn-yel claim-btn" data-mclaim="${m.id}">Nhận</button>` : ''}</div>`;
+      }).join('')}</div></div>`;
+  }
   function bindRail(el) {
+    if (!el) return;
     el.addEventListener('click', e => {
-      const b = e.target.closest('[data-claim]'); if (!b) return;
-      const n = SJ.store.claimQuest(+b.dataset.claim);
-      if (n) { SJ.audio.sfx('chest'); U().confetti(50); }
+      const b = e.target.closest('[data-claim]');
+      const w = e.target.closest('[data-wclaim]');
+      const m = e.target.closest('[data-mclaim]');
+      let n = 0;
+      if (b) n = SJ.store.claimQuest(+b.dataset.claim);
+      else if (w) n = SJ.store.claimWeekly(+w.dataset.wclaim);
+      else if (m) n = SJ.store.claimMile(m.dataset.mclaim);
+      else return;
+      if (n) { SJ.audio.sfx('chest'); U().confetti(50); P.refreshRail(); }
     });
   }
   P.refreshRail = () => {
     const r = document.querySelector('.rail'); if (r) r.innerHTML = railHTML();
     const m = document.querySelector('.rail-mobile'); if (m) m.innerHTML = railHTML(true);
-    const q = document.querySelector('.quests-page-list'); if (q) q.innerHTML = railHTML(true);
+    const q = document.querySelector('.quests-page-list'); if (q) q.innerHTML = railHTML(true) + weeklyHTML() + milesHTML();
   };
 
   // ===================== TRANG CHỦ — LỘ TRÌNH =====================
   const OFFS = [0, 50, 78, 50, 0, -50, -78, -50];
-  const DECO = { start: ['sakura_tree'], hira: ['sakura_tree', 'lantern', 'onigiri'], kata: ['rocket', 'robot', 'camera'], vocab: ['sushi', 'ramen', 'cat'], kanji: ['torii', 'fuji', 'scroll'], grammar: ['puzzle', 'speech', 'gradcap'] };
+  // Mỗi phần là một vùng đất trên bản đồ Nhật Bản
+  const THEMES = {
+    start: { name: 'Khu vườn nhỏ', big: ['sprout', 'tulip', 'flower', 'sun'], small: ['leaf', 'sprout', 'tulip'], fx: 'leaf' },
+    hira: { name: 'Vườn hoa anh đào', big: ['sakura_tree', 'lantern', 'sakura_tree', 'torii', 'sakura_tree', 'onigiri'], small: ['sakura', 'tulip', 'flower'], fx: 'sakura' },
+    kata: { name: 'Phố Tokyo', big: ['building', 'tower', 'rocket', 'building', 'robot', 'plane'], small: ['star_s', 'camera', 'headphones'], fx: 'star_s' },
+    vocab: { name: 'Chợ ẩm thực', big: ['ramen', 'lantern', 'sushi', 'tea', 'onigiri', 'cake'], small: ['bowl', 'apple', 'egg'], fx: 'sparkle' },
+    kanji: { name: 'Núi Phú Sĩ', big: ['fuji', 'torii', 'mountain', 'maple', 'torii', 'scroll'], small: ['maple', 'leaf', 'brush'], fx: 'maple' },
+    grammar: { name: 'Trời sao đêm', big: ['moon', 'night', 'gradcap', 'book', 'star_s'], small: ['star_s', 'sparkle', 'star_s'], fx: 'star_s' },
+  };
+  // Màn thưởng xen giữa các bài: trò chơi, truyện, thử thách viết, gõ phím, chuỗi đúng
+  const BONUS = {};
+  const BONUS_KINDS = ['game', 'read', 'write', 'game', 'type', 'practice'];
+  const GAME_ORDER = ['rain', 'memory', 'quiz', 'listen', 'builder', 'tf'];
+  function bonusDef(u, ui, i, bi) {
+    const id = 'b:' + u.id + ':' + i;
+    let kind = BONUS_KINDS[bi % BONUS_KINDS.length];
+    if (kind === 'read' && u.id === 'start') kind = 'game';
+    if (kind === 'game') {
+      const g = SJ.games.list.find(x => x.id === GAME_ORDER[Math.floor(bi / 2) % GAME_ORDER.length]) || SJ.games.list[0];
+      return { id, kind, icon: g.icon, title: g.name, short: g.name, desc: g.desc + ' Chơi hết một lượt là phá được màn.', href: '#/game/' + g.id, match: g.id };
+    }
+    if (kind === 'read') {
+      if (u.id === 'grammar') { const d = SJ.DIALOGUES[bi % SJ.DIALOGUES.length]; return { id, kind, icon: 'talk', title: 'Hội thoại: ' + d.title, short: 'Hội thoại', desc: 'Nghe và đọc hết đoạn hội thoại rồi bấm "Mình đã luyện xong".', href: '#/dialog/' + d.id, match: d.id }; }
+      const lvl = { hira: 1, kata: 2, vocab: 2, kanji: 3 }[u.id] || 1;
+      const list = SJ.STORIES.filter(s => s.level === lvl); const st = list[bi % list.length];
+      return { id, kind, icon: 'scroll', title: 'Truyện: ' + st.vi, short: 'Đọc truyện', desc: 'Đọc truyện ngắn rồi trả lời hết câu hỏi hiểu bài.', href: '#/story/' + st.id, match: st.id };
+    }
+    if (kind === 'write') return { id, kind, icon: 'pencil', title: 'Thử thách viết', short: 'Thử thách viết', desc: 'Viết xong 5 chữ từ trí nhớ (chế độ Viết trong Luyện tập).', href: '#/practice/write', need: 5 };
+    if (kind === 'type') return { id, kind, icon: 'keyboard', title: 'Thử thách gõ phím', short: 'Gõ phím', desc: 'Gõ đúng 5 từ bằng bàn phím tiếng Nhật.', href: '#/type/' + (u.id === 'hira' || u.id === 'start' ? 'kana' : 'word'), need: 5 };
+    return { id, kind: 'practice', icon: 'infinity', title: 'Chuỗi 10 câu đúng', short: 'Chuỗi 10 câu', desc: 'Luyện tập vô tận, trả lời đúng liên tiếp 10 câu.', href: '#/practice/' + ({ vocab: 'vocab', kanji: 'kanji' }[u.id] || 'read'), need: 10 };
+  }
+  // đường chân trời riêng cho từng vùng: đồi, phố Tokyo, núi Phú Sĩ…
+  const HORIZON = {
+    start: '<path class="h1" d="M0 80 Q90 25 190 70 T390 55 T600 65 V140 H0Z"/><path class="h2" d="M0 110 Q140 60 300 100 T600 95 V140 H0Z"/>',
+    hira: '<path class="h1" d="M0 75 Q80 35 170 65 T350 50 T600 60 V140 H0Z"/><path class="h2" d="M0 105 Q160 70 320 100 T600 92 V140 H0Z"/>',
+    kata: '<path class="h1" d="M0 140 V88 H34 V62 H70 V92 H96 V44 H134 V78 H168 V66 H200 V30 H214 V14 H222 V30 H236 V82 H272 V52 H316 V92 H350 V62 H384 V38 H420 V84 H452 V58 H492 V90 H520 V70 H560 V94 H600 V140Z"/><path class="h2" d="M0 140 V110 H50 V96 H92 V114 H140 V100 H190 V118 H240 V104 H300 V116 H350 V98 H410 V112 H470 V102 H530 V116 H600 V140Z"/>',
+    vocab: '<path class="h1" d="M0 82 Q70 50 150 76 T310 62 T470 72 T600 64 V140 H0Z"/><path class="h2" d="M0 112 Q150 82 300 106 T600 100 V140 H0Z"/>',
+    kanji: '<path class="h1" d="M0 140 V96 L110 64 L190 88 L300 18 L338 34 L410 86 L490 58 L600 92 V140Z"/><path class="snow" d="M266 40 L300 18 L338 34 L322 44 L308 38 L296 46 L282 40Z"/><path class="h2" d="M0 116 Q150 88 300 112 T600 104 V140 H0Z"/>',
+    grammar: '<path class="h1" d="M0 86 Q100 46 210 78 T420 64 T600 74 V140 H0Z"/><path class="h2" d="M0 114 Q150 84 300 108 T600 102 V140 H0Z"/>',
+  };
+  const hash = (a, b) => { let x = (a * 374761393 + b * 668265263) >>> 0; x = (x ^ (x >>> 13)) * 1274126177 >>> 0; return (x % 1000) / 1000; };
+  const tuft = '<svg class="tuft" viewBox="0 0 34 16" aria-hidden="true"><path d="M3 16 Q6 5 9 16 M12 16 Q16 1 19 16 M22 16 Q26 6 29 16"/></svg>';
+  function scenery(u, ui, i, off, isCur, mood) {
+    const T = THEMES[u.id] || THEMES.start;
+    const side = off > 0 ? -1 : off < 0 ? 1 : (i % 2 ? -1 : 1);
+    const r1 = hash(ui + 1, i + 1), r2 = hash(ui + 7, i + 3), r3 = hash(ui + 3, i + 11);
+    let out = '';
+    if (isCur) out += `<span class="deco here" style="--f:${side * 0.74};--dy:-6px">${U().mascot(mood, 76, 'bob')}<span class="here-tag">Mochi ở đây nè!</span></span>`;
+    else {
+      const big = T.big[(i + ui) % T.big.length];
+      const sz = Math.round(70 + r1 * 26);
+      out += `<span class="deco big" style="--f:${(side * (0.68 + r2 * 0.16)).toFixed(2)};--dy:${Math.round(r3 * 24 - 12)}px;--sz:${sz}">${I(big, sz)}${tuft}</span>`;
+    }
+    if (r2 > 0.35) out += `<span class="deco far" style="--f:${(-side * (0.88 + r1 * 0.07)).toFixed(2)};--dy:${Math.round(r2 * 40 - 20)}px;--sz:30">${I(T.small[(i * 3 + ui) % T.small.length], 30)}</span>`;
+    if (r3 > 0.55) out += `<span class="deco tiny" style="--f:${(side * (0.42 + r3 * 0.1)).toFixed(2)};--dy:${Math.round(34 + r1 * 14)}px">${tuft}</span>`;
+    return out;
+  }
+  function zoneFx(u) {
+    const T = THEMES[u.id] || THEMES.start;
+    let fx = '';
+    for (let k = 0; k < 7; k++) fx += `<span class="fx fx-${T.fx}" style="--l:${(8 + k * 13 + hash(k, 5) * 6).toFixed(1)}%;--t:${(6 + hash(k, 7) * 80).toFixed(1)}%;--d:${(9 + hash(k, 9) * 8).toFixed(1)}s;--w:${(-hash(k, 2) * 12).toFixed(1)}s">${I(T.fx, 26)}</span>`;
+    return `<span class="cloud c1"></span><span class="cloud c2"></span><span class="cloud c3"></span>${fx}
+      <svg class="map-hills" viewBox="0 0 600 140" preserveAspectRatio="none" aria-hidden="true">${HORIZON[u.id] || HORIZON.start}</svg>`;
+  }
   function home(root) {
     const S = SJ.store.get();
     const next = SJ.store.nextLesson();
     const g = U().greeting();
     const name = S.name ? esc(S.name) : 'bạn';
-    let n = 0;
+    let n = 0, bi = 0;
+    const bonusNode = (u, ui, i) => {
+      const b = bonusDef(u, ui, i, bi++);
+      BONUS[b.id] = b;
+      const off = OFFS[(n++) % OFFS.length];
+      const done = SJ.store.bonusIsDone(b.id);
+      const pend = S.bonusPending && S.bonusPending.id === b.id;
+      return `<div class="prow">${scenery(u, ui, 50 + i, off, false)}<div class="pnode bonus ${done ? 'done' : ''} ${pend ? 'pending' : ''}" style="--x:${off}px" data-x="${off}" data-b="${b.id}">
+        <button class="pn-btn" aria-label="${esc(b.title)}">${I(b.icon, 40)}${done ? `<span class="pn-check">${I('check', 16)}</span>` : ''}</button>
+        <span class="pn-label"><b class="bn-tag">Màn thưởng</b> ${esc(b.short)}</span></div></div>`;
+    };
     const units = SJ.UNITS.map((u, ui) => {
       const c = SJ.store.countDone(u.id), tot = u.lessons.length, all = c === tot;
       const nodes = u.lessons.map((l, i) => {
         const st = S.lessons[l.id], done = st && st.done, cur = l === next && !done;
         const off = OFFS[(n++) % OFFS.length];
         const face = l.type === 'test' ? I('crown', 40) : (l.type === 'kana' || l.type === 'kanji') ? `<span>${l.items[0]}</span>` : I(l.icon || 'book', 40);
-        const deco = i % 4 === 2 ? `<span class="deco" style="--dx:${off >= 0 ? -150 : 150}px">${ui === 0 || (ui === 1 && i === 2) ? U().mascot(done ? 'happy' : 'wink', 84) : I(DECO[u.id][Math.floor(i / 4) % DECO[u.id].length], 70)}</span>` : '';
-        return `<div class="prow">${deco}<div class="pnode ${done ? 'done' : ''} ${cur ? 'cur' : ''}" style="--x:${off}px" data-l="${l.id}">
+        return `<div class="prow">${scenery(u, ui, i, off, cur, SJ.store.doneToday() ? 'cheer' : 'happy')}<div class="pnode ${done ? 'done' : ''} ${cur ? 'cur' : ''}" style="--x:${off}px" data-x="${off}" data-l="${l.id}">
           ${cur ? `<span class="pn-start">${Object.keys(S.lessons).length ? 'Học tiếp' : 'Bắt đầu'}</span>` : ''}
           <button class="pn-btn" aria-label="${esc(l.title)}">${face}${done && st.stars >= 3 ? `<span class="pn-check">${I('star', 16)}</span>` : ''}</button>
           ${done ? `<span class="pn-stars">${U().stars(st.stars, 3, 15)}</span>` : ''}
-          <span class="pn-label">${esc(l.title)}</span></div></div>`;
+          <span class="pn-label">${esc(l.title)}</span></div></div>` + (i % 3 === 2 && i < u.lessons.length - 1 ? bonusNode(u, ui, i) : '');
       }).join('');
+      const bonTot = u.lessons.filter((l, i) => i % 3 === 2 && i < u.lessons.length - 1).length;
+      const bonDone = Object.keys(S.bonus).filter(k => k.startsWith('b:' + u.id + ':')).length;
+      const starsGot = u.lessons.reduce((a, l) => a + ((S.lessons[l.id] || {}).stars || 0), 0), starsMax = tot * 3;
+      const crown = starsGot >= starsMax && bonDone >= bonTot;
+      const goals = `<div class="ub-goals"><span class="ub-goal">${I('star', 18)} ${starsGot}/${starsMax} sao</span>${bonTot ? `<span class="ub-goal">${I('chest', 18)} ${bonDone}/${bonTot} màn thưởng</span>` : ''}<span class="ub-goal ${crown ? 'got' : ''}" title="Gom đủ sao và phá hết màn thưởng để nhận vương miện">${I('crown', 18)} ${crown ? 'Đã đội vương miện' : 'Vương miện'}</span></div>`;
       const chestState = S.chests[u.id] ? 'claimed' : all ? 'ready' : 'locked';
       const off = OFFS[(n++) % OFFS.length];
-      const chest = `<div class="prow"><div class="pnode chest ${chestState}" style="--x:${off}px" data-chest="${u.id}"><button class="pn-btn" aria-label="Rương thưởng">${I(chestState === 'claimed' ? 'chest_open' : 'chest', 48)}</button><span class="pn-label">${chestState === 'claimed' ? 'Đã mở rương' : 'Rương 30 cá'}</span></div></div>`;
+      const chest = `<div class="prow">${scenery(u, ui, 99, off, false)}<div class="pnode chest ${chestState}" style="--x:${off}px" data-x="${off}" data-chest="${u.id}"><button class="pn-btn" aria-label="Rương thưởng">${I(chestState === 'claimed' ? 'chest_open' : 'chest', 48)}</button><span class="pn-label">${chestState === 'claimed' ? 'Đã mở rương' : 'Rương 30 cá'}</span></div></div>`;
       return `<section class="unit" style="--uc:${u.color}" id="unit-${u.id}">
-        <div class="unit-banner"><div class="ub-text"><div class="ub-kicker">Phần ${ui + 1}</div><div class="ub-title">${esc(u.title)} <span class="jp">${u.jp}</span></div><div class="ub-desc">${esc(u.desc)}</div>
-          <div class="ub-prog">${U().bar(c / tot * 100)}<span>${c}/${tot} bài</span></div></div>
+        <div class="unit-banner"><div class="ub-text"><div class="ub-kicker">Phần ${ui + 1} · ${esc((THEMES[u.id] || THEMES.start).name)}</div><div class="ub-title">${esc(u.title)} <span class="jp">${u.jp}</span></div><div class="ub-desc">${esc(u.desc)}</div>
+          <div class="ub-prog">${U().bar(c / tot * 100)}<span>${c}/${tot} bài</span></div>${goals}</div>
           <span class="ub-icon">${I(u.icon, 44)}</span>
           <button class="btn btn-sm ub-guide" data-guide="${u.id}" title="Sổ tay">${I('book', 22)}<span>Sổ tay</span></button></div>
-        <div class="path">${nodes}${chest}</div></section>`;
+        <div class="map-zone t-${u.id}"><div class="zone-bg">${zoneFx(u)}</div><svg class="map-road" aria-hidden="true"></svg>
+          <div class="path">${nodes}${chest}</div></div></section>`;
     }).join('');
     const nextUnit = SJ.UNITS.find(u => u.id === next.unit);
     root.innerHTML = `<div class="with-rail">
@@ -111,6 +216,21 @@ window.SJ = window.SJ || {};
         else U().toast(`${I('chest_open', 24)} Rương này mở rồi nè`);
         return;
       }
+      const bs = e.target.closest('[data-bstart]');
+      if (bs) { e.preventDefault(); const b = BONUS[bs.dataset.bstart]; if (!SJ.store.bonusIsDone(b.id)) SJ.store.startBonus(b); SJ.audio.sfx('open'); location.hash = b.href; return; }
+      const bn = e.target.closest('.pnode[data-b]');
+      if (bn && e.target.closest('.pn-btn')) {
+        if (openNode === bn) { closePop(); return; }
+        closePop();
+        const b = BONUS[bn.dataset.b], done = SJ.store.bonusIsDone(b.id);
+        const pend = S.bonusPending && S.bonusPending.id === b.id;
+        bn.insertAdjacentHTML('beforeend', `<div class="pn-pop bonus-pop"><div class="pp-meta">${I('chest', 22)} MÀN THƯỞNG</div><h4>${esc(b.title)}</h4><p>${esc(b.desc)}</p>
+          <div class="pp-meta">${done ? `${I('check', 18)} Đã phá màn này — chơi lại cho vui nha` : `${I('fishcoin', 20)} +12 cá · ${I('star', 18)} +8 XP${pend && b.need > 1 ? ` · đang làm ${S.bonusPending.prog || 0}/${b.need}` : ''}`}</div>
+          <button class="btn btn-block" data-bstart="${b.id}">${done ? 'Chơi lại' : pend ? 'Làm tiếp' : 'Chơi ngay'}</button></div>`);
+        bn.closest('.prow').classList.add('open');
+        openNode = bn; SJ.audio.sfx('pop');
+        return;
+      }
       const nd = e.target.closest('.pnode[data-l]');
       if (nd && e.target.closest('.pn-btn')) {
         if (openNode === nd) { closePop(); return; }
@@ -132,6 +252,62 @@ window.SJ = window.SJ || {};
     }
     const cur = root.querySelector('.pnode.cur');
     if (cur && Object.keys(S.lessons).length) setTimeout(() => cur.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
+    drawRoads(root);
+    let rt = 0;
+    const onResize = () => { clearTimeout(rt); rt = setTimeout(() => drawRoads(root), 120); };
+    window.addEventListener('resize', onResize);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => drawRoads(root));
+    setTimeout(() => drawRoads(root), 600);
+    return { destroy() { window.removeEventListener('resize', onResize); clearTimeout(rt); } };
+  }
+  /** Vẽ con đường uốn lượn nối các bài học; đoạn đã học được tô màu */
+  function drawRoads(root) {
+    root.querySelectorAll('.map-zone').forEach(z => {
+      const svg = z.querySelector('.map-road'), path = z.querySelector('.path');
+      if (!path) return;
+      const W = z.clientWidth, H = z.clientHeight;
+      if (!W || !H) return;
+      const pts = Array.from(z.querySelectorAll('.pnode')).map(nd => {
+        const btn = nd.querySelector('.pn-btn'), row = nd.parentElement;
+        return { x: W / 2 + (+nd.dataset.x || 0), y: path.offsetTop + row.offsetTop + nd.offsetTop + btn.offsetTop + btn.offsetHeight / 2, done: nd.classList.contains('done'), cur: nd.classList.contains('cur') };
+      });
+      if (!pts.length) return;
+      const P = [{ x: W / 2, y: 0 }].concat(pts, [{ x: W / 2, y: H }]);
+      const curve = Q => {
+        let d = 'M' + Q[0].x.toFixed(1) + ' ' + Q[0].y.toFixed(1);
+        for (let i = 0; i < Q.length - 1; i++) {
+          const p0 = Q[i - 1] || Q[i], p1 = Q[i], p2 = Q[i + 1], p3 = Q[i + 2] || p2;
+          d += ' C' + (p1.x + (p2.x - p0.x) / 6).toFixed(1) + ' ' + (p1.y + (p2.y - p0.y) / 6).toFixed(1) + ' ' + (p2.x - (p3.x - p1.x) / 6).toFixed(1) + ' ' + (p2.y - (p3.y - p1.y) / 6).toFixed(1) + ' ' + p2.x.toFixed(1) + ' ' + p2.y.toFixed(1);
+        }
+        return d;
+      };
+      let k = 0;
+      pts.forEach((p, i) => { if (p.done || p.cur) k = i + 1; });
+      const all = curve(P), trail = k ? curve(P.slice(0, k + 1)) : '';
+      // vẽ đường vào ảnh nền của vùng (luôn hiển thị ổn định, không bị lớp hoạt ảnh che)
+      const uc = getComputedStyle(z.closest('.unit')).getPropertyValue('--uc').trim() || '#ff6b9a';
+      const card = getComputedStyle(document.documentElement).getPropertyValue('--card').trim() || '#ffffff';
+      const night = z.classList.contains('t-grammar');
+      const cEdge = night ? 'rgba(255,255,255,.28)' : mixHex(uc, card, .55), cBase = night ? 'rgba(255,255,255,.95)' : '#fffaf2';
+      const cTrail = mixHex(uc, '#ffffff', .78), cDots = mixHex(uc, '#ffffff', .6);
+      const sw = W < 500 ? [36, 27] : [44, 34];
+      const road = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"><g fill="none" stroke-linecap="round" stroke-linejoin="round">`
+        + `<path d="${all}" stroke="${cEdge}" stroke-width="${sw[0]}"/><path d="${all}" stroke="${cBase}" stroke-width="${sw[1]}"/>`
+        + (trail ? `<path d="${trail}" stroke="${cTrail}" stroke-width="${sw[1]}"/>` : '')
+        + `<path d="${all}" stroke="${cDots}" stroke-width="6" stroke-dasharray="0.1 18"/>`
+        + (trail ? `<path d="${trail}" stroke="rgba(255,255,255,.85)" stroke-width="6" stroke-dasharray="0.1 18"/>` : '') + '</g></svg>';
+      z.style.backgroundImage = `url("data:image/svg+xml,${encodeURIComponent(road)}"), linear-gradient(180deg, var(--t1), var(--t2))`;
+      z.style.backgroundSize = `${W}px ${H}px, auto`;
+      z.style.backgroundRepeat = 'no-repeat, no-repeat';
+      svg && svg.remove();
+    });
+  }
+  /** Trộn 2 màu hex: p = tỉ lệ màu a */
+  function mixHex(a, b, p) {
+    const h = c => { c = c.replace('#', ''); if (c.length === 3) c = c.replace(/./g, x => x + x); const n = parseInt(c.slice(0, 6), 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; };
+    if (!/^#/.test(a) || !/^#/.test(b)) return a;
+    const A = h(a), B = h(b);
+    return 'rgb(' + A.map((v, i) => Math.round(v * p + B[i] * (1 - p))).join(',') + ')';
   }
   P.home = home;
   P.learn = home;
@@ -158,8 +334,8 @@ window.SJ = window.SJ || {};
   P.quests = function (root) {
     const S = SJ.store.get();
     root.innerHTML = `<div class="page-narrow">
-      <div class="page-head"><div class="ph-icon">${I('quest', 52)}</div><div><h1>Nhiệm vụ hằng ngày</h1><p>Mỗi ngày 3 nhiệm vụ mới. Hoàn thành để nhận cá vàng — dùng cá mua đồ cho Mochi nha!</p></div></div>
-      <div class="col gap quests-page-list">${railHTML(true)}</div>
+      <div class="page-head"><div class="ph-icon">${I('quest', 52)}</div><div><h1>Nhiệm vụ & Mục tiêu</h1><p>Mỗi ngày 3 nhiệm vụ, mỗi tuần 3 thử thách lớn, cùng các mục tiêu dài hạn có nhiều bậc. Hoàn thành để nhận cá vàng mua đồ cho Mochi nha!</p></div></div>
+      <div class="col gap quests-page-list">${railHTML(true)}${weeklyHTML()}${milesHTML()}</div>
       <div class="card card-pad mt"><div class="card-title">${I('trophy', 28)} Thành tích</div><div class="stat-grid">
         <div class="stat-box card">${I('quest', 36)}<div><b>${S.questsDone}</b><span>nhiệm vụ đã xong</span></div></div>
         <div class="stat-box card">${I('fishcoin', 36)}<div><b>${S.fishTotal || 0}</b><span>cá đã kiếm được</span></div></div>

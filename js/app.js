@@ -57,7 +57,7 @@ window.SJ = window.SJ || {};
 
   const badgeFor = k => {
     if (k === 'review') { const d = SJ.store.dueKeys().length; return d ? `<i class="dot-num">${d > 99 ? '99+' : d}</i>` : ''; }
-    if (k === 'quests') { const n = SJ.store.quests().filter(q => q.done && !q.claimed).length; return n ? `<i class="dot-num">${n}</i>` : ''; }
+    if (k === 'quests') { const n = SJ.store.quests().filter(q => q.done && !q.claimed).length + SJ.store.weekly().filter(q => q.done && !q.claimed).length + SJ.store.milestones().filter(m => m.canClaim).length; return n ? `<i class="dot-num">${n}</i>` : ''; }
     return '';
   };
   function renderNav() {
@@ -101,6 +101,8 @@ window.SJ = window.SJ || {};
   SJ.on('look', () => renderNav());
   SJ.on('quests', () => { renderNav(); if (curName === '' && SJ.pages.refreshRail) SJ.pages.refreshRail(); });
   SJ.on('quest', q => { setTimeout(() => { U.toast(`${I(q.icon, 34)}<div><b>Xong nhiệm vụ!</b><br><span class="small">${U.esc(SJ.store.questText(q))} — nhận ${q.fish} cá ở mục Nhiệm vụ</span></div>`, 3400); SJ.audio.sfx('quest'); }, 700); });
+  SJ.on('bonus', b => { setTimeout(() => { U.toast(`${I('chest_open', 38)}<div><b>Phá màn thưởng!</b><br><span class="small">${U.esc(b.title)} — +12 cá, +8 XP</span></div>`, 3600); SJ.audio.sfx('chest'); U.confetti(70); }, 900); });
+  SJ.on('weekly', q => { setTimeout(() => { U.toast(`${I('calendar', 34)}<div><b>Xong thử thách tuần!</b><br><span class="small">${U.esc(SJ.store.weekText(q))} — nhận ${q.fish} cá ở mục Nhiệm vụ</span></div>`, 3600); SJ.audio.sfx('quest'); }, 1100); });
   SJ.on('badge', b => { setTimeout(() => { U.toast(`<div class="toast-badge">${I(b.icon, 44)}<div><b>Huy hiệu mới!</b><br>${b.name} <span class="small">(+10 cá)</span></div></div>`, 3400); SJ.audio.sfx('level'); }, 1200); });
   SJ.on('level', lv => {
     setTimeout(() => {

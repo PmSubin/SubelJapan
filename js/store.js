@@ -17,6 +17,7 @@ window.SJ = window.SJ || {};
     written: 0, perfectWrites: 0, reviewed: 0, plays: 0, practiced: 0, bestChain: 0, nameUsed: false, typed: 0,
     fish: 20, fishTotal: 20, inv: { fur_white: 1, acc_sakura: 1, acc_none: 1 }, equip: 'acc_sakura', fur: 'fur_white',
     quests: { date: '', list: [] }, questsDone: 0, chests: {}, fav: {}, reads: {}, goalDays: {},
+    bonus: {}, bonusPending: null, weekly: { week: '', list: [], c: {} }, miles: {},
     settings: { sound: true, volume: 0.8, rate: 0.85, theme: 'sakura', poolSet: 'hira-basic', kfont: 'klee', romaji: true, furi: true, vi: true, writeMode: 'guide', pet: true },
   });
   let S;
@@ -36,6 +37,7 @@ window.SJ = window.SJ || {};
       S.daily = Object.assign(DEF().daily, raw.daily || {});
       S.inv = Object.assign(DEF().inv, raw.inv || {});
       S.quests = Object.assign(DEF().quests, raw.quests || {});
+      S.weekly = Object.assign(DEF().weekly, raw.weekly || {}); S.weekly.c = S.weekly.c || {};
       // người dùng cũ đã có tên → coi như đã xem phần giới thiệu
       if (raw.name && raw.intro == null) S.intro = true;
     } catch (e) { S = DEF(); }
@@ -186,6 +188,100 @@ window.SJ = window.SJ || {};
     { id: 'fur_goma', type: 'fur', name: 'Mochi vị mè đen', desc: 'Ngầu lòi, mắt vàng óng', price: 90 },
   ];
 
+  // --- Màn thưởng trên bản đồ ---
+  function bonusDone(p) {
+    S.bonus[p.id] = Date.now(); S.bonusPending = null; save();
+    addFish(12, true);
+    store.addXP(8);
+    weekTrack('bonus');
+    SJ.emit('bonus', p);
+  }
+  function bonusAct(type, v) {
+    const p = S.bonusPending;
+    if (!p || S.bonus[p.id]) return;
+    if (p.kind === 'game' && type === 'game' && v === p.match) return bonusDone(p);
+    if (p.kind === 'read' && type === 'read' && v === p.match) return bonusDone(p);
+    if (p.kind === 'write' && type === 'write') { p.prog = (p.prog || 0) + 1; save(); if (p.prog >= p.need) bonusDone(p); return; }
+    if (p.kind === 'type' && type === 'type') { p.prog = (p.prog || 0) + (v || 1); save(); if (p.prog >= p.need) bonusDone(p); return; }
+    if (p.kind === 'practice' && type === 'chain' && v >= p.need) return bonusDone(p);
+  }
+
+  // --- Thử thách tuần ---
+  const weekKey = () => { const d = new Date(); const wd = (d.getDay() + 6) % 7; d.setDate(d.getDate() - wd); return dayKey(d); };
+  const WEEK_POOL = [
+    { id: 'xpw', icon: 'star', text: n => `Kiếm ${n} XP trong tuần`, t: [200, 300], fish: [40, 55] },
+    { id: 'lesson', icon: 'book', text: n => `Hoàn thành ${n} bài học`, t: [5, 8], fish: [45, 60] },
+    { id: 'write', icon: 'pencil', text: n => `Luyện viết ${n} chữ`, t: [25, 40], fish: [40, 55] },
+    { id: 'bonus', icon: 'chest', text: n => `Phá ${n} màn thưởng trên bản đồ`, t: [2, 4], fish: [45, 60] },
+    { id: 'read', icon: 'scroll', text: n => `Đọc ${n} bài đọc`, t: [2, 3], fish: [40, 50] },
+    { id: 'stars', icon: 'star_s', text: n => `Gom thêm ${n} sao trong bài học`, t: [10, 15], fish: [45, 60] },
+    { id: 'type', icon: 'keyboard', text: n => `Gõ đúng ${n} từ tiếng Nhật`, t: [20, 40], fish: [40, 55] },
+  ];
+  function ensureWeekly() {
+    const wk = weekKey();
+    if (!S.weekly || S.weekly.week !== wk || !S.weekly.list.length) {
+      const rnd = seeded(Number(wk.replace(/-/g, '')) + 99);
+      const pool = WEEK_POOL.slice();
+      const list = [{ id: 'days', icon: 'calendar', target: 5, fish: 50, done: false, claimed: false }];
+      for (let i = 0; i < 2; i++) { const q = pool.splice(Math.floor(rnd() * pool.length), 1)[0]; const k = Math.floor(rnd() * q.t.length); list.push({ id: q.id, icon: q.icon, target: q.t[k], fish: q.fish[k], done: false, claimed: false }); }
+      S.weekly = { week: wk, list, c: {} };
+      save();
+    }
+    // tiến độ tính từ lịch sử (ngày học, XP) hoặc bộ đếm
+    const days = []; for (let i = 0; i < 7; i++) { const d = new Date(Date.parse(wk + 'T12:00:00') + i * DAY); days.push(dayKey(d)); }
+    S.weekly.list.forEach(q => {
+      if (q.id === 'days') q.prog = days.filter(k => S.history[k] > 0).length;
+      else if (q.id === 'xpw') q.prog = days.reduce((a, k) => a + (S.history[k] || 0), 0);
+      else q.prog = S.weekly.c[q.id] || 0;
+      q.prog = Math.min(q.prog, q.target);
+      if (!q.done && q.prog >= q.target) { q.done = true; save(); SJ.emit('weekly', q); }
+    });
+    return S.weekly.list;
+  }
+  function weekTrack(id, n) {
+    ensureWeekly();
+    S.weekly.c[id] = (S.weekly.c[id] || 0) + (n == null ? 1 : n);
+    save(); ensureWeekly();
+  }
+  function weekText(q) {
+    if (q.id === 'days') return `Học ${q.target} ngày trong tuần này`;
+    const d = WEEK_POOL.find(x => x.id === q.id); return d ? d.text(q.target) : q.id;
+  }
+
+  // --- Mục tiêu dài hạn (cột mốc, mỗi bậc thưởng cá) ---
+  function milestones() {
+    const kanaM = sc => SJ.KANA[sc].basic.filter(o => store.mastery(o.k) === 2).length;
+    const totalStars = Object.values(S.lessons).reduce((a, l) => a + (l.stars || 0), 0);
+    const lessonsDone = Object.values(S.lessons).filter(l => l.done).length;
+    const M = [
+      { id: 'hira', icon: 'sakura', name: 'Thuộc lòng Hiragana', v: kanaM('hira'), tiers: [5, 15, 30, 46] },
+      { id: 'kata', icon: 'bolt', name: 'Thuộc lòng Katakana', v: kanaM('kata'), tiers: [5, 15, 30, 46] },
+      { id: 'words', icon: 'speech', name: 'Từ vựng đã gặp', v: SJ.VOCAB_ALL.filter(o => S.items[o.key]).length, tiers: [10, 30, 60, 100, SJ.VOCAB_ALL.length] },
+      { id: 'kanji', icon: 'torii', name: 'Kanji đã gặp', v: SJ.KANJI.filter(o => S.items[o.key]).length, tiers: [5, 15, 30, SJ.KANJI.length] },
+      { id: 'lessons', icon: 'book', name: 'Bài học đã xong', v: lessonsDone, tiers: [5, 15, 30, 45, SJ.LESSONS.length] },
+      { id: 'stars', icon: 'star', name: 'Sao đã gom', v: totalStars, tiers: [10, 40, 80, 120, SJ.LESSONS.length * 3] },
+      { id: 'bonus', icon: 'chest', name: 'Màn thưởng đã phá', v: Object.keys(S.bonus).length, tiers: [1, 5, 10, 17] },
+      { id: 'streak', icon: 'fire', name: 'Chuỗi ngày dài nhất', v: S.streak.best, tiers: [3, 7, 14, 30, 60, 100] },
+      { id: 'write', icon: 'pencil', name: 'Chữ đã luyện viết', v: S.written, tiers: [10, 50, 150, 400, 1000] },
+      { id: 'xp', icon: 'trophy', name: 'Tổng XP', v: S.xp, tiers: [100, 500, 1500, 4000, 10000] },
+    ];
+    M.forEach(m => {
+      m.claimed = S.miles[m.id] || 0;           // số bậc đã nhận thưởng
+      m.reached = m.tiers.filter(t => m.v >= t).length;
+      m.next = m.tiers[Math.min(m.claimed, m.tiers.length - 1)];
+      m.canClaim = m.reached > m.claimed;
+      m.complete = m.claimed >= m.tiers.length;
+    });
+    return M;
+  }
+  function claimMile(id) {
+    const m = milestones().find(x => x.id === id);
+    if (!m || !m.canClaim) return 0;
+    S.miles[id] = (S.miles[id] || 0) + 1; save();
+    const f = 15 + m.claimed * 5; addFish(f);
+    return f;
+  }
+
   const store = {
     load, save, dayKey, diffDays, LEVELS, BADGES, SHOP, levelInfo, questText,
     get: () => S,
@@ -221,7 +317,10 @@ window.SJ = window.SJ || {};
       track('xp', n);
       checkBadges();
     },
-    addFish, track,
+    addFish, track, bonusAct, weekly: ensureWeekly, weekTrack, weekText, milestones, claimMile,
+    startBonus(b) { S.bonusPending = { id: b.id, kind: b.kind, match: b.match || null, need: b.need || 1, prog: 0, title: b.title }; save(); },
+    bonusIsDone: id => !!S.bonus[id],
+    claimWeekly(i) { const q = ensureWeekly()[i]; if (!q || !q.done || q.claimed) return 0; q.claimed = true; save(); addFish(q.fish); return q.fish; },
     quests: ensureQuests,
     claimQuest(i) {
       const q = ensureQuests()[i];
@@ -247,13 +346,14 @@ window.SJ = window.SJ || {};
       const L = S.lessons[id] || (S.lessons[id] = { done: false, stars: 0, best: 0, count: 0 });
       const first = !L.done;
       const stars = pct >= 100 ? 3 : pct >= 80 ? 2 : 1;
+      const gained = Math.max(0, stars - (L.stars || 0));
       L.done = true; L.count++; L.stars = Math.max(L.stars, stars); L.best = Math.max(L.best, pct); L.at = Date.now();
       save();
       const xp = first ? 10 + stars * 5 : 4 + stars * 2;
       const fish = first ? 8 + stars * 2 : 2 + stars;
       this.addXP(xp);
       addFish(fish, true);
-      track('lesson');
+      track('lesson'); weekTrack('lesson'); if (gained) weekTrack('stars', gained);
       if (stars >= 3) track('perfect');
       checkBadges();
       return { stars, xp, fish, first };
@@ -291,11 +391,11 @@ window.SJ = window.SJ || {};
       save(); track('game'); checkBadges();
       return better;
     },
-    addWritten(perfect) { S.written++; if (perfect) S.perfectWrites++; save(); track('write'); checkBadges(); },
-    setChain(n) { track('chain', n); if (n > S.bestChain) { S.bestChain = n; save(); checkBadges(); } },
+    addWritten(perfect) { S.written++; if (perfect) S.perfectWrites++; save(); track('write'); weekTrack('write'); bonusAct('write'); checkBadges(); },
+    setChain(n) { track('chain', n); bonusAct('chain', n); if (n > S.bestChain) { S.bestChain = n; save(); checkBadges(); } },
     addPracticed() { S.practiced++; },
-    addTyped(n) { S.typed += n || 1; save(); track('type', n || 1); checkBadges(); },
-    markRead(id) { const first = !S.reads[id]; S.reads[id] = Date.now(); save(); if (first) addFish(5, true); track('read'); checkBadges(); return first; },
+    addTyped(n) { S.typed += n || 1; save(); track('type', n || 1); weekTrack('type', n || 1); bonusAct('type', n || 1); checkBadges(); },
+    markRead(id) { const first = !S.reads[id]; S.reads[id] = Date.now(); save(); if (first) addFish(5, true); track('read'); weekTrack('read'); bonusAct('read', id); checkBadges(); return first; },
     markName() { if (!S.nameUsed) { S.nameUsed = true; save(); checkBadges(); } },
     toggleFav(key) { if (S.fav[key]) delete S.fav[key]; else S.fav[key] = Date.now(); save(); return !!S.fav[key]; },
     isFav: key => !!S.fav[key],

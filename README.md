@@ -10,7 +10,8 @@ Web học **đọc & viết tiếng Nhật cho người mới bắt đầu từ 
 
 | | |
 |---|---|
-| **Lộ trình kiểu bản đồ** | 6 phần, 56 bài siêu ngắn (3–5 phút): Khởi động → Hiragana → Katakana → Từ vựng & giao tiếp → Kanji nhập môn → Ngữ pháp. Cuối mỗi phần có rương thưởng. |
+| **Bản đồ hành trình xứ Nhật** | 6 vùng đất có cảnh riêng (vườn anh đào, phố Tokyo, chợ ẩm thực, núi Phú Sĩ, trời sao đêm), con đường uốn lượn tô màu theo tiến độ, 56 bài siêu ngắn + **16 màn thưởng** (trò chơi, truyện, thử thách viết, gõ phím, chuỗi đúng) + rương cuối mỗi phần. |
+| **Nhiều mục tiêu** | Mỗi phần: gom sao, phá màn thưởng để nhận vương miện. Mỗi ngày 3 nhiệm vụ, mỗi tuần 3 thử thách lớn, 10 mục tiêu dài hạn nhiều bậc có thưởng. |
 | **Đủ mọi chữ theo a・i・u・e・o** | 46 chữ cơ bản, âm đục ゛/゜, âm ghép (きゃ…), chữ nhỏ (っゃゅょ…), âm ngoại lai Katakana (ファ, ティ, ヴ…). Có mẹo nhớ tiếng Việt và cảnh báo **chữ dễ nhầm** (シ/ツ, ソ/ン, ぬ/め…). |
 | **Bài tập đa dạng** | Chọn đáp án, nghe chọn chữ, ghép cặp, gõ romaji, xếp chữ thành từ, **viết từng nét** ngay trong bài. |
 | **Luyện viết chấm từng nét** | Dữ liệu nét chuẩn KanjiVG: máy kiểm tra **đúng vị trí, đúng chiều, đúng thứ tự** từng nét. 3 mức: Tô theo → Gợi ý → Thuộc lòng. |
@@ -56,6 +57,7 @@ Tiến độ học được lưu trong trình duyệt (localStorage); có nút s
 index.html            khung trang
 css/style.css         giao diện "Mochi Pop"
 css/soft.css          nút mềm, hoạt ảnh, Mochi đi dạo
+css/map.css           bản đồ hành trình, cảnh vật, màn thưởng
 js/icons.js           bộ hình vẽ tay SVG
 js/data-*.js          dữ liệu Kana, từ vựng, Kanji, bài học, truyện & hội thoại
 js/store.js           XP, chuỗi ngày, cá vàng, nhiệm vụ, tiệm đồ, huy hiệu, SRS

@@ -47,6 +47,7 @@ window.SJ = window.SJ || {};
     root.querySelector('[data-start]').onclick = () => { SJ.audio.sfx('open'); SJ.store.setSetting('poolSet', set); onStart({ set, mode, pool: SJ.pool(set) }); };
   }
   function result(root, g, r) {
+    SJ.store.bonusAct('game', g.id);
     keyFn = null;
     root.innerHTML = `<div class="container-sm result pop-in game-result">
       <div class="result-mochi">${U().mascot(r.mood || 'happy', 130, 'jump')}${r.isNew ? U().hanko('新記録', 'stamp-in') : ''}</div>
