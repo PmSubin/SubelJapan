@@ -53,10 +53,11 @@ window.SJ = window.SJ || {};
       <h1 class="title-hand">${r.title || 'Hết giờ rồi!'}</h1>
       <div class="big-score">${r.score}<small>${r.unit || ' điểm'}</small></div>
       ${r.isNew ? `<div class="new-best">${I('trophy', 22)} Kỷ lục mới!</div>` : (r.best != null ? `<div class="muted">Kỷ lục của bạn: ${r.best}${r.unit || ''}</div>` : '')}
-      <div class="result-stats">${(r.stats || []).map(s => `<div class="rs paper"><b>${s[0]}</b><span>${s[1]}</span></div>`).join('')}<div class="rs paper">${I('star', 28)}<b>+${r.xp}</b><span>XP</span></div></div>
+      <div class="result-stats">${(r.stats || []).map(s => `<div class="rs paper"><b>${s[0]}</b><span>${s[1]}</span></div>`).join('')}<div class="rs paper">${I('star', 28)}<b>+${r.xp}</b><span>XP</span></div><div class="rs paper">${I('fishcoin', 28)}<b>+${r.xp ? Math.min(6, 1 + Math.floor(r.xp / 4)) : 0}</b><span>cá vàng</span></div></div>
       <div class="row gap wrap"><a class="btn btn-paper grow" href="#/games">${I('game', 20)} Trò khác</a><button class="btn btn-lg grow" data-again>${I('refresh', 20)} Chơi lại</button></div>
     </div>`;
     if (r.xp) SJ.store.addXP(r.xp);
+    const fishGot = r.xp ? Math.min(6, 1 + Math.floor(r.xp / 4)) : 0; if (fishGot) SJ.store.addFish(fishGot, true);
     root.querySelector('[data-again]').onclick = r.again;
     SJ.audio.sfx('win');
     if (r.isNew) setTimeout(() => SJ.audio.sfx('stamp'), 600);

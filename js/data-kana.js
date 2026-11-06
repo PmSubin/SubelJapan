@@ -276,3 +276,38 @@ window.SJ = window.SJ || {};
     ['mix','Trộn cả hai'], ['learned','Chữ mình đã học'],
   ];
 })(window.SJ);
+
+/* Các chữ dễ nhầm + mẹo phân biệt */
+(function (SJ) {
+  SJ.CONFUSE = [
+    ['あ', 'お', 'め'], ['い', 'り', 'こ'], ['う', 'ら'], ['き', 'さ', 'ち'], ['し', 'つ'], ['ぬ', 'め'], ['ね', 'れ', 'わ'], ['は', 'ほ', 'ま'],
+    ['る', 'ろ'], ['く', 'へ'], ['た', 'な'], ['シ', 'ツ'], ['ソ', 'ン'], ['ク', 'ケ', 'タ'], ['コ', 'ユ', 'ロ'], ['ス', 'ヌ', 'ム'],
+    ['チ', 'テ'], ['ウ', 'ワ', 'フ'], ['ア', 'マ'], ['ノ', 'メ'], ['ラ', 'ヲ'], ['カ', 'か'], ['ヘ', 'へ'], ['リ', 'り'], ['キ', 'き'], ['セ', 'せ'], ['モ', 'も'],
+  ];
+  SJ.CONFUSE_TIPS = {
+    'シツ': 'シ (shi): 2 chấm xếp DỌC bên trái, nét dài hất từ DƯỚI lên. ツ (tsu): 2 chấm nằm NGANG ở trên, nét dài kéo từ TRÊN xuống.',
+    'ソン': 'ソ (so): chấm ở trên, nét dài kéo từ TRÊN xuống. ン (n): chấm bên trái, nét dài hất từ DƯỚI lên.',
+    'ぬめ': 'ぬ (nu) có vòng xoắn nhỏ ở cuối, め (me) thì không.',
+    'ねれわ': 'Nhìn đuôi: ね (ne) cuộn vòng, れ (re) hất lên như chân đá, わ (wa) cong tròn.',
+    'るろ': 'る (ru) có vòng tròn nhỏ ở cuối, ろ (ro) thì không.',
+    'きさち': 'き (ki) có 2 gạch ngang, さ (sa) chỉ 1 gạch. ち (chi) là さ quay ngược.',
+    'しつ': 'し (shi) móc lên phía phải như lưỡi câu, つ (tsu) uốn cong như con sóng.',
+    'はほま': 'は (ha) 1 gạch, ほ (ho) 2 gạch và nét dọc không nhô lên trên, ま (ma) không có nét dọc bên trái.',
+    'あおめ': 'あ (a) có nét dọc cong, お (o) có chấm nhỏ bên phải, め (me) không có gạch ngang.',
+    'いりこ': 'い (i) 2 nét gần bằng nhau, り (ri) nét phải dài hơn, こ (ko) 2 nét nằm ngang.',
+    'クケタ': 'ク (ku) 2 nét, ケ (ke) có nét ngang chìa ra, タ (ta) có thêm nét chéo ở giữa.',
+    'コユロ': 'コ (ko) hở bên trái, ユ (yu) có nét ngang dưới dài, ロ (ro) khép kín.',
+    'スヌム': 'ス (su) chân dang ra, ヌ (nu) có nét chéo cắt ngang, ム (mu) có vòng tam giác.',
+    'チテ': 'チ (chi) nét dọc cong xuống cắt nét ngang, テ (te) có 2 nét ngang ở trên.',
+    'ウワフ': 'ウ (u) có nét chấm trên đầu, ワ (wa) có nét dọc bên trái, フ (fu) chỉ 1 nét.',
+    'アマ': 'ア (a) nét thứ 2 dài xuống trái, マ (ma) có chấm nhỏ ở giữa.',
+    'ノメ': 'ノ (no) 1 nét xiên, メ (me) có thêm nét chéo cắt qua.',
+    'ラヲ': 'ラ (ra) có nét ngang nhỏ trên đầu, ヲ (wo) có 2 nét ngang.',
+  };
+  /** Các chữ dễ nhầm với ch (không gồm chính nó) + mẹo nếu có */
+  SJ.confusables = function (ch) {
+    const out = new Set(); let tip = '';
+    SJ.CONFUSE.forEach(g => { if (g.includes(ch)) { g.forEach(x => { if (x !== ch) out.add(x); }); const t = SJ.CONFUSE_TIPS[g.join('')]; if (t && !tip) tip = t; } });
+    return { list: Array.from(out), tip };
+  };
+})(window.SJ);

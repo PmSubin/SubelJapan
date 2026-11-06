@@ -31,7 +31,7 @@ window.SJ = window.SJ || {};
       u.lang = 'ja-JP';
       if (voice) u.voice = voice; else if (voicesLoaded) warn();
       u.rate = opts.rate || (SJ.store ? SJ.store.get().settings.rate : 0.85);
-      u.pitch = 1.1;
+      u.pitch = opts.pitch || 1.1;
       if (opts.onend) u.onend = opts.onend;
       setTimeout(() => speechSynthesis.speak(u), 30);
     } catch (e) { }
@@ -55,6 +55,7 @@ window.SJ = window.SJ || {};
       verb.connect(d1); d1.connect(lp); lp.connect(fb); fb.connect(d1); lp.connect(master);
     }
     if (ctx.state === 'suspended') ctx.resume();
+    try { master.gain.value = 0.62 * (SJ.store ? (SJ.store.get().settings.volume ?? 0.8) : 0.8); } catch (e) { }
     return ctx;
   }
   const out = (node, wet) => { node.connect(master); if (wet) { const g = ctx.createGain(); g.gain.value = wet; node.connect(g); g.connect(verb); } };
@@ -159,6 +160,10 @@ window.SJ = window.SJ || {};
     sparkle: t => { [0, 1, 2].forEach(i => bell(N(YO[9 + (i % 3)] + 12), t + i * 0.05, 0.06, 0.35)); },
     open: t => { koto(N(74), t, 0.22, 0.8); koto(N(81), t + 0.08, 0.18, 0.9); },
     note: (t, i) => { kalimba(N(YO[(i || 0) % YO.length] + 12), t, 0.16, 0.4); },
+    coin: t => { bell(N(93), t, 0.12, 0.3); bell(N(98), t + 0.08, 0.12, 0.5); },                // leng keng cá vàng
+    chest: t => { [62, 67, 69, 74, 79, 81, 86].forEach((n, i) => koto(N(n + 12), t + i * 0.06, 0.24, 1)); [0, 1, 2, 3].forEach(i => bell(N(YO[8 + (i % 4)] + 12), t + 0.5 + i * 0.07, 0.08, 0.6)); },
+    buy: t => { blip(500, 1400, t, 0.09, 0.2, 'sine', 0.2); bell(N(91), t + 0.1, 0.14, 0.6); bell(N(95), t + 0.2, 0.12, 0.7); },
+    quest: t => { [74, 79, 83].forEach((n, i) => bell(N(n + 12), t + i * 0.09, 0.13, 0.7)); },
   };
   function sfx(name, arg) {
     if (SJ.store && !SJ.store.get().settings.sound) return;

@@ -5,9 +5,9 @@ window.SJ = window.SJ || {};
 (function (SJ) {
   const K = 'var(--ink-ic,#3d3142)';
   const C = {
-    pink: '#f9b8c6', rose: '#ef8ba1', red: '#e9675d', yel: '#f8d77c', org: '#f4a960', grn: '#b3d394', dgrn: '#7cae63',
-    blue: '#a9d0ec', dblue: '#6ea2d1', lav: '#cfbcee', brn: '#d3a678', dbrn: '#9a6b49', gry: '#dfd8d2', dgry: '#9e95a0',
-    wht: '#fffdf7', skin: '#fde4d0', cream: '#fff2d2', ink: '#544863', sky: '#dcefff', mint: '#cdebd9', peach: '#ffc9a8',
+    pink: '#ffc4d4', rose: '#ff8fae', red: '#ff6b6b', yel: '#ffd85e', org: '#ffab5c', grn: '#a6df88', dgrn: '#62bf68',
+    blue: '#a3d5ff', dblue: '#5ea8f0', lav: '#cdb9ff', brn: '#dba476', dbrn: '#a46b45', gry: '#e5dfe8', dgry: '#a79cb2',
+    wht: '#ffffff', skin: '#ffe2cf', cream: '#fff0c9', ink: '#4a3756', sky: '#dcf0ff', mint: '#c7f1dd', peach: '#ffcbad',
   };
   // --- nét vẽ cơ bản ---
   const P = (d, f) => `<path d="${d}" fill="${f || 'none'}" class="o"/>`;
@@ -293,6 +293,20 @@ window.SJ = window.SJ || {};
     thumb: () => P('M16 22 L22 10 q3 -4 5 0 q1 3 -1 9 H37 q4 0 4 4 q0 2 -2 3 q2 1 1 4 q-1 2 -2 2 q1 2 -1 4 q-1 2 -4 2 H16 Z', C.skin) + R(7, 21, 9, 20, 3, C.blue),
     check_s: () => I.check(),
     building: () => R(10, 8, 28, 34, 3, C.cream) + [14, 21, 28].map(y => R(14, y, 6, 5, 1, C.sky) + R(28, y, 6, 5, 1, C.sky)).join('') + R(20, 34, 8, 8, 1, C.brn),
+    // ===== chức năng mới =====
+    fishcoin: () => O(24, 24, 17, C.yel) + O(24, 24, 12.5, '#ffeaa3') + P('M13.5 24 q5.5 -7.5 12.5 0 q-7 7.5 -12.5 0 Z', C.org) + P('M26 24 l7 -5.5 v11 Z', C.org) + D(17.6, 23, 1.3) + H('M12.5 15.5 q3 -3.4 7.5 -4.4'),
+    omamori: () => P('M24 3 q-5 0 -5 4 q0 3 5 3 q5 0 5 -3 q0 -4 -5 -4 Z', C.yel) + P('M13 15 q0 -5 5 -5 h12 q5 0 5 5 V40 q0 3 -3 3 H16 q-3 0 -3 -3 Z', C.rose) + P('M13 17 H35') + R(18, 21, 12, 17, 2.5, C.wht) + T(24, 33.5, '守', 9.5, K, 1),
+    shop: () => P('M9 18 V41 H39 V18', C.cream) + P('M6 18 L10 7 H38 L42 18 Z', C.rose) + P('M17 7 l-2 11 M24 7 v11 M31 7 l2 11') + P('M6 18 q4.5 5 9 0 q4.5 5 9 0 q4.5 5 9 0 q4.5 5 9 0', C.wht) + R(13, 26, 10, 15, 2, C.sky) + R(27, 26, 8, 8, 2, C.sky) + D(21, 34, 1),
+    keyboard: () => R(4, 13, 40, 24, 6, C.lav) + [9.5, 16.5, 23.5, 30.5, 37.5].map(x => R(x - 2.6, 17.5, 5.2, 4.6, 1.3, C.wht)).join('') + [13, 20, 27, 34].map(x => R(x - 2.6, 24, 5.2, 4.6, 1.3, C.wht)).join('') + R(15, 30.5, 18, 3.6, 1.6, C.wht),
+    scroll: () => R(10, 9, 28, 30, 2, C.cream) + R(7, 5, 34, 6, 3, C.brn) + R(7, 37, 34, 6, 3, C.brn) + P('M16 16 v16 M22 16 v10 M28 16 v16 M34 16 v7'),
+    printer: () => R(13, 5, 22, 13, 2, C.wht) + R(5, 15, 38, 18, 5, C.gry) + R(12, 26, 24, 16, 2, C.wht) + P('M16 31 h16 M16 36.5 h10') + D(37.5, 21, 2, C.grn) + O(37.5, 21, 2),
+    chest: () => P('M7 21 q0 -11 17 -11 q17 0 17 11 Z', C.org) + R(7, 21, 34, 18, 3, C.brn) + P('M15 11 V39 M33 11 V39') + R(19.5, 17, 9, 10, 2.5, C.yel) + D(24, 22, 1.5) + H('M11 17 q2 -4 6 -5'),
+    chest_open: () => D(24, 17, 12, C.yel, .45) + P('M8 18 L12 5 H36 L40 18 Z', C.org) + O(18, 17, 3.2, C.yel) + O(26, 14.5, 3.2, C.yel) + O(31, 18.5, 2.8, C.yel) + R(7, 20, 34, 19, 3, C.brn) + P('M15 20 V39 M33 20 V39') + R(19.5, 20, 9, 8, 2.5, C.yel) + P(polar(4, 4.5, 1.6, 9, 9), '#fff') + P(polar(4, 3.5, 1.2, 40, 11), '#fff'),
+    quest: () => R(9, 9, 30, 33, 5, C.wht) + R(17, 5, 14, 8, 3, C.lav) + P('M15 21 l2.5 2.5 l4.5 -5 M15 31 l2.5 2.5 l4.5 -5') + P('M26 21 H33 M26 31 H33'),
+    more: () => R(8, 8, 13, 13, 4.5, C.pink) + R(27, 8, 13, 13, 4.5, C.yel) + R(8, 27, 13, 13, 4.5, C.blue) + R(27, 27, 13, 13, 4.5, C.grn),
+    lantern: () => P('M24 3 V8') + E(24, 24, 12.5, 15, C.red) + P('M12.5 18 q11.5 3 23 0 M11.6 24 q12.4 3 24.8 0 M12.5 30 q11.5 3 23 0') + R(16.5, 6, 15, 5, 2, C.ink) + R(16.5, 37, 15, 5, 2, C.ink) + P('M24 42 v3') + H('M17 15 q2 -3 5 -4'),
+    sakura_tree: () => P('M21.5 43 q1.5 -9 -1 -17 h5 q-1.5 8 1 17 Z', C.brn) + O(14, 21, 8.5, C.pink) + O(34, 21, 8.5, C.pink) + O(24, 13, 9.5, C.pink) + O(24, 24, 8.5, C.pink) + D(17, 15, 1.5, C.rose) + D(30, 16, 1.5, C.rose) + D(21, 23, 1.5, C.rose) + D(33, 25, 1.4, C.rose),
+    medal: () => P('M15 4 L21 18 M33 4 L27 18', 'none') + P('M13 4 h8 l4 9 h-8 Z', C.blue) + P('M35 4 h-8 l-4 9 h8 Z', C.rose) + O(24, 29, 12, C.yel) + O(24, 29, 7.5, '#ffeaa3') + P('M24 24.5 l1.4 2.9 l3.1 .4 l-2.3 2.1 l.6 3.1 l-2.8 -1.6 l-2.8 1.6 l.6 -3.1 l-2.3 -2.1 l3.1 -.4 Z', C.org),
     // màu
   };
   function cal(inner) { return R(8, 10, 32, 30, 6, C.wht) + P('M8 19 q0 -9 6 -9 H34 q6 0 6 9 Z', C.red) + P('M17 6 V14 M31 6 V14') + inner; }
@@ -309,7 +323,7 @@ window.SJ = window.SJ || {};
     const fn = I[name];
     if (!fn) return '';
     const inner = cache[name] || (cache[name] = fn());
-    return `<svg class="ic ${cls || ''}" viewBox="0 0 48 48" width="${size}" height="${size}" aria-hidden="true"><g${size >= 34 ? ' class="rough"' : ''}>${inner}</g></svg>`;
+    return `<svg class="ic ${cls || ''}" viewBox="0 0 48 48" width="${size}" height="${size}" aria-hidden="true">${inner}</svg>`;
   }
   SJ.icon = icon;
   SJ.hasIcon = n => !!I[n];

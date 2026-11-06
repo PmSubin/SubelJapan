@@ -1,36 +1,41 @@
 # SubelJapan — Học tiếng Nhật dễ như ăn mochi
 
-Web học **đọc & viết tiếng Nhật cho người mới bắt đầu từ con số 0**, giao diện tiếng Việt, phong cách sổ tay giấy Nhật Bản siêu dễ thương, đồng hành cùng mèo **Mochi**.
+Web học **đọc & viết tiếng Nhật cho người mới bắt đầu từ con số 0**, giao diện tiếng Việt, đồng hành cùng mèo **Mochi** siêu dễ thương.
 
 **Vào học ngay:** https://pmsubin.github.io/SubelJapan/
 
-![Trang chủ](assets/screens/home.png)
+![Trang chủ — lộ trình học](assets/screens/home.png)
 
 ## Có gì bên trong?
 
 | | |
 |---|---|
-| **56 bài học ngắn (3–5 phút)** | Khởi động → Hiragana (16 bài) → Katakana (16 bài) → Từ vựng & giao tiếp (10 bài) → Kanji nhập môn (7 bài) → Ngữ pháp siêu dễ (6 bài) |
-| **Đầy đủ mọi chữ** | 46 chữ cơ bản theo bảng **a・i・u・e・o**, âm đục ゛/゜, âm ghép (きゃ…), chữ nhỏ (っゃゅょ…), âm ngoại lai Katakana (ファ, ティ, ヴ…) |
-| **Mẹo nhớ bằng tiếng Việt** | Mỗi chữ có cách đọc gần giống tiếng Việt (う = "ư", つ = "chư"…), mẹo hình ảnh, từ ví dụ có hình minh hoạ |
-| **Luyện viết có chấm điểm** | Xem hoạt hình thứ tự nét, tô theo chữ mờ trên giấy ô genkō, máy tự chấm 0–100 điểm, chế độ viết liên tục |
-| **Luyện tập vô tận** | Đọc / nghe / viết từ trí nhớ / từ vựng / Kanji không giới hạn, có **chuỗi đúng liên tiếp**, ưu tiên chữ bạn hay sai |
-| **6 trò chơi** | Thử thách 60 giây, Mưa chữ, Lật thẻ trí nhớ, Nghe chọn chữ, Ghép từ, Đúng hay Sai |
-| **Ôn tập thông minh** | Thẻ nhớ lặp lại ngắt quãng (SRS) — tự nhắc đúng lúc bạn sắp quên |
-| **Kanji bằng Hán Việt** | 58 Kanji đầu tiên kèm âm Hán Việt (学生 = HỌC SINH), âm On/Kun, ví dụ |
-| **Giữ lửa mỗi ngày** | Chuỗi ngày học, mục tiêu XP, 15 cấp độ, 21 huy hiệu, lịch đóng dấu hanko |
-| **Tên tiếng Nhật của bạn** | Gõ tên tiếng Việt → đổi sang Katakana + đoạn tự giới thiệu để luyện đọc |
+| **Lộ trình kiểu bản đồ** | 6 phần, 56 bài siêu ngắn (3–5 phút): Khởi động → Hiragana → Katakana → Từ vựng & giao tiếp → Kanji nhập môn → Ngữ pháp. Cuối mỗi phần có rương thưởng. |
+| **Đủ mọi chữ theo a・i・u・e・o** | 46 chữ cơ bản, âm đục ゛/゜, âm ghép (きゃ…), chữ nhỏ (っゃゅょ…), âm ngoại lai Katakana (ファ, ティ, ヴ…). Có mẹo nhớ tiếng Việt và cảnh báo **chữ dễ nhầm** (シ/ツ, ソ/ン, ぬ/め…). |
+| **Bài tập đa dạng** | Chọn đáp án, nghe chọn chữ, ghép cặp, gõ romaji, xếp chữ thành từ, **viết từng nét** ngay trong bài. |
+| **Luyện viết chấm từng nét** | Dữ liệu nét chuẩn KanjiVG: máy kiểm tra **đúng vị trí, đúng chiều, đúng thứ tự** từng nét. 3 mức: Tô theo → Gợi ý → Thuộc lòng. |
+| **Phiếu tập viết in ra giấy** | Tạo phiếu ô vuông genkō (原稿) từ hàng chữ / bài Kanji / chữ tự nhập, in A4 để luyện bằng bút. |
+| **Đọc hiểu** | 16 truyện ngắn từ dễ đến khó (có furigana, romaji, dịch tiếng Việt, câu hỏi hiểu bài), 8 hội thoại đời thường (có chế độ đóng vai), 48 câu giao tiếp hay dùng. |
+| **Gõ phím tiếng Nhật** | Bộ gõ romaji → kana như bàn phím thật, luyện gõ chữ cái / từ / câu, đo tốc độ, hướng dẫn bật bàn phím Nhật trên máy tính và điện thoại. |
+| **Luyện tập vô tận & Ôn tập** | Đọc / nghe / viết từ trí nhớ không giới hạn, có **chuỗi đúng liên tiếp**; thẻ nhớ lặp lại ngắt quãng (SRS) tự nhắc đúng lúc. |
+| **6 trò chơi** | Thử thách 60 giây, Mưa chữ, Lật thẻ, Nghe chọn chữ, Ghép từ, Đúng hay Sai. |
+| **Sổ từ** | Tra nhanh bằng tiếng Việt, romaji, Hán Việt hoặc chữ Nhật; lưu từ yêu thích để ôn. |
+| **Giữ lửa mỗi ngày** | Chuỗi ngày học, mục tiêu XP, 3 nhiệm vụ mỗi ngày, 15 cấp độ, 26 huy hiệu, lịch học dạng bản đồ nhiệt. |
+| **Tiệm của Mochi** | Kiếm **cá vàng** khi học để mua phụ kiện, đổi "vị" mochi (hoa anh đào, trà xanh, khoai môn…) và **bùa giữ chuỗi お守り**. |
 
-![Thẻ học](assets/screens/lesson.png)
-![Bảng chữ cái a・i・u・e・o](assets/screens/chart.png)
+![Bài học](assets/screens/lesson.png)
+![Luyện viết chấm từng nét](assets/screens/write.png)
+![Truyện ngắn có furigana](assets/screens/story.png)
+![Tiệm của Mochi](assets/screens/shop.png)
+![Phiếu tập viết](assets/screens/print.png)
+
+<img src="assets/screens/mobile.png" width="300" alt="Giao diện điện thoại">
 
 ## Tự làm 100%
 
-- **Hình vẽ:** toàn bộ ~240 icon & hình minh hoạ (con vật, đồ ăn, người, mặt cười…) đều được vẽ tay bằng SVG, có hiệu ứng nét bút rung nhẹ — không dùng emoji hay bộ icon có sẵn.
-- **Âm thanh:** tự tổng hợp bằng Web Audio — chuông "pin-pon", đàn koto, kalimba theo thang ngũ cung Nhật, bong bóng "pop", con dấu "pon", tiếng mèo "nya~".
+- **Hình vẽ:** mèo Mochi và toàn bộ ~250 icon (con vật, đồ ăn, người, đồ vật…) đều được vẽ tay bằng SVG — không dùng emoji hay bộ icon có sẵn.
+- **Âm thanh:** tự tổng hợp bằng Web Audio — chuông "pin-pon", đàn koto, kalimba theo thang ngũ cung Nhật, tiếng cá vàng leng keng, rương báu, mèo "nya~".
 - **Phát âm tiếng Nhật:** dùng giọng đọc có sẵn của trình duyệt (tốt nhất trên Chrome / Edge).
-
-![Bộ hình vẽ tay](assets/screens/icons.png)
 
 ## Chạy trên máy
 
@@ -42,26 +47,29 @@ cd SubelJapan
 npx serve .
 ```
 
-Hoặc mở thẳng file `index.html` bằng trình duyệt. Tiến độ học được lưu trong trình duyệt (localStorage); có nút sao lưu / khôi phục trong trang Hồ sơ.
+Tiến độ học được lưu trong trình duyệt (localStorage); có nút sao lưu / khôi phục trong trang Hồ sơ.
 
 ## Cấu trúc
 
 ```
-index.html          khung trang
-css/style.css       giao diện sổ tay giấy
-js/icons.js         bộ hình vẽ tay SVG
-js/data-*.js        dữ liệu Kana, từ vựng, Kanji, bài học
-js/store.js         XP, chuỗi ngày, huy hiệu, thẻ nhớ SRS
-js/audio.js         phát âm + bộ tổng hợp âm thanh
-js/writing.js       hoạt hình nét viết + chấm điểm chữ viết tay
-js/lesson.js        trình phát bài học
-js/games.js         6 trò chơi
-js/practice.js      luyện tập vô tận
-js/pages.js         các trang
-js/app.js           định tuyến
+index.html            khung trang
+css/style.css         giao diện "Mochi Pop"
+js/icons.js           bộ hình vẽ tay SVG
+js/data-*.js          dữ liệu Kana, từ vựng, Kanji, bài học, truyện & hội thoại
+js/store.js           XP, chuỗi ngày, cá vàng, nhiệm vụ, tiệm đồ, huy hiệu, SRS
+js/audio.js           phát âm + bộ tổng hợp âm thanh
+js/ui.js              mèo Mochi, hộp thoại, thông báo
+js/ime.js             bộ gõ romaji → kana
+js/writing.js         hoạt hình nét viết + chấm từng nét
+js/lesson.js          trình phát bài học
+js/games.js           6 trò chơi
+js/practice.js        luyện tập vô tận
+js/pages.js           lộ trình, bảng chữ, luyện viết, ôn tập, hồ sơ, giới thiệu
+js/pages-more.js      đọc hiểu, gõ phím, sổ từ, phiếu in, tiệm Mochi
+js/app.js             định tuyến & khung ứng dụng
 ```
 
 ## Ghi công
 
 - Dữ liệu thứ tự nét chữ: [KanjiVG](https://kanjivg.tagaini.net) © Ulrich Apel — giấy phép [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) (tải trực tiếp khi dùng).
-- Phông chữ: [Mali](https://fonts.google.com/specimen/Mali) & [Klee One](https://fonts.google.com/specimen/Klee+One) — SIL Open Font License.
+- Phông chữ: [Baloo 2](https://fonts.google.com/specimen/Baloo+2), [Nunito](https://fonts.google.com/specimen/Nunito), [Zen Maru Gothic](https://fonts.google.com/specimen/Zen+Maru+Gothic), [Klee One](https://fonts.google.com/specimen/Klee+One) — SIL Open Font License.

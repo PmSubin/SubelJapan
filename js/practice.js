@@ -1,5 +1,6 @@
 /* SubelJapan — Luyện tập vô tận: đọc / nghe / viết liên tục không ngừng, có chuỗi đúng liên tiếp */
 window.SJ = window.SJ || {};
+window.SJ.practice = window.SJ.practice || {};
 (function (SJ) {
   const U = () => SJ.ui;
   const I = (n, s, c) => SJ.icon(n, s, c);
@@ -15,7 +16,8 @@ window.SJ = window.SJ || {};
   const SOURCES = [['auto', 'Ưu tiên chữ mình hay sai'], ['hira-basic', 'Hiragana cơ bản'], ['hira-all', 'Hiragana đầy đủ'], ['kata-basic', 'Katakana cơ bản'], ['kata-all', 'Katakana đầy đủ'], ['mix', 'Trộn Hira + Kata']];
 
   function kanaPool(src) {
-    if (src && src !== 'auto') return SJ.pool(src);
+    if (src === 'custom' && SJ.practice.custom && SJ.practice.custom.length) { const l = SJ.practice.custom.map(k => SJ.KANA_MAP[k]).filter(Boolean); if (l.length >= 2) return l; }
+    if (src && src !== 'auto' && src !== 'custom') return SJ.pool(src);
     const items = SJ.store.get().items;
     const got = SJ.KANA_ALL.filter(o => items[o.k] && o.group !== 'small');
     return got.length >= 8 ? got : SJ.KANA.hira.basic.slice();
@@ -32,7 +34,7 @@ window.SJ = window.SJ || {};
 
   function open(root, modeArg) {
     let mode = MODES.some(m => m.id === modeArg) ? modeArg : null;
-    let src = 'auto';
+    let src = SJ.practice.custom && SJ.practice.custom.length ? 'custom' : 'auto';
     let pad = null, sv = null, tmo = null, destroyed = false, keyFn = null;
     const onKey = e => keyFn && keyFn(e);
     document.addEventListener('keydown', onKey);
@@ -44,7 +46,7 @@ window.SJ = window.SJ || {};
         <div class="page-head center"><div class="ph-icon float">${I('infinity', 84)}</div><h1 class="title-hand">Luyện tập vô tận</h1><p class="muted">Luyện liên tục không ngừng nghỉ. Mỗi câu đúng nối dài <b>chuỗi</b> — sai là đứt chuỗi đó nha! Mochi sẽ ưu tiên những chữ bạn hay quên.</p></div>
         <div class="chain-best paper"><span class="tape"></span><span>${I('chain', 30)} Chuỗi dài nhất</span><b>${S.bestChain}</b><span>${I('fire', 26)} ${SJ.store.streakNow()} ngày liên tiếp</span></div>
         <div class="gs-label">Nguồn chữ (Kana)</div>
-        <div class="chips" data-src>${SOURCES.map(s => `<button class="chip-btn ${s[0] === src ? 'active' : ''}" data-val="${s[0]}">${s[1]}</button>`).join('')}</div>
+        <div class="chips" data-src>${(SJ.practice.custom && SJ.practice.custom.length ? [['custom', 'Chữ đã chọn (' + SJ.practice.custom.length + ')']] : []).concat(SOURCES).map(s => `<button class="chip-btn ${s[0] === src ? 'active' : ''}" data-val="${s[0]}">${s[1]}</button>`).join('')}</div>
         <div class="gs-label">Chọn kiểu luyện</div>
         <div class="mode-grid">${MODES.map(m => `<button class="mode-card paper" data-mode="${m.id}"><span class="mc-icon">${I(m.icon, 58)}</span><b>${m.name}</b><small>${m.desc}</small></button>`).join('')}</div>
       </div>`;
@@ -83,7 +85,7 @@ window.SJ = window.SJ || {};
         if (ok) {
           okCount++; elOk.textContent = okCount; setChain(chain + 1);
           let gain = 1;
-          if (chain % 10 === 0) { gain += 5; SJ.audio.sfx('combo'); U().toast(`${I('chain', 22)} Chuỗi ${chain}! +5 XP thưởng`); if (chain % 50 === 0) U().confetti(60); }
+          if (chain % 10 === 0) { gain += 5; SJ.store.addFish(2, true); SJ.audio.sfx('combo'); U().toast(`${I('chain', 22)} Chuỗi ${chain}! +5 XP · +2 cá`); if (chain % 50 === 0) U().confetti(60); }
           xpGain += gain; SJ.store.addXP(gain);
         } else {
           if (chain >= 5) U().toast(`${U().mascot('sad', 30)} Chuỗi ${chain} bị đứt rồi… làm lại nào, Mochi tin bạn!`, 2400);
@@ -150,43 +152,31 @@ window.SJ = window.SJ || {};
         if (useKanji) { const pool = learnedKanji(); it = weighted(pool, o => o.key, last); ch = it.k; label = it.m; sub = `Hán Việt: ${it.hv}`; key = it.key; }
         else { const pool = kanaPool(src).filter(o => o.k.length === 1); it = weighted(pool.length ? pool : SJ.KANA.hira.basic, o => o.k, last); ch = it.k; label = it.r; sub = it.script === 'kata' ? 'Viết bằng Katakana' : 'Viết bằng Hiragana'; key = it.k; }
         last = it;
-        let hinted = false, checked = false;
+        let finished = false;
         stage.innerHTML = `<div class="write-q pop-in">
           <div class="quiz-ask">Viết chữ này từ trí nhớ nhé!</div>
           <div class="wq-target"><span class="wq-label ${useKanji ? '' : 'romaji-big'}">${esc(label)}</span><span class="wq-sub">${I(it.script === 'kata' ? 'bolt' : useKanji ? 'torii' : 'sakura', 20)} ${sub}</span></div>
-          <div class="wq-pad" data-pad></div>
-          <div class="pad-tools"><button class="btn btn-sm btn-paper" data-a="undo" aria-label="Hoàn tác">${I('undo', 18)}</button><button class="btn btn-sm btn-paper" data-a="clear">${I('eraser', 18)} Xoá</button><button class="btn btn-sm btn-ghost" data-a="hint">${I('bulb', 18)} Gợi ý</button><button class="btn btn-sm btn-ghost" data-a="skip">${I('question', 18)} Chịu</button><button class="btn btn-green" data-a="check">${I('check', 18)} Chấm</button></div>
-          <div data-res></div></div>`;
+          <div class="w100" data-pad></div>
+          <div class="pad-tools"><button class="btn btn-sm btn-white" data-a="hint">${I('bulb', 18)} Gợi ý nét</button><button class="btn btn-sm btn-white" data-a="skip">${I('question', 18)} Chịu, xem đáp án</button></div></div>`;
         foot.innerHTML = '';
-        pad = SJ.writing.tracePad(stage.querySelector('[data-pad]'), ch, { size: 280, guide: false });
-        const res = stage.querySelector('[data-res]');
-        const reveal = (ok, sc) => {
-          checked = true;
-          res.innerHTML = `<div class="wq-reveal paper pop-in"><div class="stroke-box sm" data-sv></div><div><div class="fb-title">${ok ? (hinted ? 'Đúng rồi (có gợi ý)' : U().pick(SJ.CHEERS)) : 'Chữ đúng là:'} <span class="jp big-inline">${ch}</span></div>${sc != null ? `<div>Điểm: <b>${sc}</b>/100 ${U().stars(SJ.writing.verdict(sc).stars, 3, 18)}</div>` : ''}<div class="muted small">Xem lại thứ tự nét bên cạnh nha</div></div></div>`;
-          sv = SJ.writing.strokeView(res.querySelector('[data-sv]'), ch);
-          foot.innerHTML = `<button class="btn btn-lg btn-block ${ok ? 'btn-green' : ''}" data-cont>Chữ tiếp theo ${I('arrow_r', 22)}</button>`;
+        const finishW = (ok, msg) => {
+          if (finished) return; finished = true;
+          award(ok, key);
+          foot.innerHTML = `<div class="feedback ${ok ? 'ok' : 'bad'} slide-up"><div class="fb-left">${U().mascot(ok ? 'happy' : 'sad', 52)}<div><div class="fb-title">${msg}</div><div class="fb-hint"><span class="jp big-inline">${ch}</span></div></div></div><button class="btn ${ok ? 'btn-green' : 'btn-red'}" data-cont>Chữ tiếp ${I('arrow_r', 20)}</button></div>`;
           foot.querySelector('[data-cont]').onclick = nextQ;
           keyFn = e => { if (e.key === 'Enter') nextQ(); };
-          setTimeout(() => SJ.audio.speak(ch), 300);
+          setTimeout(() => SJ.audio.speak(ch), 250);
         };
+        pad = SJ.writing.pad(stage.querySelector('[data-pad]'), ch, {
+          mode: 'free',
+          onDone: r => { SJ.store.addWritten(r.perfect); finishW(r.mistakes <= 2, r.perfect ? 'Thuộc lòng luôn! Không sai nét nào' : r.mistakes <= 2 ? 'Viết đúng rồi! (sai ' + r.mistakes + ' nét)' : 'Xong rồi, nhưng sai hơi nhiều nét nè'); },
+        });
+        pad.ready.then(ok => { if (!ok && !finished && !destroyed) { finished = true; nextQ(); } });
         stage.querySelector('.pad-tools').onclick = e => {
-          const a = e.target.closest('[data-a]'); if (!a || checked) return;
-          const act = a.dataset.a;
-          if (act === 'undo') pad.undo();
-          if (act === 'clear') pad.clear();
-          if (act === 'hint') { hinted = true; pad.setGuide(true); }
-          if (act === 'skip') { award(false, key); SJ.audio.sfx('bad'); reveal(false); }
-          if (act === 'check') {
-            if (!pad.hasInk()) { U().toast(`${I('pencil', 20)} Viết thử trước đã nha`); return; }
-            const r = pad.score();
-            const ok = r.score >= 55;
-            SJ.audio.sfx(ok ? (r.score >= 85 ? 'stamp' : 'ok') : 'bad');
-            if (ok) { SJ.store.addWritten(); if (hinted) { total++; elTotal.textContent = total; okCount++; elOk.textContent = okCount; SJ.store.rec(key, true); } else award(true, key); }
-            else award(false, key);
-            reveal(ok, r.score);
-          }
+          const a = e.target.closest('[data-a]'); if (!a || finished) return;
+          if (a.dataset.a === 'hint') pad.hint();
+          if (a.dataset.a === 'skip') { pad.setMode('guide'); SJ.audio.sfx('bad'); finishW(false, 'Chữ đúng là:'); }
         };
-        keyFn = e => { if (e.key === 'Enter' && !checked) stage.querySelector('[data-a="check"]').click(); };
       }
 
       nextQ();
@@ -196,5 +186,5 @@ window.SJ = window.SJ || {};
     return { destroy() { destroyed = true; clearTimeout(tmo); sv && sv.stop(); pad && pad.destroy(); document.removeEventListener('keydown', onKey); } };
   }
 
-  SJ.practice = { open, MODES };
+  SJ.practice = Object.assign(SJ.practice || {}, { open, MODES });
 })(window.SJ);

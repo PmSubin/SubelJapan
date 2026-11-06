@@ -26,11 +26,11 @@ window.SJ = window.SJ || {};
 
   SJ.UNITS = [
     {
-      id:'start', title:'Khởi động', jp:'はじめ', icon:'sprout', color:'#ff9ebb', desc:'Làm quen với tiếng Nhật trong 5 phút',
+      id:'start', title:'Khởi động', jp:'はじめ', icon:'sprout', color:'#ff835f', desc:'Làm quen với tiếng Nhật trong 5 phút',
       lessons: [{ id:'intro', title:'Tiếng Nhật là gì?', sub:'3 bộ chữ & phát âm', type:'text', content:'intro', icon:'flag_jp' }],
     },
     {
-      id:'hira', title:'Hiragana', jp:'ひらがな', icon:'sakura', color:'#ff8fb1', desc:'Bộ chữ mềm mại — nền móng của tiếng Nhật',
+      id:'hira', title:'Hiragana', jp:'ひらがな', icon:'sakura', color:'#ff6b9a', desc:'Bộ chữ mềm mại — nền móng của tiếng Nhật',
       lessons: kanaRows.map((r, i) => kanaLesson('hira', i, r)).concat([
         { id:'h10', title:'が ざ', sub:'Âm đục (1)', type:'kana', items: ch('がぎぐげござじずぜぞ'), intro:'Thêm hai chấm ゛ (ten-ten) là âm trở nên "đục": か → が, さ → ざ. Siêu dễ!' },
         { id:'h11', title:'だ ば', sub:'Âm đục (2)', type:'kana', items: ch('だぢづでどばびぶべぼ'), intro:'た → だ, は → ば. ぢ và づ đọc giống じ và ず nhưng rất hiếm gặp.' },
@@ -42,7 +42,7 @@ window.SJ = window.SJ || {};
       ]),
     },
     {
-      id:'kata', title:'Katakana', jp:'カタカナ', icon:'bolt', color:'#7cc6f0', desc:'Bộ chữ góc cạnh cho từ nước ngoài',
+      id:'kata', title:'Katakana', jp:'カタカナ', icon:'bolt', color:'#45a3ff', desc:'Bộ chữ góc cạnh cho từ nước ngoài',
       lessons: kanaRows.map((r, i) => kanaLesson('kata', i, r)).concat([
         { id:'k10', title:'ガ ザ', sub:'Âm đục (1)', type:'kana', items: ch(K('がぎぐげござじずぜぞ')), intro:'Quy tắc y hệt Hiragana: カ → ガ, サ → ザ.' },
         { id:'k11', title:'ダ バ', sub:'Âm đục (2)', type:'kana', items: ch(K('だぢづでどばびぶべぼ')), intro:'Có ベトナム (Việt Nam) ở bài này nè' },
@@ -54,7 +54,7 @@ window.SJ = window.SJ || {};
       ]),
     },
     {
-      id:'vocab', title:'Từ vựng & Giao tiếp', jp:'ことば', icon:'speech', color:'#7cd1a8', desc:'Những từ đầu tiên để nói chuyện',
+      id:'vocab', title:'Từ vựng & Giao tiếp', jp:'ことば', icon:'speech', color:'#20bf8a', desc:'Những từ đầu tiên để nói chuyện',
       lessons: [
         { id:'v1', title:'Chào hỏi', sub:'あいさつ', type:'vocab', topic:'greet', icon:'wave_hand', intro:'Những câu chào bạn dùng mỗi ngày. Lưu ý: こんにちは đọc là "konnichiwa" nha!' },
         { id:'v2', title:'Số đếm', sub:'かず', type:'vocab', topic:'number', icon:'numbers', intro:'Đếm từ 1 đến 10 rồi tới 10.000. Số 4 và 7 có 2 cách đọc, ở đây dùng cách phổ biến nhất.' },
@@ -69,7 +69,7 @@ window.SJ = window.SJ || {};
       ],
     },
     {
-      id:'kanji', title:'Kanji nhập môn', jp:'かんじ', icon:'torii', color:'#ffbf69', desc:'Chữ Hán dễ ợt nhờ âm Hán Việt',
+      id:'kanji', title:'Kanji nhập môn', jp:'かんじ', icon:'torii', color:'#f08c00', desc:'Chữ Hán dễ ợt nhờ âm Hán Việt',
       lessons: [
         { id:'j1', title:'一 二 三', sub:'Số đếm', type:'kanji', items: ch('一二三四五六七八九十'), icon:'numbers', intro:'Kanji số đếm — mấy chữ đầu chỉ là… que tính! Dễ chưa nè' },
         { id:'j2', title:'日 月 火', sub:'Ngày trong tuần', type:'kanji', items: ch('日月火水木金土'), icon:'calendar', intro:'7 chữ này cũng là 7 ngày trong tuần: Nhật – Nguyệt – Hoả – Thuỷ – Mộc – Kim – Thổ!' },
@@ -81,7 +81,7 @@ window.SJ = window.SJ || {};
       ],
     },
     {
-      id:'grammar', title:'Ngữ pháp siêu dễ', jp:'ぶんぽう', icon:'puzzle', color:'#b79cff', desc:'Ghép từ thành câu đầu tiên',
+      id:'grammar', title:'Ngữ pháp siêu dễ', jp:'ぶんぽう', icon:'puzzle', color:'#9b7bff', desc:'Ghép từ thành câu đầu tiên',
       lessons: [
         { id:'g1', title:'A は B です', sub:'Tôi là…', type:'text', content:'g1', icon:'sparkle' },
         { id:'g2', title:'Câu hỏi か', sub:'Hỏi & trả lời', type:'text', content:'g2', icon:'question' },
