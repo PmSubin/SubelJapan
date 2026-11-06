@@ -16,7 +16,7 @@ window.SJ = window.SJ || {};
   let el, flip, tilt, bub, shadow, on = false, raf = 0, last = 0;
   let x = 0, y = -120, vx = 0, vy = 0, dir = 1, state = 'air', mood = 'wow', baseMood = 'normal', timer = 1, rot = 0, size = 76;
   let held = null, moodT = 0, talkT = 0, bubT = 0, sinceTalk = 0, flyT = 0;
-  const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isReduced = () => SJ.store.get().settings.motion === 'reduce';
 
   function bounds() {
     const fm = document.body.classList.contains('focus-mode');
@@ -44,7 +44,7 @@ window.SJ = window.SJ || {};
     cls();
   }
   function pickNext() {
-    if (reduced) return setState('sit', 9);
+    if (isReduced()) return setState('sit', 9);
     const r = Math.random();
     if (r < 0.42) { dir = Math.random() < .5 ? -1 : 1; setState('walk', rnd(3, 7)); }
     else if (r < 0.55) { dir = Math.random() < .5 ? -1 : 1; setState('run', rnd(1.2, 2.4)); }
@@ -118,7 +118,7 @@ window.SJ = window.SJ || {};
     if (moodT > 0) { moodT -= dt; if (moodT <= 0) setMood(baseMood); }
     if (bubT > 0) { bubT -= dt; if (bubT <= 0) bub.classList.remove('show'); }
     sinceTalk += dt;
-    if (sinceTalk > 35 && state !== 'sleep' && !held && !reduced) { const l = U().pick(LINES); say(l[0], l[1]); }
+    if (sinceTalk > 35 && state !== 'sleep' && !held && !isReduced()) { const l = U().pick(LINES); say(l[0], l[1]); }
     el.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`;
     tilt.style.transform = `rotate(${rot.toFixed(1)}deg)`;
     bub.classList.toggle('to-left', x > window.innerWidth - 200);
@@ -211,7 +211,12 @@ window.SJ = window.SJ || {};
   });
   window.addEventListener('resize', () => { if (!on) return; const ns = window.innerWidth < 760 ? 62 : 76; if (ns !== size) { size = ns; el.style.setProperty('--pw', size + 'px'); render(); } });
 
-  function init() { setOn(SJ.store.get().settings.pet !== false); }
+  function init() {
+    const go = () => setOn(SJ.store.get().settings.pet !== false);
+    // đợi màn chào đón xong rồi Mochi mới nhảy vào
+    if (document.querySelector('.welcome')) { let once = false; SJ.on('welcome-done', () => { if (!once) { once = true; setTimeout(go, 300); } }); }
+    else go();
+  }
   SJ.pet = { setOn, say, hop, isOn: () => on, state: () => ({ x, y, vx, vy, state, mood }) };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else setTimeout(init, 0);
 })(window.SJ);

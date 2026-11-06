@@ -142,7 +142,7 @@
   .map-zone .pn-label { max-width: 130px; }
   .cloud.c2 { display: none; }
 }
-@media (prefers-reduced-motion: reduce) { .fx { display: none; } }
+html[data-motion="reduce"] .fx { display: none; }
 @media (max-width: 760px) { .map-zone .deco .ic, .map-zone .deco .mascot { width: auto; height: auto; } }
 /* chừa khoảng cho con đường lộ ra giữa các bài */
 .map-zone .prow { margin: 22px 0; }

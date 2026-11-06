@@ -1,0 +1,98 @@
+/* =========================================================
+   SubelJapan — Màn chào đón, chuyển trang, tấm màn mochi
+   ========================================================= */
+
+/* ---------- MÀN CHÀO ĐÓN ---------- */
+.welcome {
+  position: fixed; inset: 0; z-index: 600; display: grid; place-items: center; overflow: hidden; cursor: pointer;
+  background: linear-gradient(180deg, #ffe9f0 0%, #fff6f8 55%, #fdeff4 100%);
+  animation: wlIn .4s ease both;
+}
+.welcome.bye { animation: wlBye .75s cubic-bezier(.6, 0, .4, 1) forwards; }
+@keyframes wlIn { from { opacity: 0; } }
+@keyframes wlBye { 0% { clip-path: circle(150% at 50% 45%); } 100% { clip-path: circle(0% at 50% 45%); } }
+.welcome.bye .wl-mochi .mascot { animation: wlJump .6s cubic-bezier(.3, 1.4, .5, 1) forwards; }
+@keyframes wlJump { 30% { transform: translateY(16px) scale(1.15, .85); } 100% { transform: translateY(-120px) scale(.9, 1.1); } }
+.wl-bg { position: absolute; inset: 0; pointer-events: none; }
+.wl-bg .cloud { animation-duration: 22s; }
+.wl-bg .cloud.c1 { top: 12%; left: 8%; }
+.wl-bg .cloud.c2 { top: 24%; right: 10%; left: auto; }
+.wl-bg .cloud.c3 { top: 58%; left: 6%; }
+.wl-hills { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 22vh; }
+.wl-hills .h1 { fill: #ffd3e0; }
+.wl-hills .h2 { fill: #ffbfd2; }
+.wl-petal { position: absolute; top: -40px; left: var(--l); opacity: 0; scale: var(--s); animation: fxFall var(--d) linear infinite; animation-delay: var(--w); }
+.wl-center { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 20px; }
+.wl-mochi { position: relative; height: 190px; display: flex; align-items: flex-end; justify-content: center; }
+.wl-mochi .mascot { animation: wlDrop 1.15s cubic-bezier(.3, 0, .5, 1) both .15s; transform-origin: 50% 100%; }
+@keyframes wlDrop {
+  0% { transform: translateY(-110vh) scale(.9, 1.15); }
+  55% { transform: translateY(0) scale(.95, 1.08); }
+  64% { transform: translateY(0) scale(1.28, .72); }
+  76% { transform: translateY(-34px) scale(.94, 1.08); }
+  88% { transform: translateY(0) scale(1.1, .9); }
+  100% { transform: translateY(0) scale(1); }
+}
+.wl-shadow { position: absolute; bottom: 4px; left: 50%; width: 120px; height: 14px; margin-left: -60px; border-radius: 50%; background: rgba(63, 47, 76, .14); z-index: -1; animation: wlShadow 1.15s cubic-bezier(.3, 0, .5, 1) both .15s; }
+@keyframes wlShadow { 0% { transform: scale(.2); opacity: 0; } 55% { transform: scale(1); opacity: 1; } 64% { transform: scale(1.25); } 100% { transform: scale(1); } }
+.wl-bubble {
+  position: absolute; top: -6px; right: -86px; padding: 8px 16px; border-radius: 18px 18px 18px 4px; background: #fff; color: var(--pri-t);
+  font-size: 20px; box-shadow: var(--sh-2); animation: wlPop .5s var(--spring) both 1.25s; transform-origin: 0 100%;
+}
+@keyframes wlPop { from { opacity: 0; transform: scale(.2) rotate(-12deg); } }
+.wl-logo { display: flex; gap: 1px; margin: 18px 0 4px; font: 800 clamp(40px, 9vw, 72px)/1 var(--f-head); color: var(--ink); letter-spacing: -1px; }
+.wl-logo span { display: inline-block; animation: wlLetter .6s var(--spring) both; animation-delay: calc(1.3s + var(--i) * .06s); }
+.wl-logo span.b { color: var(--pri); }
+@keyframes wlLetter { 0% { opacity: 0; transform: translateY(40px) scale(.4) rotate(-14deg); } 60% { opacity: 1; transform: translateY(-10px) scale(1.15); } 100% { transform: none; } }
+.wl-sub { font-size: clamp(15px, 3.6vw, 20px); color: var(--pri-t); animation: viewIn .6s ease both 2s; }
+.wl-hello { margin-top: 10px; font: 700 16px var(--f-body); color: var(--ink2); animation: viewIn .6s ease both 2.2s; }
+.wl-hello b { color: var(--ink); }
+.wl-stats { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-top: 14px; animation: viewIn .6s ease both 2.35s; }
+.wl-stats .chip { font-size: 14px; gap: 6px; }
+.wl-go { margin-top: 22px; min-width: 240px; animation: wlBtn .6s var(--spring) both 2.5s, wlBreath 2.4s ease-in-out infinite 3.2s; }
+@keyframes wlBtn { from { opacity: 0; transform: scale(.5); } }
+@keyframes wlBreath { 50% { transform: scale(1.05); } }
+.wl-tip { margin-top: 10px; font: 700 12.5px var(--f-body); color: var(--ink3); animation: viewIn .6s ease both 3s; }
+
+/* ---------- TẤM MÀN MOCHI (vào bài học / trò chơi) ---------- */
+.curtain {
+  position: fixed; inset: 0; z-index: 500; display: grid; place-items: center; pointer-events: all;
+  background: var(--pri);
+  background-image: radial-gradient(rgba(255, 255, 255, .18) 2px, transparent 2.5px); background-size: 26px 26px;
+  clip-path: circle(0px at var(--cx) var(--cy));
+  animation: curtainIn .6s cubic-bezier(.65, 0, .35, 1) forwards;
+}
+.curtain.out { animation: curtainOut .65s cubic-bezier(.65, 0, .35, 1) forwards; }
+@keyframes curtainIn { to { clip-path: circle(150vmax at var(--cx) var(--cy)); } }
+@keyframes curtainOut { from { clip-path: circle(150vmax at 50% 50%); } to { clip-path: circle(0px at 50% 50%); } }
+.curtain-in { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.curtain-mochi { animation: curtainMochi .7s var(--spring) both .2s; }
+.curtain-mochi .mascot { filter: drop-shadow(0 12px 18px rgba(0, 0, 0, .18)); }
+@keyframes curtainMochi { 0% { transform: scale(0) rotate(-25deg); } 70% { transform: scale(1.12) rotate(4deg); } 100% { transform: scale(1); } }
+.curtain-txt { color: #fff; font: 800 28px var(--f-head); text-shadow: 0 3px 0 rgba(0, 0, 0, .1); animation: wlPop .5s var(--spring) both .3s; }
+.curtain.out .curtain-in { animation: curtainLeave .4s ease forwards; }
+@keyframes curtainLeave { to { transform: scale(.6); opacity: 0; } }
+
+/* ---------- CHUYỂN TRANG (View Transitions) ---------- */
+#view { view-transition-name: page; }
+::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+::view-transition-group(page) { animation-duration: .45s; }
+::view-transition-old(page) { animation: pageOut .24s cubic-bezier(.4, 0, 1, 1) both; }
+::view-transition-new(page) { animation: pageIn .48s cubic-bezier(.2, .9, .3, 1.12) both .04s; }
+html[data-vt="back"]::view-transition-old(page) { animation-name: pageOutBack; }
+html[data-vt="back"]::view-transition-new(page) { animation-name: pageInBack; }
+@keyframes pageOut { to { opacity: 0; transform: translateX(-34px) scale(.98); filter: blur(3px); } }
+@keyframes pageIn { from { opacity: 0; transform: translateX(46px) scale(.98); filter: blur(3px); } }
+@keyframes pageOutBack { to { opacity: 0; transform: translateY(26px) scale(.96); } }
+@keyframes pageInBack { from { opacity: 0; transform: translateY(-20px) scale(1.02); } }
+
+/* ---------- chào ở trang chủ ---------- */
+.view-in .hello .mascot { animation: helloHop 1.1s var(--spring) both .25s; }
+@keyframes helloHop { 0% { transform: translateY(-40px) scale(.6); opacity: 0; } 50% { transform: translateY(0) scale(1.15, .85); opacity: 1; } 70% { transform: translateY(-8px) scale(.95, 1.06); } 100% { transform: none; } }
+.view-in .hello h1 { animation: slideInR .55s cubic-bezier(.2, .9, .3, 1.1) both .3s; }
+.view-in .hello .hello-jp { animation: wlPop .5s var(--spring) both .45s; transform-origin: 0 100%; display: inline-block; }
+.view-in .hello-cta { animation: wlBtn .55s var(--spring) both .55s; }
+
+html[data-motion="reduce"] .welcome *, html[data-motion="reduce"] .curtain, html[data-motion="reduce"] .curtain * { animation-duration: .01ms !important; animation-delay: 0s !important; }
+html[data-motion="reduce"]::view-transition-old(page), html[data-motion="reduce"]::view-transition-new(page) { animation: none; }
+@media print { .welcome, .curtain { display: none !important; } }

@@ -122,7 +122,7 @@ window.SJ = window.SJ || {};
 
   // ---------- Confetti: giấy màu + sao + hoa ----------
   function confetti(n) {
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (SJ.store && SJ.store.get().settings.motion === 'reduce') return;
     n = n || 80;
     const colors = ['#ff8fb0', '#ffd85e', '#7fe0b4', '#7cc3ff', '#b9a1ff', '#ffab5c', '#ff6b8e'];
     const box = document.createElement('div'); box.className = 'confetti';

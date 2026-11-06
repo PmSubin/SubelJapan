@@ -39,16 +39,47 @@ window.SJ = window.SJ || {};
     return { name: parts[0] || '', arg: parts.length > 1 ? decodeURIComponent(parts.slice(1).join('/')) : undefined };
   }
 
+  // ---------- chuyển trang có hoạt ảnh ----------
+  let lastPt = { x: window.innerWidth / 2, y: window.innerHeight / 2 }, firstRoute = true, busy = false;
+  document.addEventListener('pointerdown', e => { lastPt = { x: e.clientX, y: e.clientY }; }, true);
+  const reduced = () => SJ.store.get().settings.motion === 'reduce';
+  const isFocus = (name, arg) => !!FOCUS[name] || (name === 'practice' && !!arg);
   function route() {
+    const { name, arg } = parse();
+    const goFocus = isFocus(name, arg), wasFocus = document.body.classList.contains('focus-mode');
+    if (firstRoute || reduced() || busy) { firstRoute = false; return doRoute(); }
+    // vào bài học / trò chơi: tấm màn mochi lan ra từ chỗ bấm
+    if (goFocus && !wasFocus) return curtain(doRoute);
+    // chuyển trang thường: trượt mượt (View Transitions), lùi thì trượt ngược
+    document.documentElement.dataset.vt = wasFocus && !goFocus ? 'back' : 'fwd';
+    if (document.startViewTransition) {
+      try { const t = document.startViewTransition(() => doRoute()); t.finished.finally(() => { delete document.documentElement.dataset.vt; }); return; } catch (e) { }
+    }
+    doRoute();
+  }
+  function curtain(cb) {
+    busy = true;
+    const c = document.createElement('div');
+    c.className = 'curtain';
+    c.style.setProperty('--cx', lastPt.x + 'px'); c.style.setProperty('--cy', lastPt.y + 'px');
+    c.innerHTML = `<div class="curtain-in"><div class="curtain-mochi">${U.mascot('cheer', 130)}</div><div class="curtain-txt">${U.pick(['Bắt đầu nào!', 'Cố lên nha!', 'がんばって！', 'Học vui nha!', 'Mochi đi cùng bạn!'])}</div></div>`;
+    document.body.appendChild(c);
+    SJ.audio.sfx('open');
+    setTimeout(() => { cb(); c.classList.add('out'); busy = false; }, 620);
+    setTimeout(() => c.remove(), 1300);
+  }
+  function doRoute() {
     const { name, arg } = parse();
     if (current && current.destroy) { try { current.destroy(); } catch (e) { console.error(e); } }
     SJ.audio.stop();
-    const view = U.$('#view');
+    // thay khung trang mới mỗi lần → không bị dồn trình xử lý sự kiện cũ
+    const old = U.$('#view');
+    const view = document.createElement('main');
+    view.id = 'view';
+    old.replaceWith(view);
     curName = routes[name] ? name : '';
     view.className = 'view view-in view-' + (curName || 'home');
-    view.innerHTML = '';
-    view.onclick = null; view.onchange = null; view.oninput = null;
-    document.body.classList.toggle('focus-mode', !!FOCUS[name] || (name === 'practice' && !!arg));
+    document.body.classList.toggle('focus-mode', isFocus(name, arg));
     try { current = routes[curName](view, arg) || null; }
     catch (e) { console.error(e); view.innerHTML = `<div class="page-narrow center pad-xl">${U.mascot('sad', 110)}<h2>Ối, có lỗi nhỏ xảy ra</h2><p class="muted">${U.esc(e.message)}</p><a class="btn" href="#/">Về trang chủ</a></div>`; }
     window.scrollTo(0, 0);
@@ -87,6 +118,7 @@ window.SJ = window.SJ || {};
     const st = SJ.store.get().settings;
     document.documentElement.dataset.theme = st.theme || 'sakura';
     document.documentElement.dataset.kfont = st.kfont || 'klee';
+    document.documentElement.dataset.motion = st.motion || 'full';
     const meta = document.querySelector('meta[name="theme-color"]');
     if (meta) meta.content = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#fff5f7';
   }
@@ -113,15 +145,51 @@ window.SJ = window.SJ || {};
   });
   SJ.on('goal', g => { setTimeout(() => { U.toast(`${I('target', 30)} Xong mục tiêu hôm nay (${g} XP)! +10 cá`, 3400); U.confetti(60); SJ.audio.sfx('sparkle'); }, 400); });
   SJ.on('streak', n => { if (n > 1) setTimeout(() => U.toast(`${I('fire', 28)} Chuỗi ${n} ngày liên tiếp! Giữ lửa nhé!`, 3000), 1400); });
-  SJ.on('settings', k => { if (k === 'theme' || k === 'kfont') applyTheme(); });
+  SJ.on('settings', k => { if (k === 'theme' || k === 'kfont' || k === 'motion') applyTheme(); });
   SJ.on('change', k => { if (k === 'reset' || k === 'import') { applyTheme(); route(); } });
+
+  /** Màn chào đón: Mochi rơi xuống nhún nhảy, logo bật từng chữ, bấm để vào học */
+  function welcome(done) {
+    const S = SJ.store.get();
+    const g = U.greeting();
+    const back = !!S.name;
+    const petals = Array.from({ length: 14 }, (_, i) => `<span class="wl-petal" style="--l:${(i * 7.3 + (i % 3) * 4) % 100}%;--d:${6 + (i % 5) * 1.4}s;--w:${-(i * 0.9)}s;--s:${0.7 + (i % 4) * 0.18}">${SJ.icon('sakura', 28)}</span>`).join('');
+    const logo = Array.from('SubelJapan').map((c, i) => `<span style="--i:${i}" class="${i >= 5 ? 'b' : ''}">${c}</span>`).join('');
+    const w = document.createElement('div');
+    w.className = 'welcome';
+    w.innerHTML = `<div class="wl-bg">${petals}<span class="cloud c1"></span><span class="cloud c2"></span><span class="cloud c3"></span>
+      <svg class="wl-hills" viewBox="0 0 600 140" preserveAspectRatio="none" aria-hidden="true"><path class="h1" d="M0 80 Q90 25 190 70 T390 55 T600 65 V140 H0Z"/><path class="h2" d="M0 110 Q140 60 300 100 T600 95 V140 H0Z"/></svg></div>
+      <div class="wl-center">
+        <div class="wl-mochi"><span class="wl-bubble jp">ようこそ！</span>${U.mascot('happy', 168)}<span class="wl-shadow"></span></div>
+        <h1 class="wl-logo" aria-label="SubelJapan">${logo}</h1>
+        <div class="wl-sub jp">にほんご、いっしょに がんばろう！</div>
+        <div class="wl-hello">${back ? `${g.vi}, <b>${U.esc(S.name)}</b>! Mochi nhớ bạn lắm đó` : 'Học tiếng Nhật dễ như ăn mochi'}</div>
+        ${back ? `<div class="wl-stats"><span class="chip c-fire">${SJ.icon('fire', 24)}<b>${SJ.store.streakNow()}</b> ngày</span><span class="chip c-fish">${SJ.icon('fishcoin', 24)}<b>${S.fish}</b> cá</span><span class="chip c-xp">${SJ.icon(SJ.store.level().icon, 24)}<b>Cấp ${SJ.store.level().level}</b></span></div>` : ''}
+        <button class="btn btn-lg wl-go">${back ? 'Học tiếp thôi!' : 'Bắt đầu hành trình!'} ${SJ.icon('arrow_r', 22)}</button>
+        <div class="wl-tip">bấm vào đâu cũng được nha</div>
+      </div>`;
+    document.body.appendChild(w);
+    try { sessionStorage.setItem('sj_welcome', '1'); } catch (e) { }
+    let closed = false;
+    const close = () => {
+      if (closed) return; closed = true;
+      SJ.audio.sfx('meow2'); setTimeout(() => SJ.audio.sfx('open'), 180);
+      w.classList.add('bye');
+      setTimeout(() => { w.remove(); SJ.emit('welcome-done'); done && done(); }, 750);
+    };
+    setTimeout(() => w.addEventListener('click', close), 400);
+    const onKey = e => { if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') { document.removeEventListener('keydown', onKey); close(); } };
+    document.addEventListener('keydown', onKey);
+  }
 
   function init() {
     applyTheme();
     window.addEventListener('hashchange', route);
     route();
     const S = SJ.store.get();
-    if (!S.intro) setTimeout(() => SJ.pages.intro(), 250);
+    let seen = false; try { seen = sessionStorage.getItem('sj_welcome') === '1'; } catch (e) { }
+    if (!seen) welcome(() => { if (!SJ.store.get().intro) SJ.pages.intro(); });
+    else { SJ.emit('welcome-done'); if (!S.intro) setTimeout(() => SJ.pages.intro(), 250); }
     const fz = SJ.store.freezeUsed();
     if (fz) setTimeout(() => U.toast(`${I('omamori', 34)} Bùa giữ chuỗi đã bảo vệ chuỗi ${SJ.store.streakNow()} ngày của bạn!`, 4400), 1200);
     else if (S.name && !SJ.store.doneToday() && SJ.store.streakNow() > 0) {

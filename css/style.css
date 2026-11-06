@@ -342,7 +342,7 @@ select.input { appearance: none; cursor: pointer; background-image: linear-gradi
 @keyframes float { 50% { transform: translateY(-7px); } }
 @keyframes shake { 20%, 60% { transform: translateX(-7px); } 40%, 80% { transform: translateX(7px); } }
 @keyframes pulse { 0% { transform: scale(1); opacity: .55; } 100% { transform: scale(1.45); opacity: 0; } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+html[data-motion="reduce"] *, html[data-motion="reduce"] *::before, html[data-motion="reduce"] *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 
 /* ---------- Page header ---------- */
 .page-head { display: flex; align-items: center; gap: 18px; margin-bottom: 22px; }
