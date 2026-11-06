@@ -220,7 +220,7 @@ window.SJ = window.SJ || {};
         { jp: 'クラスには {学生|がくせい}が {十人|じゅうにん} います。', r: 'kurasu ni wa gakusei ga juunin imasu.', vi: 'Lớp có 10 học sinh.' },
         { jp: '{先生|せんせい}は {山田|やまだ}{先生|せんせい}です。', r: 'sensei wa yamada sensei desu.', vi: 'Giáo viên là cô Yamada.' },
         { jp: '{山田|やまだ}{先生|せんせい}は とても やさしいです。', r: 'yamada sensei wa totemo yasashii desu.', vi: 'Cô Yamada rất hiền.' },
-        { jp: 'リンさんの {友|とも}だちは ミキさんです。', r: 'rin-san no tomodachi wa miki-san desu.', vi: 'Bạn thân của Linh là Miki.' },
+        { jp: 'リンさんの {友|とも}だちは ミキさんです。', r: 'rin-san no tomodachi wa miki-san desu.', vi: 'Bạn của Linh là Miki.' },
         { jp: 'ミキさんは {日本人|にほんじん}です。', r: 'miki-san wa nihonjin desu.', vi: 'Miki là người Nhật.' },
         { jp: '{二人|ふたり}は にほんごと ベトナムごで はなします。', r: 'futari wa nihongo to betonamugo de hanashimasu.', vi: 'Hai bạn nói chuyện bằng cả tiếng Nhật lẫn tiếng Việt.' },
         { jp: 'がっこうは たのしいです。', r: 'gakkou wa tanoshii desu.', vi: 'Đi học thật là vui!' },

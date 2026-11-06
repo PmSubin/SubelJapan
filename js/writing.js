@@ -242,20 +242,23 @@ window.SJ = window.SJ || {};
     // --- vẽ ---
     const toSvg = e => { const m = svg.getScreenCTM(); if (!m) return { x: 0, y: 0 }; const p = new DOMPoint(e.clientX, e.clientY).matrixTransform(m.inverse()); return { x: p.x, y: p.y }; };
     const pathD = pts => 'M' + pts.map(p => p.x.toFixed(1) + ' ' + p.y.toFixed(1)).join(' L');
+    let curId = null;
     function down(e) {
       if (done || fallback || !T.length) return;
       e.preventDefault();
-      svg.setPointerCapture && svg.setPointerCapture(e.pointerId);
+      if (cur) return;
+      curId = e.pointerId;
+      try { svg.setPointerCapture(e.pointerId); } catch (_) { }
       cur = [toSvg(e)];
       curPath = el('path', { d: pathD(cur) + ' l.1 .1' }, G('ink'));
     }
     function move(e) {
-      if (!cur) return; e.preventDefault();
+      if (!cur || e.pointerId !== curId) return; e.preventDefault();
       const p = toSvg(e), l = cur[cur.length - 1];
       if (dist(p, l) > 0.7) { cur.push(p); curPath.setAttribute('d', pathD(cur)); }
     }
-    function up() {
-      if (!cur) return;
+    function up(e) {
+      if (!cur || e.pointerId !== curId) return;
       const user = cur; cur = null;
       if (polyLen(user) < 2.5 && T[idx] && T[idx].len >= 17) { curPath && curPath.remove(); curPath = null; return; }
       const r = compare(user, T[idx], mode);
@@ -265,7 +268,8 @@ window.SJ = window.SJ || {};
     svg.addEventListener('pointerdown', down);
     svg.addEventListener('pointermove', move);
     svg.addEventListener('pointerup', up);
-    svg.addEventListener('pointercancel', up);
+    // bị huỷ giữa chừng (cuộn trang, cuộc gọi đến…): xoá nét dở, không chấm điểm
+    svg.addEventListener('pointercancel', e => { if (!cur || e.pointerId !== curId) return; cur = null; curPath && curPath.remove(); curPath = null; });
 
     function buildTemplates(datas) {
       G('guide').innerHTML = ''; T = [];
@@ -373,10 +377,11 @@ window.SJ = window.SJ || {};
       drawInk(ctx, size, Math.max(5, size * 0.032), css('--ink') || '#3a2e4d');
     }
     const pos = e => { const r = canvas.getBoundingClientRect(); return { x: (e.clientX - r.left) / r.width, y: (e.clientY - r.top) / r.height }; };
-    canvas.addEventListener('pointerdown', e => { e.preventDefault(); canvas.setPointerCapture && canvas.setPointerCapture(e.pointerId); cur = [pos(e)]; draw(); });
-    canvas.addEventListener('pointermove', e => { if (!cur) return; e.preventDefault(); const p = pos(e), l = cur[cur.length - 1]; if (Math.hypot(p.x - l.x, p.y - l.y) > .004) { cur.push(p); draw(); } });
-    const up = () => { if (!cur) return; strokes.push(cur); cur = null; draw(); };
-    canvas.addEventListener('pointerup', up); canvas.addEventListener('pointercancel', up);
+    let fid = null;
+    canvas.addEventListener('pointerdown', e => { e.preventDefault(); if (cur) return; fid = e.pointerId; try { canvas.setPointerCapture(e.pointerId); } catch (_) { } cur = [pos(e)]; draw(); });
+    canvas.addEventListener('pointermove', e => { if (!cur || e.pointerId !== fid) return; e.preventDefault(); const p = pos(e), l = cur[cur.length - 1]; if (Math.hypot(p.x - l.x, p.y - l.y) > .004) { cur.push(p); draw(); } });
+    const up = e => { if (!cur || e.pointerId !== fid) return; strokes.push(cur); cur = null; draw(); };
+    canvas.addEventListener('pointerup', up); canvas.addEventListener('pointercancel', e => { if (!cur || e.pointerId !== fid) return; cur = null; draw(); });
     const ro = window.ResizeObserver ? new ResizeObserver(resize) : null; ro && ro.observe(box);
     resize();
     const ready = Promise.all(chars.map((ch, i) => getStrokes(ch).then(d => { data[i] = d; }))).then(draw);

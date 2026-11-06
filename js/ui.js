@@ -150,14 +150,15 @@ window.SJ = window.SJ || {};
     document.body.appendChild(back);
     const show = () => back.classList.add('show'); requestAnimationFrame(show); setTimeout(show, 60);
     const close = (v) => {
-      if (!back.parentNode) return;
-      back.classList.remove('show');
+      if (!back.parentNode || back.classList.contains('closing')) return;
+      back.classList.remove('show'); back.classList.add('closing');
       setTimeout(() => back.remove(), 250);
       document.removeEventListener('keydown', onKey);
       window.removeEventListener('hashchange', onHash);
       opts.onClose && opts.onClose(v);
     };
-    const onKey = e => { if (e.key === 'Escape' && !opts.noClose) close(); };
+    // Esc chỉ đóng hộp thoại trên cùng (không đóng luôn các hộp thoại bên dưới)
+    const onKey = e => { if (e.key !== 'Escape' || opts.noClose) return; const open = $$('.modal-back:not(.closing)'); if (open[open.length - 1] === back) close(); };
     const onHash = () => close();
     document.addEventListener('keydown', onKey);
     window.addEventListener('hashchange', onHash);

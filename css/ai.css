@@ -324,3 +324,11 @@ body:has(.fc-session) .pet, body:has(.fc-session) .pet-shadow { opacity: 0 !impo
 .ss-body.swap { animation: ssSwap .38s cubic-bezier(.2, .9, .3, 1.05) both; }
 @keyframes ssSwap { from { opacity: 0; transform: translateY(10px) scale(.99); } }
 html[data-motion="reduce"] .ss-body.swap { animation: none; }
+@media (max-width: 420px) {
+  /* 3 bước lấy khoá: xếp thành hàng ngang, chữ không bị chẻ */
+  .ss-steps { grid-template-columns: 1fr; gap: 12px; }
+  .ss-step { display: grid; grid-template-columns: auto 1fr; column-gap: 12px; row-gap: 0; align-items: center; justify-items: start; text-align: left; padding: 12px 14px 12px 22px; }
+  .ss-step > .ic { grid-row: span 2; width: 36px; height: 36px; }
+  .ss-step small { font-size: 12.5px; }
+  .ss-num { top: 50%; left: 0; translate: -50% -50%; }
+}

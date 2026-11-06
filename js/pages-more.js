@@ -257,7 +257,7 @@ window.SJ = window.SJ || {};
       inp.addEventListener('input', () => { const now = Date.now(); if (now - lastAt > 60) SJ.audio.sfx('tick'); lastAt = now; render(); });
       root.querySelector('[data-hint]').onclick = e => { showHint = !showHint; e.currentTarget.querySelector('span').textContent = showHint ? 'Ẩn gợi ý' : 'Hiện gợi ý'; tgt.querySelector('.tt-hint').textContent = showHint ? cur.r : ''; inp.focus(); };
       root.querySelector('[data-say-t]').onclick = () => { SJ.audio.speak(cur.jp); inp.focus(); };
-      root.querySelector('[data-skip]').onclick = () => { skip++; tgt.querySelector('.tt-hint').textContent = cur.r; SJ.audio.sfx('bad'); inp.disabled = true; timer = setTimeout(show, 1100); };
+      root.querySelector('[data-skip]').onclick = () => { if (inp.disabled) return; clearTimeout(timer); skip++; tgt.querySelector('.tt-hint').textContent = cur.r; SJ.audio.sfx('bad'); inp.disabled = true; timer = setTimeout(show, 1100); };
       root.querySelector('[data-quit]').onclick = finish;
       function finish() {
         clearTimeout(timer); document.body.classList.remove('focus-mode');
@@ -296,7 +296,8 @@ window.SJ = window.SJ || {};
   };
 
   // ===================== SỔ TỪ (từ điển mini) =====================
-  const fold = s => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd');
+  // Katakana → Hiragana để gõ ネコ hay ねこ đều ra
+  const fold = s => SJ.toHira(String(s || '')).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd');
   let DICT = null;
   function dictData() {
     if (DICT) return DICT;
@@ -342,7 +343,8 @@ window.SJ = window.SJ || {};
     let script = 'hira', sel = new Set([0, 1]), custom = SJ.pages.printChars || '', kanjiL = null, boxes = 10, name = SJ.store.get().name || '';
     SJ.pages.printChars = null;
     function chars() {
-      if (custom.trim()) return Array.from(custom.replace(/\s/g, '')).filter((c, i, a) => a.indexOf(c) === i).slice(0, 40);
+      // giữ nguyên âm ghép / âm ngoại lai (きゃ, ファ…) thành một ô
+      if (custom.trim()) return (custom.replace(/\s/g, '').match(/.[ゃゅょャュョァィゥェォ]?/gu) || []).flatMap(t => t.length > 1 && !SJ.KANA_MAP[t] ? Array.from(t) : [t]).filter((c, i, a) => a.indexOf(c) === i).slice(0, 40);
       if (script === 'kanji') { const L = SJ.LESSONS.find(l => l.id === (kanjiL || 'j1')); return L.items.slice(); }
       const out = [];
       ROWS.forEach((r, i) => { if (sel.has(i)) Array.from(r).forEach(c => out.push(script === 'kata' ? SJ.toKata(c) : c)); });

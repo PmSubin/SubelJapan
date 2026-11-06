@@ -397,9 +397,13 @@ The first user message only means "start the scene": open the scene yourself wit
       if (th.messages.length >= MAX_MSG) return;
       text = String(text || '').trim(); if (!text) return;
       const log = root.querySelector('[data-log]');
-      th.messages.push({ role: 'user', content: text, hidden: !!hidden }); th.t = Date.now(); save();
+      const um = { role: 'user', content: text, hidden: !!hidden };
+      // câu hỏi này vẫn là tin cuối của cuộc trò chuyện (chưa bị đổi chế độ / xoá / gửi câu khác chen vào)
+      const mine = () => th.messages[th.messages.length - 1] === um;
+      th.messages.push(um); th.t = Date.now(); save();
       if (mode !== 'role' && location.hash.indexOf(':') > 0) history.replaceState(null, '', '#/sensei/' + mode);
-      if (!hidden) { log.insertAdjacentHTML('beforeend', msgHTML(th.messages[th.messages.length - 1])); SJ.audio.sfx('pop'); }
+      let meEl = null;
+      if (!hidden) { log.insertAdjacentHTML('beforeend', msgHTML(um)); meEl = log.lastElementChild; SJ.audio.sfx('pop'); }
       const wrap = document.createElement('div');
       wrap.className = 'ai-msg mochi live';
       wrap.innerHTML = `<div class="ai-ava">${U().mascot('normal', 40, 'think')}</div><div class="ai-bub"><span class="ai-typing" title="Mochi đang nghĩ"><i></i><i></i><i></i></span><span class="ai-think">Mochi đang nghĩ…</span></div>`;
@@ -417,7 +421,7 @@ The first user message only means "start the scene": open the scene yourself wit
           onText: t => { latest = t; if (!pendingDraw) pendingDraw = requestAnimationFrame(paint); },
         });
         if (pendingDraw) cancelAnimationFrame(pendingDraw), pendingDraw = 0;
-        th.messages.push({ role: 'assistant', content: echoContent(msg.content) }); th.t = Date.now(); save();
+        if (mine()) { th.messages.push({ role: 'assistant', content: echoContent(msg.content) }); th.t = Date.now(); save(); }
         wrap.classList.remove('live');
         wrap.querySelector('.ai-ava').innerHTML = U().mascot(/\[\[SAI\]\]/.test(out) ? 'sad' : /\[\[OK\]\]/.test(out) ? 'cheer' : 'happy', 40);
         bub.innerHTML = md(out);
@@ -430,15 +434,17 @@ The first user message only means "start the scene": open the scene yourself wit
         if (pendingDraw) cancelAnimationFrame(pendingDraw), pendingDraw = 0;
         const t = errText(e);
         if (!t && latest.trim()) { // người học bấm dừng: giữ phần đã viết
-          th.messages.push({ role: 'assistant', content: [{ type: 'text', text: latest }] }); save();
+          if (mine()) { th.messages.push({ role: 'assistant', content: [{ type: 'text', text: latest }] }); save(); }
           wrap.classList.remove('live'); bub.innerHTML = md(latest) + '<div class="ai-cut">Đã dừng</div>';
         } else {
-          // bỏ câu hỏi chưa được trả lời để lượt sau gửi lại sạch sẽ
-          const last = th.messages[th.messages.length - 1];
-          if (last && last.role === 'user') th.messages.pop();
-          save();
-          if (!t) { wrap.remove(); }
-          else {
+          // bỏ câu hỏi chưa được trả lời khỏi lịch sử; bong bóng của nó vẫn hiện cạnh lỗi để người học biết mình đã hỏi gì (bấm Thử lại sẽ thay)
+          if (mine()) { th.messages.pop(); save(); if (meEl && !t) meEl.remove(); }
+          if (!t) {
+            wrap.remove();
+            // bấm dừng khi Mochi chưa viết gì: trả câu hỏi về ô nhập
+            const inp = busy === ac && root.querySelector('[data-input]');
+            if (inp && !inp.value && !hidden) { inp.value = text; grow(inp); }
+          } else {
             wrap.classList.remove('live'); wrap.classList.add('err');
             wrap.querySelector('.ai-ava').innerHTML = U().mascot('sad', 40);
             bub.innerHTML = `<p>${esc(t)}</p><div class="row gap-s wrap"><button class="btn btn-sm" data-retry="${esc(text)}" data-hid="${hidden ? 1 : ''}">${G('refresh', 18)} Thử lại</button>${/Khoá|khoá|mô hình|tiền/.test(t) ? `<button class="btn btn-sm btn-white" data-set>${G('key', 18)} Cài đặt AI</button>` : ''}</div>`;
@@ -446,10 +452,12 @@ The first user message only means "start the scene": open the scene yourself wit
           }
         }
       } finally {
-        busy = null; setBusy(false);
-        if (th.messages.length >= MAX_MSG && alive) draw();
+        // chỉ dọn trạng thái nếu chưa có lượt gửi mới (abortBusy đã nhả busy khi đổi chế độ / trò chuyện mới)
+        if (busy === ac) { busy = null; setBusy(false); if (th.messages.length >= MAX_MSG && alive) draw(); }
       }
     }
+    // dừng câu trả lời đang chạy và nhả busy ngay (để vẽ lại / mở cảnh mới gửi được liền)
+    const abortBusy = () => { if (busy) { const b = busy; busy = null; setBusy(false); b.abort(); } };
 
     function micToggle(btn) {
       if (rec) { rec.stop(); return; }
@@ -466,13 +474,13 @@ The first user message only means "start the scene": open the scene yourself wit
     root.addEventListener('click', e => {
       const t = e.target;
       const md_ = t.closest('[data-mode]');
-      if (md_) { if (busy) busy.abort(); mode = md_.dataset.mode; scene = null; history.replaceState(null, '', '#/sensei/' + mode); SJ.audio.sfx('tap'); return draw(); }
+      if (md_) { abortBusy(); mode = md_.dataset.mode; scene = null; history.replaceState(null, '', '#/sensei/' + mode); SJ.audio.sfx('tap'); return draw(); }
       const sc = t.closest('[data-scene]');
       if (sc) { scene = sc.dataset.scene; history.replaceState(null, '', '#/sensei/role:' + scene); SJ.audio.sfx('open'); return draw(); }
-      if (t.closest('[data-scenes]')) { if (busy) busy.abort(); scene = null; history.replaceState(null, '', '#/sensei/role'); return draw(); }
-      if (t.closest('[data-set]')) return settings(() => draw());
+      if (t.closest('[data-scenes]')) { abortBusy(); scene = null; history.replaceState(null, '', '#/sensei/role'); return draw(); }
+      if (t.closest('[data-set]')) return settings(); // lưu xong → sự kiện 'ai' tự vẽ lại (không vẽ 2 lần)
       if (t.closest('[data-new]')) {
-        if (busy) busy.abort();
+        abortBusy();
         const k = threadKey(mode, scene);
         if (A.chats[k] && A.chats[k].messages.length) { delete A.chats[k]; save(); U().toast(`${I('sensei', 28)} Bắt đầu cuộc trò chuyện mới`); }
         return draw();
@@ -480,7 +488,7 @@ The first user message only means "start the scene": open the scene yourself wit
       const f = t.closest('[data-fill]');
       if (f) { const inp = root.querySelector('[data-input]'); if (!inp || busy) return; if (mode === 'role' || f.closest('.hello')) { inp.value = f.dataset.fill; grow(inp); inp.focus(); } else send(f.dataset.fill); SJ.audio.sfx('tap'); return; }
       const r = t.closest('[data-retry]');
-      if (r) { r.closest('.ai-msg').remove(); return send(r.dataset.retry, !!r.dataset.hid); }
+      if (r) { if (busy) return; const em = r.closest('.ai-msg'), prev = em.previousElementSibling; if (!r.dataset.hid && prev && prev.matches('.ai-msg.me')) prev.remove(); em.remove(); return send(r.dataset.retry, !!r.dataset.hid); }
       const ime = t.closest('[data-ime]');
       if (ime) { A.ime = !A.ime; save(); ime.classList.toggle('on', A.ime); const inp = root.querySelector('[data-input]'); inp.placeholder = A.ime ? 'Gõ romaji: arigatou → ありがとう' : MODES[mode].ph; inp.focus(); SJ.audio.sfx('tap'); return; }
       const mic = t.closest('[data-mic]');
@@ -496,7 +504,8 @@ The first user message only means "start the scene": open the scene yourself wit
       const inp = root.querySelector('[data-input]');
       let v = inp.value;
       if (A.ime) v = SJ.ime.toHira(v, true);
-      if (!v.trim()) { inp.classList.remove('shake'); void inp.offsetWidth; inp.classList.add('shake'); return; }
+      // trống, hoặc cuộc trò chuyện đã đầy: giữ nguyên chữ trong ô (không xoá mất), chỉ rung nhẹ
+      if (!v.trim() || getThread().messages.length >= MAX_MSG) { inp.classList.remove('shake'); void inp.offsetWidth; inp.classList.add('shake'); return; }
       inp.value = ''; grow(inp); send(v);
     });
     root.addEventListener('input', e => {
@@ -506,9 +515,11 @@ The first user message only means "start the scene": open the scene yourself wit
       grow(t);
     });
     root.addEventListener('keydown', e => {
-      if (e.target.matches('[data-input]') && e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); root.querySelector('[data-compose]').requestSubmit(); }
+      // keyCode 229: Safari báo phím Enter dùng để chốt chữ của bộ gõ IME (isComposing lại là false)
+      if (e.target.matches('[data-input]') && e.key === 'Enter' && !e.shiftKey && !e.isComposing && e.keyCode !== 229) { e.preventDefault(); root.querySelector('[data-compose]').requestSubmit(); }
     });
-    const onAi = () => draw();
+    // đổi khoá / mô hình: đang trả lời dở thì chỉ cập nhật nút trên đầu, để câu trả lời không bị vẽ mất
+    const onAi = () => { if (!busy || !hasKey()) { abortBusy(); return draw(); } const tl = root.querySelector('[data-tools]'); if (tl) tl.innerHTML = toolsHTML(); };
     SJ.on('ai', onAi);
     offs.push(() => SJ.off('ai', onAi));
     draw();
@@ -639,7 +650,7 @@ Rules:
   }
   async function delStory(id) {
     const s = A.stories.find(x => x.id === id); if (!s) return;
-    if (!(await U().confirm(`Xoá truyện “${U().baseText(s.title)}”?`, 'Xoá', 'Giữ lại'))) return;
+    if (!(await U().confirm(`Xoá truyện “${esc(U().baseText(s.title))}”?`, 'Xoá', 'Giữ lại'))) return;
     A.stories = A.stories.filter(x => x.id !== id); save(); mountStories();
     const box = document.querySelector('.ai-story-box');
     if (box && box.parentNode) { const wrap = document.createElement('div'); wrap.innerHTML = storySection(); const next = box.nextElementSibling; if (next && next.classList.contains('section-label') && next.nextElementSibling && next.nextElementSibling.querySelector('[data-ai-del]')) { next.nextElementSibling.remove(); next.remove(); } box.replaceWith(...wrap.childNodes); }
@@ -649,6 +660,14 @@ Rules:
     if (e.target.closest('[data-ai-gen]')) { e.preventDefault(); storyGen(); }
     const d = e.target.closest('[data-ai-del]'); if (d) { e.preventDefault(); e.stopPropagation(); delStory(d.dataset.aiDel); }
     if (e.target.closest('[data-ai-settings]')) { e.preventDefault(); settings(); }
+  });
+
+  // bộ nhớ trình duyệt đầy, tiến độ học không lưu được (store.js): tiến độ quan trọng hơn → bỏ một nửa số cuộc trò chuyện cũ nhất
+  SJ.on('storage-full', () => {
+    const ks = Object.keys(A.chats).sort((a, b) => (A.chats[a].t || 0) - (A.chats[b].t || 0));
+    if (!ks.length) return;
+    ks.slice(0, Math.ceil(ks.length / 2)).forEach(k => delete A.chats[k]);
+    save();
   });
 
   mountStories();

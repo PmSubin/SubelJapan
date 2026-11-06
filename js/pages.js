@@ -20,9 +20,9 @@ window.SJ = window.SJ || {};
     const wotd = SJ.VOCAB_ALL[dayIdx % SJ.VOCAB_ALL.length];
     const stats = `<div class="stat-row">
       <a class="chip c-fire ${SJ.store.doneToday() ? '' : 'off'}" href="#/profile" title="Chuỗi ngày học">${I('fire', 26)}<b>${streak}</b></a>
-      <a class="chip c-fish" href="#/shop" title="Cá vàng">${I('fishcoin', 26)}<b>${S.fish}</b></a>
-      <a class="chip c-xp" href="#/profile" title="Cấp độ">${I(lv.icon, 26)}<b>${S.xp}</b></a>
-      ${S.freeze ? `<a class="chip" href="#/shop" title="Bùa giữ chuỗi">${I('omamori', 26)}<b>${S.freeze}</b></a>` : ''}</div>`;
+      <a class="chip c-fish" href="#/shop" title="Cá vàng">${I('fishcoin', 26)}<b>${esc(S.fish)}</b></a>
+      <a class="chip c-xp" href="#/profile" title="Cấp độ">${I(lv.icon, 26)}<b>${esc(S.xp)}</b></a>
+      ${S.freeze ? `<a class="chip" href="#/shop" title="Bùa giữ chuỗi">${I('omamori', 26)}<b>${esc(S.freeze)}</b></a>` : ''}</div>`;
     const quests = `<div class="card card-pad"><div class="card-title">${I('quest', 30)} Nhiệm vụ hôm nay <a class="more" href="#/quests">Xem</a></div>
       ${qs.map((q, i) => `<div class="quest ${q.done ? 'done' : ''} ${q.claimed ? 'claimed' : ''}"><span class="q-ico">${I(q.done ? 'chest_open' : q.icon, 32)}</span><div class="q-body"><div class="q-text">${esc(SJ.store.questText(q))}</div>
         <div class="q-bar">${U().bar(q.prog / q.target * 100, q.done ? 'green' : 'sun')}<small>${q.prog}/${q.target}</small></div></div>
@@ -104,7 +104,8 @@ window.SJ = window.SJ || {};
     if (kind === 'read') {
       if (u.id === 'grammar') { const d = SJ.DIALOGUES[bi % SJ.DIALOGUES.length]; return { id, kind, icon: 'talk', title: 'Hội thoại: ' + d.title, short: 'Hội thoại', desc: 'Nghe và đọc hết đoạn hội thoại rồi bấm "Mình đã luyện xong".', href: '#/dialog/' + d.id, match: d.id }; }
       const lvl = { hira: 1, kata: 2, vocab: 2, kanji: 3 }[u.id] || 1;
-      const list = SJ.STORIES.filter(s => s.level === lvl); const st = list[bi % list.length];
+      // chỉ dùng truyện có sẵn — truyện AI thêm/xoá sẽ làm màn thưởng đổi truyện
+      const list = SJ.STORIES.filter(s => s.level === lvl && !s.ai); const st = list[bi % list.length];
       return { id, kind, icon: 'scroll', title: 'Truyện: ' + st.vi, short: 'Đọc truyện', desc: 'Đọc truyện ngắn rồi trả lời hết câu hỏi hiểu bài.', href: '#/story/' + st.id, match: st.id };
     }
     if (kind === 'write') return { id, kind, icon: 'pencil', title: 'Thử thách viết', short: 'Thử thách viết', desc: 'Viết xong 5 chữ từ trí nhớ (chế độ Viết trong Luyện tập).', href: '#/practice/write', need: 5 };
@@ -218,7 +219,13 @@ window.SJ = window.SJ || {};
         return;
       }
       const bs = e.target.closest('[data-bstart]');
-      if (bs) { e.preventDefault(); const b = BONUS[bs.dataset.bstart]; if (!SJ.store.bonusIsDone(b.id)) SJ.store.startBonus(b); SJ.audio.sfx('open'); location.hash = b.href; return; }
+      if (bs) {
+        e.preventDefault(); const b = BONUS[bs.dataset.bstart];
+        // "Làm tiếp" giữ nguyên tiến độ đang làm, chỉ bắt đầu lại khi là màn khác
+        const p = SJ.store.get().bonusPending, same = p && p.id === b.id && p.match === (b.match || null);
+        if (!SJ.store.bonusIsDone(b.id) && !same) SJ.store.startBonus(b);
+        SJ.audio.sfx('open'); location.hash = b.href; return;
+      }
       const bn = e.target.closest('.pnode[data-b]');
       if (bn && e.target.closest('.pn-btn')) {
         if (openNode === bn) { closePop(); return; }
@@ -450,7 +457,8 @@ window.SJ = window.SJ || {};
     if (SJ.pages.writeList && SJ.pages.writeList.length) { LISTS.mine = [['Chữ đã chọn', SJ.pages.writeList.map(k => SJ.KANA_MAP[k]).filter(Boolean).map(o => ({ k: o.k, r: o.r, sub: '', o }))]]; }
     const flat = t => LISTS[t].flatMap(g => g[1]);
     let tab = LISTS.mine ? 'mine' : 'hira';
-    if (arg) { for (const t of Object.keys(LISTS)) if (flat(t).some(x => x.k === arg)) { tab = t; break; } }
+    // chữ đã chọn từ Bảng chữ → giữ tab "Đã chọn"
+    if (arg && !(LISTS.mine && flat('mine').some(x => x.k === arg))) { for (const t of Object.keys(LISTS)) if (flat(t).some(x => x.k === arg)) { tab = t; break; } }
     let cur = (arg && flat(tab).find(x => x.k === arg)) || flat(tab)[0];
     let mode = SJ.store.get().settings.writeMode || 'guide', combo = 0, auto = true, wp = null, sv = null, timer = null;
     const S = SJ.store.get();
@@ -537,12 +545,14 @@ window.SJ = window.SJ || {};
   // ===================== ÔN TẬP (SRS) =====================
   function cardData(key) {
     if (key.startsWith('v:')) { const o = SJ.VOCAB_MAP[key]; return o && { front: `<div class="word jp">${esc(o.jp)}</div>`, say: SJ.ui.reading(o.jp), back: `<div>${I(o.e, 76)}</div><div class="bold" style="color:var(--pri-t);font-size:18px">${esc(o.r)}</div><div class="q-mean">${esc(o.vi)}</div>` }; }
+    // từ lưu từ truyện đọc (Sổ từ): [chữ Nhật, romaji, nghĩa]
+    if (key.startsWith('w:')) { const w = SJ.STORIES.flatMap(s => s.words).find(x => 'w:' + x[0] === key); return w && { front: `<div class="word jp">${SJ.ui.ruby(w[0])}</div>`, say: SJ.ui.reading(w[0]), back: `<div class="bold" style="color:var(--pri-t);font-size:18px">${esc(w[1])}</div><div class="q-mean">${esc(w[2])}</div>` }; }
     if (key.startsWith('j:')) { const o = SJ.KANJI_MAP[key.slice(2)]; return o && { front: `<div class="big">${o.k}</div>`, say: o.ex[0].kana, back: `<div class="hv-badge">${o.hv}</div><div class="q-mean">${esc(o.m)}</div><div class="jp muted">${o.on} · ${o.kun}</div><div class="muted small bold">${esc(o.ex[0].jp)} (${o.ex[0].kana}) = ${esc(o.ex[0].vi)}</div>` }; }
     const o = SJ.KANA_MAP[key]; return o && { front: `<div class="big">${o.k}</div>`, say: o.k, back: `<div class="lc-romaji">${o.r}</div><div class="muted bold">Đọc gần giống: ${esc(o.v || o.r)}</div><div class="mnemo" style="text-align:left">${I('bulb', 22)}<span>${esc(o.m)}</span></div>` };
   }
   P.review = function (root) {
     let queue = [], i = 0, done = 0, keyFn = null, srs = true;
-    const onKey = e => keyFn && keyFn(e);
+    const onKey = e => { if (keyFn && !document.querySelector('.modal-back')) keyFn(e); };
     document.addEventListener('keydown', onKey);
     function menu() {
       keyFn = null; document.body.classList.remove('focus-mode');
@@ -554,7 +564,7 @@ window.SJ = window.SJ || {};
         <div class="page-head"><div class="ph-icon">${I('brain', 52)}</div><div><h1>Ôn tập thông minh</h1><p>Thẻ nhớ tự lặp lại đúng lúc bạn sắp quên. Ôn mỗi ngày vài phút là nhớ rất lâu!</p></div></div>
         ${all.length ? `<div class="card card-pad row gap wrap">${U().ring(all.length ? (all.length - due.length) / all.length * 100 : 0, 104, `<b>${due.length}</b><small>cần ôn</small>`, 'var(--lav)')}
           <div class="grow stat-grid">${[['seed', 'Mới', boxes[0]], ['sprout', 'Đang nhớ', boxes[1]], ['tulip', 'Khá chắc', boxes[2]], ['sakura', 'Thuộc lòng', boxes[3]]].map(b => `<div class="stat-box">${I(b[0], 34)}<div><b>${b[2]}</b><span>${b[1]}</span></div></div>`).join('')}</div></div>
-          <div class="grid grid-2 mt">${due.length ? `<button class="btn btn-lg" data-start="due">${I('refresh', 22)} Ôn ${due.length} thẻ đến hạn</button>` : `<div class="card card-sm row gap">${U().mascot('love', 56)}<b>Hôm nay ôn xong hết rồi! Giỏi quá đi!</b></div>`}
+          <div class="grid grid-2 mt">${due.length ? `<button class="btn btn-lg" data-start="due">${I('refresh', 22)} Ôn ${Math.min(30, due.length)} thẻ đến hạn</button>` : `<div class="card card-sm row gap">${U().mascot('love', 56)}<b>Hôm nay ôn xong hết rồi! Giỏi quá đi!</b></div>`}
             <button class="btn btn-lg btn-white" data-start="free">${I('dice', 22)} Ôn tự do (${Math.min(20, all.length)} thẻ)</button></div>`
           : `<div class="card card-pad center pad-xl">${U().mascot('wink', 110)}<h3>Chưa có thẻ nào cả</h3><p class="muted bold">Học xong một bài, các chữ trong bài sẽ tự động thành thẻ nhớ ở đây nha!</p><a class="btn" href="#/lesson/${SJ.store.nextLesson().id}">${I('book', 22)} Học bài đầu tiên</a></div>`}
         <div class="section-label">${I('heart', 26)} Từ đã lưu <small>${favs.length} từ</small></div>
@@ -640,7 +650,7 @@ window.SJ = window.SJ || {};
           <div class="set-row"><div class="sr-l"><b>Hiệu ứng chuyển động</b><small>Màn chào đón, chuyển trang, Mochi nhảy nhót… Tắt nếu máy chạy chậm hoặc bạn thấy chóng mặt</small></div><label class="switch"><input type="checkbox" data-set="motion" ${st.motion !== 'reduce' ? 'checked' : ''}><i></i></label></div>
           <div class="set-row"><div class="sr-l"><b>Trang trí theo mùa</b><small>Lá phong mùa thu, tuyết mùa đông, hoa anh đào mùa xuân rơi nhẹ trên màn hình</small></div><label class="switch"><input type="checkbox" data-set="season" ${st.season !== false ? 'checked' : ''}><i></i></label></div>
           <div class="set-row"><div class="sr-l"><b>Mochi đi dạo trên màn hình</b><small>Mochi đi lững thững, nói chuyện — nắm kéo, thả rơi, ném bay được luôn</small></div><label class="switch"><input type="checkbox" data-set="pet" ${st.pet !== false ? 'checked' : ''}><i></i></label></div>
-          <div class="set-row"><div class="sr-l"><b>Âm lượng hiệu ứng</b></div><input class="range" style="max-width:220px" type="range" min="0.1" max="1" step="0.05" value="${st.volume ?? 0.8}" data-set="volume"><div class="row gap-s">${['ok', 'meow', 'win', 'coin', 'bad'].map(x => `<button class="btn btn-sm btn-white" data-test="${x}">${I({ ok: 'maru', meow: 'cat', win: 'music', coin: 'fishcoin', bad: 'batsu' }[x], 18)}</button>`).join('')}</div></div>
+          <div class="set-row"><div class="sr-l"><b>Âm lượng hiệu ứng</b></div><input class="range" style="max-width:220px" type="range" min="0.1" max="1" step="0.05" value="${esc(st.volume ?? 0.8)}" data-set="volume"><div class="row gap-s">${['ok', 'meow', 'win', 'coin', 'bad'].map(x => `<button class="btn btn-sm btn-white" data-test="${x}">${I({ ok: 'maru', meow: 'cat', win: 'music', coin: 'fishcoin', bad: 'batsu' }[x], 18)}</button>`).join('')}</div></div>
           <div class="set-row"><div class="sr-l"><b>Tốc độ giọng đọc</b><small>Chậm giúp nghe rõ từng âm</small></div><div class="seg">${[[0.6, 'Chậm'], [0.85, 'Vừa'], [1, 'Nhanh']].map(r => `<button data-rate="${r[0]}" class="${Math.abs(st.rate - r[0]) < .01 ? 'active' : ''}">${r[1]}</button>`).join('')}</div><button class="btn btn-sm btn-white" data-say="こんにちは、モチです">${I('speaker', 18)} Thử</button></div>
           <div class="set-row"><div class="sr-l"><b>Mục tiêu mỗi ngày</b></div><div class="seg">${[10, 20, 30, 50].map(g => `<button data-goal="${g}" class="${S.goal === g ? 'active' : ''}">${g} XP</button>`).join('')}</div></div>
           <div class="set-row"><div class="sr-l"><b>Màu giao diện</b></div><div class="theme-dots">${[['sakura', '#ff6b9a', 'Hoa anh đào'], ['matcha', '#4cbf7a', 'Trà xanh'], ['sora', '#4a9dff', 'Bầu trời'], ['yuzu', '#ff9a3c', 'Quả yuzu'], ['yoru', '#2a2339', 'Ban đêm']].map(t => `<button class="theme-dot ${st.theme === t[0] ? 'active' : ''}" style="background:${t[1]}" data-theme="${t[0]}" title="${t[2]}" aria-label="${t[2]}"></button>`).join('')}</div></div>
@@ -655,7 +665,7 @@ window.SJ = window.SJ || {};
       const k = t.closest('[data-k]'); if (k) { kanaDetail(SJ.KANA_MAP[k.dataset.k]); return; }
       const ts = t.closest('[data-test]'); if (ts) { SJ.audio.sfx(ts.dataset.test); return; }
       const r = t.closest('[data-rate]'); if (r) { SJ.store.setSetting('rate', +r.dataset.rate); draw(); SJ.audio.speak('はい'); return; }
-      const g = t.closest('[data-goal]'); if (g) { SJ.store.set('goal', +g.dataset.goal); const q = SJ.store.quests()[0]; if (q && q.id === 'xp' && !q.done) { q.target = +g.dataset.goal; SJ.store.save(); } draw(); return; }
+      const g = t.closest('[data-goal]'); if (g) { SJ.store.set('goal', +g.dataset.goal); const q = SJ.store.quests()[0]; if (q && q.id === 'xp' && !q.done) { q.target = +g.dataset.goal; SJ.store.save(); SJ.store.track('xp', 0); } draw(); return; }
       const th = t.closest('[data-theme]'); if (th) { SJ.store.setSetting('theme', th.dataset.theme); draw(); return; }
       const kf = t.closest('[data-kfont]'); if (kf) { SJ.store.setSetting('kfont', kf.dataset.kfont); draw(); return; }
       if (t.closest('[data-edit]')) { const n = prompt('Tên của bạn:', S.name || ''); if (n != null && n.trim()) { SJ.store.set('name', n.trim().slice(0, 30)); draw(); SJ.app.renderNav(); } return; }
@@ -713,7 +723,7 @@ window.SJ = window.SJ || {};
       const inp = box.querySelector('#in-name');
       const n = (inp && inp.value.trim()) || S.name || 'Bạn nhỏ';
       SJ.store.set('goal', goal); SJ.store.set('name', n.slice(0, 30)); SJ.store.set('intro', true);
-      const q = SJ.store.quests()[0]; if (q && q.id === 'xp' && !q.done) { q.target = goal; SJ.store.save(); }
+      const q = SJ.store.quests()[0]; if (q && q.id === 'xp' && !q.done) { q.target = goal; SJ.store.save(); SJ.store.track('xp', 0); }
       box.remove(); SJ.audio.sfx('win'); U().confetti();
       U().toast(`<span class="jp">よろしく</span>, ${esc(n)}! Cùng học bài đầu tiên nào`);
       if (!again) location.hash = '#/'; SJ.app.refresh();

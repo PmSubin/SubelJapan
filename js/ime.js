@@ -50,10 +50,13 @@ window.SJ = window.SJ || {};
       const c = s[i];
       // ký tự đã là kana hoặc ký tự lạ → giữ nguyên
       if (!/[a-z'\-~,.?!\[\] ]/.test(c)) { out += c; i++; continue; }
-      // っ: phụ âm đôi (trừ n)
+      // っ: phụ âm đôi (trừ n); kiểu Hepburn "tch" (matcha → まっちゃ)
       if (isCons(c) && c !== 'n' && s[i + 1] === c) { out += 'っ'; i++; continue; }
-      // n + phụ âm (không phải y) → ん
-      if (c === 'n' && i + 1 < s.length && isCons(s[i + 1]) && s[i + 1] !== 'y' && s[i + 1] !== 'n') { out += 'ん'; i++; continue; }
+      if (c === 't' && s[i + 1] === 'c' && s[i + 2] === 'h') { out += 'っ'; i++; continue; }
+      // n + ký tự không phải nguyên âm / y / n / ' (phụ âm, dấu cách, dấu câu, kana…) → ん
+      if (c === 'n' && i + 1 < s.length && !/[aiueoyn']/.test(s[i + 1])) { out += 'ん'; i++; continue; }
+      // "nn" ở cuối khi đang gõ dở: chờ ký tự tiếp theo (minna → みんな, không thành みんあ)
+      if (!opts.final && c === 'n' && s[i + 1] === 'n' && i + 2 === s.length) return { kana: out, rest: 'nn' };
       // "nn" + nguyên âm: konnichiha → こんにちは
       if (c === 'n' && s[i + 1] === 'n' && /[aiueoy]/.test(s[i + 2] || '')) { out += 'ん'; i++; continue; }
       let hit = false;

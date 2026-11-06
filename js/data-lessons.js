@@ -10,7 +10,7 @@ window.SJ = window.SJ || {};
   const kanaRows = [
     ['あいうえお','5 nguyên âm','Năm nguyên âm là "xương sống" của mọi âm tiếng Nhật. Đọc là a – i – ư – ê – ô nhé!'],
     ['かきくけこ','Hàng K','Ghép "k" với 5 nguyên âm là ra ka – ki – ku – ke – ko. Dễ như ăn bánh!'],
-    ['さしすせそ','Hàng S','Chú ý し đọc là "shi" (si) chứ không phải "si" cứng đâu nha~'],
+    ['さしすせそ','Hàng S','Chú ý し đọc là "shi" (gần "si"), chứ không phải "xi" đâu nha~'],
     ['たちつてと','Hàng T','Hàng này có 2 bạn đặc biệt: ち (chi) và つ (tsu). Cố lên!'],
     ['なにぬねの','Hàng N','Hàng N toàn chữ dễ thương: ねこ (con mèo) có ở đây nè'],
     ['はひふへほ','Hàng H','ふ đọc là "fu" — thổi nhẹ như thổi nến'],
@@ -58,12 +58,12 @@ window.SJ = window.SJ || {};
       lessons: [
         { id:'v1', title:'Chào hỏi', sub:'あいさつ', type:'vocab', topic:'greet', icon:'wave_hand', intro:'Những câu chào bạn dùng mỗi ngày. Lưu ý: こんにちは đọc là "konnichiwa" nha!' },
         { id:'v2', title:'Số đếm', sub:'かず', type:'vocab', topic:'number', icon:'numbers', intro:'Đếm từ 1 đến 10 rồi tới 10.000. Số 4 và 7 có 2 cách đọc, ở đây dùng cách phổ biến nhất.' },
-        { id:'v3', title:'Gia đình', sub:'かぞく', type:'vocab', topic:'family', icon:'family', intro:'Gọi người thân trong nhà người khác (lịch sự).' },
+        { id:'v3', title:'Gia đình', sub:'かぞく', type:'vocab', topic:'family', icon:'family', intro:'Bố mẹ, anh chị em, ông bà — có さん là cách gọi lịch sự.' },
         { id:'v4', title:'Đồ ăn', sub:'たべもの', type:'vocab', topic:'food', icon:'sushi', intro:'Phần ngon nhất! Có cả phở フォー nữa' },
         { id:'v5', title:'Động vật', sub:'どうぶつ', type:'vocab', topic:'animal', icon:'paw', intro:'Sở thú dễ thương của Mochi' },
         { id:'v6', title:'Màu sắc', sub:'いろ', type:'vocab', topic:'color', icon:'palette', intro:'Thế giới đầy màu sắc! いろ nghĩa là màu.' },
         { id:'v7', title:'Thời gian', sub:'じかん', type:'vocab', topic:'time', icon:'alarm', intro:'Hôm nay, ngày mai và 4 mùa ở Nhật.' },
-        { id:'v8', title:'Đồ vật', sub:'もの', type:'vocab', topic:'thing', icon:'backpack', intro:'Những thứ quanh bạn mỗi ngày.' },
+        { id:'v8', title:'Đồ vật', sub:'もの', type:'vocab', topic:'thing', icon:'backpack', intro:'Đồ dùng hằng ngày, trường lớp và thầy trò.' },
         { id:'v9', title:'Tính từ', sub:'けいようし', type:'vocab', topic:'adj', icon:'love', intro:'Để khen: かわいい! おいしい!' },
         { id:'v10', title:'Động từ', sub:'どうし', type:'vocab', topic:'verb', icon:'walk', intro:'Động từ dạng lịch sự ます — dùng được ngay!' },
       ],
@@ -73,7 +73,7 @@ window.SJ = window.SJ || {};
       lessons: [
         { id:'j1', title:'一 二 三', sub:'Số đếm', type:'kanji', items: ch('一二三四五六七八九十'), icon:'numbers', intro:'Kanji số đếm — mấy chữ đầu chỉ là… que tính! Dễ chưa nè' },
         { id:'j2', title:'日 月 火', sub:'Ngày trong tuần', type:'kanji', items: ch('日月火水木金土'), icon:'calendar', intro:'7 chữ này cũng là 7 ngày trong tuần: Nhật – Nguyệt – Hoả – Thuỷ – Mộc – Kim – Thổ!' },
-        { id:'j3', title:'人 口 目', sub:'Con người', type:'kanji', items: ch('人口目耳手足力女男子'), icon:'person', intro:'Các bộ phận cơ thể — chữ nào cũng giống hình thật luôn.' },
+        { id:'j3', title:'人 口 目', sub:'Con người', type:'kanji', items: ch('人口目耳手足力女男子'), icon:'person', intro:'Con người & cơ thể — chữ nào cũng giống hình thật luôn.' },
         { id:'j4', title:'上 下 中', sub:'Vị trí & kích thước', type:'kanji', items: ch('上下中大小左右本'), icon:'compass', intro:'Trên, dưới, trong, to, nhỏ… và chữ 本 trong 日本 (Nhật Bản).' },
         { id:'j5', title:'山 川 花', sub:'Thiên nhiên', type:'kanji', items: ch('山川田天気雨花空'), icon:'mountain', intro:'Núi sông, mưa hoa và bầu trời' },
         { id:'j6', title:'学 生 先', sub:'Trường học', type:'kanji', items: ch('学生先年名何今友'), icon:'school', intro:'先生 (TIÊN SINH) = giáo viên, 学生 (HỌC SINH) = học sinh. Hán Việt quá đỉnh!' },

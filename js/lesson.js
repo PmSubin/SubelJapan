@@ -14,12 +14,14 @@ window.SJ = window.SJ || {};
   }
   const pic = (e, s) => (e && SJ.hasIcon(e)) ? I(e, s || 96, 'pic') : '';
   const listenPrompt = say => `<div class="listen-row"><button class="listen-btn" data-say="${esc(say)}" aria-label="Nghe">${I('speaker', 64)}</button><button class="listen-btn listen-slow" data-slow="${esc(say)}" aria-label="Nghe chậm">${I('slow', 40)}</button></div>`;
+  // so theo âm: を/ヲ (wo) đọc giống お/オ → không cho làm đáp án nhiễu của nhau
+  const snd = o => o.r === 'wo' ? 'o' : o.r;
   function kanaQ(item, type, pool) {
     const pl = pool.filter(o => o.k !== item.k && o.group !== 'small');
     // ưu tiên đáp án nhiễu là chữ dễ nhầm
-    const conf = SJ.confusables ? SJ.confusables(item.k).list.map(k => SJ.KANA_MAP[k]).filter(o => o && o.r !== item.r) : [];
-    const others = distinct(conf, 1, o => o.r, [item.r]);
-    const opts = U().shuffle([item].concat(others, distinct(pl, 3 - others.length, o => o.r, [item.r].concat(others.map(o => o.r)))));
+    const conf = SJ.confusables ? SJ.confusables(item.k).list.map(k => SJ.KANA_MAP[k]).filter(o => o && snd(o) !== snd(item)) : [];
+    const others = distinct(conf, 1, snd, [snd(item)]);
+    const opts = U().shuffle([item].concat(others, distinct(pl, 3 - others.length, snd, [snd(item)].concat(others.map(snd)))));
     if (type === 'k2r') return { key: item.k, item, type, prompt: `<div class="q-big">${item.k}</div>`, ask: 'Chữ này đọc là gì?', options: opts.map(o => ({ label: o.r, val: o.k })), answer: item.k, hint: `<span class="jp">${item.k}</span> đọc là <b>${item.r}</b> — ${esc(item.m)}` };
     if (type === 'r2k') return { key: item.k, item, type, prompt: `<div class="romaji-big">${item.r}</div>`, ask: 'Chọn chữ đúng nhé!', options: opts.map(o => ({ label: `<span class="opt-jp">${o.k}</span>`, val: o.k })), answer: item.k, hint: `<b>${item.r}</b> = <span class="jp">${item.k}</span> — ${esc(item.m)}` };
     return { key: item.k, item, type: 'listen', say: item.k, prompt: listenPrompt(item.k), ask: 'Nghe và chọn chữ đúng', options: opts.map(o => ({ label: `<span class="opt-jp">${o.k}</span>`, val: o.k })), answer: item.k, hint: `<span class="jp">${item.k}</span> = ${item.r}` };
@@ -69,7 +71,8 @@ window.SJ = window.SJ || {};
     if (!v) return false;
     const r = item.r.toLowerCase().replace(/[^a-z]/g, '');
     if (v === r) return true;
-    const alts = SJ.ROMAJI_ALT[r] || [];
+    // "o" chỉ được chấp nhận cho を/ヲ, không cho ウォ
+    const alts = (r === 'wo' && !/^[をヲ]$/.test(item.k)) ? [] : SJ.ROMAJI_ALT[r] || [];
     if (alts.includes(v)) return true;
     // so sánh qua bộ gõ: shi = si…
     try { return SJ.ime.toHira(v, true) === SJ.toHira(item.k); } catch (e) { return false; }
@@ -208,7 +211,7 @@ window.SJ = window.SJ || {};
 
   // ---------- Bộ phát bài học ----------
   function open(root, id) {
-    const lesson = SJ.LESSON_MAP[id];
+    const lesson = Object.prototype.hasOwnProperty.call(SJ.LESSON_MAP, id) ? SJ.LESSON_MAP[id] : null;
     if (!lesson) { root.innerHTML = `<div class="page-narrow center pad-xl">${U().mascot('sad', 120)}<h2>Không tìm thấy bài học</h2><a class="btn" href="#/">Về lộ trình</a></div>`; return; }
     const unit = SJ.UNITS.find(u => u.id === lesson.unit);
     let items = [];
@@ -350,7 +353,9 @@ window.SJ = window.SJ || {};
         const txt = sel => { const el = body.querySelector(sel); if (!el) return ''; const c = el.cloneNode(true); c.querySelectorAll('kbd, rt, button, svg').forEach(x => x.remove()); return c.textContent.replace(/\s+/g, ' ').trim(); };
         const hintTxt = new DOMParser().parseFromString(hint || '', 'text/html').body.textContent.trim();
         const typed = body.querySelector('#ta');
-        SJ.ai.explain({ ask: txt('.quiz-ask'), prompt: txt('.quiz-prompt'), picked: txt('.opt.bad') || (typed ? typed.value : ''), right: txt('.opt.ok'), hint: hintTxt });
+        // câu xếp chữ: gửi từ người học đã xếp
+        const built = Array.from(body.querySelectorAll('.builder-slots .slot')).map(s => s.textContent).join('');
+        SJ.ai.explain({ ask: txt('.quiz-ask'), prompt: txt('.quiz-prompt') || txt('.b-mean'), picked: txt('.opt.bad') || (typed ? typed.value : '') || built, right: txt('.opt.ok'), hint: hintTxt });
       };
       foot.querySelector('[data-cont]').onclick = next;
       setTimeout(() => { const b = foot.querySelector('[data-cont]'); b && b.focus({ preventScroll: true }); }, 50);
@@ -368,7 +373,7 @@ window.SJ = window.SJ || {};
           [selL, selR].forEach(b => { b.classList.remove('sel'); b.classList.add('done'); b.disabled = true; });
           SJ.audio.sfx('note', q.left.length - left); left--;
           if (q.kind === 'kana') SJ.store.rec(selL.dataset.id, true);
-          if (!left) setTimeout(() => grade(errs <= 1, '', { title: errs ? 'Ghép xong rồi!' : 'Ghép chuẩn không trượt phát nào!', noRetry: true, silent: true }), 250);
+          if (!left) setTimeout(() => grade(errs <= 1, '', { title: errs ? 'Ghép xong rồi!' : 'Ghép chuẩn không trượt phát nào!', noRetry: true, silent: true, noWhy: true }), 250);
         } else {
           errs++; SJ.audio.sfx('bad');
           if (q.kind === 'kana') SJ.store.rec(selL.dataset.id, false);
@@ -408,12 +413,12 @@ window.SJ = window.SJ || {};
         <div class="ws-head"><span class="ws-target">${esc(q.label)}</span><button class="say-btn" data-say="${q.ch}">${I('speaker', 22)}</button></div>
         <div class="w100" data-pad></div>
         <div class="pad-tools"><button class="btn btn-sm btn-white" data-a="hint">${I('bulb', 18)} Gợi ý nét</button><button class="btn btn-sm btn-white" data-a="guide">${I('eye', 18)} Hiện chữ mờ</button></div></div>`;
-      setFoot(`<button class="btn btn-white" data-skip>Để sau</button><span class="grow muted bold">Viết từng nét, bắt đầu từ chấm hồng</span>`);
+      setFoot(`<button class="btn btn-white" data-skip>${q.deferred ? 'Bỏ qua' : 'Để sau'}</button><span class="grow muted bold">Viết từng nét, bắt đầu từ chấm hồng</span>`);
       wp = SJ.writing.pad(body.querySelector('[data-pad]'), q.ch, {
         mode: 'hint',
         onDone: r => {
           SJ.store.addWritten(r.perfect);
-          grade(r.mistakes <= 2, `${U().stars(r.stars, 3, 18)} ${r.perfect ? 'Không sai nét nào!' : `Sai ${r.mistakes} nét`}`, { showHint: true, noRetry: true, silent: true, title: r.perfect ? 'Nét chữ chuẩn quá!' : r.mistakes <= 2 ? 'Viết xong rồi!' : 'Xong rồi, luyện thêm chút nha' });
+          grade(r.mistakes <= 2, `${U().stars(r.stars, 3, 18)} ${r.perfect ? 'Không sai nét nào!' : `Sai ${r.mistakes} nét`}`, { showHint: true, noRetry: true, silent: true, noWhy: true, title: r.perfect ? 'Nét chữ chuẩn quá!' : r.mistakes <= 2 ? 'Viết xong rồi!' : 'Xong rồi, luyện thêm chút nha' });
         },
       });
       wp.ready.then(ok => {
@@ -427,7 +432,8 @@ window.SJ = window.SJ || {};
         if (a.dataset.a === 'hint') wp.hint();
         if (a.dataset.a === 'guide') { wp.setMode('guide'); a.disabled = true; }
       };
-      foot.querySelector('[data-skip]').onclick = () => { if (!answered) { answered = true; next(); } };
+      // "Để sau": đưa câu xuống cuối một lần; bỏ qua lần nữa mới tính là sai
+      foot.querySelector('[data-skip]').onclick = () => { if (!answered) { answered = true; if (!q.deferred) queue.push(Object.assign({}, q, { deferred: true })); next(); } };
     }
     // --- xếp chữ ---
     function renderBuild(q, tags) {
@@ -486,10 +492,15 @@ window.SJ = window.SJ || {};
     }
 
     function onKey(e) {
-      if (phase !== 'quiz') return;
+      if (phase !== 'quiz' || document.querySelector('.modal-back')) return;
       const q = queue[qi];
       if (!answered && q && q.options && /^[1-4]$/.test(e.key)) { const b = body.querySelectorAll('.opt')[+e.key - 1]; b && b.click(); }
-      else if (answered && e.key === 'Enter') { e.preventDefault(); next(); }
+      else if (answered && e.key === 'Enter') {
+        // đang chọn nút khác (vd. "Vì sao?") → để Enter bấm nút đó
+        const fb = e.target.closest && e.target.closest('button');
+        if (fb && !fb.matches('[data-cont]')) return;
+        e.preventDefault(); next();
+      }
     }
     document.addEventListener('keydown', onKey);
     render();
@@ -500,7 +511,7 @@ window.SJ = window.SJ || {};
   function nameWidget() {
     const nm = SJ.store.get().name || '';
     return `<div class="name-widget"><label for="nw-in">Tên của bạn (có dấu cũng được):</label>
-      <div class="row gap-s"><input class="input" id="nw-in" placeholder="Ví dụ: Nguyễn Minh Anh" value="${esc(nm)}"><button class="btn" id="nw-go">${I('sparkle', 20)} Đổi tên</button></div>
+      <div class="row gap-s"><input class="input" id="nw-in" placeholder="Ví dụ: Nguyễn Minh Anh" value="${esc(nm)}"><button class="btn" id="nw-go">${I('sparkle', 20)} Xem tên Katakana</button></div>
       <div id="nw-out"></div></div>`;
   }
   function bindNameWidget(root) {

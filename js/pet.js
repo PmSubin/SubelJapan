@@ -89,6 +89,7 @@ window.SJ = window.SJ || {};
   }
 
   function step(now) {
+    if (!el) return; // Mochi đã bị tắt: dừng hẳn vòng lặp
     raf = requestAnimationFrame(step);
     const dt = Math.min(0.05, last ? (now - last) / 1000 : 0.016); last = now;
     const B = bounds();
@@ -207,7 +208,9 @@ window.SJ = window.SJ || {};
   SJ.on('settings', k => { if (k === 'pet') setOn(SJ.store.get().settings.pet !== false); });
   document.addEventListener('visibilitychange', () => {
     if (!on) return;
-    if (document.hidden) cancelAnimationFrame(raf); else { last = 0; raf = requestAnimationFrame(step); }
+    // huỷ vòng cũ trước khi chạy vòng mới (tạo Mochi lúc tab đang ẩn → không bị 2 vòng lặp chạy song song)
+    cancelAnimationFrame(raf);
+    if (!document.hidden) { last = 0; raf = requestAnimationFrame(step); }
   });
   window.addEventListener('resize', () => { if (!on) return; const ns = window.innerWidth < 760 ? 62 : 76; if (ns !== size) { size = ns; el.style.setProperty('--pw', size + 'px'); render(); } });
 

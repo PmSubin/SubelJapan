@@ -168,11 +168,11 @@ window.SJ.practice = window.SJ.practice || {};
           keyFn = e => { if (e.key === 'Enter') nextQ(); };
           setTimeout(() => SJ.audio.speak(ch), 250);
         };
-        pad = SJ.writing.pad(stage.querySelector('[data-pad]'), ch, {
+        const myPad = pad = SJ.writing.pad(stage.querySelector('[data-pad]'), ch, {
           mode: 'free',
-          onDone: r => { SJ.store.addWritten(r.perfect); finishW(r.mistakes <= 2, r.perfect ? 'Thuộc lòng luôn! Không sai nét nào' : r.mistakes <= 2 ? 'Viết đúng rồi! (sai ' + r.mistakes + ' nét)' : 'Xong rồi, nhưng sai hơi nhiều nét nè'); },
+          onDone: r => { if (finished) return; SJ.store.addWritten(r.perfect); finishW(r.mistakes <= 2, r.perfect ? 'Thuộc lòng luôn! Không sai nét nào' : r.mistakes <= 2 ? 'Viết đúng rồi! (sai ' + r.mistakes + ' nét)' : 'Xong rồi, nhưng sai hơi nhiều nét nè'); },
         });
-        pad.ready.then(ok => { if (!ok && !finished && !destroyed) { finished = true; nextQ(); } });
+        myPad.ready.then(ok => { if (!ok && !finished && !destroyed && pad === myPad) { finished = true; cleanup(); choiceQ(kanaQ('r2k')); } });
         stage.querySelector('.pad-tools').onclick = e => {
           const a = e.target.closest('[data-a]'); if (!a || finished) return;
           if (a.dataset.a === 'hint') pad.hint();

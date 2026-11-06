@@ -28,23 +28,46 @@ window.SJ = window.SJ || {};
   const diffDays = (a, b) => Math.round((Date.parse(b + 'T00:00:00') - Date.parse(a + 'T00:00:00')) / DAY);
   const addDays = (k, n) => { const d = new Date(Date.parse(k + 'T12:00:00') + n * DAY); return dayKey(d); };
 
+  // --- Làm sạch dữ liệu (localStorage hỏng / file sao lưu lạ): giá trị nào sai kiểu so với mặc định thì dùng mặc định ---
+  const isObj = v => !!v && typeof v === 'object' && !Array.isArray(v);
+  const okVal = v => (typeof v === 'number' && isFinite(v)) || typeof v === 'boolean';
+  // bảng tra (history, lessons, items, srs, inv…): chỉ giữ mục là số/true-false, hoặc object chỉ chứa số/true-false
+  const cleanMap = o => { const r = {}; Object.keys(o).forEach(k => { const v = o[k]; if (k !== '__proto__' && (okVal(v) || (isObj(v) && Object.values(v).every(okVal)))) r[k] = v; }); return r; };
+  // phần tử danh sách nhiệm vụ ngày / tuần
+  const okItem = q => isObj(q) && typeof q.id === 'string' && typeof q.icon === 'string' && Object.keys(q).every(x => x === 'id' || x === 'icon' || okVal(q[x]));
+  const okPending = p => isObj(p) && typeof p.id === 'string' && typeof p.kind === 'string' && typeof p.title === 'string' && (p.match == null || typeof p.match === 'string') && okVal(p.need) && (p.prog == null || okVal(p.prog));
+  function clean(def, raw, extra) {
+    const out = {};
+    Object.keys(def).forEach(k => {
+      const d = def[k], v = raw[k];
+      if (isObj(d)) out[k] = !isObj(v) ? d : (!Object.keys(d).length || k === 'inv') ? Object.assign({}, d, cleanMap(v)) : clean(d, v, k === 'settings');
+      else if (Array.isArray(d)) out[k] = Array.isArray(v) && v.every(okItem) ? v : d;
+      else if (d === null) out[k] = okPending(v) ? v : null;
+      else if (typeof d === 'number') out[k] = typeof v === 'number' && isFinite(v) ? v : d;
+      else out[k] = typeof v === typeof d ? v : d;
+    });
+    // cài đặt thêm của các phần khác (vd. cardsSize ở thẻ ghi nhớ): chỉ giữ giá trị đơn giản
+    if (extra) Object.keys(raw).forEach(k => { const v = raw[k]; if (!(k in def) && (okVal(v) || typeof v === 'string')) out[k] = v; });
+    return out;
+  }
+  const sanitize = raw => {
+    const o = clean(DEF(), isObj(raw) ? raw : {});
+    // người dùng cũ đã có tên → coi như đã xem phần giới thiệu
+    if (isObj(raw) && raw.name && raw.intro == null) o.intro = true;
+    return o;
+  };
+
   function load() {
-    try {
-      const raw = JSON.parse(localStorage.getItem(KEY) || '{}');
-      const D = DEF();
-      S = Object.assign(D, raw);
-      S.settings = Object.assign(DEF().settings, raw.settings || {});
-      S.streak = Object.assign(DEF().streak, raw.streak || {});
-      S.daily = Object.assign(DEF().daily, raw.daily || {});
-      S.inv = Object.assign(DEF().inv, raw.inv || {});
-      S.quests = Object.assign(DEF().quests, raw.quests || {});
-      S.weekly = Object.assign(DEF().weekly, raw.weekly || {}); S.weekly.c = S.weekly.c || {};
-      // người dùng cũ đã có tên → coi như đã xem phần giới thiệu
-      if (raw.name && raw.intro == null) S.intro = true;
-    } catch (e) { S = DEF(); }
+    try { S = sanitize(JSON.parse(localStorage.getItem(KEY) || '{}')); } catch (e) { S = DEF(); }
     applyFreeze();
   }
-  function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* đầy bộ nhớ */ } }
+  function save() {
+    const data = JSON.stringify(S);
+    try { localStorage.setItem(KEY, data); return; } catch (e) { }
+    // đầy bộ nhớ: nhờ phần AI bỏ bớt lịch sử trò chuyện cũ rồi thử lại; vẫn không được thì báo cho người học (app.js)
+    SJ.emit('storage-full');
+    try { localStorage.setItem(KEY, data); } catch (e) { SJ.emit('save-fail'); }
+  }
 
   /** Bùa giữ chuỗi (お守り): lỡ quên ngày nào thì bùa tự đỡ giúp */
   let freezeUsed = 0;
@@ -153,12 +176,19 @@ window.SJ = window.SJ || {};
     const def = QUEST_POOL.find(x => x.id === q.id);
     return def ? def.text(q.target) : q.id;
   }
+  // thưởng mục tiêu ngày: xét lại cả khi người học hạ mục tiêu xuống dưới số XP đã có hôm nay
+  function checkGoal() {
+    const t = dayKey();
+    if (S.daily.date === t && S.daily.xp >= S.goal && !S.goalDays[t]) { S.goalDays[t] = 1; addFish(10, true); SJ.emit('goal', S.goal); }
+  }
   function track(type, n) {
     const list = ensureQuests();
+    if (type === 'xp') checkGoal();
     let changed = false;
     list.forEach(q => {
       if (q.id !== type || q.done) return;
-      q.prog = q.max ? Math.max(q.prog, n || 0) : q.prog + (n == null ? 1 : n);
+      // nhiệm vụ XP: tính thẳng từ XP hôm nay (không cộng dồn → không đếm trùng lúc qua nửa đêm; track('xp', 0) chỉ xét lại)
+      q.prog = q.id === 'xp' ? (S.daily.date === dayKey() ? S.daily.xp : 0) : q.max ? Math.max(q.prog, n || 0) : q.prog + (n == null ? 1 : n);
       if (q.prog >= q.target) { q.prog = q.target; q.done = true; S.questsDone++; SJ.emit('quest', q); }
       changed = true;
     });
@@ -250,6 +280,8 @@ window.SJ = window.SJ || {};
   }
 
   // --- Mục tiêu dài hạn (cột mốc, mỗi bậc thưởng cá) ---
+  // số màn thưởng có trên bản đồ: giống cách pages.js đặt màn (sau mỗi bài thứ 3, trừ bài cuối của phần)
+  const bonusTotal = () => SJ.UNITS.reduce((a, u) => a + u.lessons.filter((l, i) => i % 3 === 2 && i < u.lessons.length - 1).length, 0);
   function milestones() {
     const kanaM = sc => SJ.KANA[sc].basic.filter(o => store.mastery(o.k) === 2).length;
     const totalStars = Object.values(S.lessons).reduce((a, l) => a + (l.stars || 0), 0);
@@ -261,7 +293,7 @@ window.SJ = window.SJ || {};
       { id: 'kanji', icon: 'torii', name: 'Kanji đã gặp', v: SJ.KANJI.filter(o => S.items[o.key]).length, tiers: [5, 15, 30, SJ.KANJI.length] },
       { id: 'lessons', icon: 'book', name: 'Bài học đã xong', v: lessonsDone, tiers: [5, 15, 30, 45, SJ.LESSONS.length] },
       { id: 'stars', icon: 'star', name: 'Sao đã gom', v: totalStars, tiers: [10, 40, 80, 120, SJ.LESSONS.length * 3] },
-      { id: 'bonus', icon: 'chest', name: 'Màn thưởng đã phá', v: Object.keys(S.bonus).length, tiers: [1, 5, 10, 17] },
+      { id: 'bonus', icon: 'chest', name: 'Màn thưởng đã phá', v: Object.keys(S.bonus).length, tiers: [1, 5, 10, bonusTotal()] },
       { id: 'streak', icon: 'fire', name: 'Chuỗi ngày dài nhất', v: S.streak.best, tiers: [3, 7, 14, 30, 60, 100] },
       { id: 'write', icon: 'pencil', name: 'Chữ đã luyện viết', v: S.written, tiers: [10, 50, 150, 400, 1000] },
       { id: 'xp', icon: 'trophy', name: 'Tổng XP', v: S.xp, tiers: [100, 500, 1500, 4000, 10000] },
@@ -289,6 +321,7 @@ window.SJ = window.SJ || {};
     level: () => levelInfo(S.xp),
     freezeUsed: () => { const n = freezeUsed; freezeUsed = 0; return n; },
     streakNow() {
+      applyFreeze(); // tab mở nhiều ngày không tải lại → vẫn dùng bùa giữ chuỗi
       const t = dayKey();
       if (!S.streak.last) return 0;
       const d = diffDays(S.streak.last, t);
@@ -298,9 +331,9 @@ window.SJ = window.SJ || {};
     todayXP: () => (S.daily.date === dayKey() ? S.daily.xp : 0),
     addXP(n) {
       if (!n) return;
+      applyFreeze();
       const t = dayKey();
       const before = levelInfo(S.xp).level;
-      const beforeToday = this.todayXP();
       if (S.daily.date !== t) S.daily = { date: t, xp: 0 };
       if (S.streak.last !== t) {
         S.streak.count = (S.streak.last && diffDays(S.streak.last, t) === 1) ? S.streak.count + 1 : 1;
@@ -314,7 +347,7 @@ window.SJ = window.SJ || {};
       SJ.emit('xp', { n, total: S.xp });
       const after = levelInfo(S.xp);
       if (after.level > before) { addFish(20, true); SJ.emit('level', after); }
-      if (beforeToday < S.goal && S.daily.xp >= S.goal && !S.goalDays[t]) { S.goalDays[t] = 1; addFish(10, true); SJ.emit('goal', S.goal); }
+      checkGoal();
       track('xp', n);
       checkBadges();
     },
@@ -385,6 +418,8 @@ window.SJ = window.SJ || {};
     },
     srsKeys: () => Object.keys(S.srs),
     setBest(id, score, lowerIsBetter) {
+      // bấm thoát khi chưa ghi được điểm nào: không tính kỷ lục, không tính lượt chơi
+      if (!lowerIsBetter && !(score > 0)) return false;
       const old = S.games[id];
       const better = old == null || (lowerIsBetter ? score < old : score > old);
       if (better) S.games[id] = score;
@@ -426,8 +461,9 @@ window.SJ = window.SJ || {};
     exportData: () => btoa(unescape(encodeURIComponent(JSON.stringify(S)))),
     importData(str) {
       const obj = JSON.parse(decodeURIComponent(escape(atob(str.trim()))));
-      if (typeof obj !== 'object' || obj.xp == null) throw new Error('bad');
-      localStorage.setItem(KEY, JSON.stringify(obj)); load(); SJ.emit('change', 'import');
+      if (!isObj(obj) || typeof obj.xp !== 'number' || !isFinite(obj.xp)) throw new Error('bad');
+      // làm sạch TRƯỚC khi ghi: trường sai kiểu (vd. fish là chuỗi HTML, lessons = null) → dùng mặc định
+      localStorage.setItem(KEY, JSON.stringify(sanitize(obj))); load(); SJ.emit('change', 'import');
     },
     checkBadges,
     /** Các ngày gần nhất (cho lịch chuỗi / bản đồ nhiệt) */

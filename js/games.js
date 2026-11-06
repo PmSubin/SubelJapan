@@ -85,7 +85,7 @@ window.SJ = window.SJ || {};
     root.querySelector('[data-start]').onclick = () => { SJ.audio.sfx('open'); SJ.store.setSetting('poolSet', set); onStart({ set, mode, pool: SJ.pool(set) }); };
   }
   function result(root, g, r) {
-    SJ.store.bonusAct('game', g.id);
+    if (r.score > 0) SJ.store.bonusAct('game', g.id);
     keyFn = null;
     root.innerHTML = `<div class="container-sm result pop-in game-result">
       <div class="result-mochi">${U().mascot(r.mood || 'happy', 130, 'jump')}${r.isNew ? U().hanko('新記録', 'stamp-in') : ''}</div>
@@ -134,7 +134,7 @@ window.SJ = window.SJ || {};
       }
       let last = Date.now();
       timer = setInterval(() => {
-        const now = Date.now(); time -= (now - last) / 1000; last = now;
+        const now = Date.now(); if (document.hidden) { last = now; return; } time -= (now - last) / 1000; last = now;
         tf.style.width = U().clamp(time / 60 * 100, 0, 100) + '%'; tf.classList.toggle('low', time < 10);
         if (time < 10 && Math.ceil(time) !== lastSec) { lastSec = Math.ceil(time); SJ.audio.sfx('tick'); }
         if (time <= 0) end();
@@ -249,19 +249,19 @@ window.SJ = window.SJ || {};
 
   // ================= 3. LẬT THẺ =================
   function memory(root) {
-    const g = G('memory'); let timer = null;
+    const g = G('memory'); let timer = null, winT = null;
     const key = m => 'memory_' + m;
     function start(cfg) {
       const P = 8; let pairs;
       if (cfg.mode === 'hk') pairs = U().sample(SJ.KANA.hira.basic.filter(o => o.r !== 'wo'), P).map(o => [{ t: o.k, jp: 1 }, { t: SJ.toKata(o.k), jp: 1 }, o.k]);
-      else if (cfg.mode === 'we') pairs = U().sample(SJ.VOCAB_ALL.filter(o => Array.from(o.jp).length <= 5), P).map(o => [{ t: o.jp, jp: 1, sm: 1 }, { pic: o.e }, o.jp]);
+      else if (cfg.mode === 'we') pairs = distinctBy(SJ.VOCAB_ALL.filter(o => Array.from(o.jp).length <= 5), P, o => o.e).map(o => [{ t: o.jp, jp: 1, sm: 1 }, { pic: o.e }, o.jp]);
       else pairs = distinctBy(cfg.pool, P, o => o.r).map(o => [{ t: o.k, jp: 1 }, { t: o.r, ro: 1 }, o.k]);
       const cards = U().shuffle(pairs.flatMap((p, i) => [{ pid: i, f: p[0], say: p[2] }, { pid: i, f: p[1], say: p[2] }]));
       let open = [], matched = 0, moves = 0, secs = 0, started = false, lock = false;
       root.innerHTML = `<div class="container-sm game">${top(`<div class="g-score">${I('refresh', 20)} <b data-mv>0</b> lượt · ${I('alarm', 20)} <b data-tm>0</b>s</div>`)}
         <div class="mem-grid">${cards.map((c, i) => `<button class="mem-card" data-nosfx="1" data-i="${i}"><span class="mem-inner"><span class="mem-back">${I('sakura', 34)}</span><span class="mem-front ${c.f.jp ? 'jp' : ''} ${c.f.sm ? 'sm' : ''}">${c.f.pic ? I(c.f.pic, 56) : esc(c.f.t)}</span></span></button>`).join('')}</div></div>`;
       const mv = root.querySelector('[data-mv]'), tm = root.querySelector('[data-tm]');
-      root.querySelector('[data-quit]').onclick = () => { clearInterval(timer); location.hash = '#/games'; };
+      root.querySelector('[data-quit]').onclick = () => { clearInterval(timer); clearTimeout(winT); location.hash = '#/games'; };
       root.querySelector('.mem-grid').onclick = e => {
         const b = e.target.closest('.mem-card'); if (!b || lock || b.classList.contains('flip')) return;
         if (!started) { started = true; timer = setInterval(() => { secs++; tm.textContent = secs; }, 1000); }
@@ -272,7 +272,7 @@ window.SJ = window.SJ || {};
           if (a.pid === c.pid) {
             open.forEach(x => x.classList.add('matched')); open = []; matched++;
             SJ.audio.sfx('note', matched + 2); setTimeout(() => SJ.audio.speak(a.say), 250);
-            if (matched === P) setTimeout(win, 700);
+            if (matched === pairs.length) winT = setTimeout(win, 700);
           } else {
             lock = true;
             setTimeout(() => { open.forEach(x => x.classList.remove('flip')); open = []; lock = false; }, 850);
@@ -287,7 +287,7 @@ window.SJ = window.SJ || {};
       }
     }
     setup(root, g, { modes: [['kr', 'Chữ ↔ Cách đọc'], ['hk', 'Hiragana ↔ Katakana'], ['we', 'Từ vựng ↔ Hình vẽ']], note: 'Bộ chữ chỉ áp dụng cho chế độ "Chữ ↔ Cách đọc".', bestText: m => { const b = SJ.store.get().games[key(m || 'kr')]; return b ? `${I('trophy', 24)} Ít lượt nhất: <b>${b}</b>` : `${I('trophy', 24)} Chưa có kỷ lục — chơi thử nào!`; } }, start);
-    return { destroy() { clearInterval(timer); } };
+    return { destroy() { clearInterval(timer); clearTimeout(winT); } };
   }
 
   // ================= 4. NGHE CHỌN CHỮ =================
@@ -311,7 +311,7 @@ window.SJ = window.SJ || {};
         const f = word ? (o => o.vi) : (o => o.r);
         const opts = U().shuffle([cur].concat(distinctBy(pool.filter(o => o !== cur), 3, f, [f(cur)])));
         op.innerHTML = opts.map((o, i) => `<button class="opt" data-nosfx="1" data-i="${pool.indexOf(o)}"><kbd>${i + 1}</kbd>${word ? `<span class="opt-pic">${I(o.e, 34)}</span>${esc(o.vi)}` : `<span class="jp opt-jp">${o.k}</span>`}</button>`).join('');
-        setTimeout(() => say(), 250);
+        tmo = setTimeout(() => say(), 250);
       }
       op.onclick = e => { const b = e.target.closest('.opt'); if (b && !lock) answer(b); };
       function answer(b) {
@@ -386,7 +386,7 @@ window.SJ = window.SJ || {};
           } else {
             mistakes++; SJ.audio.sfx('bad');
             const box = stage.querySelector('.builder-slots'); box.classList.remove('shake'); void box.offsetWidth; box.classList.add('shake');
-            setTimeout(() => { slots.forEach((v, i) => { if (v != null) tiles[v].used = false; slots[i] = null; }); paint(); }, 500);
+            setTimeout(() => { if (done) return; slots.forEach((v, i) => { if (v != null) tiles[v].used = false; slots[i] = null; }); paint(); }, 500);
           }
         }
       }
@@ -429,7 +429,7 @@ window.SJ = window.SJ || {};
       root.querySelector('.tf-btns').onclick = e => { const b = e.target.closest('[data-v]'); if (b) answer(b.dataset.v === '1'); };
       keyFn = e => { if (e.key === 'ArrowLeft' || e.key === 'o') answer(true); if (e.key === 'ArrowRight' || e.key === 'x') answer(false); };
       let last = Date.now();
-      timer = setInterval(() => { const n = Date.now(); time -= (n - last) / 1000; last = n; fillEl.style.width = U().clamp(time / 30 * 100, 0, 100) + '%'; fillEl.classList.toggle('low', time < 6); if (time <= 0) end(); }, 100);
+      timer = setInterval(() => { const n = Date.now(); if (document.hidden) { last = n; return; } time -= (n - last) / 1000; last = n; fillEl.style.width = U().clamp(time / 30 * 100, 0, 100) + '%'; fillEl.classList.toggle('low', time < 6); if (time <= 0) end(); }, 100);
       function end() {
         if (over) return; over = true; clearInterval(timer);
         const isNew = SJ.store.setBest('tf', score);
@@ -865,7 +865,7 @@ window.SJ = window.SJ || {};
           g3float(B, field, pt.x, pt.y - 34, `+${m}${combo >= 2 ? `<small>Combo ${combo}</small>` : ''}`);
           pips(); cheer('love');
           B.t(() => down(h), 430);
-          if (tHits >= 3) B.t(() => { if (!over) { setTarget(decoy(pool, target, new Set()), false); g3float(B, field, field.clientWidth / 2, 26, 'Đổi chữ mới nè!', 'gold'); } }, 560);
+          if (tHits === 3) B.t(() => { if (!over) { setTarget(decoy(pool, target, new Set()), false); g3float(B, field, field.clientWidth / 2, 26, 'Đổi chữ mới nè!', 'gold'); } }, 560);
         } else {
           h.st = 'oops'; c.classList.add('oops');
           combo = 0; S.mult(1);

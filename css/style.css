@@ -1269,3 +1269,30 @@ code { font: 800 .92em var(--f-body); padding: 1px 6px; border-radius: 6px; back
 .levelup p { color: var(--ink2); font-weight: 700; }
 .lu-gift { display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px; border-radius: 999px; background: var(--sky-l); color: var(--sky-t); font: 900 20px var(--f-body); margin-bottom: 16px; }
 @media (max-width: 760px) { .lu-top { margin: -22px -18px 14px; } }
+
+/* ---------- sửa bố cục điện thoại ---------- */
+/* Mèo Mochi đi dạo không đứng đè lên khung tập viết */
+body[data-route="write"] .pet, body[data-route="write"] .pet-shadow { opacity: 0 !important; pointer-events: none !important; transition: opacity .3s; }
+@media (max-width: 760px) {
+  /* thẻ trượt vào / dấu đóng thẻ ghi nhớ không làm trang lắc ngang */
+  .view { overflow-x: clip; }
+  /* dải "Muốn luyện không ngừng?" không bị bóp thành cột chữ */
+  .hero-strip { flex-wrap: wrap; gap: 10px 14px; padding: 16px; }
+  .hero-strip > .mascot { width: 64px; height: 64px; flex: none; }
+  .hero-strip > .grow { flex: 1 1 0; min-width: 0; }
+  .hero-strip h2 { font-size: 19px; }
+  .hero-strip > .btn { flex: 1 1 100%; justify-content: center; }
+  /* tab không xuống dòng giữa chữ */
+  .seg button { white-space: nowrap; padding: 8px 11px; }
+  /* sổ từ: chừa chỗ cho chữ Nhật */
+  .dict-item { gap: 10px; padding: 12px 10px; }
+  .dict-item .di-pic { width: 42px; height: 42px; }
+  .dict-item .di-acts { gap: 4px; }
+  .dict-item .di-acts .say-btn, .dict-item .di-acts .fav-btn { width: 36px; height: 36px; }
+  .dict-item .di-acts .say-btn .ic, .dict-item .di-acts .say-btn .gl { width: 20px; height: 20px; }
+}
+@media (max-width: 420px) {
+  /* tab có từ 3 mục: bỏ biểu tượng cho vừa một hàng */
+  .seg:has(> button:nth-child(3)) button > svg { display: none; }
+  .seg:has(> button:nth-child(3)) { max-width: 100%; }
+}

@@ -36,21 +36,26 @@ window.SJ = window.SJ || {};
   const SHORT = { sensei: 'Sensei', practice: 'Luyện tập', write: 'Luyện viết' };
   const FOCUS = { lesson: 1, game: 1, story: 0 };
 
+  const own = (o, k) => Object.prototype.hasOwnProperty.call(o, k); // tránh #/constructor, #/toString… khớp nhầm Object.prototype
   function parse() {
     const h = location.hash.replace(/^#\/?/, '');
     const parts = h.split('/');
-    return { name: parts[0] || '', arg: parts.length > 1 ? decodeURIComponent(parts.slice(1).join('/')) : undefined };
+    let arg = parts.length > 1 ? parts.slice(1).join('/') : undefined;
+    if (arg !== undefined) try { arg = decodeURIComponent(arg); } catch (e) { /* địa chỉ có % lỗi → giữ nguyên */ }
+    return { name: parts[0] || '', arg };
   }
 
   // ---------- chuyển trang có hoạt ảnh ----------
   let lastPt = { x: window.innerWidth / 2, y: window.innerHeight / 2 }, firstRoute = true, busy = false;
   document.addEventListener('pointerdown', e => { lastPt = { x: e.clientX, y: e.clientY }; }, true);
   const reduced = () => SJ.store.get().settings.motion === 'reduce';
-  const isFocus = (name, arg) => !!FOCUS[name] || ((name === 'practice' || name === 'cards') && !!arg);
+  const isFocus = (name, arg) => (own(FOCUS, name) && !!FOCUS[name]) || ((name === 'practice' || name === 'cards') && !!arg);
   function route() {
+    // tấm màn đang kéo: lúc kéo xong sẽ tự vẽ trang theo địa chỉ mới nhất (không vẽ 2 lần)
+    if (busy) return;
     const { name, arg } = parse();
     const goFocus = isFocus(name, arg), wasFocus = document.body.classList.contains('focus-mode');
-    if (firstRoute || reduced() || busy) { firstRoute = false; return doRoute(); }
+    if (firstRoute || reduced()) { firstRoute = false; return doRoute(); }
     // vào bài học / trò chơi: tấm màn mochi lan ra từ chỗ bấm
     if (goFocus && !wasFocus) return curtain(doRoute);
     // chuyển trang thường: trượt mượt (View Transitions), lùi thì trượt ngược
@@ -68,7 +73,7 @@ window.SJ = window.SJ || {};
     c.innerHTML = `<div class="curtain-in"><div class="curtain-mochi">${U.mascot('cheer', 130)}</div><div class="curtain-txt">${U.pick(['Bắt đầu nào!', 'Cố lên nha!', 'がんばって！', 'Học vui nha!', 'Mochi đi cùng bạn!'])}</div></div>`;
     document.body.appendChild(c);
     SJ.audio.sfx('open');
-    setTimeout(() => { cb(); c.classList.add('out'); busy = false; }, 620);
+    setTimeout(() => { try { cb(); } finally { c.classList.add('out'); busy = false; } }, 620);
     setTimeout(() => c.remove(), 1300);
   }
   function doRoute() {
@@ -80,7 +85,7 @@ window.SJ = window.SJ || {};
     const view = document.createElement('main');
     view.id = 'view';
     old.replaceWith(view);
-    curName = routes[name] ? name : '';
+    curName = own(routes, name) ? name : '';
     view.className = 'view view-in view-' + (curName || 'home');
     document.body.dataset.route = curName || 'home';
     document.body.classList.toggle('focus-mode', isFocus(name, arg));
@@ -151,6 +156,9 @@ window.SJ = window.SJ || {};
   SJ.on('streak', n => { if (n > 1) setTimeout(() => U.toast(`${I('fire', 28)} Chuỗi ${n} ngày liên tiếp! Giữ lửa nhé!`, 3000), 1400); });
   SJ.on('settings', k => { if (k === 'theme' || k === 'kfont' || k === 'motion') applyTheme(); });
   SJ.on('change', k => { if (k === 'reset' || k === 'import') { applyTheme(); route(); } });
+  // store.js không ghi được localStorage (bộ nhớ đầy / trình duyệt chặn): báo một lần mỗi phiên
+  let saveWarned = false;
+  SJ.on('save-fail', () => { if (saveWarned) return; saveWarned = true; setTimeout(() => U.toast(`${I('lock', 30)}<div><b>Chưa lưu được tiến độ</b><br><span class="small">Bộ nhớ của trình duyệt đã đầy. Hãy xoá bớt dữ liệu trang web hoặc sao lưu tiến độ ở trang Hồ sơ nha.</span></div>`, 6000), 300); });
 
   /** Màn chào đón: Mochi rơi xuống nhún nhảy, logo bật từng chữ, bấm để vào học */
   function welcome(done) {
