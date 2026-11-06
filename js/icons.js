@@ -318,13 +318,42 @@ window.SJ = window.SJ || {};
   Object.keys(NUMS).forEach((k, i) => { const t = NUMS[k]; const s = t.length >= 4 ? 13 : t.length === 3 ? 16 : t.length === 2 ? 20 : 24; I[k] = () => R(7, 7, 34, 34, 10, NCOL[i % NCOL.length]) + T(24, 24 + s * .36, t, s); });
 
   const cache = {};
+  // ---------- Icon nét mảnh (dùng trong nút bấm, theo màu chữ của nút) ----------
+  const GL = {
+    arrow_r: '<path d="M5 12h13.5M13 6.5 18.5 12 13 17.5"/>',
+    arrow_l: '<path d="M19 12H5.5M11 6.5 5.5 12l5.5 5.5"/>',
+    play: '<path class="f" d="M8 5.8v12.4a.8.8 0 0 0 1.2.7l9.6-6.2a.8.8 0 0 0 0-1.4L9.2 5.1A.8.8 0 0 0 8 5.8z"/>',
+    check: '<path d="M5 12.5 9.6 17 19 7.5"/>',
+    batsu: '<path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>',
+    refresh: '<path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3M19.5 4.5v4.2h-4.2"/>',
+    speaker: '<path class="f" d="M4 9.6h3.4L12 6v12l-4.6-3.6H4z"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6M18.2 6.6a7.6 7.6 0 0 1 0 10.8"/>',
+    mute: '<path class="f" d="M4 9.6h3.4L12 6v12l-4.6-3.6H4z"/><path d="M15.5 9.5l5 5M20.5 9.5l-5 5"/>',
+    pencil: '<path d="M4.5 19.5l1-4.4L15.6 5a2.1 2.1 0 0 1 3 0l.4.4a2.1 2.1 0 0 1 0 3L8.9 18.5zM13.6 7l3.4 3.4"/>',
+    eraser: '<path d="M8.5 19.5H20M5.6 15.4l8.8-8.8a2 2 0 0 1 2.8 0l2.2 2.2a2 2 0 0 1 0 2.8L12 19.1H8.6zM9.6 11.4l5 5"/>',
+    bulb: '<path d="M9.2 17.5h5.6M10.2 20.5h3.6M12 3.5a5.8 5.8 0 0 0-3.4 10.5c.6.5.9 1.1.9 1.9v.1h5v-.1c0-.8.3-1.4.9-1.9A5.8 5.8 0 0 0 12 3.5z"/>',
+    eye: '<path d="M2.8 12S6.2 5.8 12 5.8 21.2 12 21.2 12 17.8 18.2 12 18.2 2.8 12 2.8 12z"/><circle cx="12" cy="12" r="2.8"/>',
+    undo: '<path d="M9 5.5 4.5 10 9 14.5M4.5 10H15a4.8 4.8 0 0 1 0 9.6h-3"/>',
+    slow: '<path d="M4 16.5h13.5a3 3 0 0 0 3-3v-1"/><path d="M5.5 16.5a6.5 5.5 0 0 1 12 0"/><path d="M8 16.5v2.5M14.5 16.5v2.5M20.5 12.5h.1"/>',
+    download: '<path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/>',
+    upload: '<path d="M12 15.5V4.5M7 9.5l5-5 5 5M5 20h14"/>',
+    trash: '<path d="M4.5 7h15M9.5 7V4.8h5V7M6.5 7l1 12.5h9l1-12.5M10 10.5v6M14 10.5v6"/>',
+    question: '<circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.6a2.5 2.5 0 1 1 3.6 2.2c-.8.4-1.2 1-1.2 1.8v.3"/><path d="M12 16.8h.01" stroke-width="3"/>',
+    printer: '<path d="M7 9V4h10v5M7 17H5.2A1.7 1.7 0 0 1 3.5 15.3v-4.6A1.7 1.7 0 0 1 5.2 9h13.6a1.7 1.7 0 0 1 1.7 1.7v4.6a1.7 1.7 0 0 1-1.7 1.7H17M7 13.5h10V20H7z"/>',
+    book: '<path d="M12 6.8C10 5.3 7.2 4.8 3.8 5.2v12.6c3.4-.4 6.2.1 8.2 1.6 2-1.5 4.8-2 8.2-1.6V5.2c-3.4-.4-6.2.1-8.2 1.6zM12 6.8v12.6"/>',
+    sparkle: '<path d="M12 3.8l1.7 4.8 4.8 1.7-4.8 1.7L12 16.8l-1.7-4.8-4.8-1.7 4.8-1.7zM18.5 15.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z"/>',
+  };
+  const glyph = (name, size, cls) => `<svg class="gl ${cls || ''}" viewBox="0 0 24 24" width="${size}" height="${size}" aria-hidden="true">${GL[name]}</svg>`;
+
   function icon(name, size, cls) {
     size = size || 24;
+    // cỡ nhỏ (trong nút, nhãn) → icon nét mảnh cùng màu chữ cho gọn gàng
+    if (size <= 24 && GL[name]) return glyph(name, size, cls);
     const fn = I[name];
     if (!fn) return '';
     const inner = cache[name] || (cache[name] = fn());
     return `<svg class="ic ${cls || ''}" viewBox="0 0 48 48" width="${size}" height="${size}" aria-hidden="true">${inner}</svg>`;
   }
+  SJ.glyph = (n, s, c) => GL[n] ? glyph(n, s || 20, c) : icon(n, s, c);
   SJ.icon = icon;
   SJ.hasIcon = n => !!I[n];
   SJ.ICON_NAMES = Object.keys(I);

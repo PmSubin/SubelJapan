@@ -116,7 +116,7 @@ window.SJ = window.SJ || {};
     t.className = 'toast'; t.innerHTML = html;
     root.appendChild(t);
     while (root.children.length > 3) root.firstChild.remove();
-    requestAnimationFrame(() => t.classList.add('show'));
+    const show = () => t.classList.add('show'); requestAnimationFrame(show); setTimeout(show, 60);
     setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 400); }, ms || 2600);
   }
 
@@ -148,7 +148,7 @@ window.SJ = window.SJ || {};
     back.className = 'modal-back';
     back.innerHTML = `<div class="modal ${opts.cls || ''}" role="dialog" aria-modal="true">${opts.noClose ? '' : `<button class="modal-x" aria-label="Đóng">${I('batsu', 18)}</button>`}<div class="modal-body">${html}</div></div>`;
     document.body.appendChild(back);
-    requestAnimationFrame(() => back.classList.add('show'));
+    const show = () => back.classList.add('show'); requestAnimationFrame(show); setTimeout(show, 60);
     const close = (v) => {
       if (!back.parentNode) return;
       back.classList.remove('show');

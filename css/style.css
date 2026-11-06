@@ -1219,3 +1219,53 @@ code { font: 800 .92em var(--f-body); padding: 1px 6px; border-radius: 6px; back
 }
 [data-theme="yoru"] .ic, [data-theme="yoru"] .mascot { filter: drop-shadow(0 0 .7px rgba(255,255,255,.85)) drop-shadow(0 0 .7px rgba(255,255,255,.6)); }
 [data-theme="yoru"] .star:not(.on) { filter: grayscale(1) opacity(.35); }
+
+/* =========================================================
+   Nút bấm tinh chỉnh + icon nét mảnh
+   ========================================================= */
+.gl { display: inline-block; flex: none; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; vertical-align: middle; overflow: visible; }
+.gl .f { fill: currentColor; stroke-width: 1.4; }
+.mascot { display: inline-block; vertical-align: middle; }
+.btn {
+  border-radius: 999px; padding: 10px 22px; gap: 9px;
+  box-shadow: 0 3px 0 var(--bd), 0 10px 18px -12px var(--bd);
+  transition: transform .1s, box-shadow .1s, filter .15s, background .15s;
+}
+.btn:hover { filter: brightness(1.04); transform: translateY(-1px); box-shadow: 0 4px 0 var(--bd), 0 12px 20px -12px var(--bd); }
+.btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--bd); }
+.btn-lg { border-radius: 999px; padding: 12px 30px; }
+.btn-sm { border-radius: 999px; padding: 6px 15px; box-shadow: 0 2px 0 var(--bd); }
+.btn-sm:hover { box-shadow: 0 3px 0 var(--bd); }
+.btn-sm:active { transform: translateY(1px); box-shadow: 0 1px 0 var(--bd); }
+.btn .gl { stroke-width: 2.6; }
+.btn-white, .btn-paper { --bd: var(--line2); border: 2px solid var(--line); color: var(--ink); }
+.btn-white .gl, .btn-paper .gl { color: var(--pri-t); }
+.btn-ghost, .btn-ghost:hover { box-shadow: none; transform: none; }
+.btn[disabled], .btn.disabled { box-shadow: none; transform: none; opacity: .75; }
+.btn-round { width: 48px; height: 48px; min-height: 48px; padding: 0; }
+.btn-yel { --bd: #d69600; }
+.ub-guide { border-radius: 999px; }
+.modal-x { width: 38px; height: 38px; border-radius: 50%; background: transparent; color: var(--ink3); transition: background .15s, color .15s; }
+.modal-x:hover { background: var(--bg2); color: var(--ink); }
+.lesson-x { color: var(--ink3); opacity: 1; border-radius: 50%; }
+.lesson-x:hover { color: var(--ink); }
+.icon-btn { color: var(--ink2); border-radius: 50%; }
+.say-btn { color: var(--pri-t); border-radius: 50%; }
+.ex-say { color: var(--ink3); opacity: 1; }
+.chip-btn { border-radius: 999px; }
+.seg { border-radius: 999px; }
+.seg button { border-radius: 999px; }
+.lesson-foot [data-prev] { border-radius: 50%; width: 56px; height: 56px; min-height: 56px; }
+@media (max-width: 760px) { .lesson-foot [data-prev] { flex: 0 0 56px; } }
+.modal .center > .mascot, .modal-body > .center > .mascot { margin: 0 auto; }
+.pn-pop .btn { border-radius: 999px; }
+.drill-bar { border-radius: 999px; padding-left: 24px; }
+.levelup { text-align: center; }
+.lu-top { position: relative; margin: -26px -26px 14px; padding: 26px 20px 10px; border-radius: 26px 26px 0 0; background: var(--pri-l);
+  background-image: radial-gradient(circle at 20% 30%, rgba(255,255,255,.7) 0 4px, transparent 5px), radial-gradient(circle at 82% 22%, rgba(255,255,255,.7) 0 3px, transparent 4px), radial-gradient(circle at 70% 75%, rgba(255,255,255,.6) 0 5px, transparent 6px); }
+.lu-badge { position: absolute; right: calc(50% - 98px); bottom: 14px; width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; background: var(--card); box-shadow: 0 4px 0 var(--line2); }
+.lu-kicker { font: 900 13px var(--f-body); color: var(--pri-t); text-transform: uppercase; letter-spacing: 1.5px; }
+.levelup h2 { font-size: 26px; margin: 4px 0 6px; }
+.levelup p { color: var(--ink2); font-weight: 700; }
+.lu-gift { display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px; border-radius: 999px; background: var(--sky-l); color: var(--sky-t); font: 900 20px var(--f-body); margin-bottom: 16px; }
+@media (max-width: 760px) { .lu-top { margin: -22px -18px 14px; } }

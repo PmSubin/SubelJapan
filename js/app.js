@@ -105,7 +105,7 @@ window.SJ = window.SJ || {};
   SJ.on('level', lv => {
     setTimeout(() => {
       SJ.audio.sfx('level'); U.confetti(110);
-      const m = U.modal(`<div class="center">${U.mascot('cheer', 140, 'jump')}<div class="mt-s">${I(lv.icon, 64)}</div><h2>Lên cấp ${lv.level}!</h2><p class="bold">Bạn đã trở thành <span style="color:var(--pri-t)">${lv.title}</span>. Mochi tặng bạn 20 cá vàng nè!</p><button class="btn btn-lg btn-block" data-ok>Yay! Tiếp tục</button></div>`, { cls: 'modal-sm' });
+      const m = U.modal(`<div class="levelup"><div class="lu-top">${U.mascot('cheer', 150, 'jump')}<span class="lu-badge">${I(lv.icon, 46)}</span></div><div class="lu-kicker">Lên cấp!</div><h2>Cấp ${lv.level} · ${lv.title}</h2><p>Bạn giỏi quá đi! Mochi tặng bạn <b>20 cá vàng</b> làm quà nè.</p><div class="lu-gift">${I('fishcoin', 30)}<b>+20</b></div><button class="btn btn-lg btn-block" data-ok>Yay! Tiếp tục</button></div>`, { cls: 'modal-sm' });
       m.el.querySelector('[data-ok]').onclick = () => m.close();
     }, 1000);
   });
