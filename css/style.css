@@ -58,7 +58,7 @@
   --side-w: 248px;
   --rail-w: 340px;
   --shadow-pop: 0 18px 50px rgba(58, 46, 77, .16);
-  color-scheme: light;
+  color-scheme: only light;
 }
 [data-theme="matcha"] { --bg: #f4faf2; --bg2: #e6f4e2; --line: #e1eedc; --line2: #cfe2c8; --pri: #4cbf7a; --pri-d: #2f9c5c; --pri-l: #dcf3e4; --pri-t: #237a47; --card2: #f9fdf8; }
 [data-theme="sora"] { --bg: #f3f8ff; --bg2: #e3efff; --line: #dfeaf8; --line2: #ccdcf0; --pri: #4a9dff; --pri-d: #2a7ee0; --pri-l: #dff0ff; --pri-t: #1f63b5; --card2: #f8fbff; }
