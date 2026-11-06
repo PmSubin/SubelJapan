@@ -355,6 +355,13 @@ window.SJ = window.SJ || {};
   }
   SJ.glyph = (n, s, c) => GL[n] ? glyph(n, s || 20, c) : icon(n, s, c);
   SJ.icon = icon;
+  // cho các file khác vẽ thêm icon cùng phong cách: SJ.addIcons({ten: K => K.O(24,24,10,K.C.pink)}, {ten_net: '<path d=...>'})
+  SJ.addIcons = (map, glyphs) => {
+    const K = { P, F, O, D, R, E, H, T, G, C, sakura };
+    Object.keys(map || {}).forEach(k => { const f = map[k]; I[k] = () => f(K); delete cache[k]; });
+    Object.assign(GL, glyphs || {});
+    SJ.ICON_NAMES = Object.keys(I);
+  };
   SJ.hasIcon = n => !!I[n];
   SJ.ICON_NAMES = Object.keys(I);
   SJ.drawSakura = (s, col) => sakura(24, 24, s || 1.4, col);

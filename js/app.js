@@ -24,13 +24,16 @@ window.SJ = window.SJ || {};
     shop: r => P().shop(r),
     quests: r => P().quests(r),
     profile: r => P().profile(r),
+    cards: (r, a) => SJ.cards.open(r, a),
+    sensei: (r, a) => SJ.ai.page(r, a),
   };
   const NAV = [
-    ['', 'home', 'Học'], ['chart', 'kana', 'Bảng chữ'], ['write', 'pencil', 'Luyện viết'], ['practice', 'infinity', 'Luyện tập'],
-    ['read', 'scroll', 'Đọc hiểu'], ['type', 'keyboard', 'Gõ phím'], ['games', 'game', 'Trò chơi'], ['review', 'brain', 'Ôn tập'],
+    ['', 'home', 'Học'], ['sensei', 'sensei', 'Sensei Mochi'], ['chart', 'kana', 'Bảng chữ'], ['write', 'pencil', 'Luyện viết'], ['practice', 'infinity', 'Luyện tập'],
+    ['read', 'scroll', 'Đọc hiểu'], ['type', 'keyboard', 'Gõ phím'], ['games', 'game', 'Trò chơi'], ['cards', 'cards', 'Thẻ ghi nhớ'], ['review', 'brain', 'Ôn tập'],
     '-', ['dict', 'magnifier', 'Sổ từ'], ['print', 'printer', 'Phiếu tập viết'], ['quests', 'quest', 'Nhiệm vụ'], ['shop', 'shop', 'Tiệm Mochi'],
   ];
-  const BOTTOM = ['', 'chart', 'write', 'practice'];
+  const BOTTOM = ['', 'sensei', 'chart', 'write', 'practice'];
+  const SHORT = { sensei: 'Sensei', practice: 'Luyện tập', write: 'Luyện viết' };
   const FOCUS = { lesson: 1, game: 1, story: 0 };
 
   function parse() {
@@ -43,7 +46,7 @@ window.SJ = window.SJ || {};
   let lastPt = { x: window.innerWidth / 2, y: window.innerHeight / 2 }, firstRoute = true, busy = false;
   document.addEventListener('pointerdown', e => { lastPt = { x: e.clientX, y: e.clientY }; }, true);
   const reduced = () => SJ.store.get().settings.motion === 'reduce';
-  const isFocus = (name, arg) => !!FOCUS[name] || (name === 'practice' && !!arg);
+  const isFocus = (name, arg) => !!FOCUS[name] || ((name === 'practice' || name === 'cards') && !!arg);
   function route() {
     const { name, arg } = parse();
     const goFocus = isFocus(name, arg), wasFocus = document.body.classList.contains('focus-mode');
@@ -53,7 +56,7 @@ window.SJ = window.SJ || {};
     // chuyển trang thường: trượt mượt (View Transitions), lùi thì trượt ngược
     document.documentElement.dataset.vt = wasFocus && !goFocus ? 'back' : 'fwd';
     if (document.startViewTransition) {
-      try { const t = document.startViewTransition(() => doRoute()); t.finished.finally(() => { delete document.documentElement.dataset.vt; }); return; } catch (e) { }
+      try { const t = document.startViewTransition(() => doRoute()); t.ready.catch(() => { }); t.updateCallbackDone.catch(() => { }); t.finished.catch(() => { }).finally(() => { delete document.documentElement.dataset.vt; }); return; } catch (e) { }
     }
     doRoute();
   }
@@ -79,6 +82,7 @@ window.SJ = window.SJ || {};
     old.replaceWith(view);
     curName = routes[name] ? name : '';
     view.className = 'view view-in view-' + (curName || 'home');
+    document.body.dataset.route = curName || 'home';
     document.body.classList.toggle('focus-mode', isFocus(name, arg));
     try { current = routes[curName](view, arg) || null; }
     catch (e) { console.error(e); view.innerHTML = `<div class="page-narrow center pad-xl">${U.mascot('sad', 110)}<h2>Ối, có lỗi nhỏ xảy ra</h2><p class="muted">${U.esc(e.message)}</p><a class="btn" href="#/">Về trang chủ</a></div>`; }
@@ -102,7 +106,7 @@ window.SJ = window.SJ || {};
     U.$('#mtop-stats').innerHTML = chips + `<a class="chip" href="#/profile" title="Hồ sơ" style="padding:2px 6px">${U.mascot('happy', 30)}</a>`;
     const more = !BOTTOM.includes(active);
     const dueAll = SJ.store.dueKeys().length + SJ.store.quests().filter(q => q.done && !q.claimed).length;
-    U.$('#bottombar').innerHTML = BOTTOM.map(k => { const n = NAV.find(x => x[0] === k); return `<a href="#/${k}" class="${k === active ? 'active' : ''}"><span class="bb-ico">${I(n[1], 28)}</span><span>${n[2]}</span></a>`; }).join('')
+    U.$('#bottombar').innerHTML = BOTTOM.map(k => { const n = NAV.find(x => x[0] === k); return `<a href="#/${k}" class="${k === active ? 'active' : ''}"><span class="bb-ico">${I(n[1], 28)}</span><span>${SHORT[k] || n[2]}</span></a>`; }).join('')
       + `<button class="${more ? 'active' : ''}" data-more><span class="bb-ico">${I('more', 28)}</span><span>Thêm</span>${dueAll ? `<i class="dot-num">${dueAll}</i>` : ''}</button>`;
     U.$('#bottombar [data-more]').onclick = moreSheet;
     const logo = U.mascot('happy', 42);
@@ -153,7 +157,7 @@ window.SJ = window.SJ || {};
     const S = SJ.store.get();
     const g = U.greeting();
     const back = !!S.name;
-    const petals = Array.from({ length: 14 }, (_, i) => `<span class="wl-petal" style="--l:${(i * 7.3 + (i % 3) * 4) % 100}%;--d:${6 + (i % 5) * 1.4}s;--w:${-(i * 0.9)}s;--s:${0.7 + (i % 4) * 0.18}">${SJ.icon('sakura', 28)}</span>`).join('');
+    const petals = Array.from({ length: 14 }, (_, i) => `<span class="wl-petal" style="--l:${(i * 7.3 + (i % 3) * 4) % 100}%;--d:${6 + (i % 5) * 1.4}s;--w:${-(i * 0.9)}s;--s:${0.7 + (i % 4) * 0.18}">${SJ.deco ? '<b class="wl-fx">' + SJ.deco.particle() + '</b>' : SJ.icon('sakura', 28)}</span>`).join('');
     const logo = Array.from('SubelJapan').map((c, i) => `<span style="--i:${i}" class="${i >= 5 ? 'b' : ''}">${c}</span>`).join('');
     const w = document.createElement('div');
     w.className = 'welcome';

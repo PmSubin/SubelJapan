@@ -30,8 +30,8 @@ window.SJ = window.SJ || {};
       const read = Object.keys(S.reads).length;
       let body = '';
       if (tab === 'story') {
-        body = [1, 2, 3].map(l => `<div class="section-label">${lvPill(l)} ${l === 1 ? 'Chỉ Hiragana — đọc được ngay khi học xong bảng chữ' : l === 2 ? 'Có thêm Katakana cho từ mượn' : 'Có Kanji đơn giản (kèm cách đọc nhỏ phía trên)'}</div>
-          <div class="story-list">${SJ.STORIES.filter(s => s.level === l).map(s => `<a class="card hov story-card" href="#/story/${s.id}"><span class="sc-ico">${I(s.icon, 44)}</span><div class="grow"><b>${esc(s.title)}</b><small>${esc(s.vi)} · ${s.lines.length} câu</small></div>${S.reads[s.id] ? `<span class="sc-done">${I('check', 26)}</span>` : ''}</a>`).join('')}</div>`).join('');
+        body = (SJ.ai ? SJ.ai.storySection() : '') + [1, 2, 3].map(l => `<div class="section-label">${lvPill(l)} ${l === 1 ? 'Chỉ Hiragana — đọc được ngay khi học xong bảng chữ' : l === 2 ? 'Có thêm Katakana cho từ mượn' : 'Có Kanji đơn giản (kèm cách đọc nhỏ phía trên)'}</div>
+          <div class="story-list">${SJ.STORIES.filter(s => s.level === l && !s.ai).map(s => `<a class="card hov story-card" href="#/story/${s.id}"><span class="sc-ico">${I(s.icon, 44)}</span><div class="grow"><b>${esc(s.title)}</b><small>${esc(s.vi)} · ${s.lines.length} câu</small></div>${S.reads[s.id] ? `<span class="sc-done">${I('check', 26)}</span>` : ''}</a>`).join('')}</div>`).join('');
       } else if (tab === 'dialog') {
         body = `<div class="story-list mt">${SJ.DIALOGUES.map(d => `<a class="card hov story-card" href="#/dialog/${d.id}"><span class="sc-ico">${I(d.icon, 44)}</span><div class="grow"><b>${esc(d.title)}</b><small><span class="jp">${esc(SJ.ui.baseText(d.jp))}</span> · ${d.lines.length} câu</small></div>${S.reads[d.id] ? `<span class="sc-done">${I('check', 26)}</span>` : ''}</a>`).join('')}</div>`;
       } else {
@@ -325,7 +325,7 @@ window.SJ = window.SJ || {};
       const total = list.length; list = list.slice(0, 80);
       res.innerHTML = list.length ? list.map(d => `<div class="dict-item"><span class="di-pic">${d.e ? I(d.e, 40) : `<span class="kana">${esc(d.jp.slice(0, 2))}</span>`}</span>
         <div class="di-main"><div class="di-jp">${esc(d.jp)}${d.kind === 'kanji' ? ` <span class="hv-badge sm">${d.hv}</span>` : ''}</div><div class="di-sub">${esc(d.r)} · ${esc(d.vi)}</div></div>
-        <div class="di-acts">${U().sayBtn(d.kind === 'kanji' ? d.o.ex[0].kana : d.read)}${d.kind !== 'vocab' ? `<a class="say-btn" href="#/write/${encodeURIComponent(d.jp)}" title="Luyện viết">${I('pencil', 20)}</a>` : ''}<button class="fav-btn ${S.fav[d.key] ? 'on' : ''}" data-fav="${esc(d.key)}" aria-label="Lưu từ">${I('heart', 22)}</button></div></div>`).join('')
+        <div class="di-acts">${U().sayBtn(d.kind === 'kanji' ? d.o.ex[0].kana : d.read)}<a class="say-btn di-ask" href="#/sensei/chat:${encodeURIComponent('Giải thích giúp mình ' + (d.kind === 'kanji' ? 'chữ Hán ' : d.kind === 'kana' ? 'chữ ' : 'từ ') + d.jp + ' (' + d.vi + '): cách dùng và vài câu ví dụ dễ nhé')}" title="Hỏi Sensei Mochi" aria-label="Hỏi Sensei Mochi">${I('sensei', 26)}</a>${d.kind !== 'vocab' ? `<a class="say-btn" href="#/write/${encodeURIComponent(d.jp)}" title="Luyện viết">${I('pencil', 20)}</a>` : ''}<button class="fav-btn ${S.fav[d.key] ? 'on' : ''}" data-fav="${esc(d.key)}" aria-label="Lưu từ">${I('heart', 22)}</button></div></div>`).join('')
         + (total > 80 ? `<p class="center muted small bold pad">Còn ${total - 80} kết quả nữa — gõ cụ thể hơn nha</p>` : '')
         : `<div class="empty-state">${U().mascot('think', 90)}${kind === 'fav' ? 'Chưa lưu từ nào. Bấm trái tim để lưu nha!' : 'Không tìm thấy từ này. Thử cách viết khác xem!'}</div>`;
     }

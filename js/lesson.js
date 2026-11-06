@@ -344,7 +344,14 @@ window.SJ = window.SJ || {};
       streak = ok ? streak + 1 : 0;
       SJ.emit('answer', { ok, streak });
       if (!(opt && opt.silent)) SJ.audio.sfx(ok ? (streak > 0 && streak % 5 === 0 ? 'combo' : 'ok') : 'bad');
-      setFoot(`<div class="fb slide-up"><span class="fb-badge">${I(ok ? 'check' : 'batsu', 36)}</span><div><div class="fb-title">${ok ? (opt && opt.title) || U().pick(SJ.CHEERS) : U().pick(SJ.COMFORTS)}</div>${!ok || (opt && opt.showHint) ? `<div class="fb-hint">${hint || ''}</div>` : ''}</div></div><button class="btn btn-lg ${ok ? 'btn-green' : 'btn-red'}" data-cont>Tiếp tục</button>`, ok ? 'ok' : 'bad');
+      setFoot(`<div class="fb slide-up"><span class="fb-badge">${I(ok ? 'check' : 'batsu', 36)}</span><div><div class="fb-title">${ok ? (opt && opt.title) || U().pick(SJ.CHEERS) : U().pick(SJ.COMFORTS)}</div>${!ok || (opt && opt.showHint) ? `<div class="fb-hint">${hint || ''}</div>` : ''}</div></div>${!ok && SJ.ai && !(opt && opt.noWhy) ? `<button class="btn btn-white fb-why" data-why title="Hỏi Sensei Mochi vì sao">${I('sensei', 26)}<span>Vì sao?</span></button>` : ''}<button class="btn btn-lg ${ok ? 'btn-green' : 'btn-red'}" data-cont>Tiếp tục</button>`, ok ? 'ok' : 'bad');
+      const why = foot.querySelector('[data-why]');
+      if (why) why.onclick = () => {
+        const txt = sel => { const el = body.querySelector(sel); if (!el) return ''; const c = el.cloneNode(true); c.querySelectorAll('kbd, rt, button, svg').forEach(x => x.remove()); return c.textContent.replace(/\s+/g, ' ').trim(); };
+        const hintTxt = new DOMParser().parseFromString(hint || '', 'text/html').body.textContent.trim();
+        const typed = body.querySelector('#ta');
+        SJ.ai.explain({ ask: txt('.quiz-ask'), prompt: txt('.quiz-prompt'), picked: txt('.opt.bad') || (typed ? typed.value : ''), right: txt('.opt.ok'), hint: hintTxt });
+      };
       foot.querySelector('[data-cont]').onclick = next;
       setTimeout(() => { const b = foot.querySelector('[data-cont]'); b && b.focus({ preventScroll: true }); }, 50);
     }

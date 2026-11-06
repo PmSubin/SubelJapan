@@ -1,0 +1,177 @@
+/* =========================================================
+   SubelJapan — Trang trí: bầu trời theo giờ, hiệu ứng theo mùa,
+   thẻ "của ngày", gợn sóng nút bấm, +XP bay, vệt sáng thanh bên
+   ========================================================= */
+
+/* ---------- lời chào trên nền bầu trời ---------- */
+.hello.sky { position: relative; overflow: hidden; isolation: isolate; align-items: flex-end; min-height: 168px; padding: 58px 24px 22px; border: 0;
+  box-shadow: 0 18px 34px -26px rgba(80, 50, 110, .55), inset 0 0 0 1.5px rgba(255, 255, 255, .6); }
+.hello.sky > *:not(.hello-sky) { position: relative; z-index: 2; }
+.hello.sky .mascot { margin-bottom: -10px; filter: drop-shadow(0 8px 10px rgba(60, 40, 90, .18)); }
+.hello.sky h1 { text-shadow: 0 2px 0 rgba(255, 255, 255, .55); }
+.hello.sky .hello-jp { background: rgba(255, 255, 255, .78); padding: 3px 10px; border-radius: 999px; margin-bottom: 4px; box-shadow: 0 4px 10px -8px rgba(0, 0, 0, .3); }
+.hello.sky .muted { color: color-mix(in srgb, var(--ink) 72%, transparent); }
+.hello.sky .hello-cta { box-shadow: 0 12px 22px -12px rgba(200, 51, 106, .8), 0 0 0 4px rgba(255, 255, 255, .55); }
+.hello-sky { position: absolute; inset: 0; z-index: 0; container-type: inline-size; pointer-events: none; transition: background 1s; }
+.hello-sky.sk-morning { background: linear-gradient(180deg, #ffe0ea 0%, #ffe3cf 48%, #fff4dc 100%); }
+.hello-sky.sk-day { background: linear-gradient(180deg, #bfe2ff 0%, #dcefff 52%, #fff4f8 100%); }
+.hello-sky.sk-evening { background: linear-gradient(180deg, #ffad8a 0%, #ff9fb8 46%, #ffd8c6 100%); }
+.hello-sky.sk-night { background: linear-gradient(180deg, #2f2766 0%, #5a4aa3 52%, #a991dc 100%); }
+
+/* mặt trời / mặt trăng */
+.sk-orb { position: absolute; top: 18px; right: 34%; width: 54px; height: 54px; border-radius: 50%; }
+.sk-morning .sk-orb { top: 34px; background: radial-gradient(circle at 38% 36%, #fff6c8, #ffd060 58%, #ffb347); box-shadow: 0 0 0 10px rgba(255, 214, 110, .25), 0 0 40px 12px rgba(255, 190, 90, .45); }
+.sk-day .sk-orb { background: radial-gradient(circle at 38% 36%, #fffbe0, #ffe066 55%, #ffc93c); box-shadow: 0 0 0 12px rgba(255, 232, 120, .28), 0 0 46px 16px rgba(255, 220, 100, .5); }
+.sk-evening .sk-orb { top: 46px; width: 66px; height: 66px; background: radial-gradient(circle at 40% 38%, #ffe2b0, #ff9f5a 60%, #ff7a4a); box-shadow: 0 0 0 12px rgba(255, 150, 90, .22), 0 0 54px 18px rgba(255, 120, 80, .45); }
+.sk-night .sk-orb { width: 46px; height: 46px; background: radial-gradient(circle at 36% 34%, #fffdf0, #fff1b8 62%, #f1dc8a); box-shadow: 0 0 0 9px rgba(255, 246, 200, .12), 0 0 36px 10px rgba(255, 240, 190, .35); }
+.sk-orb::before { content: ""; position: absolute; inset: -26px; border-radius: 50%; opacity: .55;
+  background: repeating-conic-gradient(from 0deg, rgba(255, 230, 140, .55) 0 6deg, transparent 6deg 30deg);
+  -webkit-mask: radial-gradient(circle, transparent 0 46%, #000 47% 70%, transparent 71%); mask: radial-gradient(circle, transparent 0 46%, #000 47% 70%, transparent 71%);
+  animation: skSpin 40s linear infinite; }
+.sk-night .sk-orb::before, .sk-evening .sk-orb::before { display: none; }
+@keyframes skSpin { to { transform: rotate(360deg); } }
+.sk-crater { position: absolute; border-radius: 50%; background: rgba(214, 190, 110, .45); }
+.sk-crater.a { width: 10px; height: 10px; left: 24px; top: 12px; }
+.sk-crater.b { width: 6px; height: 6px; left: 14px; top: 26px; }
+.sk-star { position: absolute; left: var(--x); top: var(--y); width: 4px; height: 4px; border-radius: 50%; background: #fff; scale: var(--z); box-shadow: 0 0 6px 1px rgba(255, 255, 255, .8); animation: skTw var(--d) ease-in-out infinite alternate; }
+.sk-evening .sk-star { opacity: .6; }
+@keyframes skTw { from { opacity: .25; transform: scale(.6); } to { opacity: 1; transform: scale(1.15); } }
+
+/* mây trôi */
+.sk-cloud { position: absolute; left: -140px; width: 92px; height: 26px; border-radius: 999px; background: rgba(255, 255, 255, .88); animation: skDrift var(--t, 70s) linear infinite; animation-delay: var(--dl, 0s); }
+.sk-cloud::before, .sk-cloud::after { content: ""; position: absolute; border-radius: 50%; background: inherit; }
+.sk-cloud::before { width: 42px; height: 42px; left: 14px; top: -20px; }
+.sk-cloud::after { width: 32px; height: 32px; left: 44px; top: -14px; }
+.sk-cloud.c1 { top: 24px; --t: 64s; --dl: -18s; }
+.sk-cloud.c2 { top: 62px; --t: 88s; --dl: -60s; scale: .7; }
+.sk-cloud.c3 { top: 36px; --t: 110s; --dl: -92s; scale: .55; opacity: .8; }
+.sk-night .sk-cloud { background: rgba(255, 255, 255, .14); }
+.sk-evening .sk-cloud { background: rgba(255, 240, 235, .7); }
+@keyframes skDrift { to { transform: translateX(calc(100cqw + 280px)); } }
+
+/* núi Phú Sĩ, đồi, cây, cổng torii */
+.sk-fuji { position: absolute; right: 2%; bottom: 22px; width: min(260px, 40%); height: 96px; }
+.sk-fuji .m { fill: #a9b6ea; }
+.sk-fuji .snow { fill: #fff; }
+.sk-day .sk-fuji .m { fill: #9fb9f0; }
+.sk-evening .sk-fuji .m { fill: #c98bb9; }
+.sk-night .sk-fuji .m { fill: #4b3f8c; }
+.sk-night .sk-fuji .snow { fill: #d9d2f5; }
+.sk-land { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 64px; }
+.sk-land .h2 { fill: #ffd2b5; }
+.sk-land .h1 { fill: #ffbf96; }
+.sn-spring .sk-land .h2 { fill: #d4f0c8; } .sn-spring .sk-land .h1 { fill: #bfe6ae; }
+.sn-summer .sk-land .h2 { fill: #c4eaa9; } .sn-summer .sk-land .h1 { fill: #a3dc8e; }
+.sn-winter .sk-land .h2 { fill: #eef5ff; } .sn-winter .sk-land .h1 { fill: #dce8fb; }
+.sk-night .sk-land .h2 { fill: #5b4c9e; } .sk-night .sk-land .h1 { fill: #463a86; }
+.sk-evening .sk-land { filter: saturate(1.1) hue-rotate(-8deg); }
+.sk-tree { position: absolute; right: calc(min(260px, 40%) + 4%); bottom: 26px; width: 46px; height: 54px; transform-origin: 50% 100%; animation: skTree 5s ease-in-out infinite; }
+.sk-night .sk-tree { filter: brightness(.6); }
+@keyframes skTree { 50% { transform: rotate(2deg); } }
+.sk-torii { position: absolute; right: calc(min(260px, 40%) - 14px); bottom: 20px; width: 40px; height: 34px; }
+.sk-night .sk-torii { filter: brightness(.7); }
+.sk-date, .sk-season { position: absolute; top: 14px; display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; font: 800 12.5px var(--f-body); color: var(--ink);
+  background: rgba(255, 255, 255, .78); box-shadow: 0 6px 12px -10px rgba(0, 0, 0, .4); backdrop-filter: blur(4px); }
+.sk-date { left: 18px; }
+.sk-date b { color: var(--pri-t); font-size: 13.5px; }
+.sk-date .jp { color: var(--ink2); font-size: 12px; }
+.sk-season { right: 16px; }
+.sk-season .jp { font-size: 15px; color: var(--pri-t); }
+.sk-night .sk-date, .sk-night .sk-season { background: rgba(255, 255, 255, .16); color: #fff; }
+.sk-night .sk-date b, .sk-night .sk-season .jp { color: #ffd6e5; }
+.sk-night .sk-date .jp { color: #e9e2ff; }
+
+/* chữ trên nền đêm */
+.hello.sky:has(.sk-night) h1 { color: #fff; text-shadow: 0 2px 10px rgba(20, 10, 60, .45); }
+.hello.sky:has(.sk-night) .muted { color: #efe9ff; }
+
+/* ---------- thẻ "của ngày" ---------- */
+.today-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: -8px 0 26px; }
+.td-card { display: flex; flex-direction: column; gap: 10px; padding: 14px 16px 14px; border-radius: 22px; position: relative; overflow: hidden; color: var(--ink); transition: transform .4s var(--spring), box-shadow .25s; animation: optIn .5s var(--spring) both; }
+.td-card:nth-child(2) { animation-delay: .06s; } .td-card:nth-child(3) { animation-delay: .12s; }
+.td-card:hover { transform: translateY(-3px); box-shadow: var(--sh-2); }
+.td-label { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; padding: 4px 10px; border-radius: 999px; font: 800 12px var(--f-body); letter-spacing: .3px; background: rgba(255, 255, 255, .8); color: var(--ink2); }
+.td-main { display: flex; align-items: center; gap: 12px; min-height: 70px; }
+.td-ico { width: 70px; height: 70px; flex: none; display: grid; place-items: center; border-radius: 22px; background: #fff; box-shadow: var(--sh-1); }
+.td-jp { font-size: 21px; line-height: 1.25; letter-spacing: .5px; }
+.td-r { font-weight: 800; color: var(--sun-t); font-size: 13.5px; }
+.td-vi { font-weight: 700; color: var(--ink2); font-size: 14px; line-height: 1.35; }
+.td-big { width: 70px; height: 70px; flex: none; display: grid; place-items: center; border-radius: 22px; background: #fff; box-shadow: var(--sh-1); font-size: 42px; color: var(--mint-t); position: relative;
+  background-image: linear-gradient(rgba(41, 201, 147, .16) 1px, transparent 1px), linear-gradient(90deg, rgba(41, 201, 147, .16) 1px, transparent 1px); background-size: 50% 50%; background-position: center; }
+.td-hv { font: 800 17px var(--f-head); letter-spacing: 1px; color: var(--mint-t); }
+.td-ex { margin-top: 2px; font-size: 14px; font-weight: 700; }
+.td-ex small { color: var(--ink2); font-weight: 700; }
+.td-acts { display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto; }
+.td-acts .btn { gap: 5px; }
+.td-word { background: linear-gradient(165deg, #fffaf0, var(--sun-l)); }
+.td-kanji { background: linear-gradient(165deg, #f5fffa, var(--mint-l)); }
+.td-sensei { background: radial-gradient(circle at 88% 20%, rgba(255, 255, 255, .9) 0 2px, transparent 2.5px) 0 0 / 38px 34px, linear-gradient(165deg, #faf7ff, var(--lav-l)); }
+.td-sensei b { font: 800 18px var(--f-head); display: block; }
+.td-sensei small { color: var(--ink2); font-weight: 600; line-height: 1.4; display: block; }
+.tds-mochi { flex: none; }
+.tds-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: auto; }
+.tds-chips span { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px 4px 6px; border-radius: 999px; background: #fff; font: 800 12px var(--f-body); color: var(--lav-t); box-shadow: 0 4px 10px -8px rgba(94, 63, 207, .5); }
+.td-sensei:hover .tds-mochi .mascot { animation: helloHop .9s var(--spring); }
+
+/* ---------- hiệu ứng theo mùa ---------- */
+.season { position: fixed; inset: 0; z-index: 35; pointer-events: none; overflow: hidden; }
+.season .sf { position: absolute; top: -50px; left: var(--x); width: var(--s); height: var(--s); opacity: .9; animation: sfFall var(--d) linear infinite; animation-delay: var(--w); will-change: transform; }
+.season .sf b { display: block; width: 100%; height: 100%; animation: sfSway calc(var(--d) / 3.2) ease-in-out infinite alternate; animation-delay: var(--w); filter: drop-shadow(0 3px 3px rgba(90, 40, 30, .12)); }
+@keyframes sfFall { to { transform: translateY(calc(100vh + 100px)); } }
+@keyframes sfSway { from { transform: translateX(calc(var(--sw) * -1)) rotate(calc(var(--r) * -50deg)) rotateY(0deg); } to { transform: translateX(var(--sw)) rotate(calc(var(--r) * 70deg)) rotateY(160deg); } }
+.s-winter .sf { opacity: .95; }
+.s-winter .sf b { animation-duration: calc(var(--d) / 2.2); }
+.s-summer .sf { animation-duration: calc(var(--d) * 1.4); opacity: .95; }
+.s-summer .sf b { filter: drop-shadow(0 2px 3px rgba(60, 90, 140, .25)); }
+body.focus-mode .season, body[data-route="sensei"] .season, body[data-route="story"] .season, body[data-route="dialog"] .season, body[data-route="write"] .season, body[data-route="print"] .season, body[data-route="type"] .season { display: none; }
+html[data-motion="reduce"] .season { display: none; }
+
+/* ---------- gợn sóng khi bấm ---------- */
+.rp-wrap { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; pointer-events: none; }
+.rp { position: absolute; border-radius: 50%; background: currentColor; opacity: .2; transform: scale(0); animation: rpGo .62s cubic-bezier(.2, .8, .3, 1) forwards; }
+@keyframes rpGo { to { transform: scale(1); opacity: 0; } }
+
+/* ---------- +XP bay lên ---------- */
+.xp-float { position: fixed; z-index: 700; display: inline-flex; align-items: center; gap: 4px; padding: 5px 12px 5px 6px; border-radius: 999px; pointer-events: none;
+  background: #fff; color: var(--sun-t); font: 800 14px var(--f-head); box-shadow: 0 10px 20px -10px rgba(154, 107, 0, .6), 0 0 0 2px var(--sun-l); animation: xpUp 1.45s cubic-bezier(.2, .9, .3, 1) forwards; }
+.xp-float b { color: var(--pri-t); font-size: 18px; }
+@keyframes xpUp { 0% { opacity: 0; transform: translateY(12px) scale(.5); } 16% { opacity: 1; transform: translateY(-8px) scale(1.12); } 30% { transform: translateY(-14px) scale(1); } 75% { opacity: 1; transform: translateY(-44px); } 100% { opacity: 0; transform: translateY(-66px) scale(.9); } }
+
+/* ---------- vệt sáng trượt theo mục đang chọn ---------- */
+.nav-blob { position: absolute; left: 0; top: 0; z-index: 0; border-radius: 14px; pointer-events: none; opacity: 0;
+  background: linear-gradient(180deg, #fff 0, var(--pri-l) 100%); border: 2px solid color-mix(in srgb, var(--pri) 35%, transparent); box-shadow: 0 8px 16px -12px var(--pri);
+  transition: transform .55s var(--spring), width .3s, height .3s, opacity .25s; }
+.nav-blob.on { opacity: 1; }
+.side-nav a { z-index: 1; }
+.side.has-blob .side-nav a.active { background: transparent; border-color: transparent; }
+.side-nav a.active .ic { animation: navIco .6s var(--spring); }
+@keyframes navIco { 30% { transform: scale(1.25) rotate(-10deg); } 60% { transform: scale(.95) rotate(4deg); } }
+
+/* ---------- đầu trang: icon nhún nhẹ + lấp lánh ---------- */
+.page-head .ph-icon { position: relative; animation: phBob 5s ease-in-out infinite; }
+.page-head .ph-icon::after { content: ""; position: absolute; top: -8px; right: -8px; width: 20px; height: 20px; animation: ssTwinkle 2.8s ease-in-out infinite;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1.5l2.4 7.1 7.1 2.4-7.1 2.4L12 20.5l-2.4-7.1-7.1-2.4 7.1-2.4z' fill='%23ffd85e' stroke='%233d3142' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat; }
+@keyframes phBob { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-4px) rotate(-2deg); } }
+
+/* ---------- màn nhỏ ---------- */
+@media (max-width: 1020px) {
+  .today-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .td-sensei { grid-column: span 2; }
+}
+@media (max-width: 760px) {
+  .hello.sky { flex-wrap: wrap; min-height: 0; padding: 52px 16px 16px; gap: 10px 12px; }
+  .hello.sky .mascot { width: 70px; height: 70px; }
+  .hello.sky .hello-txt { flex: 1 1 calc(100% - 90px); }
+  .hello.sky h1 { font-size: 21px; }
+  .hello.sky .hello-cta { margin-left: 0; width: 100%; justify-content: center; }
+  .sk-orb { right: 24%; top: 16px; scale: .8; }
+  .sk-fuji { width: 46%; bottom: 40px; height: 80px; }
+  .sk-tree, .sk-torii { display: none; }
+  .sk-date { left: 12px; top: 12px; }
+  .sk-season { right: 12px; top: 12px; }
+  .today-row { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px; margin: -10px -16px 22px; padding: 4px 16px 10px; scrollbar-width: none; }
+  .today-row::-webkit-scrollbar { display: none; }
+  .td-card { flex: 0 0 84%; scroll-snap-align: center; }
+  .td-sensei { grid-column: auto; }
+}
+html[data-motion="reduce"] .sk-cloud, html[data-motion="reduce"] .sk-orb::before, html[data-motion="reduce"] .page-head .ph-icon { animation: none; }

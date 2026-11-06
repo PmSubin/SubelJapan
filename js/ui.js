@@ -263,6 +263,7 @@ window.SJ = window.SJ || {};
 
   function greeting() {
     const h = new Date().getHours();
+    if (h < 4) return { jp: 'こんばんは', r: 'konbanwa', vi: 'Thức khuya ghê', icon: 'moon' };
     if (h < 11) return { jp: 'おはよう', r: 'ohayou', vi: 'Chào buổi sáng', icon: 'sunrise' };
     if (h < 18) return { jp: 'こんにちは', r: 'konnichiwa', vi: 'Xin chào', icon: 'sun' };
     return { jp: 'こんばんは', r: 'konbanwa', vi: 'Chào buổi tối', icon: 'moon' };

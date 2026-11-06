@@ -92,7 +92,7 @@ window.SJ = window.SJ || {};
   // Màn thưởng xen giữa các bài: trò chơi, truyện, thử thách viết, gõ phím, chuỗi đúng
   const BONUS = {};
   const BONUS_KINDS = ['game', 'read', 'write', 'game', 'type', 'practice'];
-  const GAME_ORDER = ['rain', 'memory', 'quiz', 'listen', 'builder', 'tf'];
+  const GAME_ORDER = ['rain', 'fish', 'memory', 'whack', 'quiz', 'balloon', 'listen', 'builder', 'tf'];
   function bonusDef(u, ui, i, bi) {
     const id = 'b:' + u.id + ':' + i;
     let kind = BONUS_KINDS[bi % BONUS_KINDS.length];
@@ -191,8 +191,9 @@ window.SJ = window.SJ || {};
     const nextUnit = SJ.UNITS.find(u => u.id === next.unit);
     root.innerHTML = `<div class="with-rail">
       <div class="main-col">
-        <div class="hello card">${U().mascot(SJ.store.doneToday() ? 'cheer' : 'happy', 74, 'bob')}<div><div class="hello-jp jp" data-say="${g.jp}">${g.jp}！</div><h1>${g.vi}, ${name}!</h1><div class="muted small bold">${I(nextUnit.icon, 16)} ${esc(nextUnit.title)} · ${esc(next.title)}</div></div>
+        <div class="hello card sky">${SJ.deco ? SJ.deco.skyHTML() : ''}${U().mascot(SJ.store.doneToday() ? 'cheer' : 'happy', 84, 'bob')}<div class="hello-txt"><div class="hello-jp jp" data-say="${g.jp}">${g.jp}！</div><h1>${g.vi}, ${name}!</h1><div class="muted small bold">${I(nextUnit.icon, 16)} ${esc(nextUnit.title)} · ${esc(next.title)}</div></div>
           <a class="btn hello-cta" href="#/lesson/${next.id}">${Object.keys(S.lessons).length ? 'Học tiếp' : 'Bắt đầu học'} ${I('arrow_r', 20)}</a></div>
+        ${SJ.deco ? SJ.deco.todayHTML() : ''}
         <div class="rail-mobile">${railHTML(true)}</div>
         ${units}
         <div class="path-end">${U().mascot('love', 90)}Học hết lộ trình rồi thì luyện vô tận, đọc truyện và ôn thẻ nhớ mỗi ngày để nhớ mãi nha!</div>
@@ -427,7 +428,7 @@ window.SJ = window.SJ || {};
         ${k.w ? `<div class="mt" style="text-align:left">${SJ.lesson.exampleRow(k.w)}</div>` : ''}
         <div class="kd-nav"><button class="btn btn-white btn-round" data-nav="-1" ${i <= 0 ? 'disabled' : ''} aria-label="Chữ trước">${I('arrow_l', 22)}</button>
           <button class="btn btn-white" data-say="${k.k}">${I('speaker', 20)} Nghe</button><a class="btn btn-yel" href="#/write/${encodeURIComponent(k.k)}">${I('pencil', 20)} Luyện viết</a>
-          <button class="btn btn-white btn-round" data-nav="1" ${i >= list.length - 1 ? 'disabled' : ''} aria-label="Chữ sau">${I('arrow_r', 22)}</button></div></div>`;
+          <button class="btn btn-white btn-round" data-nav="1" ${i >= list.length - 1 ? 'disabled' : ''} aria-label="Chữ sau">${I('arrow_r', 22)}</button></div><a class="kd-ask" href="#/sensei/chat:${encodeURIComponent('Cho mình mẹo nhớ chữ ' + k.k + ' (' + k.r + ') và cách phân biệt với chữ dễ nhầm nhé')}">${I('sensei', 26)}<span>Hỏi Sensei Mochi mẹo nhớ chữ này</span></a></div>`;
       sv && sv.stop(); sv = SJ.writing.strokeView(m.el.querySelector('[data-sv]'), k.k);
     }
     m.el.addEventListener('click', e => {
@@ -635,7 +636,9 @@ window.SJ = window.SJ || {};
         <div class="card card-pad mt"><div class="card-title">${I('nametag', 28)} Tên tiếng Nhật của bạn</div>${SJ.lesson.nameWidget()}</div>
         <div class="card card-pad mt"><div class="card-title">${I('gear', 28)} Cài đặt</div>
           <div class="set-row"><div class="sr-l"><b>Âm thanh</b><small>Tiếng chuông, đàn koto, mèo kêu…</small></div><label class="switch"><input type="checkbox" data-set="sound" ${st.sound ? 'checked' : ''}><i></i></label></div>
+          <div class="set-row"><div class="sr-l"><b>Sensei Mochi (AI)</b><small>${SJ.ai && SJ.ai.hasKey() ? 'Đang dùng ' + SJ.ai.modelName() + '. Khoá API chỉ lưu trong trình duyệt này' : 'Dán khoá API Anthropic để trò chuyện, sửa câu, luyện nói với Mochi'}</small></div><div class="row gap-s wrap"><a class="btn btn-sm btn-white" href="#/sensei">${I('sensei', 18)} Mở</a><button class="btn btn-sm btn-white" data-ai-settings>${SJ.glyph('key', 18)} Cài đặt</button></div></div>
           <div class="set-row"><div class="sr-l"><b>Hiệu ứng chuyển động</b><small>Màn chào đón, chuyển trang, Mochi nhảy nhót… Tắt nếu máy chạy chậm hoặc bạn thấy chóng mặt</small></div><label class="switch"><input type="checkbox" data-set="motion" ${st.motion !== 'reduce' ? 'checked' : ''}><i></i></label></div>
+          <div class="set-row"><div class="sr-l"><b>Trang trí theo mùa</b><small>Lá phong mùa thu, tuyết mùa đông, hoa anh đào mùa xuân rơi nhẹ trên màn hình</small></div><label class="switch"><input type="checkbox" data-set="season" ${st.season !== false ? 'checked' : ''}><i></i></label></div>
           <div class="set-row"><div class="sr-l"><b>Mochi đi dạo trên màn hình</b><small>Mochi đi lững thững, nói chuyện — nắm kéo, thả rơi, ném bay được luôn</small></div><label class="switch"><input type="checkbox" data-set="pet" ${st.pet !== false ? 'checked' : ''}><i></i></label></div>
           <div class="set-row"><div class="sr-l"><b>Âm lượng hiệu ứng</b></div><input class="range" style="max-width:220px" type="range" min="0.1" max="1" step="0.05" value="${st.volume ?? 0.8}" data-set="volume"><div class="row gap-s">${['ok', 'meow', 'win', 'coin', 'bad'].map(x => `<button class="btn btn-sm btn-white" data-test="${x}">${I({ ok: 'maru', meow: 'cat', win: 'music', coin: 'fishcoin', bad: 'batsu' }[x], 18)}</button>`).join('')}</div></div>
           <div class="set-row"><div class="sr-l"><b>Tốc độ giọng đọc</b><small>Chậm giúp nghe rõ từng âm</small></div><div class="seg">${[[0.6, 'Chậm'], [0.85, 'Vừa'], [1, 'Nhanh']].map(r => `<button data-rate="${r[0]}" class="${Math.abs(st.rate - r[0]) < .01 ? 'active' : ''}">${r[1]}</button>`).join('')}</div><button class="btn btn-sm btn-white" data-say="こんにちは、モチです">${I('speaker', 18)} Thử</button></div>
@@ -673,6 +676,7 @@ window.SJ = window.SJ || {};
       const s = e.target.closest('[data-set]'); if (!s) return;
       if (s.dataset.set === 'sound') SJ.store.setSetting('sound', s.checked);
       if (s.dataset.set === 'pet') SJ.store.setSetting('pet', s.checked);
+      if (s.dataset.set === 'season') SJ.store.setSetting('season', s.checked);
       if (s.dataset.set === 'motion') SJ.store.setSetting('motion', s.checked ? 'full' : 'reduce');
       if (s.dataset.set === 'volume') { SJ.store.setSetting('volume', +s.value); SJ.audio.sfx('ok'); }
     };
@@ -693,7 +697,7 @@ window.SJ = window.SJ || {};
         <div class="scripts3">${[['あ', 'Hiragana', 'Chữ mềm mại, dùng nhiều nhất', 'var(--pri)'], ['ア', 'Katakana', 'Chữ góc cạnh cho từ nước ngoài', 'var(--sky)'], ['日', 'Kanji', 'Chữ Hán — có âm Hán Việt!', 'var(--sun)']].map(x => `<button class="card script-card hov" data-say="${x[0] === '日' ? 'にち' : x[0]}" style="border-color:${x[3]}"><div class="sc-k" style="color:${x[3]}">${x[0]}</div><b>${x[1]}</b><small>${x[2]}</small></button>`).join('')}</div>
         <p class="small mt">Bấm vào từng chữ để nghe nha!</p>`,
       () => `<h1>Học ở đây có gì vui?</h1>
-        <div class="feat-list">${[['book', '56 bài học siêu ngắn'], ['pencil', 'Luyện viết chấm từng nét'], ['scroll', 'Truyện đọc & hội thoại'], ['keyboard', 'Tập gõ phím tiếng Nhật'], ['game', '6 trò chơi luyện chữ'], ['brain', 'Thẻ nhớ ôn đúng lúc'], ['quest', 'Nhiệm vụ mỗi ngày'], ['shop', 'Tiệm đồ cho Mochi']].map(f => `<div>${I(f[0], 34)}<span>${f[1]}</span></div>`).join('')}</div>`,
+        <div class="feat-list">${[['book', '56 bài học siêu ngắn'], ['pencil', 'Luyện viết chấm từng nét'], ['scroll', 'Truyện đọc & hội thoại'], ['keyboard', 'Tập gõ phím tiếng Nhật'], ['game', '9 trò chơi luyện chữ'], ['sensei', 'Gia sư AI Sensei Mochi'], ['cards', 'Thẻ ghi nhớ lật 3D'], ['brain', 'Thẻ nhớ ôn đúng lúc'], ['quest', 'Nhiệm vụ mỗi ngày'], ['shop', 'Tiệm đồ cho Mochi']].map(f => `<div>${I(f[0], 34)}<span>${f[1]}</span></div>`).join('')}</div>`,
       () => `${U().mascot('love', 120)}<h1>Bạn tên là gì?</h1>
         <input class="input" id="in-name" maxlength="30" placeholder="Tên của bạn…" value="${esc(S.name || '')}" autocomplete="off" style="max-width:360px;text-align:center">
         <div class="gs-label">Mục tiêu mỗi ngày</div>

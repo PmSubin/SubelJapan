@@ -5,6 +5,7 @@ window.SJ = window.SJ || {};
   // --- Event bus nho nhỏ ---
   const handlers = {};
   SJ.on = (e, fn) => { (handlers[e] = handlers[e] || []).push(fn); };
+  SJ.off = (e, fn) => { handlers[e] = (handlers[e] || []).filter(f => f !== fn); };
   SJ.emit = (e, d) => { (handlers[e] || []).forEach(fn => { try { fn(d); } catch (err) { console.error(err); } }); };
 
   const KEY = 'subeljapan_v1';
@@ -18,7 +19,7 @@ window.SJ = window.SJ || {};
     fish: 20, fishTotal: 20, inv: { fur_white: 1, acc_sakura: 1, acc_none: 1 }, equip: 'acc_sakura', fur: 'fur_white',
     quests: { date: '', list: [] }, questsDone: 0, chests: {}, fav: {}, reads: {}, goalDays: {},
     bonus: {}, bonusPending: null, weekly: { week: '', list: [], c: {} }, miles: {},
-    settings: { sound: true, volume: 0.8, rate: 0.85, theme: 'sakura', poolSet: 'hira-basic', kfont: 'klee', romaji: true, furi: true, vi: true, writeMode: 'guide', pet: true, motion: 'full' },
+    settings: { sound: true, volume: 0.8, rate: 0.85, theme: 'sakura', poolSet: 'hira-basic', kfont: 'klee', romaji: true, furi: true, vi: true, writeMode: 'guide', pet: true, motion: 'full', season: true },
   });
   let S;
 

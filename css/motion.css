@@ -96,3 +96,4 @@ html[data-vt="back"]::view-transition-new(page) { animation-name: pageInBack; }
 html[data-motion="reduce"] .welcome *, html[data-motion="reduce"] .curtain, html[data-motion="reduce"] .curtain * { animation-duration: .01ms !important; animation-delay: 0s !important; }
 html[data-motion="reduce"]::view-transition-old(page), html[data-motion="reduce"]::view-transition-new(page) { animation: none; }
 @media print { .welcome, .curtain { display: none !important; } }
+.wl-fx { display: block; width: 28px; height: 28px; animation: sfSway 3.2s ease-in-out infinite alternate; --sw: 18px; --r: 1; }
