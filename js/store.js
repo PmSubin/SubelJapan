@@ -17,7 +17,7 @@ window.SJ = window.SJ || {};
     written: 0, perfectWrites: 0, reviewed: 0, plays: 0, practiced: 0, bestChain: 0, nameUsed: false, typed: 0,
     fish: 20, fishTotal: 20, inv: { fur_white: 1, acc_sakura: 1, acc_none: 1 }, equip: 'acc_sakura', fur: 'fur_white',
     quests: { date: '', list: [] }, questsDone: 0, chests: {}, fav: {}, reads: {}, goalDays: {},
-    settings: { sound: true, volume: 0.8, rate: 0.85, theme: 'sakura', poolSet: 'hira-basic', kfont: 'klee', romaji: true, furi: true, vi: true, writeMode: 'guide' },
+    settings: { sound: true, volume: 0.8, rate: 0.85, theme: 'sakura', poolSet: 'hira-basic', kfont: 'klee', romaji: true, furi: true, vi: true, writeMode: 'guide', pet: true },
   });
   let S;
 

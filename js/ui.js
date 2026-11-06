@@ -81,13 +81,13 @@ window.SJ = window.SJ || {};
     const dark = !!F.dark;
     const calico = F.calico ? `<path d="M24 54 C27 40 40 34 52 35 C50 45 38 54 24 54 Z" fill="#ffb066"/><path d="M78 36 C92 38 103 48 104 62 C94 60 82 50 78 36 Z" fill="#6e6079"/><path d="M14 84 C20 94 30 100 38 100 C34 92 24 84 14 84 Z" fill="#ffb066"/>` : '';
     const whisk = dark ? 'rgba(255,255,255,.55)' : 'rgba(63,47,76,.5)';
-    const paws = (y, s) => `${S(`M${38 + s} ${y} q0 -7 8.5 -7 q8.5 0 8.5 7 q0 5 -8.5 5 q-8.5 0 -8.5 -5 Z`, F.fur, 2.4)}${S(`M${65 - s} ${y} q0 -7 8.5 -7 q8.5 0 8.5 7 q0 5 -8.5 5 q-8.5 0 -8.5 -5 Z`, F.fur, 2.4)}${L(`M${46.5 + s} ${y - 1} v4 M${73.5 - s} ${y - 1} v4`, 1.6, whisk)}`;
+    const paws = (y, s) => `<g class="m-paws"><g class="m-paw l">${S(`M${38 + s} ${y} q0 -7 8.5 -7 q8.5 0 8.5 7 q0 5 -8.5 5 q-8.5 0 -8.5 -5 Z`, F.fur, 2.4)}${L(`M${46.5 + s} ${y - 1} v4`, 1.6, whisk)}</g><g class="m-paw r">${S(`M${65 - s} ${y} q0 -7 8.5 -7 q8.5 0 8.5 7 q0 5 -8.5 5 q-8.5 0 -8.5 -5 Z`, F.fur, 2.4)}${L(`M${73.5 - s} ${y - 1} v4`, 1.6, whisk)}</g></g>`;
     return `<svg class="mascot mood-${mood} ${extra || ''}" viewBox="0 0 120 120" width="${size}" height="${size}" aria-hidden="true">
       <ellipse cx="60" cy="114" rx="34" ry="4" fill="rgba(63,47,76,.10)"/>
       <g class="m-body">
       <g class="m-tail"><path d="M93 103 C112 106 117 86 107 76" fill="none" stroke="${INK}" stroke-width="10" stroke-linecap="round"/><path d="M93 103 C112 106 117 86 107 76" fill="none" stroke="${F.fur}" stroke-width="4.6" stroke-linecap="round"/></g>
-      ${S('M23 54 L25 22 Q26 14 33 18 L53 34 Z', F.fur, 3)}<path d="M30 27 L31 41 L43 35 Z" fill="${F.ear}"/>
-      ${S('M97 54 L95 22 Q94 14 87 18 L67 34 Z', F.fur, 3)}<path d="M90 27 L89 41 L77 35 Z" fill="${F.ear}"/>
+      <g class="m-ear l">${S('M23 54 L25 22 Q26 14 33 18 L53 34 Z', F.fur, 3)}<path d="M30 27 L31 41 L43 35 Z" fill="${F.ear}"/></g>
+      <g class="m-ear r">${S('M97 54 L95 22 Q94 14 87 18 L67 34 Z', F.fur, 3)}<path d="M90 27 L89 41 L77 35 Z" fill="${F.ear}"/></g>
       <path d="M60 30 C89 30 108 48 108 76 C108 100 90 110 60 110 C30 110 12 100 12 76 C12 48 31 30 60 30 Z" fill="${F.fur}" stroke="${INK}" stroke-width="3"/>
       ${calico}
       <path d="M26 100 C40 108 80 108 94 100 C86 106 74 109 60 109 C46 109 34 106 26 100 Z" fill="${F.shade}"/>
@@ -189,6 +189,22 @@ window.SJ = window.SJ || {};
   const lbl = (icon, text, size) => `<span class="lbl">${I(icon, size || 20)}<span>${text}</span></span>`;
   const fish = (n, size) => `<span class="price">${I('fishcoin', size || 20)}${n}</span>`;
 
+  /** Số chạy từ 0 → giá trị: <b data-count="80" data-suf="%"> */
+  function countUp(root) {
+    $$('[data-count]', root).forEach((el, k) => {
+      const end = +el.dataset.count, pre = el.dataset.pre || '', suf = el.dataset.suf || '';
+      const t0 = performance.now() + k * 120, dur = 900;
+      const tick = now => {
+        const p = clamp((now - t0) / dur, 0, 1), e = 1 - Math.pow(1 - p, 3);
+        el.textContent = pre + Math.round(end * e) + suf;
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      el.textContent = pre + '0' + suf;
+      requestAnimationFrame(tick);
+      setTimeout(() => { el.textContent = pre + end + suf; }, dur + k * 120 + 400);
+    });
+  }
+
   // ---------- Furigana: "{漢字|かんじ}" ----------
   const FURI = /\{([^|{}]+)\|([^{}]+)\}/g;
   const ruby = s => esc(s).replace(/\{([^|{}]+)\|([^{}]+)\}/g, '<ruby>$1<rt>$2</rt></ruby>');
@@ -200,7 +216,7 @@ window.SJ = window.SJ || {};
     const b = e.target.closest('[data-say]');
     if (b && !b.disabled) { SJ.audio.speak(b.dataset.say); b.classList.remove('speaking'); void b.offsetWidth; b.classList.add('speaking'); }
     const m = e.target.closest('[data-meow], .mascot');
-    if (m && !b) { SJ.audio.sfx(Math.random() < .5 ? 'meow' : 'meow2'); const svg = m.matches('svg') ? m : m.querySelector('svg'); if (svg) { svg.classList.remove('squish'); void svg.getBoundingClientRect(); svg.classList.add('squish'); } }
+    if (m && !b && !m.closest('.pet')) { SJ.audio.sfx(Math.random() < .5 ? 'meow' : 'meow2'); const svg = m.matches('svg') ? m : m.querySelector('svg'); if (svg) { svg.classList.remove('squish'); void svg.getBoundingClientRect(); svg.classList.add('squish'); } }
   });
 
   // ---------- Đổi tên sang Katakana ----------
@@ -254,6 +270,6 @@ window.SJ = window.SJ || {};
 
   SJ.ui = {
     $, $$, esc, shuffle, pick, sample, clamp, I, mascot, mascotSay, FURS, toast, confetti, modal, confirm: confirmBox,
-    petals: () => { }, stars, ring, bar, sayBtn, hanko, lbl, fish, ruby, reading, baseText, nameToKata, romajiToKata, greeting,
+    petals: () => { }, stars, ring, bar, countUp, sayBtn, hanko, lbl, fish, ruby, reading, baseText, nameToKata, romajiToKata, greeting,
   };
 })(window.SJ);

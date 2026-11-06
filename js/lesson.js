@@ -135,7 +135,7 @@ window.SJ = window.SJ || {};
   const strokeCol = (ch) => `<div class="lc-stroke"><div class="mini-label">Thứ tự nét</div><div class="stroke-box" data-stroke="${ch}"></div>
     <div class="row center-row gap-s wrap"><button class="btn btn-sm btn-white" data-act="replay">${I('play', 18)} Xem lại</button><button class="btn btn-sm btn-yel" data-act="trace">${I('pencil', 18)} Tập viết</button></div></div>`;
   function kanaCard(it) {
-    return `<div class="learn-card card pop-in">
+    return `<div class="learn-card card slide-in-r">
       <div class="lc-main">
         <div class="lc-char">${glyph(it.k)}<div class="lc-romaji">${it.r}</div><button class="btn btn-sm btn-white" data-say="${it.k}">${I('speaker', 20)} Nghe</button></div>
         ${strokeCol(it.k)}
@@ -148,7 +148,7 @@ window.SJ = window.SJ || {};
       </div></div>`;
   }
   function vocabCard(it) {
-    return `<div class="learn-card card pop-in vocab-card">
+    return `<div class="learn-card card slide-in-r vocab-card">
       <div class="vc-pic bounce-in">${I(it.e, 120, 'pic')}</div>
       <div class="vc-word jp" data-say="${esc(SJ.ui.reading(it.jp))}">${esc(it.jp)}</div>
       <div class="vc-romaji">${esc(it.r)}</div>
@@ -156,7 +156,7 @@ window.SJ = window.SJ || {};
       <div class="row center-row gap-s"><button class="btn btn-sm btn-white" data-say="${esc(SJ.ui.reading(it.jp))}">${I('speaker', 20)} Nghe</button><button class="btn btn-sm btn-white" data-slow="${esc(SJ.ui.reading(it.jp))}">${I('slow', 22)} Nghe chậm</button><button class="btn btn-sm btn-white fav-toggle" data-fav="${esc(it.key)}">${I('heart', 20)} ${SJ.store.isFav(it.key) ? 'Đã lưu' : 'Lưu từ'}</button></div></div>`;
   }
   function kanjiCard(it) {
-    return `<div class="learn-card card pop-in">
+    return `<div class="learn-card card slide-in-r">
       <div class="lc-main">
         <div class="lc-char">${glyph(it.k)}<div class="hv-badge">${it.hv}</div><div class="lc-mean">${esc(it.m)}</div></div>
         ${strokeCol(it.k)}
@@ -315,7 +315,7 @@ window.SJ = window.SJ || {};
       if (q.type === 'type') return renderType(q, tags);
       if (q.type === 'write') return renderWrite(q, tags);
       if (q.type === 'build') return renderBuild(q, tags);
-      body.innerHTML = `<div class="quiz pop-in">${tags}
+      body.innerHTML = `<div class="quiz slide-in-r">${tags}
         <div class="quiz-ask">${q.ask}</div>
         <div class="quiz-prompt">${q.prompt}</div>
         <div class="quiz-opts ${q.options.length > 3 ? 'four' : ''}">${q.options.map((o, i) => `<button class="opt" data-nosfx="1" data-v="${esc(o.val)}"><kbd>${i + 1}</kbd>${o.label}</button>`).join('')}</div>
@@ -342,6 +342,7 @@ window.SJ = window.SJ || {};
       if (ok && !q.retry) firstOk++;
       if (!ok && !q.retry && !(opt && opt.noRetry)) queue.push(Object.assign({}, q, { retry: true }));
       streak = ok ? streak + 1 : 0;
+      SJ.emit('answer', { ok, streak });
       if (!(opt && opt.silent)) SJ.audio.sfx(ok ? (streak > 0 && streak % 5 === 0 ? 'combo' : 'ok') : 'bad');
       setFoot(`<div class="fb slide-up"><span class="fb-badge">${I(ok ? 'check' : 'batsu', 36)}</span><div><div class="fb-title">${ok ? (opt && opt.title) || U().pick(SJ.CHEERS) : U().pick(SJ.COMFORTS)}</div>${!ok || (opt && opt.showHint) ? `<div class="fb-hint">${hint || ''}</div>` : ''}</div></div><button class="btn btn-lg ${ok ? 'btn-green' : 'btn-red'}" data-cont>Tiếp tục</button>`, ok ? 'ok' : 'bad');
       foot.querySelector('[data-cont]').onclick = next;
@@ -352,7 +353,7 @@ window.SJ = window.SJ || {};
     // --- ghép cặp ---
     function renderPairs(q, tags) {
       let selL = null, selR = null, left = q.left.length, errs = 0;
-      body.innerHTML = `<div class="quiz pop-in">${tags}<div class="quiz-ask">${q.ask}</div>
+      body.innerHTML = `<div class="quiz slide-in-r">${tags}<div class="quiz-ask">${q.ask}</div>
         <div class="pairs">${q.left.map((o, i) => `<button class="opt" data-nosfx="1" data-side="L" data-id="${esc(o.id)}" ${o.say ? `data-sayx="${esc(o.say)}"` : ''}>${o.label}</button><button class="opt" data-nosfx="1" data-side="R" data-id="${esc(q.right[i].id)}">${q.right[i].label}</button>`).join('')}</div></div>`;
       const tryMatch = () => {
         if (!selL || !selR) return;
@@ -377,7 +378,7 @@ window.SJ = window.SJ || {};
     }
     // --- gõ romaji ---
     function renderType(q, tags) {
-      body.innerHTML = `<div class="quiz pop-in">${tags}<div class="quiz-ask">${q.ask}</div><div class="quiz-prompt">${q.prompt}</div>
+      body.innerHTML = `<div class="quiz slide-in-r">${tags}<div class="quiz-ask">${q.ask}</div><div class="quiz-prompt">${q.prompt}</div>
         <div class="type-answer"><input class="input" id="ta" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="ví dụ: ka" aria-label="Cách đọc"></div></div>`;
       setFoot(`<button class="btn btn-white" data-skip>Bỏ qua</button><span class="grow"></span><button class="btn btn-lg" data-check>Kiểm tra</button>`);
       const inp = body.querySelector('#ta');
@@ -396,7 +397,7 @@ window.SJ = window.SJ || {};
     }
     // --- viết từng nét ---
     function renderWrite(q, tags) {
-      body.innerHTML = `<div class="quiz pop-in write-step">${tags}<div class="quiz-ask" style="align-self:stretch">${q.ask}</div>
+      body.innerHTML = `<div class="quiz slide-in-r write-step">${tags}<div class="quiz-ask" style="align-self:stretch">${q.ask}</div>
         <div class="ws-head"><span class="ws-target">${esc(q.label)}</span><button class="say-btn" data-say="${q.ch}">${I('speaker', 22)}</button></div>
         <div class="w100" data-pad></div>
         <div class="pad-tools"><button class="btn btn-sm btn-white" data-a="hint">${I('bulb', 18)} Gợi ý nét</button><button class="btn btn-sm btn-white" data-a="guide">${I('eye', 18)} Hiện chữ mờ</button></div></div>`;
@@ -424,7 +425,7 @@ window.SJ = window.SJ || {};
     // --- xếp chữ ---
     function renderBuild(q, tags) {
       const slots = q.chars.map(() => null);
-      body.innerHTML = `<div class="quiz pop-in builder">${tags}<div class="quiz-ask">${q.ask}</div>
+      body.innerHTML = `<div class="quiz slide-in-r builder">${tags}<div class="quiz-ask">${q.ask}</div>
         <div class="b-pic">${pic(q.item.e, 96)}</div><div class="b-mean">${esc(q.item.vi)}</div>
         <div class="builder-slots">${q.chars.map((c, i) => `<span class="slot" data-slot="${i}"></span>`).join('')}</div>
         <div class="tiles">${q.tiles.map((c, i) => `<button class="tile" data-nosfx="1" data-t="${i}">${c}</button>`).join('')}</div></div>`;
@@ -457,9 +458,9 @@ window.SJ = window.SJ || {};
         <h1>${res.stars >= 3 ? 'Hoàn hảo!' : res.stars === 2 ? 'Giỏi quá đi!' : 'Hoàn thành rồi!'}</h1>
         <div class="result-stars">${U().stars(res.stars, 3, 52)}</div>
         <div class="result-stats">
-          <div class="rs card mint">${I('target', 32)}<b>${pct}%</b><span>đúng ngay lần đầu</span></div>
-          <div class="rs card sun">${I('star', 32)}<b>+${res.xp}</b><span>XP</span></div>
-          <div class="rs card sky">${I('fishcoin', 32)}<b>+${res.fish}</b><span>cá vàng</span></div>
+          <div class="rs card mint">${I('target', 32)}<b data-count="${pct}" data-suf="%">${pct}%</b><span>đúng ngay lần đầu</span></div>
+          <div class="rs card sun">${I('star', 32)}<b data-count="${res.xp}" data-pre="+">+${res.xp}</b><span>XP</span></div>
+          <div class="rs card sky">${I('fishcoin', 32)}<b data-count="${res.fish}" data-pre="+">+${res.fish}</b><span>cá vàng</span></div>
           <div class="rs card pink">${I('fire', 32)}<b>${SJ.store.streakNow()}</b><span>ngày liên tiếp</span></div>
         </div>
         <p class="muted bold">${mins} phút học · ${res.stars < 3 ? 'Học lại để đạt 3 sao nhé — các chữ trong bài đã vào thẻ Ôn tập rồi đó!' : 'Các chữ vừa học đã được đưa vào thẻ nhớ để ôn mỗi ngày.'}</p>
@@ -469,6 +470,7 @@ window.SJ = window.SJ || {};
         <span class="grow"></span>
         ${nextL ? `<a class="btn btn-lg" href="#/lesson/${nextL.id}">Bài tiếp theo ${I('arrow_r', 22)}</a>` : `<a class="btn btn-lg" href="#/">Về lộ trình</a>`}`);
       foot.querySelector('[data-again]').onclick = () => { phase = 'intro'; t0 = Date.now(); render(); };
+      U().countUp(body);
       SJ.audio.sfx('win');
       setTimeout(() => SJ.audio.sfx('stamp'), 900);
       for (let i = 0; i < res.stars; i++) setTimeout(() => SJ.audio.sfx('star'), 1200 + i * 220);

@@ -125,6 +125,11 @@ window.SJ = window.SJ || {};
       }
       if (!e.target.closest('.pn-pop')) closePop();
     });
+    if ('IntersectionObserver' in window) {
+      root.querySelectorAll('.path').forEach(p => p.classList.add('reveal'));
+      const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } }), { rootMargin: '0px 0px -30px 0px' });
+      root.querySelectorAll('.prow').forEach((r, i) => { r.style.transitionDelay = ((i % 4) * 0.07) + 's'; io.observe(r); });
+    }
     const cur = root.querySelector('.pnode.cur');
     if (cur && Object.keys(S.lessons).length) setTimeout(() => cur.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
   }
@@ -454,6 +459,7 @@ window.SJ = window.SJ || {};
         <div class="card card-pad mt"><div class="card-title">${I('nametag', 28)} Tên tiếng Nhật của bạn</div>${SJ.lesson.nameWidget()}</div>
         <div class="card card-pad mt"><div class="card-title">${I('gear', 28)} Cài đặt</div>
           <div class="set-row"><div class="sr-l"><b>Âm thanh</b><small>Tiếng chuông, đàn koto, mèo kêu…</small></div><label class="switch"><input type="checkbox" data-set="sound" ${st.sound ? 'checked' : ''}><i></i></label></div>
+          <div class="set-row"><div class="sr-l"><b>Mochi đi dạo trên màn hình</b><small>Mochi đi lững thững, nói chuyện — nắm kéo, thả rơi, ném bay được luôn</small></div><label class="switch"><input type="checkbox" data-set="pet" ${st.pet !== false ? 'checked' : ''}><i></i></label></div>
           <div class="set-row"><div class="sr-l"><b>Âm lượng hiệu ứng</b></div><input class="range" style="max-width:220px" type="range" min="0.1" max="1" step="0.05" value="${st.volume ?? 0.8}" data-set="volume"><div class="row gap-s">${['ok', 'meow', 'win', 'coin', 'bad'].map(x => `<button class="btn btn-sm btn-white" data-test="${x}">${I({ ok: 'maru', meow: 'cat', win: 'music', coin: 'fishcoin', bad: 'batsu' }[x], 18)}</button>`).join('')}</div></div>
           <div class="set-row"><div class="sr-l"><b>Tốc độ giọng đọc</b><small>Chậm giúp nghe rõ từng âm</small></div><div class="seg">${[[0.6, 'Chậm'], [0.85, 'Vừa'], [1, 'Nhanh']].map(r => `<button data-rate="${r[0]}" class="${Math.abs(st.rate - r[0]) < .01 ? 'active' : ''}">${r[1]}</button>`).join('')}</div><button class="btn btn-sm btn-white" data-say="こんにちは、モチです">${I('speaker', 18)} Thử</button></div>
           <div class="set-row"><div class="sr-l"><b>Mục tiêu mỗi ngày</b></div><div class="seg">${[10, 20, 30, 50].map(g => `<button data-goal="${g}" class="${S.goal === g ? 'active' : ''}">${g} XP</button>`).join('')}</div></div>
@@ -489,6 +495,7 @@ window.SJ = window.SJ || {};
     root.onchange = e => {
       const s = e.target.closest('[data-set]'); if (!s) return;
       if (s.dataset.set === 'sound') SJ.store.setSetting('sound', s.checked);
+      if (s.dataset.set === 'pet') SJ.store.setSetting('pet', s.checked);
       if (s.dataset.set === 'volume') { SJ.store.setSetting('volume', +s.value); SJ.audio.sfx('ok'); }
     };
     draw();

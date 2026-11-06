@@ -21,6 +21,7 @@ Web học **đọc & viết tiếng Nhật cho người mới bắt đầu từ 
 | **6 trò chơi** | Thử thách 60 giây, Mưa chữ, Lật thẻ, Nghe chọn chữ, Ghép từ, Đúng hay Sai. |
 | **Sổ từ** | Tra nhanh bằng tiếng Việt, romaji, Hán Việt hoặc chữ Nhật; lưu từ yêu thích để ôn. |
 | **Giữ lửa mỗi ngày** | Chuỗi ngày học, mục tiêu XP, 3 nhiệm vụ mỗi ngày, 15 cấp độ, 26 huy hiệu, lịch học dạng bản đồ nhiệt. |
+| **Mochi đi dạo** | Mèo Mochi đi lững thững trên màn hình, ngồi, ngủ, nhảy, nói chuyện bằng tiếng Nhật; vui khi bạn trả lời đúng. **Nắm kéo, thả rơi, ném bay** được luôn! (Tắt được trong Hồ sơ) |
 | **Tiệm của Mochi** | Kiếm **cá vàng** khi học để mua phụ kiện, đổi "vị" mochi (hoa anh đào, trà xanh, khoai môn…) và **bùa giữ chuỗi お守り**. |
 
 ![Bài học](assets/screens/lesson.png)
@@ -54,6 +55,7 @@ Tiến độ học được lưu trong trình duyệt (localStorage); có nút s
 ```
 index.html            khung trang
 css/style.css         giao diện "Mochi Pop"
+css/soft.css          nút mềm, hoạt ảnh, Mochi đi dạo
 js/icons.js           bộ hình vẽ tay SVG
 js/data-*.js          dữ liệu Kana, từ vựng, Kanji, bài học, truyện & hội thoại
 js/store.js           XP, chuỗi ngày, cá vàng, nhiệm vụ, tiệm đồ, huy hiệu, SRS
@@ -67,6 +69,7 @@ js/practice.js        luyện tập vô tận
 js/pages.js           lộ trình, bảng chữ, luyện viết, ôn tập, hồ sơ, giới thiệu
 js/pages-more.js      đọc hiểu, gõ phím, sổ từ, phiếu in, tiệm Mochi
 js/app.js             định tuyến & khung ứng dụng
+js/pet.js             Mochi đi dạo (kéo thả, ném, rơi có trọng lực)
 ```
 
 ## Ghi công

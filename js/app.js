@@ -45,7 +45,7 @@ window.SJ = window.SJ || {};
     SJ.audio.stop();
     const view = U.$('#view');
     curName = routes[name] ? name : '';
-    view.className = 'view view-' + (curName || 'home');
+    view.className = 'view view-in view-' + (curName || 'home');
     view.innerHTML = '';
     view.onclick = null; view.onchange = null; view.oninput = null;
     document.body.classList.toggle('focus-mode', !!FOCUS[name] || (name === 'practice' && !!arg));

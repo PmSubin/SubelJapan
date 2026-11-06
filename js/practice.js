@@ -82,6 +82,7 @@ window.SJ.practice = window.SJ.practice || {};
       function award(ok, key) {
         total++; elTotal.textContent = total;
         if (key) SJ.store.rec(key, ok);
+        SJ.emit('answer', { ok, streak: ok ? chain + 1 : 0 });
         if (ok) {
           okCount++; elOk.textContent = okCount; setChain(chain + 1);
           let gain = 1;
