@@ -187,16 +187,16 @@ window.SJ = window.SJ || {};
       keyFn = null; killKb();
       const S = SJ.store.get();
       root.innerHTML = `<div class="page-mid">
-        <div class="page-head"><div class="ph-icon">${I('keyboard', 52)}</div><div><h1>Gõ phím tiếng Nhật</h1><p>Người Nhật gõ chữ bằng <b>romaji</b>: gõ <code>ka</code> ra か, <code>sushi</code> ra すし. Tập gõ vừa nhớ mặt chữ, vừa sẵn sàng nhắn tin tiếng Nhật! Đã gõ đúng <b>${S.typed}</b> từ.</p></div></div>
+        <div class="page-head"><div class="ph-icon">${I('keyboard', 52)}</div><div><h1>Gõ phím tiếng Nhật</h1><p>Người Nhật nhắn tin trên <b>điện thoại</b> bằng bàn phím <b>vuốt 12 phím</b> (<span class="jp">フリック</span>), còn trên <b>máy tính</b> thì gõ <b>romaji</b>: gõ <code>ka</code> ra か. Ở đây có sẵn cả hai bàn phím, không cần cài gì. Đã gõ đúng <b>${S.typed}</b> từ.</p></div></div>
         <div class="mode-grid">${MODES.map(m => `<button class="mode-card" data-mode="${m.id}"><span class="mc-icon">${I(m.icon, 48)}</span><b>${m.name}</b><small>${m.desc}</small></button>`).join('')}</div>
         <div class="section-label">${I('bulb', 28)} Bảng gõ nhanh</div>
         <div class="card card-pad"><div class="key-table">${SJ.ime.CHEATS.map(c => `<div><span class="jp">${c[0]}</span><code>${esc(c[1])}</code></div>`).join('')}</div></div>
         <div class="section-label">${I('gear', 28)} Muốn gõ tiếng Nhật ở mọi nơi? Bật bộ gõ trên máy</div>
-        <p class="small muted bold mb">Chưa cài cũng không sao: khi luyện gõ ở đây, bàn phím tiếng Nhật chuẩn JIS hiện ngay dưới ô gõ, chỉ từng phím cần bấm.</p>
+        <p class="small muted bold mb">Chưa cài cũng không sao: khi luyện gõ ở đây, bàn phím tiếng Nhật (điện thoại 12 phím vuốt hoặc máy tính JIS) hiện ngay dưới ô gõ, chỉ từng phím cần bấm.</p>
         <div class="grid grid-3">
           <div class="card card-pad"><b>Máy tính Windows</b><p class="small muted bold mt-s">Cài đặt → Thời gian & ngôn ngữ → Ngôn ngữ → Thêm ngôn ngữ → 日本語. Nhấn <kbd>Alt</kbd> + <kbd>~</kbd> để chuyển gõ Nhật.</p></div>
-          <div class="card card-pad"><b>Điện thoại Android</b><p class="small muted bold mt-s">Mở Gboard → Cài đặt → Ngôn ngữ → Thêm bàn phím → Tiếng Nhật → chọn kiểu "Romaji" (QWERTY).</p></div>
-          <div class="card card-pad"><b>iPhone / iPad</b><p class="small muted bold mt-s">Cài đặt → Cài đặt chung → Bàn phím → Thêm bàn phím mới → Tiếng Nhật → "Romaji".</p></div></div>
+          <div class="card card-pad"><b>Điện thoại Android</b><p class="small muted bold mt-s">Mở Gboard → Cài đặt → Ngôn ngữ → Thêm bàn phím → Tiếng Nhật → chọn <b>12 phím</b> (vuốt như người Nhật) hoặc QWERTY (gõ romaji).</p></div>
+          <div class="card card-pad"><b>iPhone / iPad</b><p class="small muted bold mt-s">Cài đặt → Cài đặt chung → Bàn phím → Thêm bàn phím mới → Tiếng Nhật → <b>Kana</b> (12 phím vuốt) hoặc Romaji.</p></div></div>
       </div>`;
       root.querySelector('.mode-grid').onclick = e => { const b = e.target.closest('[data-mode]'); if (!b) return; SJ.audio.sfx('open'); if (b.dataset.mode === 'free') free(); else run(b.dataset.mode); };
     }
