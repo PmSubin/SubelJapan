@@ -10,11 +10,13 @@ window.SJ = window.SJ || {};
 
   const KEY = 'subeljapan_v1';
   const DAY = 86400000;
+  // phần Nói: khoảng cách ôn lại (ngày) theo độ nhớ 0–6
+  const TALK_INT = [0.01, 1, 2, 4, 8, 16, 32];
   const DEF = () => ({
     name: '', created: Date.now(), xp: 0, goal: 30, intro: false,
     daily: { date: '', xp: 0 },
     streak: { count: 0, best: 0, last: '' }, frozen: {}, freeze: 0,
-    history: {}, lessons: {}, talk: {}, items: {}, srs: {}, games: {}, badges: {},
+    history: {}, lessons: {}, talk: {}, talkMem: {}, items: {}, srs: {}, games: {}, badges: {},
     written: 0, perfectWrites: 0, reviewed: 0, plays: 0, practiced: 0, bestChain: 0, nameUsed: false, typed: 0,
     fish: 20, fishTotal: 20, inv: { fur_white: 1, acc_sakura: 1, acc_none: 1 }, equip: 'acc_sakura', fur: 'fur_white',
     quests: { date: '', list: [] }, questsDone: 0, chests: {}, fav: {}, reads: {}, goalDays: {},
@@ -393,19 +395,32 @@ window.SJ = window.SJ || {};
       return { stars, xp, fish, first };
     },
     lessonState: id => S.lessons[id] || null,
-    /** bài Nói & Ngữ pháp */
-    completeTalk(id, pct) {
-      const L = S.talk[id] || (S.talk[id] = { done: 0, stars: 0, best: 0, count: 0 });
-      const first = !L.done;
+    /** bài Nói & Ngữ pháp: mỗi bài học 3 lượt (o.rounds), bài ôn / kiểm tra chặng 1 lượt */
+    completeTalk(id, pct, o) {
+      o = o || {};
+      const L = S.talk[id] || (S.talk[id] = { done: 0, stars: 0, best: 0, count: 0, rounds: 0 });
+      if (L.done && !L.rounds) L.rounds = 1; // tiến độ cũ (trước khi có lượt)
+      const max = o.rounds || 1, fresh = (L.rounds || 0) < max;
       const stars = pct >= 100 ? 3 : pct >= 75 ? 2 : 1;
+      if (fresh) L.rounds = (L.rounds || 0) + 1;
       L.done = 1; L.count = (L.count || 0) + 1; L.stars = Math.max(L.stars || 0, stars); L.best = Math.max(L.best || 0, pct); L.at = Date.now();
       save();
-      const xp = first ? 12 + stars * 4 : 4 + stars * 2, fish = first ? 8 + stars * 2 : 2 + stars;
+      const xp = fresh ? 10 + stars * 4 + (o.bonus || 0) : 4 + stars * 2, fish = fresh ? 6 + stars * 2 + (o.bonus ? 4 : 0) : 2 + stars;
       this.addXP(xp); addFish(fish, true);
       track('lesson'); weekTrack('lesson'); if (stars >= 3) track('perfect');
       checkBadges();
-      return { stars, xp, fish, first };
+      return { stars, xp, fish, fresh, rounds: L.rounds };
     },
+    /** ghi nhớ từng câu mẫu phần Nói (ôn cách quãng): s = độ nhớ 0–6, d = lúc cần ôn lại */
+    talkRec(key, ok) {
+      const m = S.talkMem[key] || (S.talkMem[key] = { s: 0, c: 0, w: 0, t: 0, d: 0 });
+      const now = Date.now();
+      if (ok) { m.c++; m.s = Math.min(TALK_INT.length - 1, m.s + 1); } else { m.w++; m.s = Math.max(0, m.s - 2); }
+      m.t = now; m.d = now + TALK_INT[m.s] * DAY;
+      save();
+    },
+    talkSeen(key) { if (!S.talkMem[key]) { const now = Date.now(); S.talkMem[key] = { s: 0, c: 0, w: 0, t: now, d: now + DAY / 2 }; save(); } },
+    talkMem: key => S.talkMem[key] || null,
     talkState: id => S.talk[id] || null,
     nextLesson() { return SJ.LESSONS.find(l => !lessonDone(l.id)) || SJ.LESSONS[SJ.LESSONS.length - 1]; },
     unitDone, countDone,

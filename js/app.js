@@ -50,7 +50,7 @@ window.SJ = window.SJ || {};
   let lastPt = { x: window.innerWidth / 2, y: window.innerHeight / 2 }, firstRoute = true, busy = false;
   document.addEventListener('pointerdown', e => { lastPt = { x: e.clientX, y: e.clientY }; }, true);
   const reduced = () => SJ.store.get().settings.motion === 'reduce';
-  const isFocus = (name, arg) => (own(FOCUS, name) && !!FOCUS[name]) || ((name === 'practice' || name === 'cards' || name === 'talk') && !!arg);
+  const isFocus = (name, arg) => (own(FOCUS, name) && !!FOCUS[name]) || ((name === 'practice' || name === 'cards' || name === 'talk') && !!arg && !(name === 'talk' && arg === 'book'));
   function route() {
     // tấm màn đang kéo: lúc kéo xong sẽ tự vẽ trang theo địa chỉ mới nhất (không vẽ 2 lần)
     if (busy) return;

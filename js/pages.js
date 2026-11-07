@@ -342,6 +342,7 @@ window.SJ = window.SJ || {};
     return 'rgb(' + A.map((v, i) => Math.round(v * p + B[i] * (1 - p))).join(',') + ')';
   }
   P.home = home;
+  P.drawRoads = drawRoads;
   P.learn = home;
 
   /** Sổ tay của từng phần */
