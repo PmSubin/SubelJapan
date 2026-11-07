@@ -218,6 +218,7 @@ window.SJ = window.SJ || {};
         <div class="hello card sky">${SJ.deco ? SJ.deco.skyHTML() : ''}${U().mascot(SJ.store.doneToday() ? 'cheer' : 'happy', 84, 'bob')}<div class="hello-txt"><div class="hello-jp jp" data-say="${g.jp}">${g.jp}！</div><h1>${g.vi}, ${name}!</h1><div class="muted small bold">${I(nextUnit.icon, 16)} ${esc(nextUnit.title)} · ${esc(next.title)}</div></div>
           <a class="btn btn-cat hello-cta" href="#/lesson/${next.id}">${U().ears()}${Object.keys(S.lessons).length ? 'Học tiếp' : 'Bắt đầu học'} ${I('arrow_r', 20)}</a></div>
         ${SJ.deco ? SJ.deco.todayHTML() : ''}
+        ${SJ.talk ? SJ.talk.teaser() : ''}
         <div class="rail-mobile">${railHTML(true)}</div>
         ${units}
         <div class="path-end">${U().mascot('love', 90)}Học hết lộ trình rồi thì luyện vô tận, đọc truyện và ôn thẻ nhớ mỗi ngày để nhớ mãi nha!</div>

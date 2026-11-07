@@ -80,27 +80,44 @@ window.SJ = window.SJ || {};
 
   function buildQuiz(lesson, items) {
     const pool0 = lesson.type === 'kana' && items.length < 6 ? items.concat(SJ.KANA[items[0].script].basic) : lesson.type === 'kanji' && items.length < 6 ? items.concat(SJ.KANJI) : items;
+    // Bài tập đi từ DỄ → KHÓ, làm quen từng kiểu một:
+    // nhận mặt (nhìn → chọn) → ghép cặp → nhớ ngược (nghĩa/âm → chọn chữ) → nghe → viết theo nét → tự gõ / tự xếp
     const qs = [];
+    const take = (arr, n) => U().shuffle(arr).slice(0, n);
     if (lesson.type === 'kana') {
-      const sh = U().shuffle(items);
-      const single = items.filter(o => o.k.length === 1 || o.group === 'yoon');
-      sh.forEach((it, i) => qs.push(kanaQ(it, ['k2r', 'r2k', 'listen'][i % 3], pool0)));
-      if (items.length >= 3) qs.splice(Math.min(3, qs.length), 0, pairsQ(items, 'kana'));
-      U().sample(single.filter(o => o.k.length === 1), Math.min(2, single.length)).forEach((it, i) => qs.splice(2 + i * 3, 0, writeQ(it)));
-      U().sample(items, Math.min(2, items.length)).forEach(it => qs.push(typeQ(it)));
-      U().sample(items, Math.min(2, items.length)).forEach(it => qs.push(kanaQ(it, 'r2k', pool0)));
+      // 2 bài đầu mỗi bộ chữ: chỉ 3 lựa chọn, chưa có câu tự gõ romaji
+      const early = /^[hk][12]$/.test(lesson.id);
+      const single = items.filter(o => o.k.length === 1);
+      take(items, 6).forEach(it => qs.push(easier(kanaQ(it, 'k2r', pool0), early, items)));
+      if (items.length >= 3) qs.push(pairsQ(items, 'kana'));
+      take(items, 6).forEach(it => qs.push(easier(kanaQ(it, 'r2k', pool0), early, items)));
+      take(items, 2).forEach(it => qs.push(kanaQ(it, 'listen', pool0)));
+      take(single, 2).forEach(it => qs.push(writeQ(it)));
+      if (!early) take(items, 2).forEach(it => qs.push(typeQ(it)));
     } else if (lesson.type === 'vocab') {
-      const sh = U().shuffle(items);
-      sh.forEach((it, i) => qs.push(vocabQ(it, ['w2m', 'm2w', 'listen'][i % 3], items)));
-      qs.splice(3, 0, pairsQ(items, 'vocab'));
-      U().sample(items.filter(o => Array.from(SJ.ui.reading(o.jp)).length <= 6 && !/[一-龯]/.test(SJ.ui.reading(o.jp))), 2).forEach((it, i) => qs.splice(5 + i * 4, 0, buildQ(it)));
+      take(items, 6).forEach(it => qs.push(vocabQ(it, 'w2m', items)));
+      qs.push(pairsQ(items, 'vocab'));
+      take(items, 5).forEach(it => qs.push(vocabQ(it, 'm2w', items)));
+      take(items, 2).forEach(it => qs.push(vocabQ(it, 'listen', items)));
+      take(items.filter(o => Array.from(SJ.ui.reading(o.jp)).length <= 6 && !/[一-龯]/.test(SJ.ui.reading(o.jp))), 2).forEach(it => qs.push(buildQ(it)));
     } else if (lesson.type === 'kanji') {
-      const sh = U().shuffle(items);
-      sh.forEach((it, i) => qs.push(kanjiQ(it, ['k2m', 'm2k', 'k2hv', 'read'][i % 4], pool0)));
-      qs.splice(3, 0, pairsQ(items, 'kanji'));
-      U().sample(items, 2).forEach((it, i) => qs.splice(2 + i * 5, 0, writeQ(it, `${it.hv} — ${it.m}`)));
+      take(items, 5).forEach(it => qs.push(kanjiQ(it, 'k2m', pool0)));
+      qs.push(pairsQ(items, 'kanji'));
+      take(items, 4).forEach(it => qs.push(kanjiQ(it, 'm2k', pool0)));
+      take(items, 3).forEach(it => qs.push(kanjiQ(it, 'k2hv', pool0)));
+      take(items, 2).forEach(it => qs.push(kanjiQ(it, 'read', pool0)));
+      take(items, 2).forEach(it => qs.push(writeQ(it, `${it.hv} — ${it.m}`)));
     }
-    return noListen(qs.slice(0, lesson.type === 'kana' ? 16 : 15), pool0);
+    return noListen(qs, pool0);
+  }
+  /** bài đầu: bớt còn 3 lựa chọn, ưu tiên chữ vừa học trong bài (dễ đoán hơn chữ lạ) */
+  function easier(q, early, items) {
+    if (!early || !q.options || q.options.length <= 3) return q;
+    const right = q.options.find(o => o.val === q.answer);
+    const own = new Set(items.map(o => o.k));
+    const rest = q.options.filter(o => o !== right).sort((a, b) => (own.has(b.val) ? 1 : 0) - (own.has(a.val) ? 1 : 0)).slice(0, 2);
+    q.options = U().shuffle([right].concat(rest));
+    return q;
   }
   /** câu nghe → câu đọc tương ứng (khi người học không nghe được) */
   function deListen(q, pool) {

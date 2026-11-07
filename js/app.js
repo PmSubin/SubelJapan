@@ -26,14 +26,15 @@ window.SJ = window.SJ || {};
     profile: r => P().profile(r),
     cards: (r, a) => SJ.cards.open(r, a),
     sensei: (r, a) => SJ.ai.page(r, a),
+    talk: (r, a) => SJ.talk.page(r, a),
   };
   const NAV = [
-    ['', 'home', 'Học'], ['sensei', 'sensei', 'Sensei Mochi'], ['chart', 'kana', 'Bảng chữ'], ['write', 'pencil', 'Luyện viết'], ['practice', 'infinity', 'Luyện tập'],
+    ['', 'home', 'Học'], ['talk', 'talk', 'Nói & Ngữ pháp'], ['sensei', 'sensei', 'Sensei Mochi'], ['chart', 'kana', 'Bảng chữ'], ['write', 'pencil', 'Luyện viết'], ['practice', 'infinity', 'Luyện tập'],
     ['read', 'scroll', 'Đọc hiểu'], ['type', 'keyboard', 'Gõ phím'], ['games', 'game', 'Trò chơi'], ['cards', 'cards', 'Thẻ ghi nhớ'], ['review', 'brain', 'Ôn tập'],
     '-', ['dict', 'magnifier', 'Sổ từ'], ['print', 'printer', 'Phiếu tập viết'], ['quests', 'quest', 'Nhiệm vụ'], ['shop', 'shop', 'Tiệm Mochi'],
   ];
-  const BOTTOM = ['', 'sensei', 'chart', 'write', 'practice'];
-  const SHORT = { sensei: 'Sensei', practice: 'Luyện tập', write: 'Luyện viết' };
+  const BOTTOM = ['', 'talk', 'sensei', 'write', 'practice'];
+  const SHORT = { sensei: 'Sensei', practice: 'Luyện tập', write: 'Luyện viết', talk: 'Nói' };
   const FOCUS = { lesson: 1, game: 1, story: 0 };
 
   const own = (o, k) => Object.prototype.hasOwnProperty.call(o, k); // tránh #/constructor, #/toString… khớp nhầm Object.prototype
@@ -49,7 +50,7 @@ window.SJ = window.SJ || {};
   let lastPt = { x: window.innerWidth / 2, y: window.innerHeight / 2 }, firstRoute = true, busy = false;
   document.addEventListener('pointerdown', e => { lastPt = { x: e.clientX, y: e.clientY }; }, true);
   const reduced = () => SJ.store.get().settings.motion === 'reduce';
-  const isFocus = (name, arg) => (own(FOCUS, name) && !!FOCUS[name]) || ((name === 'practice' || name === 'cards') && !!arg);
+  const isFocus = (name, arg) => (own(FOCUS, name) && !!FOCUS[name]) || ((name === 'practice' || name === 'cards' || name === 'talk') && !!arg);
   function route() {
     // tấm màn đang kéo: lúc kéo xong sẽ tự vẽ trang theo địa chỉ mới nhất (không vẽ 2 lần)
     if (busy) return;

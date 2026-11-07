@@ -14,7 +14,7 @@ window.SJ = window.SJ || {};
     name: '', created: Date.now(), xp: 0, goal: 30, intro: false,
     daily: { date: '', xp: 0 },
     streak: { count: 0, best: 0, last: '' }, frozen: {}, freeze: 0,
-    history: {}, lessons: {}, items: {}, srs: {}, games: {}, badges: {},
+    history: {}, lessons: {}, talk: {}, items: {}, srs: {}, games: {}, badges: {},
     written: 0, perfectWrites: 0, reviewed: 0, plays: 0, practiced: 0, bestChain: 0, nameUsed: false, typed: 0,
     fish: 20, fishTotal: 20, inv: { fur_white: 1, acc_sakura: 1, acc_none: 1 }, equip: 'acc_sakura', fur: 'fur_white',
     quests: { date: '', list: [] }, questsDone: 0, chests: {}, fav: {}, reads: {}, goalDays: {},
@@ -393,6 +393,20 @@ window.SJ = window.SJ || {};
       return { stars, xp, fish, first };
     },
     lessonState: id => S.lessons[id] || null,
+    /** bài Nói & Ngữ pháp */
+    completeTalk(id, pct) {
+      const L = S.talk[id] || (S.talk[id] = { done: 0, stars: 0, best: 0, count: 0 });
+      const first = !L.done;
+      const stars = pct >= 100 ? 3 : pct >= 75 ? 2 : 1;
+      L.done = 1; L.count = (L.count || 0) + 1; L.stars = Math.max(L.stars || 0, stars); L.best = Math.max(L.best || 0, pct); L.at = Date.now();
+      save();
+      const xp = first ? 12 + stars * 4 : 4 + stars * 2, fish = first ? 8 + stars * 2 : 2 + stars;
+      this.addXP(xp); addFish(fish, true);
+      track('lesson'); weekTrack('lesson'); if (stars >= 3) track('perfect');
+      checkBadges();
+      return { stars, xp, fish, first };
+    },
+    talkState: id => S.talk[id] || null,
     nextLesson() { return SJ.LESSONS.find(l => !lessonDone(l.id)) || SJ.LESSONS[SJ.LESSONS.length - 1]; },
     unitDone, countDone,
     claimChest(uid) { if (S.chests[uid] || !unitDone(uid)) return 0; S.chests[uid] = Date.now(); save(); addFish(30); return 30; },
