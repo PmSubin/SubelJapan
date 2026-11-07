@@ -1,5 +1,6 @@
 /* SubelJapan — Sensei Mochi: gia sư AI (Claude) chạy ngay trong trình duyệt
- * - Người học tự dán khoá API Anthropic của mình. Khoá chỉ lưu trong trình duyệt này
+ * - Hai "bộ não" để chọn: Claude (Anthropic) hoặc ChatGPT (OpenAI, gọi thẳng api.openai.com bằng fetch).
+ * - Người học tự dán khoá API Anthropic / OpenAI của mình. Khoá chỉ lưu trong trình duyệt này
  *   (localStorage riêng 'subeljapan_ai', không nằm trong file sao lưu) và chỉ gửi thẳng tới api.anthropic.com.
  * - Gọi API bằng thư viện chính thức @anthropic-ai/sdk, đóng gói sẵn ở js/vendor/anthropic-sdk.esm.js (chỉ tải khi dùng AI).
  * - Trang #/sensei: hỏi đáp, luyện hội thoại nhập vai, sửa câu, giải thích ngữ pháp, dịch.
@@ -41,10 +42,17 @@ window.SJ = window.SJ || {};
     { id: 'claude-haiku-5-5', name: 'Claude Haiku 5.5', note: 'Siêu nhanh, rẻ nhất, hợp hỏi nhanh', tag: '' },
   ];
   const MAX_MSG = 60; // quá dài thì mở cuộc trò chuyện mới (không cắt bớt giữa chừng)
-  const DEF = () => ({ key: '', model: MODELS[0].id, chats: {}, stories: [], autoRead: true, ime: false, xpDay: '', xpToday: 0 });
+  const DEF = () => ({ provider: 'claude', key: '', model: MODELS[0].id, okey: '', omodel: '', omodels: [], chats: {}, stories: [], autoRead: true, ime: false, xpDay: '', xpToday: 0 });
   let A = load();
   function load() {
-    try { const o = Object.assign(DEF(), JSON.parse(localStorage.getItem(KEY) || '{}')); if (!MODELS.some(m => m.id === o.model)) o.model = MODELS[0].id; return o; }
+    try {
+      const o = Object.assign(DEF(), JSON.parse(localStorage.getItem(KEY) || '{}'));
+      if (!MODELS.some(m => m.id === o.model)) o.model = MODELS[0].id;
+      if (o.provider !== 'openai') o.provider = 'claude';
+      if (!Array.isArray(o.omodels)) o.omodels = [];
+      if (typeof o.okey !== 'string') o.okey = '';
+      return o;
+    }
     catch (e) { return DEF(); }
   }
   function save() {
@@ -56,8 +64,12 @@ window.SJ = window.SJ || {};
       }
     }
   }
-  const hasKey = () => !!A.key;
-  const modelName = () => (MODELS.find(m => m.id === A.model) || MODELS[0]).name;
+  const PROV = { claude: { name: 'Claude', by: 'Anthropic' }, openai: { name: 'ChatGPT', by: 'OpenAI' } };
+  const keyOf = p => p === 'openai' ? A.okey : A.key;
+  const hasKey = () => !!keyOf(A.provider);
+  const prettyO = id => String(id || '').replace(/^gpt-/, 'GPT-').replace(/-mini$/, ' mini').replace(/-nano$/, ' nano');
+  const modelName = () => A.provider === 'openai' ? 'ChatGPT (' + prettyO(A.omodel) + ')' : (MODELS.find(m => m.id === A.model) || MODELS[0]).name;
+  const shortName = () => A.provider === 'openai' ? prettyO(A.omodel) : modelName().replace('Claude ', '');
   const maskKey = k => k ? k.slice(0, 7) + '…' + k.slice(-4) : '';
 
   // ---------- thư viện Claude (tải lười) ----------
@@ -76,8 +88,89 @@ window.SJ = window.SJ || {};
     return { client, mod };
   }
 
-  /** Gọi Claude, nhận chữ chạy dần. Trả về { text, msg }. */
-  async function run({ system, messages, effort, format, maxTokens, onText, signal }) {
+  /** Gọi AI đang chọn, nhận chữ chạy dần. Trả về { text, msg }. */
+  function run(o) { return A.provider === 'openai' ? runOpenAI(o) : runClaude(o); }
+
+  // ---------- ChatGPT (OpenAI Chat Completions, phát trực tiếp) ----------
+  const OAI = 'https://api.openai.com/v1';
+  const oaiReasoning = id => /^(gpt-[5-9]|o\d)/.test(id);
+  function oaiErr(status, er) { const e = new Error((er && er.message) || 'HTTP ' + status); e.provider = 'openai'; e.status = status; e.code = er && (er.code || er.type); e.param = er && er.param; return e; }
+  async function oaiFetch(path, opts, signal) {
+    let res;
+    try { res = await fetch(OAI + path, Object.assign({ signal }, opts, { headers: Object.assign({ Authorization: 'Bearer ' + A.okey }, opts && opts.headers) })); }
+    catch (e) { if (e.name === 'AbortError') throw e; const er = oaiErr(0, { message: e.message }); er.net = true; throw er; }
+    if (!res.ok) { let j = {}; try { j = await res.json(); } catch (e) { } throw oaiErr(res.status, j.error); }
+    return res;
+  }
+  /** các mô hình chat mà khoá này dùng được, mới nhất trước (bản đầy đủ → mini → nano) */
+  async function oaiModels() {
+    const j = await (await oaiFetch('/models', { method: 'GET' })).json();
+    const ids = (j.data || []).map(m => m.id);
+    const ver = id => { const m = id.match(/^(?:gpt-)?o?(\d+(?:\.\d+)?)/); return m ? parseFloat(m[1]) - (/^gpt-\d+(\.\d+)?o/.test(id) ? 0.05 : 0) - (/^o\d/.test(id) ? 0.5 : 0) : 0; };
+    const tier = id => /-nano$/.test(id) ? 2 : /-mini$/.test(id) ? 1 : 0;
+    return ids.filter(id => /^gpt-\d+(\.\d+)?o?(-mini|-nano)?$/.test(id) || /^o\d+(-mini)?$/.test(id))
+      .sort((a, b) => ver(b) - ver(a) || tier(a) - tier(b)).slice(0, 6);
+  }
+  const oaiDefault = list => { const top = list.filter(id => !/^o\d/.test(id)); return top.find(id => /-mini$/.test(id)) || top[0] || list[0] || ''; };
+  async function runOpenAI({ system, messages, effort, format, maxTokens, onText, signal }) {
+    if (!A.omodel) { const e = oaiErr(404, { message: 'no model' }); throw e; }
+    const msgs = [{ role: oaiReasoning(A.omodel) ? 'developer' : 'system', content: system }]
+      .concat(messages.map(m => ({ role: m.role, content: textOf(m.content) })).filter(m => m.content));
+    const body = { model: A.omodel, messages: msgs, stream: true, max_completion_tokens: Math.min(maxTokens || 16000, 16000) };
+    if (oaiReasoning(A.omodel)) body.reasoning_effort = effort === 'medium' ? 'medium' : 'low';
+    if (format && format.type === 'json_schema') body.response_format = { type: 'json_schema', json_schema: { name: 'mochi_output', strict: true, schema: format.schema } };
+    let res;
+    for (let tries = 0; ; tries++) {
+      try { res = await oaiFetch('/chat/completions', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }, signal); break; }
+      catch (e) {
+        if (e.name === 'AbortError' || tries >= 3) throw e;
+        const m = String(e.message || '') + ' ' + (e.param || '');
+        // mô hình không nhận một tham số nào đó → bỏ tham số đó rồi gửi lại
+        if (e.status === 400 && /reasoning_effort/.test(m) && body.reasoning_effort) { delete body.reasoning_effort; continue; }
+        if (e.status === 400 && /max_completion_tokens/.test(m) && body.max_completion_tokens) { body.max_tokens = Math.min(body.max_completion_tokens, 4096); delete body.max_completion_tokens; continue; }
+        if (e.status === 400 && /response_format|json_schema/.test(m) && body.response_format) { delete body.response_format; msgs[0].content += '\n\nReturn only one JSON object, no markdown.'; continue; }
+        if (e.status === 400 && /developer/.test(m) && msgs[0].role === 'developer') { msgs[0].role = 'system'; continue; }
+        if ((e.status >= 500 || (e.status === 429 && e.code !== 'insufficient_quota')) && tries < 2) { await new Promise(r => setTimeout(r, 900 * (tries + 1))); continue; }
+        throw e;
+      }
+    }
+    const reader = res.body.getReader(), dec = new TextDecoder();
+    let buf = '', text = '', finish = null, refusal = false;
+    for (;;) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      buf += dec.decode(value, { stream: true });
+      let i;
+      while ((i = buf.indexOf('\n')) >= 0) {
+        const line = buf.slice(0, i).trim(); buf = buf.slice(i + 1);
+        if (!line.startsWith('data:')) continue;
+        const d = line.slice(5).trim(); if (!d || d === '[DONE]') continue;
+        let j; try { j = JSON.parse(d); } catch (e) { continue; }
+        if (j.error) throw oaiErr(500, j.error);
+        const ch = j.choices && j.choices[0]; if (!ch) continue;
+        if (ch.delta && ch.delta.refusal) refusal = true;
+        if (ch.delta && ch.delta.content) { text += ch.delta.content; onText && onText(text); }
+        if (ch.finish_reason) finish = ch.finish_reason;
+      }
+    }
+    if (refusal || finish === 'content_filter') { const er = new Error('refusal'); er.kind = 'refusal'; throw er; }
+    if (finish === 'length') { const er = new Error('max'); er.kind = 'max'; er.text = text; throw er; }
+    return { text, msg: { content: [{ type: 'text', text }], stop_reason: finish } };
+  }
+  function oaiErrText(e) {
+    const m = String(e.message || '');
+    if (e.net) return 'Không kết nối được tới máy chủ OpenAI. Kiểm tra mạng rồi thử lại nha.';
+    if (e.status === 401) return 'Khoá OpenAI chưa đúng hoặc đã bị xoá. Kiểm tra lại khoá trong Cài đặt AI nha.';
+    if (e.code === 'insufficient_quota' || /quota|billing/i.test(m)) return 'Tài khoản OpenAI chưa nạp tiền hoặc đã hết tiền. Lưu ý: gói ChatGPT Plus không dùng cho API được — bạn nạp riêng ở platform.openai.com → Settings → Billing nha.';
+    if (e.status === 429) return 'Mochi đang được hỏi dồn dập quá. Nghỉ vài giây rồi thử lại nha.';
+    if (e.status === 403) return 'Khoá này chưa được phép dùng mô hình đã chọn (hoặc khu vực chưa hỗ trợ). Thử chọn mô hình khác trong Cài đặt AI.';
+    if (e.status === 404) return 'Tài khoản của bạn chưa dùng được mô hình này. Mở Cài đặt AI rồi bấm Lưu để Mochi tìm mô hình khác nha.';
+    if (e.status === 400) return 'Yêu cầu chưa hợp lệ: ' + m.slice(0, 180);
+    if (e.status >= 500) return 'Máy chủ OpenAI đang bận. Đợi một chút rồi thử lại nha.';
+    return 'Có lỗi nhỏ: ' + m.slice(0, 180);
+  }
+
+  async function runClaude({ system, messages, effort, format, maxTokens, onText, signal }) {
     const { client, mod } = await getClient();
     const params = {
       model: A.model,
@@ -116,6 +209,7 @@ window.SJ = window.SJ || {};
     if (e.name === 'AbortError' || is('APIUserAbortError')) return '';
     if (e.kind === 'refusal') return 'Câu này Mochi không trả lời được. Mình hỏi chuyện khác về tiếng Nhật nha!';
     if (e.kind === 'max') return 'Câu trả lời dài quá nên bị cắt giữa chừng. Thử hỏi ngắn gọn hơn nha.';
+    if (e.provider === 'openai') return oaiErrText(e);
     if (is('AuthenticationError')) return 'Khoá API chưa đúng hoặc đã bị xoá. Kiểm tra lại khoá trong Cài đặt AI nha.';
     if (is('PermissionDeniedError')) return 'Khoá này chưa được phép dùng mô hình đã chọn. Thử chọn mô hình khác trong Cài đặt AI.';
     if (is('NotFoundError')) return 'Tài khoản của bạn chưa dùng được mô hình này. Thử chọn mô hình khác trong Cài đặt AI.';
@@ -234,37 +328,81 @@ The first user message only means "start the scene": open the scene yourself wit
     return head + out + chips;
   }
 
-  // ---------- cài đặt khoá & mô hình ----------
-  function keyForm(compact) {
-    return `<form class="ai-keyform" data-keyform>
-      <label class="ai-lbl" for="ai-key">${G('key', 18)} Khoá API Anthropic</label>
-      <div class="ai-keyrow"><input id="ai-key" class="input" type="password" autocomplete="off" spellcheck="false" placeholder="${A.key ? 'Đã lưu ' + esc(maskKey(A.key)) + ' — dán khoá mới để đổi' : 'sk-ant-…'}"><button type="button" class="ai-eye" data-eye title="Hiện/ẩn khoá" aria-label="Hiện hoặc ẩn khoá">${G('eye', 20)}</button></div>
+  // ---------- cài đặt khoá & mô hình (Claude hoặc ChatGPT) ----------
+  const gen = id => (String(id).match(/^(gpt-\d+(?:\.\d+)?o?|o\d+)/) || [''])[0];
+  const OAI_NOTE = (id, list) => {
+    const old = list && list[0] && gen(id) !== gen(list[0]);
+    if (/^o\d/.test(id)) return 'Mô hình suy luận, chậm hơn';
+    if (/-nano$/.test(id)) return old ? 'Đời trước, siêu rẻ' : 'Siêu rẻ, trả lời ngắn gọn';
+    if (/-mini$/.test(id)) return old ? 'Đời trước, nhanh và rẻ' : 'Nhanh, rẻ — hợp học hằng ngày';
+    return old ? 'Đời trước, vẫn rất giỏi' : 'Thông minh nhất, giải thích kỹ nhất';
+  };
+  function keyForm(compact, prov) {
+    prov = prov || A.provider;
+    const oai = prov === 'openai', k = keyOf(prov);
+    const om = A.omodels.length ? A.omodels : [];
+    const def = oaiDefault(om);
+    const models = oai
+      ? (om.length ? om.map(id => `<label class="ai-model ${(A.omodel || def) === id ? 'on' : ''}"><input type="radio" name="ai-model" value="${esc(id)}" ${(A.omodel || def) === id ? 'checked' : ''}><span class="am-dot"></span><span class="grow"><b>${esc(prettyO(id))}</b><small>${OAI_NOTE(id, om)}</small></span>${id === def ? '<i class="am-tag">Khuyên dùng</i>' : ''}</label>`).join('')
+        : `<p class="ai-models-wait">${G('sparkle', 18)} Dán khoá rồi bấm <b>Lưu</b>, Mochi sẽ tự tìm các mô hình ChatGPT mà khoá của bạn dùng được.</p>`)
+      : MODELS.map(m => `<label class="ai-model ${A.model === m.id ? 'on' : ''}"><input type="radio" name="ai-model" value="${m.id}" ${A.model === m.id ? 'checked' : ''}><span class="am-dot"></span><span class="grow"><b>${m.name}</b><small>${m.note}</small></span>${m.tag ? `<i class="am-tag">${m.tag}</i>` : ''}</label>`).join('');
+    return `<form class="ai-keyform" data-keyform data-prov="${prov}" data-compact="${compact ? 1 : ''}">
+      <label class="ai-lbl">${G('sparkle', 18)} Mochi dùng AI nào?</label>
+      <div class="ai-prov" role="tablist">${['claude', 'openai'].map(p => `<button type="button" role="tab" data-prov-btn="${p}" class="${p === prov ? 'on' : ''}" aria-selected="${p === prov}"><span class="ap-logo ${p}">${p === 'openai' ? 'G' : 'C'}</span><span class="grow"><b>${PROV[p].name}</b><small>của ${PROV[p].by}</small></span>${keyOf(p) ? `<i class="ap-ok">${G('check', 14)} đã có khoá</i>` : ''}</button>`).join('')}</div>
+      ${oai ? `<div class="ai-plus-note">${I('bulb', 26)}<span><b>Gói ChatGPT Plus không dùng được ở đây.</b> Trang web khác chỉ gọi được ChatGPT bằng <b>khoá API</b> tạo ở platform.openai.com (tính tiền riêng theo lượng chữ, nạp ít cũng được). Xem cách lấy khoá ngay bên dưới.</span></div>` : ''}
+      <label class="ai-lbl" for="ai-key">${G('key', 18)} Khoá API ${PROV[prov].by}</label>
+      <div class="ai-keyrow"><input id="ai-key" class="input" type="password" autocomplete="off" spellcheck="false" placeholder="${k ? 'Đã lưu ' + esc(maskKey(k)) + ' — dán khoá mới để đổi' : oai ? 'sk-proj-…' : 'sk-ant-…'}"><button type="button" class="ai-eye" data-eye title="Hiện/ẩn khoá" aria-label="Hiện hoặc ẩn khoá">${G('eye', 20)}</button></div>
       <label class="ai-lbl">${G('sparkle', 18)} Bộ não của Mochi</label>
-      <div class="ai-models">${MODELS.map(m => `<label class="ai-model ${A.model === m.id ? 'on' : ''}"><input type="radio" name="ai-model" value="${m.id}" ${A.model === m.id ? 'checked' : ''}><span class="am-dot"></span><span class="grow"><b>${m.name}</b><small>${m.note}</small></span>${m.tag ? `<i class="am-tag">${m.tag}</i>` : ''}</label>`).join('')}</div>
-      ${compact ? '' : `<div class="ai-privacy">${I('lock', 30)}<span>Khoá chỉ lưu trong trình duyệt này và chỉ gửi thẳng tới Anthropic khi bạn hỏi Mochi. Khoá không nằm trong file sao lưu. Đừng lưu khoá trên máy dùng chung nha.</span></div>`}
+      <div class="ai-models">${models}</div>
+      ${compact ? '' : `<div class="ai-privacy">${I('lock', 30)}<span>Khoá chỉ lưu trong trình duyệt này và chỉ gửi thẳng tới ${PROV[prov].by} khi bạn hỏi Mochi. Khoá không nằm trong file sao lưu. Đừng lưu khoá trên máy dùng chung nha.</span></div>`}
       <div class="ai-formmsg" data-formmsg></div>
-      <div class="row gap wrap ai-formbtns">${A.key ? `<button type="button" class="btn btn-white" data-delkey>${G('trash', 18)} Xoá khoá</button>` : ''}<span class="grow"></span><button class="btn" type="submit">${G('check', 20)} Lưu và đánh thức Mochi</button></div>
+      <div class="row gap wrap ai-formbtns">${k ? `<button type="button" class="btn btn-white" data-delkey>${G('trash', 18)} Xoá khoá</button>` : ''}<span class="grow"></span><button class="btn" type="submit">${G('check', 20)} Lưu và đánh thức Mochi</button></div>
+      ${howTo(prov)}
     </form>`;
   }
   function bindKeyForm(root, onDone) {
     const f = root.querySelector('[data-keyform]'); if (!f) return;
+    const prov = f.dataset.prov, oai = prov === 'openai';
     const inp = f.querySelector('#ai-key'), msg = f.querySelector('[data-formmsg]');
+    f.querySelectorAll('[data-prov-btn]').forEach(b => b.onclick = () => {
+      if (b.dataset.provBtn === prov) return;
+      SJ.audio.sfx('tap');
+      f.outerHTML = keyForm(!!f.dataset.compact, b.dataset.provBtn);
+      bindKeyForm(root, onDone);
+      const nf = root.querySelector('[data-keyform] #ai-key'); if (nf && !keyOf(b.dataset.provBtn)) nf.focus();
+    });
     f.querySelector('[data-eye]').onclick = () => { inp.type = inp.type === 'password' ? 'text' : 'password'; inp.focus(); };
     f.querySelectorAll('input[name="ai-model"]').forEach(r => r.onchange = () => { f.querySelectorAll('.ai-model').forEach(l => l.classList.toggle('on', l.querySelector('input').checked)); SJ.audio.sfx('tap'); });
     const del = f.querySelector('[data-delkey]');
-    if (del) del.onclick = async () => { if (!(await U().confirm('Xoá khoá API khỏi trình duyệt này? Lịch sử trò chuyện vẫn được giữ.', 'Xoá khoá', 'Thôi'))) return; A.key = ''; save(); client = null; U().toast(`${I('lock', 26)} Đã xoá khoá API`); onDone && onDone('del'); };
+    if (del) del.onclick = async () => {
+      if (!(await U().confirm(`Xoá khoá API ${PROV[prov].by} khỏi trình duyệt này? Lịch sử trò chuyện vẫn được giữ.`, 'Xoá khoá', 'Thôi'))) return;
+      if (oai) { A.okey = ''; A.omodels = []; A.omodel = ''; } else { A.key = ''; client = null; }
+      if (A.provider === prov && keyOf(prov === 'openai' ? 'claude' : 'openai')) A.provider = prov === 'openai' ? 'claude' : 'openai';
+      save(); U().toast(`${I('lock', 26)} Đã xoá khoá API ${PROV[prov].by}`); onDone && onDone('del');
+    };
     f.onsubmit = async e => {
       e.preventDefault();
-      const k = inp.value.trim(), model = (f.querySelector('input[name="ai-model"]:checked') || {}).value || A.model;
-      if (!k && !A.key) { msg.className = 'ai-formmsg bad'; msg.textContent = 'Dán khoá API vào ô phía trên trước nha.'; inp.focus(); return; }
-      if (k && !/^sk-ant-/.test(k)) { msg.className = 'ai-formmsg bad'; msg.textContent = 'Khoá của Anthropic thường bắt đầu bằng "sk-ant-". Kiểm tra lại giúp Mochi nha.'; return; }
-      const old = { key: A.key, model: A.model };
-      if (k) A.key = k; A.model = model;
+      const k = inp.value.trim(), picked = (f.querySelector('input[name="ai-model"]:checked') || {}).value;
+      const bad = t => { msg.className = 'ai-formmsg bad'; msg.innerHTML = t; };
+      if (!k && !keyOf(prov)) { bad('Dán khoá API vào ô phía trên trước nha.'); inp.focus(); return; }
+      if (k && oai && /^sk-ant-/.test(k)) return bad('Đây là khoá của Anthropic (Claude). Chọn ô <b>Claude</b> ở trên rồi dán vào đó nha.');
+      if (k && !oai && /^sk-/.test(k) && !/^sk-ant-/.test(k)) return bad('Khoá này giống khoá của OpenAI. Chọn ô <b>ChatGPT</b> ở trên rồi dán vào đó nha.');
+      if (k && oai && !/^sk-/.test(k)) return bad('Khoá của OpenAI thường bắt đầu bằng "sk-" (ví dụ sk-proj-…). Kiểm tra lại giúp Mochi nha.');
+      if (k && !oai && !/^sk-ant-/.test(k)) return bad('Khoá của Anthropic thường bắt đầu bằng "sk-ant-". Kiểm tra lại giúp Mochi nha.');
+      const old = { provider: A.provider, key: A.key, model: A.model, okey: A.okey, omodel: A.omodel, omodels: A.omodels.slice() };
+      A.provider = prov;
+      if (oai) { if (k) A.okey = k; } else { if (k) A.key = k; if (picked) A.model = picked; }
       const btn = f.querySelector('[type=submit]'); btn.disabled = true;
       msg.className = 'ai-formmsg wait'; msg.innerHTML = `<span class="ai-typing"><i></i><i></i><i></i></span> Đang đánh thức Mochi…`;
       try {
+        if (oai) {
+          const list = await oaiModels();
+          if (!list.length) { const er = oaiErr(404, { message: 'no chat models' }); throw er; }
+          A.omodels = list;
+          A.omodel = picked && list.includes(picked) ? picked : list.includes(A.omodel) ? A.omodel : oaiDefault(list);
+        }
         await run({ system: 'Reply with exactly one word: はい', messages: [{ role: 'user', content: 'Chào Mochi!' }], effort: 'low', maxTokens: 4000 });
-        save(); SJ.audio.sfx('win'); U().toast(`${I('sensei', 30)} Sensei Mochi đã thức dậy!`); onDone && onDone('ok');
+        save(); SJ.audio.sfx('win'); U().toast(`${I('sensei', 30)} Sensei Mochi đã thức dậy với ${esc(modelName())}!`); onDone && onDone('ok');
       } catch (er) {
         Object.assign(A, old); client = null;
         msg.className = 'ai-formmsg bad'; msg.textContent = errText(er) || 'Đã huỷ.'; btn.disabled = false;
@@ -272,15 +410,21 @@ The first user message only means "start the scene": open the scene yourself wit
     };
   }
   function settings(onDone) {
-    const m = U().modal(`<div class="ai-set"><div class="ai-set-head">${U().mascot('happy', 74, 'bob', { acc: 'acc_grad' })}<div><h3>Cài đặt Sensei Mochi</h3><p class="muted">Đang dùng: <b>${hasKey() ? modelName() : 'chưa có khoá'}</b></p></div></div>${keyForm()}${howTo()}</div>`, { cls: 'ai-modal' });
+    const m = U().modal(`<div class="ai-set"><div class="ai-set-head">${U().mascot('happy', 74, 'bob', { acc: 'acc_grad' })}<div><h3>Cài đặt Sensei Mochi</h3><p class="muted">Đang dùng: <b>${hasKey() ? esc(modelName()) : 'chưa có khoá'}</b></p></div></div>${keyForm()}</div>`, { cls: 'ai-modal' });
     bindKeyForm(m.el, r => { m.close(); onDone && onDone(r); SJ.emit('ai'); });
   }
-  const howTo = () => `<details class="ai-how"><summary>${G('question', 18)} Lấy khoá API ở đâu?</summary><ol>
+  const howTo = prov => prov === 'openai' ? `<details class="ai-how"><summary>${G('question', 18)} Lấy khoá API ChatGPT ở đâu?</summary><ol>
+      <li>Vào <b>platform.openai.com</b> và đăng nhập (dùng luôn tài khoản ChatGPT của bạn cũng được).</li>
+      <li>Vào <b>Settings → Billing</b> nạp một ít tiền (khoảng 5 USD là học được rất lâu). Gói ChatGPT Plus là gói riêng, không tính vào đây.</li>
+      <li>Vào mục <b>API keys</b>, bấm <b>Create new secret key</b>, đặt tên rồi sao chép khoá (bắt đầu bằng <code>sk-</code>).</li>
+      <li>Dán khoá vào ô phía trên rồi bấm <b>Lưu</b>. Mochi tự chọn mô hình hợp nhất cho bạn.</li></ol>
+      <a class="btn btn-white btn-sm" href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer">${G('arrow_r', 18)} Mở trang lấy khoá OpenAI</a></details>`
+    : `<details class="ai-how"><summary>${G('question', 18)} Lấy khoá API Claude ở đâu?</summary><ol>
       <li>Vào <b>console.anthropic.com</b> và đăng ký tài khoản (dùng email là được).</li>
       <li>Vào mục <b>Billing</b> nạp một ít tiền: Claude tính phí theo lượng chữ bạn hỏi và Mochi trả lời.</li>
       <li>Vào mục <b>API Keys</b>, bấm <b>Create Key</b>, đặt tên rồi sao chép khoá (bắt đầu bằng <code>sk-ant-</code>).</li>
       <li>Dán khoá vào ô phía trên rồi bấm <b>Lưu</b>. Xong!</li></ol>
-      <a class="btn btn-white btn-sm" href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener noreferrer">${G('arrow_r', 18)} Mở trang lấy khoá</a></details>`;
+      <a class="btn btn-white btn-sm" href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener noreferrer">${G('arrow_r', 18)} Mở trang lấy khoá Anthropic</a></details>`;
 
   // ---------- TRANG SENSEI MOCHI ----------
   const threadKey = (mode, sc) => mode === 'role' ? 'role:' + sc : mode;
@@ -304,7 +448,7 @@ The first user message only means "start the scene": open the scene yourself wit
         <div class="ss-body" data-body></div>
       </div>`;
     }
-    const toolsHTML = () => `${hasKey() ? `<button class="btn btn-white btn-sm" data-new title="Cuộc trò chuyện mới">${G('plus', 18)}<span>Mới</span></button>` : ''}<button class="btn btn-white btn-sm" data-set title="Cài đặt AI">${G('key', 18)}<span>${hasKey() ? esc(modelName().replace('Claude ', '')) : 'Cài đặt'}</span></button>`;
+    const toolsHTML = () => `${hasKey() ? `<button class="btn btn-white btn-sm" data-new title="Cuộc trò chuyện mới">${G('plus', 18)}<span>Mới</span></button>` : ''}<button class="btn btn-white btn-sm" data-set title="Cài đặt AI">${G('key', 18)}<span>${hasKey() ? esc(shortName()) : 'Cài đặt'}</span></button>`;
     // khung trang vẽ một lần; đổi chế độ chỉ thay phần thân → không nhấp nháy
     function setBody(html) {
       if (!root.querySelector('.sensei')) root.innerHTML = frame();
@@ -320,9 +464,9 @@ The first user message only means "start the scene": open the scene yourself wit
         <div class="card ss-wake">
           <div class="ssw-art"><div class="ssw-moon">${I('moon', 54)}</div>${U().mascot('sleep', 132)}<span class="ssw-z z1">z</span><span class="ssw-z z2">z</span><span class="ssw-z z3">Z</span></div>
           <h2>Mochi đang ngủ trưa…</h2>
-          <p>Sensei Mochi chạy bằng <b>Claude</b>, trí tuệ nhân tạo của Anthropic. Dán khoá API của bạn vào đây để đánh thức Mochi nha!</p>
-          <div class="ss-steps">${[['key', 'Lấy khoá', 'Tạo khoá ở trang console.anthropic.com'], ['lock', 'Dán vào đây', 'Khoá chỉ nằm trong trình duyệt của bạn'], ['sensei', 'Hỏi Mochi', 'Trò chuyện, sửa câu, luyện nói']].map((s, i) => `<div class="ss-step"><i class="ss-num">${i + 1}</i>${I(s[0], 40)}<b>${s[1]}</b><small>${s[2]}</small></div>`).join('')}</div>
-          ${keyForm()}${howTo()}
+          <p>Sensei Mochi chạy bằng <b>Claude</b> (Anthropic) hoặc <b>ChatGPT</b> (OpenAI) — bạn có khoá của bên nào thì chọn bên đó. Dán khoá API vào đây để đánh thức Mochi nha!</p>
+          <div class="ss-steps">${[['key', 'Lấy khoá', 'Từ Anthropic (Claude) hoặc OpenAI (ChatGPT)'], ['lock', 'Dán vào đây', 'Khoá chỉ nằm trong trình duyệt của bạn'], ['sensei', 'Hỏi Mochi', 'Trò chuyện, sửa câu, luyện nói']].map((s, i) => `<div class="ss-step"><i class="ss-num">${i + 1}</i>${I(s[0], 40)}<b>${s[1]}</b><small>${s[2]}</small></div>`).join('')}</div>
+          ${keyForm()}
         </div>
         <div class="card ss-demo"><div class="ssd-title">${G('eye', 18)} Xem trước Mochi trò chuyện</div>
           <div class="ai-log demo">

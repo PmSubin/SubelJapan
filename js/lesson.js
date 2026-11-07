@@ -100,8 +100,15 @@ window.SJ = window.SJ || {};
       qs.splice(3, 0, pairsQ(items, 'kanji'));
       U().sample(items, 2).forEach((it, i) => qs.splice(2 + i * 5, 0, writeQ(it, `${it.hv} — ${it.m}`)));
     }
-    return qs.slice(0, lesson.type === 'kana' ? 16 : 15);
+    return noListen(qs.slice(0, lesson.type === 'kana' ? 16 : 15), pool0);
   }
+  /** câu nghe → câu đọc tương ứng (khi người học không nghe được) */
+  function deListen(q, pool) {
+    if (!q || q.type !== 'listen' || !q.item) return q;
+    const nq = q.item.jp ? vocabQ(q.item, 'w2m', pool && pool.some(o => o.jp) ? pool : SJ.VOCAB_ALL) : kanaQ(q.item, 'k2r', pool && pool.length >= 4 && !pool[0].jp ? pool : SJ.KANA[q.item.script || 'hira'].basic);
+    return Object.assign(nq, { retry: q.retry, deferred: q.deferred });
+  }
+  const noListen = (qs, pool) => SJ.audio.canListen() ? qs : qs.map(q => deListen(q, pool));
   function buildTextQuiz(content) {
     return (content.quiz || []).map(q => {
       const opts = U().shuffle(q.o.map((o, j) => ({ label: q.big ? `<span class="jp">${esc(o)}</span>` : esc(o), val: String(j) })));
@@ -111,7 +118,7 @@ window.SJ = window.SJ || {};
   function buildTest(lesson) {
     const pool = SJ.pool(lesson.pool);
     const types = ['k2r', 'r2k', 'listen', 'k2r', 'type'];
-    return U().sample(pool, lesson.count || 20).map((it, i) => types[i % 5] === 'type' ? typeQ(it) : kanaQ(it, types[i % 5], pool));
+    return noListen(U().sample(pool, lesson.count || 20).map((it, i) => types[i % 5] === 'type' ? typeQ(it) : kanaQ(it, types[i % 5], pool)), pool);
   }
 
   // ---------- Bảng a・i・u・e・o mini ----------
@@ -326,6 +333,17 @@ window.SJ = window.SJ || {};
       if (q.say) setTimeout(() => SJ.audio.speak(q.say), 250);
       body.querySelectorAll('.opt').forEach(b => b.onclick = () => choose(b));
       bindSlow();
+      if (q.type === 'listen') {
+        setFoot(`<div class="nolisten-row"><button class="btn btn-white" data-nolisten>${I('mute', 22)} Không nghe được lúc này</button><span class="small muted bold">Mochi sẽ đổi câu nghe thành câu đọc trong 1 tiếng</span></div>`);
+        foot.querySelector('[data-nolisten]').onclick = () => {
+          if (answered) return;
+          SJ.audio.stop(); SJ.audio.listenOff(60);
+          const pool = items && items.length ? items : null;
+          for (let k = qi; k < queue.length; k++) queue[k] = deListen(queue[k], pool);
+          U().toast(`${I('mute', 24)} Đã tắt câu nghe trong 1 tiếng — câu này đổi thành câu đọc nha`, 3200);
+          renderQuiz();
+        };
+      }
     }
     const bindSlow = () => body.querySelectorAll('[data-slow]').forEach(b => b.onclick = () => SJ.audio.speak(b.dataset.slow, { rate: 0.5 }));
     function choose(btn) {

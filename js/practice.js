@@ -32,6 +32,7 @@ window.SJ.practice = window.SJ.practice || {};
   function learnedVocab() { const it = SJ.store.get().items; const l = SJ.VOCAB_ALL.filter(o => it[o.key]); return l.length >= 6 ? l : SJ.VOCAB.greet.concat(SJ.VOCAB.number); }
   function learnedKanji() { const it = SJ.store.get().items; const l = SJ.KANJI.filter(o => it[o.key]); return l.length >= 6 ? l : SJ.KANJI.slice(0, 17); }
 
+  const AUTO = 2600; // ms: tự sang câu sau khi trả lời đúng (đủ chậm để đọc lại đáp án)
   function open(root, modeArg) {
     let mode = MODES.some(m => m.id === modeArg) ? modeArg : null;
     let src = SJ.practice.custom && SJ.practice.custom.length ? 'custom' : 'auto';
@@ -110,11 +111,13 @@ window.SJ.practice = window.SJ.practice || {};
         if (destroyed) return;
         cleanup();
         let m = mode;
-        if (m === 'mix') m = U().pick(['read', 'read', 'listen', 'write', 'vocab', 'kanji', 'r2k']);
+        const ear = SJ.audio.canListen();
+        if (m === 'listen' && !ear) return noEar();
+        if (m === 'mix') m = U().pick(ear ? ['read', 'read', 'listen', 'write', 'vocab', 'kanji', 'r2k'] : ['read', 'read', 'write', 'vocab', 'kanji', 'r2k']);
         if (m === 'read') return choiceQ(kanaQ(U().pick(['k2r', 'k2r', 'r2k'])));
         if (m === 'r2k') return choiceQ(kanaQ('r2k'));
         if (m === 'listen') return choiceQ(kanaQ('listen'));
-        if (m === 'vocab') { const pool = learnedVocab(); const it = weighted(pool, o => o.key, last); last = it; return choiceQ(SJ.lesson.vocabQ(it, U().pick(['w2m', 'm2w', 'listen']), pool)); }
+        if (m === 'vocab') { const pool = learnedVocab(); const it = weighted(pool, o => o.key, last); last = it; return choiceQ(SJ.lesson.vocabQ(it, U().pick(['w2m', 'm2w']), pool)); }
         if (m === 'kanji') { const pool = learnedKanji(); const it = weighted(pool, o => o.key, last); last = it; return choiceQ(SJ.lesson.kanjiQ(it, U().pick(['k2m', 'm2k', 'k2hv', 'read']), pool.length < 6 ? SJ.KANJI : pool)); }
         if (m === 'write') return writeQ();
       }
@@ -123,11 +126,22 @@ window.SJ.practice = window.SJ.practice || {};
         return SJ.lesson.kanaQ(it, type, pool.length < 6 ? pool.concat(SJ.KANA.hira.basic) : pool);
       }
 
+      /** kiểu Nghe nhưng đang không nghe được */
+      function noEar() {
+        stage.innerHTML = `<div class="noear card card-pad pop-in">${I('mute', 64)}<h3>Câu nghe đang tạm tắt</h3><p class="muted bold">${SJ.audio.listenWhy()}</p>
+          <div class="row gap center-row wrap">${SJ.audio.noVoice() ? '' : `<button class="btn" data-on>${I('speaker', 20)} Bật lại câu nghe</button>`}<button class="btn btn-white" data-read>${I('eye', 20)} Luyện Đọc chữ</button></div></div>`;
+        foot.innerHTML = '';
+        const on = stage.querySelector('[data-on]'); if (on) on.onclick = () => { SJ.audio.listenOn(); nextQ(); };
+        stage.querySelector('[data-read]').onclick = () => { mode = 'read'; history.replaceState(null, '', '#/practice/read'); const pm = root.querySelector('.pr-mode'); if (pm) pm.innerHTML = `${I('eye', 20)} Đọc chữ · <button class="link-btn" data-switch>đổi kiểu</button>`; const sw = root.querySelector('[data-switch]'); if (sw) sw.onclick = () => { cleanup(); document.body.classList.remove('focus-mode'); menu(); }; nextQ(); };
+      }
+
       function choiceQ(q) {
         let answered = false;
         stage.innerHTML = `<div class="quiz pop-in"><div class="quiz-ask">${q.ask}</div><div class="quiz-prompt">${q.prompt}</div>
           <div class="quiz-opts ${q.options.length > 3 ? 'four' : ''}">${q.options.map((o, i) => `<button class="opt" data-nosfx="1" data-v="${esc(o.val)}"><kbd>${i + 1}</kbd>${o.label}</button>`).join('')}</div></div>`;
-        foot.innerHTML = '';
+        foot.innerHTML = q.type === 'listen' ? `<div class="nolisten-row"><button class="btn btn-white" data-nolisten>${I('mute', 22)} Không nghe được lúc này</button><span class="small muted bold">Tắt câu nghe trong 1 tiếng, không mất chuỗi</span></div>` : '';
+        const nl = foot.querySelector('[data-nolisten]');
+        if (nl) nl.onclick = () => { if (answered) return; answered = true; SJ.audio.stop(); SJ.audio.listenOff(60); U().toast(`${I('mute', 24)} Đã tắt câu nghe trong 1 tiếng`, 2600); nextQ(); };
         if (q.say) setTimeout(() => SJ.audio.speak(q.say), 200);
         const pick = b => {
           if (answered) return; answered = true;
@@ -136,8 +150,13 @@ window.SJ.practice = window.SJ.practice || {};
           if (!ok) b.classList.add('bad', 'shake');
           SJ.audio.sfx(ok ? 'ok' : 'bad');
           award(ok, q.key);
-          if (ok) tmo = setTimeout(nextQ, 650);
-          else {
+          if (ok) {
+            foot.innerHTML = `<div class="feedback ok slide-up"><div class="fb-left">${U().mascot('happy', 52)}<div><div class="fb-title">${U().pick(SJ.CHEERS)}</div><div class="fb-hint">${q.hint || ''}</div></div></div><button class="btn btn-green pr-next" data-cont style="--t:${AUTO}ms">Tiếp ${I('arrow_r', 20)}</button></div>`;
+            foot.querySelector('[data-cont]').onclick = nextQ;
+            keyFn = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); nextQ(); } };
+            if (q.type !== 'listen' && q.item && q.item.k && q.key === q.item.k) setTimeout(() => SJ.audio.speak(q.item.k), 250);
+            tmo = setTimeout(nextQ, AUTO);
+          } else {
             foot.innerHTML = `<div class="feedback bad slide-up"><div class="fb-left">${U().mascot('sad', 52)}<div><div class="fb-title">${U().pick(SJ.COMFORTS)}</div><div class="fb-hint">${q.hint || ''}</div></div></div><button class="btn btn-red" data-cont>Tiếp ${I('arrow_r', 20)}</button></div>`;
             foot.querySelector('[data-cont]').onclick = nextQ;
             keyFn = e => { if (e.key === 'Enter') nextQ(); };

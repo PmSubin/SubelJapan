@@ -175,5 +175,14 @@ window.SJ = window.SJ || {};
   // tiếng gõ nhẹ cho mọi nút bấm
   document.addEventListener('click', e => { const b = e.target.closest('button, .btn, a.card, .tab'); if (b && !b.dataset.say && !b.dataset.nosfx) sfx('click'); }, true);
 
-  SJ.audio = { speak, stop, sfx, hasTTS, hasVoice: () => !!voice };
+  // "Không nghe được lúc này": tắt câu nghe một lúc (ngồi chỗ đông người, máy không có giọng Nhật…)
+  const NL = 'sj_nolisten';
+  const offUntil = () => { try { return +localStorage.getItem(NL) || 0; } catch (e) { return 0; } };
+  const noVoice = () => !hasTTS || (voicesLoaded && !voice);
+  const canListen = () => !noVoice() && offUntil() <= Date.now();
+  const listenOff = min => { try { localStorage.setItem(NL, String(Date.now() + (min || 60) * 60000)); } catch (e) { } SJ.emit && SJ.emit('listen', false); };
+  const listenOn = () => { try { localStorage.removeItem(NL); } catch (e) { } SJ.emit && SJ.emit('listen', true); };
+  /** lý do đang tắt câu nghe (để hiện cho người học) */
+  const listenWhy = () => noVoice() ? 'Máy bạn chưa có giọng đọc tiếng Nhật nên Mochi tạm ẩn các câu nghe.' : offUntil() > Date.now() ? `Bạn đã tắt câu nghe — tự bật lại lúc ${new Date(offUntil()).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}.` : '';
+  SJ.audio = { speak, stop, sfx, hasTTS, hasVoice: () => !!voice, canListen, listenOff, listenOn, listenWhy, noVoice };
 })(window.SJ);

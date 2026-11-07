@@ -332,3 +332,23 @@ html[data-motion="reduce"] .ss-body.swap { animation: none; }
   .ss-step small { font-size: 12.5px; }
   .ss-num { top: 50%; left: 0; translate: -50% -50%; }
 }
+
+/* ---------- chọn bộ não: Claude hoặc ChatGPT ---------- */
+.ai-prov { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+.ai-prov button { position: relative; display: flex; align-items: center; gap: 10px; padding: 11px 12px; border: 0; border-radius: 16px; background: var(--card2); box-shadow: inset 0 0 0 1.5px var(--line); text-align: left; cursor: pointer; color: var(--ink); font: inherit; transition: box-shadow .2s, background .2s, transform .3s var(--spring); }
+.ai-prov button:hover { transform: translateY(-1px); }
+.ai-prov button.on { background: var(--card); box-shadow: inset 0 0 0 2px var(--pri), 0 8px 18px -12px var(--pri); }
+.ai-prov button.on::before { content: ""; position: absolute; inset: 4px; border-radius: 12px; border: 1.4px dashed color-mix(in srgb, var(--pri) 40%, transparent); pointer-events: none; }
+.ai-prov b { display: block; font: 800 15px/1.2 var(--f-head); }
+.ai-prov small { display: block; font: 700 11.5px var(--f-body); color: var(--ink3); }
+.ap-logo { flex: none; width: 36px; height: 36px; border-radius: 11px; display: grid; place-items: center; font: 900 17px var(--f-head); color: #fff; }
+.ap-logo.claude { background: linear-gradient(145deg, #e9875d, #c96442); }
+.ap-logo.openai { background: linear-gradient(145deg, #2fb58e, #10805f); }
+.ap-ok { position: absolute; top: -8px; right: 8px; display: inline-flex; align-items: center; gap: 3px; padding: 2px 8px; border-radius: 999px; background: var(--mint); color: #fff; font: 800 10.5px var(--f-body); font-style: normal; }
+.ap-ok .gl { width: 12px; height: 12px; stroke-width: 3; }
+.ai-plus-note { display: flex; gap: 10px; align-items: flex-start; margin: 0 0 14px; padding: 11px 13px; border-radius: 14px; background: var(--sun-l); color: var(--ink2); font: 700 13px/1.45 var(--f-body); }
+.ai-plus-note .ic { flex: none; width: 26px; height: 26px; }
+.ai-plus-note b { color: var(--ink); }
+.ai-models-wait { margin: 0; padding: 12px 14px; border-radius: 14px; background: var(--card2); border: 1.5px dashed var(--line2); color: var(--ink2); font: 700 13px/1.45 var(--f-body); }
+.ai-keyform .ai-how { margin-top: 14px; }
+@media (max-width: 420px) { .ai-prov { grid-template-columns: 1fr; } }

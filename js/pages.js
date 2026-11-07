@@ -8,6 +8,19 @@ window.SJ = window.SJ || {};
   const P = SJ.pages = SJ.pages || {};
 
   // ===================== CỘT PHẢI (rail) =====================
+  /** Một dòng nhiệm vụ: biểu tượng · tên + số tiến độ · thanh · cột thưởng (thẳng hàng giữa các dòng) */
+  function qRow(o) {
+    const pct = Math.max(0, Math.min(100, o.prog / o.target * 100));
+    const st = o.claimed ? 'claimed' : o.done ? 'ready' : 'todo';
+    const end = o.claimed ? `<span class="qr-got">${I('check', 18)}Đã nhận</span>`
+      : o.done ? `<button class="btn btn-sm btn-yel qr-claim" ${o.attr}>Nhận ${I('fishcoin', 20)}<b>${o.fish}</b></button>`
+      : `<span class="qr-rew">${I('fishcoin', 20)}<b>+${o.fish}</b></span>`;
+    return `<div class="qrow ${st} t-${o.tone || 'pink'}"><span class="qr-ico">${I(o.icon, 30)}${o.claimed ? `<i class="qr-tick">${I('check', 14)}</i>` : o.done ? `<i class="qr-gift">${I('chest_open', 22)}</i>` : ''}</span>
+      <div class="qr-main"><div class="qr-top"><span class="qr-title">${o.title}</span><span class="qr-count">${o.done ? (o.doneLabel || 'Xong!') : `<b>${Math.min(o.prog, o.target)}</b>/${o.target}`}</span></div>
+        <div class="qr-bar"><i style="width:${pct}%"></i></div>${o.sub ? `<div class="qr-sub">${o.sub}</div>` : ''}</div>
+      <div class="qr-end">${end}</div></div>`;
+  }
+  const dailyRows = () => SJ.store.quests().map((q, i) => qRow({ icon: q.icon, title: esc(SJ.store.questText(q)), prog: q.prog, target: q.target, fish: q.fish, done: q.done, claimed: q.claimed, attr: `data-claim="${i}"`, tone: 'pink' })).join('');
   function railHTML(compact) {
     const S = SJ.store.get();
     const lv = SJ.store.level();
@@ -23,10 +36,8 @@ window.SJ = window.SJ || {};
       <a class="chip c-fish" href="#/shop" title="Cá vàng">${I('fishcoin', 26)}<b>${esc(S.fish)}</b></a>
       <a class="chip c-xp" href="#/profile" title="Cấp độ">${I(lv.icon, 26)}<b>${esc(S.xp)}</b></a>
       ${S.freeze ? `<a class="chip" href="#/shop" title="Bùa giữ chuỗi">${I('omamori', 26)}<b>${esc(S.freeze)}</b></a>` : ''}</div>`;
-    const quests = `<div class="card card-pad"><div class="card-title">${I('quest', 30)} Nhiệm vụ hôm nay <a class="more" href="#/quests">Xem</a></div>
-      ${qs.map((q, i) => `<div class="quest ${q.done ? 'done' : ''} ${q.claimed ? 'claimed' : ''}"><span class="q-ico">${I(q.done ? 'chest_open' : q.icon, 32)}</span><div class="q-body"><div class="q-text">${esc(SJ.store.questText(q))}</div>
-        <div class="q-bar">${U().bar(q.prog / q.target * 100, q.done ? 'green' : 'sun')}<small>${q.prog}/${q.target}</small></div></div>
-        ${q.done && !q.claimed ? `<button class="btn btn-sm btn-yel claim-btn" data-claim="${i}">Nhận</button>` : `<span class="q-rew">${I('fishcoin', 18)}${q.fish}</span>`}</div>`).join('')}</div>`;
+    const quests = `<div class="card card-pad qcard"><div class="card-title">${I('quest', 30)} Nhiệm vụ hôm nay <a class="more" href="#/quests">Tất cả ${I('arrow_r', 16)}</a></div>
+      <div class="qlist">${dailyRows()}</div></div>`;
     if (compact) return stats + quests;
     return `${stats}
       <div class="card card-pad"><div class="goal-card">${U().ring(today / S.goal * 100, 76, `<b>${Math.min(today, 999)}</b><small>/${S.goal} XP</small>`, 'var(--sun)')}
@@ -43,20 +54,32 @@ window.SJ = window.SJ || {};
   function weeklyHTML() {
     const ws = SJ.store.weekly();
     const now = new Date(), left = 7 - ((now.getDay() + 6) % 7);
-    return `<div class="card card-pad weekly-card"><div class="card-title">${I('calendar', 30)} Thử thách tuần <span class="more muted">còn ${left} ngày</span></div>
-      ${ws.map((q, i) => `<div class="quest ${q.done ? 'done' : ''} ${q.claimed ? 'claimed' : ''}"><span class="q-ico">${I(q.done ? 'chest_open' : q.icon, 32)}</span><div class="q-body"><div class="q-text">${esc(SJ.store.weekText(q))}</div>
-        <div class="q-bar">${U().bar(q.prog / q.target * 100, q.done ? 'green' : 'lav')}<small>${q.prog}/${q.target}</small></div></div>
-        ${q.done && !q.claimed ? `<button class="btn btn-sm btn-yel claim-btn" data-wclaim="${i}">Nhận</button>` : `<span class="q-rew">${I('fishcoin', 18)}${q.fish}</span>`}</div>`).join('')}</div>`;
+    return `<div class="card card-pad qcard weekly-card"><div class="card-title">${I('calendar', 30)} Thử thách tuần <span class="qc-pill lav">còn ${left} ngày</span></div>
+      <div class="qlist">${ws.map((q, i) => qRow({ icon: q.icon, title: esc(SJ.store.weekText(q)), prog: q.prog, target: q.target, fish: q.fish, done: q.done, claimed: q.claimed, attr: `data-wclaim="${i}"`, tone: 'lav' })).join('')}</div></div>`;
   }
   /** Mục tiêu dài hạn — mỗi bậc nhận thưởng */
   function milesHTML() {
-    return `<div class="card card-pad"><div class="card-title">${I('medal', 30)} Mục tiêu dài hạn <span class="more muted">mỗi bậc +15 cá trở lên</span></div>
-      <div class="miles">${SJ.store.milestones().map(m => {
-        const tierN = m.tiers.length, pct = m.complete ? 100 : Math.min(100, m.v / m.next * 100);
-        return `<div class="mile ${m.complete ? 'complete' : ''}"><span class="q-ico">${I(m.icon, 32)}</span><div class="q-body"><div class="q-text">${esc(m.name)} <span class="mile-tier">${'<i class="on"></i>'.repeat(Math.min(m.claimed, tierN))}${'<i></i>'.repeat(Math.max(0, tierN - m.claimed))}</span></div>
-          <div class="q-bar">${U().bar(pct, m.canClaim ? 'green' : 'sky')}<small>${m.complete ? 'Xong!' : `${Math.min(m.v, m.next)}/${m.next}`}</small></div></div>
-          ${m.canClaim ? `<button class="btn btn-sm btn-yel claim-btn" data-mclaim="${m.id}">Nhận</button>` : ''}</div>`;
+    return `<div class="card card-pad qcard"><div class="card-title">${I('medal', 30)} Mục tiêu dài hạn <span class="qc-pill sky">mỗi bậc +15 cá trở lên</span></div>
+      <div class="qlist">${SJ.store.milestones().map(m => {
+        const tierN = m.tiers.length;
+        const dots = `<span class="mile-tier" title="Bậc ${Math.min(m.claimed, tierN)}/${tierN}">${Array.from({ length: tierN }, (_, k) => `<i class="${k < m.claimed ? 'on' : k < m.reached ? 'ready' : ''}"></i>`).join('')}</span>`;
+        return qRow({ icon: m.icon, title: esc(m.name), prog: m.complete ? 1 : Math.min(m.v, m.next), target: m.complete ? 1 : m.next, fish: 15 + m.claimed * 5, done: m.canClaim || m.complete, claimed: m.complete, doneLabel: m.complete ? 'Xong hết!' : 'Đạt bậc mới!', attr: `data-mclaim="${m.id}"`, tone: 'sky', sub: dots + `<span>Bậc ${Math.min(m.claimed + (m.complete ? 0 : 1), tierN)}/${tierN}</span>` });
       }).join('')}</div></div>`;
+  }
+  function questsPageHTML() {
+    const S = SJ.store.get(), qs = SJ.store.quests();
+    const done = qs.filter(q => q.done).length, ready = qs.filter(q => q.done && !q.claimed).length;
+    const fishLeft = qs.filter(q => !q.claimed).reduce((a, q) => a + q.fish, 0);
+    const hero = `<div class="card qhero">
+      <div class="qh-ring">${U().ring(done / qs.length * 100, 92, `<b>${done}/${qs.length}</b><small>hôm nay</small>`, done === qs.length ? 'var(--mint)' : 'var(--pri)')}</div>
+      <div class="qh-txt"><b>${done === qs.length ? (ready ? 'Xong hết rồi — nhận quà thôi!' : 'Hôm nay xong hết rồi, giỏi quá!') : `Còn ${qs.length - done} nhiệm vụ nữa thôi`}</b>
+        <span>${ready ? `Có <b>${ready}</b> phần quà đang chờ bạn bấm <b>Nhận</b>` : fishLeft ? `Làm xong để nhận thêm <b>${fishLeft} cá vàng</b>` : 'Nhiệm vụ mới xuất hiện lúc 0 giờ'}</span></div>
+      <div class="qh-stats">
+        <a class="qh-stat fire" href="#/profile">${I('fire', 28)}<b>${SJ.store.streakNow()}</b><small>ngày liên tiếp</small></a>
+        <a class="qh-stat fish" href="#/shop">${I('fishcoin', 28)}<b>${esc(S.fish)}</b><small>cá vàng</small></a>
+        <a class="qh-stat xp" href="#/profile">${I('star', 28)}<b>${esc(S.xp)}</b><small>tổng XP</small></a></div></div>`;
+    const daily = `<div class="card card-pad qcard"><div class="card-title">${I('quest', 30)} Nhiệm vụ hôm nay <span class="qc-pill pink">làm mới lúc 0 giờ</span></div><div class="qlist">${dailyRows()}</div></div>`;
+    return hero + daily + weeklyHTML() + milesHTML();
   }
   function bindRail(el) {
     if (!el) return;
@@ -75,7 +98,7 @@ window.SJ = window.SJ || {};
   P.refreshRail = () => {
     const r = document.querySelector('.rail'); if (r) r.innerHTML = railHTML();
     const m = document.querySelector('.rail-mobile'); if (m) m.innerHTML = railHTML(true);
-    const q = document.querySelector('.quests-page-list'); if (q) q.innerHTML = railHTML(true) + weeklyHTML() + milesHTML();
+    const q = document.querySelector('.quests-page-list'); if (q) q.innerHTML = questsPageHTML();
   };
 
   // ===================== TRANG CHỦ — LỘ TRÌNH =====================
@@ -343,12 +366,12 @@ window.SJ = window.SJ || {};
     const S = SJ.store.get();
     root.innerHTML = `<div class="page-narrow">
       <div class="page-head"><div class="ph-icon">${I('quest', 52)}</div><div><h1>Nhiệm vụ & Mục tiêu</h1><p>Mỗi ngày 3 nhiệm vụ, mỗi tuần 3 thử thách lớn, cùng các mục tiêu dài hạn có nhiều bậc. Hoàn thành để nhận cá vàng mua đồ cho Mochi nha!</p></div></div>
-      <div class="col gap quests-page-list">${railHTML(true)}${weeklyHTML()}${milesHTML()}</div>
-      <div class="card card-pad mt"><div class="card-title">${I('trophy', 28)} Thành tích</div><div class="stat-grid">
+      <div class="col gap quests-page-list">${questsPageHTML()}</div>
+      <div class="card card-pad mt"><div class="card-title">${I('trophy', 28)} Thành tích</div><div class="stat-grid qstats">
         <div class="stat-box card">${I('quest', 36)}<div><b>${S.questsDone}</b><span>nhiệm vụ đã xong</span></div></div>
         <div class="stat-box card">${I('fishcoin', 36)}<div><b>${S.fishTotal || 0}</b><span>cá đã kiếm được</span></div></div>
         <div class="stat-box card">${I('chest', 36)}<div><b>${Object.keys(S.chests).length}</b><span>rương đã mở</span></div></div></div></div>
-      <p class="muted small bold center mt">Nhiệm vụ mới sẽ xuất hiện vào 0 giờ mỗi ngày.</p></div>`;
+      </div>`;
     bindRail(root);
   };
 

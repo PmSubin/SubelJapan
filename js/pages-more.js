@@ -174,7 +174,9 @@ window.SJ = window.SJ || {};
   }
   const kanaOnly = s => /^[぀-ヿ\s、。！？・ー]+$/.test(s);
   P.typing = function (root, modeArg) {
-    let keyFn = null, timer = null;
+    let keyFn = null, timer = null, kb = null;
+    const killKb = () => { if (kb) { kb.destroy(); kb = null; } };
+    const PH = { romaji: 'Gõ romaji ở đây…', kana: 'Bấm phím kana…' };
     const MODES = [
       { id: 'kana', icon: 'kana', name: 'Gõ chữ cái', desc: 'Từng chữ Kana — làm quen bàn phím.' },
       { id: 'word', icon: 'speech', name: 'Gõ từ vựng', desc: 'Nhìn từ và hình, gõ romaji cho đúng.' },
@@ -182,14 +184,15 @@ window.SJ = window.SJ || {};
       { id: 'free', icon: 'keyboard', name: 'Bàn phím tự do', desc: 'Gõ romaji, ra chữ Nhật ngay lập tức.' },
     ];
     function menu() {
-      keyFn = null;
+      keyFn = null; killKb();
       const S = SJ.store.get();
       root.innerHTML = `<div class="page-mid">
         <div class="page-head"><div class="ph-icon">${I('keyboard', 52)}</div><div><h1>Gõ phím tiếng Nhật</h1><p>Người Nhật gõ chữ bằng <b>romaji</b>: gõ <code>ka</code> ra か, <code>sushi</code> ra すし. Tập gõ vừa nhớ mặt chữ, vừa sẵn sàng nhắn tin tiếng Nhật! Đã gõ đúng <b>${S.typed}</b> từ.</p></div></div>
         <div class="mode-grid">${MODES.map(m => `<button class="mode-card" data-mode="${m.id}"><span class="mc-icon">${I(m.icon, 48)}</span><b>${m.name}</b><small>${m.desc}</small></button>`).join('')}</div>
         <div class="section-label">${I('bulb', 28)} Bảng gõ nhanh</div>
         <div class="card card-pad"><div class="key-table">${SJ.ime.CHEATS.map(c => `<div><span class="jp">${c[0]}</span><code>${esc(c[1])}</code></div>`).join('')}</div></div>
-        <div class="section-label">${I('gear', 28)} Bật bàn phím tiếng Nhật trên máy của bạn</div>
+        <div class="section-label">${I('gear', 28)} Muốn gõ tiếng Nhật ở mọi nơi? Bật bộ gõ trên máy</div>
+        <p class="small muted bold mb">Chưa cài cũng không sao: khi luyện gõ ở đây, bàn phím tiếng Nhật chuẩn JIS hiện ngay dưới ô gõ, chỉ từng phím cần bấm.</p>
         <div class="grid grid-3">
           <div class="card card-pad"><b>Máy tính Windows</b><p class="small muted bold mt-s">Cài đặt → Thời gian & ngôn ngữ → Ngôn ngữ → Thêm ngôn ngữ → 日本語. Nhấn <kbd>Alt</kbd> + <kbd>~</kbd> để chuyển gõ Nhật.</p></div>
           <div class="card card-pad"><b>Điện thoại Android</b><p class="small muted bold mt-s">Mở Gboard → Cài đặt → Ngôn ngữ → Thêm bàn phím → Tiếng Nhật → chọn kiểu "Romaji" (QWERTY).</p></div>
@@ -216,15 +219,18 @@ window.SJ = window.SJ || {};
           <div class="type-live" data-live></div>
           <div class="type-input"><input class="input" data-in autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Gõ romaji ở đây…" aria-label="Gõ romaji"></div>
           <div class="row center-row gap-s mt"><button class="btn btn-sm btn-white" data-hint>${I('eye', 18)} <span>${showHint ? 'Ẩn' : 'Hiện'} gợi ý</span></button><button class="btn btn-sm btn-white" data-say-t>${I('speaker', 18)} Nghe</button><button class="btn btn-sm btn-white" data-skip>Bỏ qua ${I('arrow_r', 16)}</button></div></div>
+        <div class="jkb-host" data-kb></div>
         <p class="center muted small bold mt">Mẹo: ん gõ <b>nn</b>, っ gõ phụ âm đôi (kitte), ー gõ dấu <b>-</b> hoặc lặp nguyên âm.</p></div>`;
       const inp = root.querySelector('[data-in]'), live = root.querySelector('[data-live]'), tgt = root.querySelector('[data-tgt]');
       const elOk = root.querySelector('[data-ok]'), elSpd = root.querySelector('[data-spd]');
       let cur = null, target = '';
+      killKb();
+      kb = SJ.jkb.mount(root.querySelector('[data-kb]'), inp, { target: () => cur && !inp.disabled ? cur.jp : null, placeholder: PH });
       function show() {
         cur = list[i % list.length]; i++;
         target = norm(cur.jp);
         tgt.innerHTML = `${cur.e ? `<div class="tt-pic">${I(cur.e, 70)}</div>` : ''}<div class="tt-jp">${esc(cur.jp)}</div><div class="tt-vi">${esc(cur.vi)}</div><div class="tt-hint">${showHint ? esc(cur.r) : ''}</div>`;
-        inp.value = ''; inp.disabled = false; inp.focus(); render();
+        inp.value = ''; inp.disabled = false; if (!inp.hasAttribute('inputmode')) inp.focus(); render();
         if (mode !== 'kana') SJ.audio.speak(cur.jp);
       }
       function render() {
@@ -244,6 +250,7 @@ window.SJ = window.SJ || {};
         live.innerHTML = html + `<span class="tl-pend">${esc(r.rest)}</span><span class="caret"></span>`;
         const fin = norm(SJ.ime.convert(inp.value, { final: true }).kana);
         if (fin === target || typed === target) done();
+        kb && kb.update();
       }
       function done() {
         if (inp.disabled) return;
@@ -252,15 +259,16 @@ window.SJ = window.SJ || {};
         SJ.audio.sfx('ok'); SJ.store.addTyped(1); SJ.store.addXP(1);
         if (ok % 10 === 0) { SJ.audio.sfx('combo'); U().toast(`${I('keyboard', 26)} Gõ đúng ${ok} lần! +3 XP`); SJ.store.addXP(3); }
         live.classList.add('pop-in'); setTimeout(() => live.classList.remove('pop-in'), 400);
+        kb && kb.update();
         timer = setTimeout(show, 450);
       }
       inp.addEventListener('input', () => { const now = Date.now(); if (now - lastAt > 60) SJ.audio.sfx('tick'); lastAt = now; render(); });
       root.querySelector('[data-hint]').onclick = e => { showHint = !showHint; e.currentTarget.querySelector('span').textContent = showHint ? 'Ẩn gợi ý' : 'Hiện gợi ý'; tgt.querySelector('.tt-hint').textContent = showHint ? cur.r : ''; inp.focus(); };
       root.querySelector('[data-say-t]').onclick = () => { SJ.audio.speak(cur.jp); inp.focus(); };
-      root.querySelector('[data-skip]').onclick = () => { if (inp.disabled) return; clearTimeout(timer); skip++; tgt.querySelector('.tt-hint').textContent = cur.r; SJ.audio.sfx('bad'); inp.disabled = true; timer = setTimeout(show, 1100); };
+      root.querySelector('[data-skip]').onclick = () => { if (inp.disabled) return; clearTimeout(timer); skip++; tgt.querySelector('.tt-hint').textContent = cur.r; SJ.audio.sfx('bad'); inp.disabled = true; kb && kb.update(); timer = setTimeout(show, 1100); };
       root.querySelector('[data-quit]').onclick = finish;
       function finish() {
-        clearTimeout(timer); document.body.classList.remove('focus-mode');
+        clearTimeout(timer); killKb(); document.body.classList.remove('focus-mode');
         const mins = (Date.now() - t0) / 60000;
         if (ok) SJ.store.addFish(Math.min(10, Math.ceil(ok / 3)));
         root.innerHTML = `<div class="page-narrow result pop-in"><div class="result-mochi">${U().mascot(ok >= 10 ? 'love' : 'happy', 140, 'jump')}</div><h1>Gõ phím xong!</h1>
@@ -280,19 +288,22 @@ window.SJ = window.SJ || {};
           <div class="row gap wrap mb"><div class="seg"><button class="active" data-sc="h">あ Hiragana</button><button data-sc="k">ア Katakana</button></div><span class="grow"></span><button class="btn btn-sm btn-white" data-copy>${I('check', 18)} Sao chép</button><button class="btn btn-sm btn-white" data-read>${I('speaker', 18)} Đọc</button></div>
           <div class="ime-out" data-out></div>
           <textarea class="input mt" data-in rows="3" placeholder="Gõ romaji: watashi wa mochi desu" spellcheck="false" autocapitalize="off"></textarea>
-          <p class="small muted bold mt-s">Thử gõ: <code>arigatou</code>, <code>konnichiha</code>, <code>ko-hi-</code>, <code>kitte</code>, <code>kyou</code>…</p></div></div>`;
+          <p class="small muted bold mt-s">Thử gõ: <code>arigatou</code>, <code>konnichiha</code>, <code>ko-hi-</code>, <code>kitte</code>, <code>kyou</code>…</p></div>
+        <div class="jkb-host" data-kb></div></div>`;
       const inp = root.querySelector('[data-in]'), out = root.querySelector('[data-out]');
       const conv = final => kata ? SJ.ime.toKata(inp.value, final) : SJ.ime.toHira(inp.value, final);
       const render = () => { const r = SJ.ime.convert(inp.value); const k = kata ? SJ.ime.toKata(inp.value, true) : r.kana; out.innerHTML = esc(kata ? k : r.kana) + (r.rest && !kata ? `<span class="pend">${esc(r.rest)}</span>` : ''); };
       inp.oninput = render;
+      killKb();
+      kb = SJ.jkb.mount(root.querySelector('[data-kb]'), inp, { enter: true, placeholder: { romaji: 'Gõ romaji: watashi wa mochi desu', kana: 'Bấm phím kana để gõ chữ Nhật…' } });
       root.querySelector('[data-menu]').onclick = menu;
       root.querySelectorAll('[data-sc]').forEach(b => b.onclick = () => { kata = b.dataset.sc === 'k'; root.querySelectorAll('[data-sc]').forEach(x => x.classList.toggle('active', x === b)); render(); });
       root.querySelector('[data-copy]').onclick = () => { const t = conv(true); try { navigator.clipboard.writeText(t); U().toast('Đã sao chép: ' + esc(t)); } catch (e) { } };
       root.querySelector('[data-read]').onclick = () => SJ.audio.speak(conv(true));
-      inp.focus(); render();
+      if (!inp.hasAttribute('inputmode')) inp.focus(); render();
     }
     if (modeArg && MODES.some(m => m.id === modeArg)) { modeArg === 'free' ? free() : run(modeArg); } else menu();
-    return { destroy() { clearTimeout(timer); document.body.classList.remove('focus-mode'); } };
+    return { destroy() { clearTimeout(timer); killKb(); document.body.classList.remove('focus-mode'); } };
   };
 
   // ===================== SỔ TỪ (từ điển mini) =====================
