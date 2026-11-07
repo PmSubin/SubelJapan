@@ -270,7 +270,7 @@ window.SJ = window.SJ || {};
     function renderRead() {
       setProg(8, 'Đọc hiểu');
       body.innerHTML = `<div class="read col gap">${content.sections.map((s, i) => `<section class="card card-pad pop-in" style="animation-delay:${i * .05}s">
-        <h2>${esc(s.h)}</h2><p>${esc(s.p)}</p>
+        <h2>${U().brand(esc(s.h))}</h2><p>${U().brand(esc(s.p))}</p>
         ${s.list ? `<div class="col gap-s">${s.list.map(l => `<div class="example" data-say="${esc(l[0])}"><span class="jp ex-jp">${l[0]}</span><span class="ex-vi">${esc(l[1])}</span></div>`).join('')}</div>` : ''}
         ${s.ex ? `<div class="col gap-s">${s.ex.map(e => `<div class="example" data-say="${esc(e[0])}"><span class="jp ex-jp">${esc(e[0])}</span><span class="ex-ro">${esc(e[1])}</span><span class="ex-vi">${esc(e[2])}</span><span class="ex-say">${I('speaker', 20)}</span></div>`).join('')}</div>` : ''}
         ${s.widget === 'name' ? nameWidget() : ''}

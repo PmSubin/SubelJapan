@@ -109,15 +109,33 @@ window.SJ = window.SJ || {};
   }
 
   // ---------- Toast ----------
-  function toast(html, ms) {
+  function toast(html, ms, cls) {
     let root = $('#toast-root');
     if (!root) { root = document.createElement('div'); root.id = 'toast-root'; document.body.appendChild(root); }
+    ms = ms || 2600;
     const t = document.createElement('div');
-    t.className = 'toast'; t.innerHTML = html;
+    t.className = 'toast' + (cls ? ' ' + cls : ''); t.innerHTML = html;
+    t.style.setProperty('--ms', ms + 'ms');
     root.appendChild(t);
     while (root.children.length > 3) root.firstChild.remove();
     const show = () => t.classList.add('show'); requestAnimationFrame(show); setTimeout(show, 60);
-    setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 400); }, ms || 2600);
+    let gone = false;
+    const hide = () => { if (gone) return; gone = true; t.classList.remove('show'); t.classList.add('hide'); setTimeout(() => t.remove(), 400); };
+    t.addEventListener('click', hide);
+    setTimeout(hide, ms);
+    return t;
+  }
+
+  /** Thẻ thành tựu: huy hiệu ruy băng + tia sáng xoay + sao lấp lánh + quà (bấm để đóng / mở trang liên quan).
+   *  o = { tone: gold|mint|coral|lav|pink, icon, kicker, title, sub, fish, xp, ms, href } — title/sub là HTML đã esc */
+  function celebrate(o) {
+    const gifts = (o.fish ? `<span class="ach-gift">${I('fishcoin', 22)}<b>+${o.fish}</b></span>` : '') + (o.xp ? `<span class="ach-gift xp">${I('star', 20)}<b>+${o.xp}</b></span>` : '');
+    const t = toast(`<span class="ach-medal" aria-hidden="true"><span class="ach-rays"></span><span class="ach-tail l"></span><span class="ach-tail r"></span><span class="ach-disc">${I(o.icon, 38)}</span><i class="sp s1"></i><i class="sp s2"></i><i class="sp s3"></i><i class="sp s4"></i></span>
+      <div class="ach-txt"><div class="ach-kick">${esc(o.kicker)}</div><div class="ach-title">${o.title}</div>${o.sub ? `<div class="ach-sub">${o.sub}</div>` : ''}</div>
+      ${gifts ? `<div class="ach-gifts">${gifts}</div>` : ''}<span class="ach-bar"></span>`, o.ms || 4200, 'ach ach-' + (o.tone || 'gold'));
+    t.setAttribute('role', 'status');
+    if (o.href) t.addEventListener('click', () => { if (location.hash !== o.href) location.hash = o.href; });
+    return t;
   }
 
   // ---------- Confetti: giấy màu + sao + hoa ----------
@@ -208,6 +226,11 @@ window.SJ = window.SJ || {};
 
   // ---------- Furigana: "{漢字|かんじ}" ----------
   const FURI = /\{([^|{}]+)\|([^{}]+)\}/g;
+  /** tên trang trong chữ thường: "Japan" luôn màu hồng như logo */
+  const brand = h => String(h).replace(/SubelJapan/g, '<span class="bn">Subel<b>Japan</b></span>');
+  /** đôi tai mèo Mochi gắn lên nút chính (class btn-cat) */
+  const EAR_SVG = '<svg viewBox="0 0 30 25"><path class="o" d="M1.5 27 C2.5 18 3.6 9.5 6.2 4.6 Q8.6 0.6 12.6 3.4 C18.6 8.2 25 16.4 29 27 Z"/><path class="i" d="M8 11.2 Q9 7.4 11.6 9.2 L19 16.4 Q13.6 18.2 9.2 21.4 Z"/></svg>';
+  const ears = () => `<span class="ear l" aria-hidden="true">${EAR_SVG}</span><span class="ear r" aria-hidden="true">${EAR_SVG}</span>`;
   const ruby = s => esc(s).replace(/\{([^|{}]+)\|([^{}]+)\}/g, '<ruby>$1<rt>$2</rt></ruby>');
   const reading = s => String(s || '').replace(FURI, '$2');
   const baseText = s => String(s || '').replace(FURI, '$1');
@@ -271,7 +294,7 @@ window.SJ = window.SJ || {};
   }
 
   SJ.ui = {
-    $, $$, esc, shuffle, pick, sample, clamp, I, mascot, mascotSay, FURS, toast, confetti, modal, confirm: confirmBox,
+    $, $$, esc, brand, ears, shuffle, pick, sample, clamp, I, mascot, mascotSay, FURS, toast, celebrate, confetti, modal, confirm: confirmBox,
     petals: () => { }, stars, ring, bar, countUp, sayBtn, hanko, lbl, fish, ruby, reading, baseText, nameToKata, romajiToKata, greeting,
   };
 })(window.SJ);

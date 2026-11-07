@@ -214,3 +214,154 @@
 @keyframes heartUp { 0% { opacity: 0; transform: translateY(0) scale(.4); } 20% { opacity: 1; transform: translateY(-10px) scale(1.1); } 100% { opacity: 0; transform: translate(var(--hx), -80px) scale(.9); } }
 @media print { .pet, .pet-shadow { display: none !important; } }
 html[data-motion="reduce"] .path.reveal .prow { opacity: 1; transform: none; }
+
+/* =========================================================
+   Nút "mochi khâu tay" — dấu riêng của SubelJapan:
+   đường chỉ khâu chạy quanh mép trong như thú bông mochi,
+   nút chính to có thêm đôi tai mèo của Mochi (vểnh lên khi rê chuột, thỉnh thoảng giật tai)
+   ========================================================= */
+.btn { --st: rgba(255, 255, 255, .62); }
+.btn::before {
+  content: ""; position: absolute; inset: 4px; border-radius: inherit; pointer-events: none;
+  border: 1.6px dashed var(--st); transition: inset .35s var(--spring), border-color .2s;
+}
+.btn-lg::before { inset: 5px; }
+.btn-sm::before { inset: 3px; border-width: 1.3px; }
+.btn:hover::before { --st: rgba(255, 255, 255, .85); }
+.btn:active::before { inset: 3px; }
+.btn-lg:active::before { inset: 4px; }
+.btn-sm:active::before { inset: 2px; }
+.btn-white, .btn-paper { --st: color-mix(in srgb, var(--pri) 36%, transparent); }
+.btn-white:hover::before, .btn-paper:hover::before { --st: color-mix(in srgb, var(--pri) 60%, transparent); }
+.btn-soft, .btn-soft:hover::before { --st: color-mix(in srgb, var(--pri) 42%, transparent); }
+.btn-yel, .btn-yel:hover::before { --st: rgba(110, 72, 0, .32); }
+.btn[disabled], .btn.disabled, .btn[disabled]:hover::before, .btn.disabled:hover::before { --st: color-mix(in srgb, var(--ink3) 55%, transparent); }
+.pn-pop .btn, .pn-pop .btn:hover::before { --st: color-mix(in srgb, var(--uc) 45%, transparent); }
+.btn-ghost::before, .ub-guide::before, .btn-round::before { display: none; }
+
+/* tai mèo cho nút chính */
+.btn-cat { overflow: visible; }
+.btn-cat .ear { position: absolute; bottom: calc(100% - 4px); width: 30px; height: 25px; pointer-events: none; transform-origin: 50% 100%; transition: transform .4s var(--spring); }
+.btn-cat .ear.l { left: 17%; }
+.btn-cat .ear.r { right: 17%; transform: scaleX(-1); }
+.btn-cat .ear svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.btn-cat .ear .o { fill: var(--b); transition: fill .2s; }
+.btn-cat .ear .i { fill: color-mix(in srgb, #fff 52%, var(--b)); }
+.btn-cat:hover .ear .o { fill: color-mix(in srgb, var(--b) 90%, #fff); }
+.btn-cat:hover .ear.l { transform: rotate(-9deg) translateY(-2px); }
+.btn-cat:hover .ear.r { transform: scaleX(-1) rotate(-9deg) translateY(-2px); }
+.btn-cat .ear.r { animation: earFlick 4.2s ease-in-out infinite 1.5s; }
+@keyframes earFlick {
+  0%, 88%, 100% { transform: scaleX(-1) rotate(0); }
+  91% { transform: scaleX(-1) rotate(-16deg); }
+  94% { transform: scaleX(-1) rotate(4deg); }
+  97% { transform: scaleX(-1) rotate(-6deg); }
+}
+.btn-cat:hover .ear.r { animation: none; }
+.btn-cat.btn-lg .ear { width: 34px; height: 28px; }
+.btn-cat.btn-block .ear.l { left: 24%; } .btn-cat.btn-block .ear.r { right: 24%; }
+html[data-motion="reduce"] .btn-cat .ear { animation: none !important; transition: none; }
+.wl-go.btn-cat { margin-top: 36px; }
+.btn-cat.btn-block .ear.l { left: max(17%, calc(50% - 175px)); }
+.btn-cat.btn-block .ear.r { right: max(17%, calc(50% - 175px)); }
+@media (max-width: 760px) {
+  .hello .hello-cta.btn-cat { margin-top: 14px; }
+  .hello .hello-cta.btn-cat .ear.l { left: calc(50% - 86px); }
+  .hello .hello-cta.btn-cat .ear.r { right: calc(50% - 86px); }
+}
+
+/* =========================================================
+   Thông báo: toast thường có chỉ khâu, thẻ THÀNH TỰU có huy hiệu ruy băng
+   ========================================================= */
+.toast { position: relative; border: 0; cursor: pointer; }
+.toast::before { content: ""; position: absolute; inset: 4px; border-radius: 14px; border: 1.5px dashed color-mix(in srgb, var(--pri) 30%, transparent); pointer-events: none; }
+.toast.hide { transform: translateY(-22px) scale(.94); opacity: 0; transition-duration: .3s; }
+
+.toast.ach {
+  --t: var(--sun); --tl: color-mix(in srgb, var(--t) 20%, var(--card)); --tt: color-mix(in srgb, var(--t) 62%, var(--ink));
+  width: 100%; gap: 14px; padding: 14px 16px 16px 14px; border-radius: 24px; overflow: hidden; text-align: left;
+  background: radial-gradient(120px 90px at 44px 50%, var(--tl), transparent 75%), linear-gradient(100deg, var(--tl) 0, var(--card) 62%);
+  box-shadow: 0 22px 44px -20px color-mix(in srgb, var(--t) 75%, transparent), 0 2px 8px rgba(58, 46, 77, .08);
+  transform: translateY(-60px) scale(.8) rotate(-3deg); transition: transform .6s var(--spring), opacity .25s;
+}
+.toast.ach.show { transform: none; }
+.toast.ach.hide { transform: translateY(-30px) scale(.92); opacity: 0; transition: transform .3s ease-in, opacity .25s; }
+.toast.ach::before { inset: 5px; border-radius: 19px; border-color: color-mix(in srgb, var(--t) 48%, transparent); }
+.toast.ach-gold { --t: #ffb800; --tt: #a06f00; }
+.toast.ach-mint { --t: var(--mint); --tt: var(--mint-t); }
+.toast.ach-coral { --t: var(--coral); --tt: color-mix(in srgb, var(--coral) 65%, var(--ink)); }
+.toast.ach-lav { --t: var(--lav); --tt: var(--lav-t); }
+.toast.ach-pink { --t: var(--pri); --tt: var(--pri-t); }
+
+.ach-medal { position: relative; flex: none; width: 64px; height: 64px; display: grid; place-items: center; }
+.ach-rays { position: absolute; inset: -16px; border-radius: 50%;
+  background: repeating-conic-gradient(color-mix(in srgb, var(--t) 34%, transparent) 0 9deg, transparent 9deg 22.5deg);
+  -webkit-mask: radial-gradient(circle, #000 30%, transparent 68%); mask: radial-gradient(circle, #000 30%, transparent 68%);
+  animation: achSpin 10s linear infinite, achFade .6s ease both .1s; }
+.ach-tail { position: absolute; bottom: -7px; width: 14px; height: 20px; background: var(--t); clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 76%, 0 100%); }
+.ach-tail.l { left: 15px; transform: rotate(20deg); filter: brightness(.92); }
+.ach-tail.r { right: 15px; transform: rotate(-20deg); }
+.ach-disc { position: relative; z-index: 1; width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; background: var(--card);
+  box-shadow: inset 0 0 0 3.5px var(--t), 0 8px 16px -8px var(--t); animation: achPop .75s var(--spring) both .12s; }
+.ach-disc::after { content: ""; position: absolute; inset: 6px; border-radius: 50%; border: 1.5px dashed color-mix(in srgb, var(--t) 55%, transparent); }
+.ach-disc .ic { width: 36px; height: 36px; }
+.ach-medal .sp { position: absolute; z-index: 2; width: 11px; height: 11px; background: #ffd85e; clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%); animation: achTw 1.8s ease-in-out infinite; }
+.ach-medal .s1 { top: -5px; left: -3px; }
+.ach-medal .s2 { top: 0; right: -7px; width: 8px; height: 8px; background: var(--t); animation-delay: .45s; }
+.ach-medal .s3 { bottom: 6px; left: -9px; width: 7px; height: 7px; background: var(--t); animation-delay: .9s; }
+.ach-medal .s4 { bottom: -3px; right: -5px; width: 9px; height: 9px; animation-delay: 1.3s; }
+.ach-txt { flex: 1; min-width: 0; position: relative; }
+.ach-kick { font: 900 11px/1.2 var(--f-body); letter-spacing: 1.1px; text-transform: uppercase; color: var(--tt); animation: achIn .45s ease both .2s; }
+.ach-title { margin-top: 3px; font: 800 18px/1.2 var(--f-head); color: var(--ink); animation: achIn .45s ease both .28s; }
+.ach-sub { margin-top: 3px; font: 700 13px/1.35 var(--f-body); color: var(--ink2); animation: achIn .45s ease both .36s; }
+.ach-gifts { flex: none; display: flex; flex-direction: column; gap: 6px; align-items: flex-end; position: relative; }
+.ach-gift { display: inline-flex; align-items: center; gap: 4px; padding: 5px 11px 5px 6px; border-radius: 999px; background: var(--card);
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--sun) 55%, transparent), 0 6px 12px -8px rgba(160, 111, 0, .6);
+  font: 900 15px/1 var(--f-body); color: #a06f00; animation: achGift .6s var(--spring) both .55s; }
+.ach-gift .ic { width: 22px; height: 22px; }
+.ach-gift.xp { color: var(--pri-t); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--pri) 40%, transparent), 0 6px 12px -8px var(--pri); animation-delay: .68s; }
+.ach-gift.xp .ic { width: 19px; height: 19px; }
+.ach-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 3.5px; background: color-mix(in srgb, var(--t) 70%, transparent); transform-origin: left; animation: achBar var(--ms, 4s) linear both; }
+@keyframes achSpin { to { rotate: 360deg; } }
+@keyframes achFade { from { opacity: 0; scale: .4; } }
+@keyframes achPop { 0% { transform: scale(.2) rotate(-35deg); } 55% { transform: scale(1.16) rotate(8deg); } 78% { transform: scale(.96) rotate(-3deg); } 100% { transform: none; } }
+@keyframes achTw { 0%, 100% { transform: scale(.35); opacity: .25; } 50% { transform: scale(1.1) rotate(45deg); opacity: 1; } }
+@keyframes achIn { from { opacity: 0; transform: translateX(10px); } }
+@keyframes achGift { from { opacity: 0; transform: scale(.3) translateY(10px); } }
+@keyframes achBar { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+@media (max-width: 420px) {
+  .toast.ach { gap: 11px; padding: 12px 12px 14px 12px; }
+  .ach-medal { width: 54px; height: 54px; }
+  .ach-disc { width: 50px; height: 50px; }
+  .ach-disc .ic { width: 31px; height: 31px; }
+  .ach-tail.l { left: 11px; } .ach-tail.r { right: 11px; }
+  .ach-title { font-size: 16px; }
+  .ach-sub { font-size: 12.5px; }
+}
+html[data-motion="reduce"] .toast.ach *, html[data-motion="reduce"] .toast.ach { animation: none !important; transition: opacity .2s !important; }
+html[data-motion="reduce"] .toast.ach .ach-bar { display: none; }
+
+/* ---------- Bảng huy hiệu: huy chương ruy băng (đồng bộ với thẻ thành tựu) ---------- */
+.badge { position: relative; gap: 5px; padding: 16px 8px 14px; border: 1.5px solid var(--line); background: var(--card); transition: transform .35s var(--spring), box-shadow .25s; }
+.badge.got { background: linear-gradient(180deg, color-mix(in srgb, var(--sun) 17%, var(--card)), var(--card) 78%); border-color: color-mix(in srgb, var(--sun) 48%, var(--line)); box-shadow: 0 12px 22px -18px #c98a00; }
+.badge.got::before { content: ""; position: absolute; inset: 4px; border-radius: 14px; border: 1.5px dashed color-mix(in srgb, var(--sun) 46%, transparent); pointer-events: none; }
+.badge.got:hover { transform: translateY(-3px); }
+.badge.got:hover .bd-medal { animation: wig .6s ease-in-out; }
+.bd-medal { position: relative; width: 58px; height: 60px; display: grid; place-items: center; margin-bottom: 3px; }
+.bd-disc { position: relative; z-index: 1; width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; background: var(--card); box-shadow: inset 0 0 0 3px #ffb800, 0 6px 12px -8px #c98a00; }
+.bd-disc::after { content: ""; position: absolute; inset: 5.5px; border-radius: 50%; border: 1.4px dashed color-mix(in srgb, #ffb800 55%, transparent); }
+.bd-disc .ic { width: 34px; height: 34px; }
+.bd-tail { position: absolute; bottom: -1px; width: 12px; height: 18px; background: #ffb800; clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 76%, 0 100%); }
+.bd-tail.l { left: 13px; transform: rotate(20deg); filter: brightness(.9); }
+.bd-tail.r { right: 13px; transform: rotate(-20deg); }
+.badge.got .bd-medal::before { content: ""; position: absolute; z-index: 2; top: -3px; right: -4px; width: 11px; height: 11px; background: #ffd85e; clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%); animation: achTw 2.6s ease-in-out infinite; }
+.badge.got:nth-child(3n+2) .bd-medal::before { animation-delay: .8s; }
+.badge.got:nth-child(3n) .bd-medal::before { animation-delay: 1.6s; }
+.badge.locked .bd-disc { background: var(--bg2); box-shadow: inset 0 0 0 2px var(--line2); }
+.badge.locked .bd-disc::after { border-color: var(--line2); }
+.badge.locked .bd-tail { background: var(--line2); filter: none; }
+.bd-lock { position: absolute; z-index: 2; right: -3px; bottom: 3px; width: 24px; height: 24px; border-radius: 50%; background: var(--card); box-shadow: var(--sh-1); display: grid; place-items: center; }
+.badge.locked .bd-lock .ic { width: 16px; height: 16px; filter: grayscale(1) opacity(.55); }
+.bd-date { margin-top: 3px; padding: 2px 8px; border-radius: 999px; background: color-mix(in srgb, var(--sun) 22%, var(--card)); font: 800 10.5px/1.4 var(--f-body); color: #a06f00; }
+[data-theme="yoru"] .bd-date { color: var(--sun-t); }
+html[data-motion="reduce"] .badge .bd-medal, html[data-motion="reduce"] .badge .bd-medal::before { animation: none !important; }

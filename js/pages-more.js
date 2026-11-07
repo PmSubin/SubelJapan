@@ -353,7 +353,7 @@ window.SJ = window.SJ || {};
     function sheet() {
       const cs = chars();
       const info = c => { const o = SJ.KANA_MAP[c]; if (o) return o.r; const k = SJ.KANJI_MAP[c]; return k ? k.hv : ''; };
-      return `<div class="ws-sheet"><div class="ws-title"><h2>Phiếu tập viết ${script === 'kanji' && !custom ? 'Kanji' : script === 'kata' && !custom ? 'Katakana' : custom ? '' : 'Hiragana'}</h2><span>Tên: ${esc(name) || '................'} · Ngày: ......../......../........ · SubelJapan</span></div>
+      return `<div class="ws-sheet"><div class="ws-title"><h2>Phiếu tập viết ${script === 'kanji' && !custom ? 'Kanji' : script === 'kata' && !custom ? 'Katakana' : custom ? '' : 'Hiragana'}</h2><span>Tên: ${esc(name) || '................'} · Ngày: ......../......../........ · ${U().brand('SubelJapan')}</span></div>
         ${cs.map(c => `<div class="ws-row"><span class="ws-lab">${esc(info(c))}</span><span class="ws-box model"><span>${c}</span></span><span class="ws-box trace"><span>${c}</span></span><span class="ws-box trace2"><span>${c}</span></span>${'<span class="ws-box"></span>'.repeat(Math.max(0, boxes - 3))}</div>`).join('')}
         <div class="ws-foot">Viết theo đúng thứ tự nét · Ô đầu: chữ mẫu · 2 ô tiếp: tô theo · Các ô còn lại: tự viết</div></div>`;
     }

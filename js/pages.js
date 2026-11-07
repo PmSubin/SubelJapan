@@ -37,7 +37,7 @@ window.SJ = window.SJ || {};
       <a class="card card-pad hov shop-teaser" href="#/shop">${U().mascot('wink', 76)}<div class="grow"><b class="card-title" style="margin:0 0 4px">Tiệm của Mochi</b><div class="muted small bold">Dùng cá vàng mua phụ kiện, đổi vị cho Mochi và bùa giữ chuỗi</div></div></a>
       <div class="card card-pad"><div class="card-title">${I('sparkle', 26)} Từ của ngày</div>
         <div class="wotd" data-say="${esc(SJ.ui.reading(wotd.jp))}"><span class="chip-pic">${I(wotd.e, 46)}</span><div class="grow"><div class="jp w-jp">${esc(wotd.jp)}</div><div class="muted small bold">${esc(wotd.r)} — ${esc(wotd.vi)}</div></div>${I('speaker', 24)}</div></div>
-      <div class="rail-foot">SubelJapan · Nét chữ từ <a href="https://kanjivg.tagaini.net" target="_blank" rel="noopener">KanjiVG</a> (CC BY-SA 3.0)<br>Mochi chúc bạn học vui mỗi ngày!</div>`;
+      <div class="rail-foot">${U().brand('SubelJapan')} · Nét chữ từ <a href="https://kanjivg.tagaini.net" target="_blank" rel="noopener">KanjiVG</a> (CC BY-SA 3.0)<br>Mochi chúc bạn học vui mỗi ngày!</div>`;
   }
   /** Thử thách tuần */
   function weeklyHTML() {
@@ -193,7 +193,7 @@ window.SJ = window.SJ || {};
     root.innerHTML = `<div class="with-rail">
       <div class="main-col">
         <div class="hello card sky">${SJ.deco ? SJ.deco.skyHTML() : ''}${U().mascot(SJ.store.doneToday() ? 'cheer' : 'happy', 84, 'bob')}<div class="hello-txt"><div class="hello-jp jp" data-say="${g.jp}">${g.jp}！</div><h1>${g.vi}, ${name}!</h1><div class="muted small bold">${I(nextUnit.icon, 16)} ${esc(nextUnit.title)} · ${esc(next.title)}</div></div>
-          <a class="btn hello-cta" href="#/lesson/${next.id}">${Object.keys(S.lessons).length ? 'Học tiếp' : 'Bắt đầu học'} ${I('arrow_r', 20)}</a></div>
+          <a class="btn btn-cat hello-cta" href="#/lesson/${next.id}">${U().ears()}${Object.keys(S.lessons).length ? 'Học tiếp' : 'Bắt đầu học'} ${I('arrow_r', 20)}</a></div>
         ${SJ.deco ? SJ.deco.todayHTML() : ''}
         <div class="rail-mobile">${railHTML(true)}</div>
         ${units}
@@ -324,7 +324,7 @@ window.SJ = window.SJ || {};
   function guide(uid) {
     const u = SJ.UNITS.find(x => x.id === uid);
     let body = '';
-    if (uid === 'start') body = SJ.TEXT.intro.sections.map(s => `<h3>${esc(s.h)}</h3><p>${esc(s.p)}</p>`).join('');
+    if (uid === 'start') body = SJ.TEXT.intro.sections.map(s => `<h3>${U().brand(esc(s.h))}</h3><p>${U().brand(esc(s.p))}</p>`).join('');
     else if (uid === 'hira' || uid === 'kata') {
       const sc = uid;
       const conv = c => sc === 'kata' ? SJ.toKata(c) : c;
@@ -642,7 +642,8 @@ window.SJ = window.SJ || {};
         <div class="card card-pad mt"><div class="card-title">${I('calendar', 28)} Lịch học 18 tuần</div><div class="heat">${heat}</div><div class="legend mt-s">Ít <i style="background:var(--bg2)"></i><i style="background:color-mix(in srgb,var(--pri) 30%,var(--card))"></i><i style="background:color-mix(in srgb,var(--pri) 55%,var(--card))"></i><i style="background:color-mix(in srgb,var(--pri) 80%,var(--card))"></i><i style="background:var(--pri-d)"></i> Nhiều · <i style="background:var(--sky-l);border-color:var(--sky)"></i> bùa giữ chuỗi</div></div>
         ${weak.length ? `<div class="card card-pad mt"><div class="card-title">${I('target', 28)} Chữ hay nhầm <a class="more" href="#/practice/read">Luyện ngay</a></div><div class="weak-list">${weak.map(k => `<button class="chip-kana" data-k="${k}">${k}<small>sai ${S.items[k].w}</small></button>`).join('')}</div></div>` : ''}
         <div class="card card-pad mt"><div class="card-title">${I('medal', 28)} Huy hiệu <span class="small muted bold">${Object.keys(S.badges).length}/${SJ.store.BADGES.length}</span></div>
-          <div class="badge-grid">${SJ.store.BADGES.map(b => `<div class="badge ${S.badges[b.id] ? 'got' : 'locked'}" title="${esc(b.desc)}">${I(b.icon, 44)}<b>${b.name}</b><small>${b.desc}</small></div>`).join('')}</div></div>
+          <div class="badge-grid">${SJ.store.BADGES.map(b => { const at = S.badges[b.id], d = at > 1e12 ? new Date(at) : null;
+            return `<div class="badge ${at ? 'got' : 'locked'}" title="${esc(b.desc)}"><span class="bd-medal"><span class="bd-tail l"></span><span class="bd-tail r"></span><span class="bd-disc">${I(b.icon, 40)}</span>${at ? '' : `<span class="bd-lock">${I('lock', 26)}</span>`}</span><b>${esc(b.name)}</b><small>${esc(b.desc)}</small>${d ? `<span class="bd-date">${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}</span>` : ''}</div>`; }).join('')}</div></div>
         <div class="card card-pad mt"><div class="card-title">${I('nametag', 28)} Tên tiếng Nhật của bạn</div>${SJ.lesson.nameWidget()}</div>
         <div class="card card-pad mt"><div class="card-title">${I('gear', 28)} Cài đặt</div>
           <div class="set-row"><div class="sr-l"><b>Âm thanh</b><small>Tiếng chuông, đàn koto, mèo kêu…</small></div><label class="switch"><input type="checkbox" data-set="sound" ${st.sound ? 'checked' : ''}><i></i></label></div>
@@ -702,7 +703,7 @@ window.SJ = window.SJ || {};
     box.className = 'intro';
     document.body.appendChild(box);
     const slides = [
-      () => `${U().mascot('cheer', 190, 'bob')}<h1><span class="jp">はじめまして！</span><br>Mình là mèo Mochi</h1><p>Chào mừng đến <b>SubelJapan</b> — nơi bạn học đọc và viết tiếng Nhật từ con số 0. Mỗi ngày chỉ 5–10 phút, nhẹ nhàng mà chắc chắn!</p>`,
+      () => `${U().mascot('cheer', 190, 'bob')}<h1><span class="jp">はじめまして！</span><br>Mình là mèo Mochi</h1><p>Chào mừng đến ${U().brand('SubelJapan')} — nơi bạn học đọc và viết tiếng Nhật từ con số 0. Mỗi ngày chỉ 5–10 phút, nhẹ nhàng mà chắc chắn!</p>`,
       () => `<h1>Tiếng Nhật có 3 bộ chữ</h1><p>Đừng lo, mình sẽ đi từng bước một — bắt đầu từ Hiragana.</p>
         <div class="scripts3">${[['あ', 'Hiragana', 'Chữ mềm mại, dùng nhiều nhất', 'var(--pri)'], ['ア', 'Katakana', 'Chữ góc cạnh cho từ nước ngoài', 'var(--sky)'], ['日', 'Kanji', 'Chữ Hán — có âm Hán Việt!', 'var(--sun)']].map(x => `<button class="card script-card hov" data-say="${x[0] === '日' ? 'にち' : x[0]}" style="border-color:${x[3]}"><div class="sc-k" style="color:${x[3]}">${x[0]}</div><b>${x[1]}</b><small>${x[2]}</small></button>`).join('')}</div>
         <p class="small mt">Bấm vào từng chữ để nghe nha!</p>`,
@@ -716,7 +717,7 @@ window.SJ = window.SJ || {};
     function draw() {
       box.innerHTML = `<div class="intro-top">${step ? `<button class="lesson-x" data-back aria-label="Quay lại">${I('arrow_l', 24)}</button>` : ''}<div class="intro-dots">${slides.map((s, i) => `<i class="${i <= step ? 'on' : ''}"></i>`).join('')}</div>${again ? `<button class="lesson-x" data-close aria-label="Đóng">${I('batsu', 22)}</button>` : ''}</div>
         <div class="intro-body pop-in">${slides[step]()}</div>
-        <div class="intro-foot"><button class="btn btn-lg btn-block" data-next>${step === slides.length - 1 ? 'Bắt đầu hành trình!' : 'Tiếp tục'}</button></div>`;
+        <div class="intro-foot">${step === slides.length - 1 ? `<button class="btn btn-lg btn-block btn-cat" data-next>${U().ears()}Bắt đầu hành trình!</button>` : '<button class="btn btn-lg btn-block" data-next>Tiếp tục</button>'}</div>`;
       const inp = box.querySelector('#in-name'); if (inp) setTimeout(() => inp.focus(), 200);
     }
     function finish() {

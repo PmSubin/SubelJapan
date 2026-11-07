@@ -87,7 +87,6 @@ img, svg { display: block; }
 .ic { display: inline-block; flex: none; overflow: visible; }
 .ic .o { stroke: var(--ink-ic); stroke-width: 2.3; stroke-linecap: round; stroke-linejoin: round; }
 .ic .hl { fill: none; stroke: #fff; stroke-width: 2.4; stroke-linecap: round; opacity: .75; }
-.ic .t { font: 800 1px var(--f-body); }
 .ic .t, .ic .tj { font-family: var(--f-body); font-weight: 900; }
 .ic .tj { font-family: var(--f-jp); font-weight: 700; }
 .jp { font-family: var(--f-jp); font-weight: 700; }
@@ -1296,3 +1295,11 @@ body[data-route="write"] .pet, body[data-route="write"] .pet-shadow { opacity: 0
   .seg:has(> button:nth-child(3)) button > svg { display: none; }
   .seg:has(> button:nth-child(3)) { max-width: 100%; }
 }
+
+/* ---------- tên trang trong chữ: "Japan" hồng như logo ---------- */
+.bn { font-weight: 800; color: var(--ink); white-space: nowrap; }
+.bn > b { margin-left: .04em; color: var(--pri); font-weight: inherit; }
+.rail-foot .bn { color: inherit; }
+.rail-foot .bn > b { color: var(--pri-t); }
+/* chữ Nhật trong câu tiếng Việt không bị bẻ đôi giữa từ (お守\nり) */
+.shop-item small, .badge small, .tip-card p, .ub-desc { word-break: keep-all; overflow-wrap: break-word; }

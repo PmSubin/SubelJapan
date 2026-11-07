@@ -141,19 +141,19 @@ window.SJ = window.SJ || {};
   });
   SJ.on('look', () => renderNav());
   SJ.on('quests', () => { renderNav(); if (curName === '' && SJ.pages.refreshRail) SJ.pages.refreshRail(); });
-  SJ.on('quest', q => { setTimeout(() => { U.toast(`${I(q.icon, 34)}<div><b>Xong nhiệm vụ!</b><br><span class="small">${U.esc(SJ.store.questText(q))} — nhận ${q.fish} cá ở mục Nhiệm vụ</span></div>`, 3400); SJ.audio.sfx('quest'); }, 700); });
-  SJ.on('bonus', b => { setTimeout(() => { U.toast(`${I('chest_open', 38)}<div><b>Phá màn thưởng!</b><br><span class="small">${U.esc(b.title)} — +12 cá, +8 XP</span></div>`, 3600); SJ.audio.sfx('chest'); U.confetti(70); }, 900); });
-  SJ.on('weekly', q => { setTimeout(() => { U.toast(`${I('calendar', 34)}<div><b>Xong thử thách tuần!</b><br><span class="small">${U.esc(SJ.store.weekText(q))} — nhận ${q.fish} cá ở mục Nhiệm vụ</span></div>`, 3600); SJ.audio.sfx('quest'); }, 1100); });
-  SJ.on('badge', b => { setTimeout(() => { U.toast(`<div class="toast-badge">${I(b.icon, 44)}<div><b>Huy hiệu mới!</b><br>${b.name} <span class="small">(+10 cá)</span></div></div>`, 3400); SJ.audio.sfx('level'); }, 1200); });
+  SJ.on('quest', q => { setTimeout(() => { U.celebrate({ tone: 'mint', icon: q.icon, kicker: 'Xong nhiệm vụ', title: U.esc(SJ.store.questText(q)), sub: 'Bấm để nhận cá ở mục Nhiệm vụ', fish: q.fish, href: '#/quests' }); SJ.audio.sfx('quest'); }, 700); });
+  SJ.on('bonus', b => { setTimeout(() => { U.celebrate({ tone: 'coral', icon: 'chest_open', kicker: 'Phá màn thưởng', title: U.esc(b.title), sub: 'Mochi mở rương thưởng cho bạn nè!', fish: 12, xp: 8 }); SJ.audio.sfx('chest'); U.confetti(70); }, 900); });
+  SJ.on('weekly', q => { setTimeout(() => { U.celebrate({ tone: 'lav', icon: 'calendar', kicker: 'Xong thử thách tuần', title: U.esc(SJ.store.weekText(q)), sub: 'Bấm để nhận cá ở mục Nhiệm vụ', fish: q.fish, href: '#/quests', ms: 4600 }); SJ.audio.sfx('quest'); }, 1100); });
+  SJ.on('badge', b => { setTimeout(() => { U.celebrate({ tone: 'gold', icon: b.icon, kicker: 'Huy hiệu mới', title: U.esc(b.name), sub: U.esc(b.desc), fish: 10, href: '#/profile', ms: 4800 }); SJ.audio.sfx('level'); U.confetti(50); }, 1200); });
   SJ.on('level', lv => {
     setTimeout(() => {
       SJ.audio.sfx('level'); U.confetti(110);
-      const m = U.modal(`<div class="levelup"><div class="lu-top">${U.mascot('cheer', 150, 'jump')}<span class="lu-badge">${I(lv.icon, 46)}</span></div><div class="lu-kicker">Lên cấp!</div><h2>Cấp ${lv.level} · ${lv.title}</h2><p>Bạn giỏi quá đi! Mochi tặng bạn <b>20 cá vàng</b> làm quà nè.</p><div class="lu-gift">${I('fishcoin', 30)}<b>+20</b></div><button class="btn btn-lg btn-block" data-ok>Yay! Tiếp tục</button></div>`, { cls: 'modal-sm' });
+      const m = U.modal(`<div class="levelup"><div class="lu-top">${U.mascot('cheer', 150, 'jump')}<span class="lu-badge">${I(lv.icon, 46)}</span></div><div class="lu-kicker">Lên cấp!</div><h2>Cấp ${lv.level} · ${lv.title}</h2><p>Bạn giỏi quá đi! Mochi tặng bạn <b>20 cá vàng</b> làm quà nè.</p><div class="lu-gift">${I('fishcoin', 30)}<b>+20</b></div><button class="btn btn-lg btn-block btn-cat" data-ok>${U.ears()}Yay! Tiếp tục</button></div>`, { cls: 'modal-sm' });
       m.el.querySelector('[data-ok]').onclick = () => m.close();
     }, 1000);
   });
-  SJ.on('goal', g => { setTimeout(() => { U.toast(`${I('target', 30)} Xong mục tiêu hôm nay (${g} XP)! +10 cá`, 3400); U.confetti(60); SJ.audio.sfx('sparkle'); }, 400); });
-  SJ.on('streak', n => { if (n > 1) setTimeout(() => U.toast(`${I('fire', 28)} Chuỗi ${n} ngày liên tiếp! Giữ lửa nhé!`, 3000), 1400); });
+  SJ.on('goal', g => { setTimeout(() => { U.celebrate({ tone: 'pink', icon: 'target', kicker: 'Xong mục tiêu hôm nay', title: `Đủ ${g} XP rồi nè!`, sub: 'Giỏi quá đi — mai mình học tiếp nha', fish: 10 }); U.confetti(60); SJ.audio.sfx('sparkle'); }, 400); });
+  SJ.on('streak', n => { if (n > 1) setTimeout(() => U.celebrate({ tone: 'coral', icon: 'fire', kicker: 'Chuỗi ngày học', title: `${n} ngày liên tiếp!`, sub: 'Lửa đang cháy đều, giữ lửa nhé!', ms: 3600 }), 1400); });
   SJ.on('settings', k => { if (k === 'theme' || k === 'kfont' || k === 'motion') applyTheme(); });
   SJ.on('change', k => { if (k === 'reset' || k === 'import') { applyTheme(); route(); } });
   // store.js không ghi được localStorage (bộ nhớ đầy / trình duyệt chặn): báo một lần mỗi phiên
@@ -177,7 +177,7 @@ window.SJ = window.SJ || {};
         <div class="wl-sub jp">にほんご、いっしょに がんばろう！</div>
         <div class="wl-hello">${back ? `${g.vi}, <b>${U.esc(S.name)}</b>! Mochi nhớ bạn lắm đó` : 'Học tiếng Nhật dễ như ăn mochi'}</div>
         ${back ? `<div class="wl-stats"><span class="chip c-fire">${SJ.icon('fire', 24)}<b>${SJ.store.streakNow()}</b> ngày</span><span class="chip c-fish">${SJ.icon('fishcoin', 24)}<b>${S.fish}</b> cá</span><span class="chip c-xp">${SJ.icon(SJ.store.level().icon, 24)}<b>Cấp ${SJ.store.level().level}</b></span></div>` : ''}
-        <button class="btn btn-lg wl-go">${back ? 'Học tiếp thôi!' : 'Bắt đầu hành trình!'} ${SJ.icon('arrow_r', 22)}</button>
+        <button class="btn btn-lg btn-cat wl-go">${U.ears()}${back ? 'Học tiếp thôi!' : 'Bắt đầu hành trình!'} ${SJ.icon('arrow_r', 22)}</button>
         <div class="wl-tip">bấm vào đâu cũng được nha</div>
       </div>`;
     document.body.appendChild(w);

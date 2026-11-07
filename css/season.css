@@ -175,3 +175,5 @@ html[data-motion="reduce"] .season { display: none; }
   .td-sensei { grid-column: auto; }
 }
 html[data-motion="reduce"] .sk-cloud, html[data-motion="reduce"] .sk-orb::before, html[data-motion="reduce"] .page-head .ph-icon { animation: none; }
+/* chế độ tối: vệt sáng của mục đang chọn không bị trắng loá */
+[data-theme="yoru"] .nav-blob { background: linear-gradient(180deg, var(--card2) 0, var(--pri-l) 100%); }
