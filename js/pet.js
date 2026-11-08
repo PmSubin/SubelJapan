@@ -17,7 +17,28 @@ window.SJ = window.SJ || {};
   let x = 0, y = -120, vx = 0, vy = 0, dir = 1, state = 'air', mood = 'wow', baseMood = 'normal', timer = 1, rot = 0, size = 76;
   let held = null, moodT = 0, talkT = 0, bubT = 0, sinceTalk = 0, flyT = 0;
   const isReduced = () => SJ.store.get().settings.motion === 'reduce';
+  // để máy yên lâu (không chạm, gõ, cuộn): Mochi ngủ say, dừng hẳn vòng lặp và cử động cho máy đỡ tốn pin; chạm / gõ là dậy
+  const NAP_AFTER = 45000;
+  let lastAct = performance.now(), napping = false;
+  // Mochi ngồi / ngủ / đứng yên: tắt vòng vẽ 60 hình/giây (trình duyệt khỏi phải vẽ lại cả trang), hẹn giờ cử động tiếp
+  let restT = 0, restAt = 0, slowT = 0;
+  function sched(slow) { if (slow) { raf = -1; slowT = setTimeout(() => { slowT = 0; if (raf === -1) raf = requestAnimationFrame(step); }, 22); } else raf = requestAnimationFrame(step); }
+  function unsched() { if (raf > 0) cancelAnimationFrame(raf); clearTimeout(slowT); slowT = 0; raf = 0; }
+  function rest(sec) { unsched(); clearTimeout(restT); restAt = performance.now(); restT = setTimeout(resume, Math.max(60, sec * 1000)); }
+  function resume() {
+    if (restT) { clearTimeout(restT); restT = 0; const e = (performance.now() - restAt) / 1000; timer -= e; if (moodT > 0) moodT = Math.max(0.001, moodT - e); if (bubT > 0) bubT = Math.max(0.001, bubT - e); sinceTalk += e; }
+    if (!el || napping || raf || document.hidden) return;
+    last = 0; sched();
+  }
+  function nap() { if (napping || !el || held) return; clearTimeout(restT); restT = 0; napping = true; state = 'sleep'; timer = 1e9; baseMood = 'sleep'; moodT = 0; setMood('sleep'); bub && bub.classList.remove('show'); cls(); unsched(); }
+  function wake() { lastAct = performance.now(); if (!napping) return; napping = false; if (!el) return; setState('idle', 1.2); if (!document.hidden) { unsched(); last = 0; sched(); } }
+  ['pointerdown', 'keydown', 'wheel', 'touchstart', 'scroll'].forEach(ev => window.addEventListener(ev, () => { if (on) wake(); else lastAct = performance.now(); }, { passive: true, capture: true }));
 
+  // đo khung cho Mochi đi: đọc vị trí phần tử bắt trình duyệt tính lại bố cục, nên chỉ đo lại mỗi ~0,4 giây
+  // hoặc khi đổi trang / đổi cỡ cửa sổ — không đo ở mọi khung hình
+  let bCache = null, bAt = 0;
+  const bnds = now => { if (!bCache || now - bAt > 400) { bCache = bounds(); bAt = now; } return bCache; };
+  const bReset = () => { bCache = null; };
   function bounds() {
     const fm = document.body.classList.contains('focus-mode');
     const v = document.querySelector('.view');
@@ -31,9 +52,9 @@ window.SJ = window.SJ || {};
   }
   function render() { flip.innerHTML = U().mascot(mood, size, 'pet-svg'); }
   function setMood(m) { if (m !== mood) { mood = m; render(); } }
-  function tempMood(m, t) { moodT = t; setMood(m); }
+  function tempMood(m, t) { moodT = t; setMood(m); resume(); }
   function cls() {
-    el.className = 'pet ' + state + (dir < 0 ? ' left' : '') + (held && state !== 'held' ? ' held' : '');
+    el.className = 'pet ' + state + (dir < 0 ? ' left' : '') + (held && state !== 'held' ? ' held' : '') + (napping ? ' nap' : '');
   }
   const STATE_MOOD = { walk: 'normal', run: 'happy', idle: 'normal', sit: 'wink', sleep: 'sleep', air: 'wow', held: 'wow' };
   function setState(s, t) {
@@ -57,12 +78,14 @@ window.SJ = window.SJ || {};
     if (held) return;
     vy = -(power || 560); vx = svx || 0; state = 'air'; flyT = 0; cls();
     if (moodT <= 0) setMood('happy');
+    resume();
   }
   function say(jp, vi, t) {
-    if (!on) return;
+    if (!on || napping) return;
     bub.innerHTML = (jp ? `<span class="jp">${U().esc(jp)}</span>` : '') + (vi ? `<span>${U().esc(vi)}</span>` : '');
     bub.classList.add('show');
     bubT = t || 3.6; sinceTalk = 0;
+    resume();
   }
   function hearts(n) {
     const r = el.getBoundingClientRect();
@@ -90,9 +113,9 @@ window.SJ = window.SJ || {};
 
   function step(now) {
     if (!el) return; // Mochi đã bị tắt: dừng hẳn vòng lặp
-    raf = requestAnimationFrame(step);
+    sched(!held && (state === 'walk' || state === 'run'));
     const dt = Math.min(0.05, last ? (now - last) / 1000 : 0.016); last = now;
-    const B = bounds();
+    const B = bnds(now);
     if (held) {
       x = held.tx; y = held.ty;
       rot += (clamp(-held.vx * 0.018, -30, 30) - rot) * 0.2;
@@ -116,18 +139,25 @@ window.SJ = window.SJ || {};
       timer -= dt;
       if (timer <= 0) pickNext();
     }
+    if (!held && state !== 'air' && now - lastAct > NAP_AFTER && !isReduced()) { nap(); return; }
     if (moodT > 0) { moodT -= dt; if (moodT <= 0) setMood(baseMood); }
     if (bubT > 0) { bubT -= dt; if (bubT <= 0) bub.classList.remove('show'); }
     sinceTalk += dt;
     if (sinceTalk > 35 && state !== 'sleep' && !held && !isReduced()) { const l = U().pick(LINES); say(l[0], l[1]); }
-    el.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`;
-    tilt.style.transform = `rotate(${rot.toFixed(1)}deg)`;
-    bub.classList.toggle('to-left', x > window.innerWidth - 200);
-    bub.classList.toggle('to-right', x < 120);
+    // chỉ ghi lại kiểu dáng khi có thay đổi (Mochi ngồi / ngủ yên thì không đụng tới trang)
     const h = clamp((B.floor - y) / 420, 0, 1);
-    shadow.style.transform = `translate(${(x + size / 2 - 26).toFixed(1)}px, ${(B.floor + size - 9).toFixed(1)}px) scale(${(1 - h * 0.7).toFixed(2)})`;
-    shadow.style.opacity = (1 - h * 0.8).toFixed(2);
+    const pos = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`, tl = `rotate(${rot.toFixed(1)}deg)`;
+    const sh = `translate(${(x + size / 2 - 26).toFixed(1)}px, ${(B.floor + size - 9).toFixed(1)}px) scale(${(1 - h * 0.7).toFixed(2)})`, so = (1 - h * 0.8).toFixed(2);
+    if (pos !== W.pos) { el.style.transform = W.pos = pos; const L = x > window.innerWidth - 200, R = x < 120; if (L !== W.L) bub.classList.toggle('to-left', W.L = L); if (R !== W.R) bub.classList.toggle('to-right', W.R = R); }
+    if (tl !== W.tl) tilt.style.transform = W.tl = tl;
+    if (sh !== W.sh) shadow.style.transform = W.sh = sh;
+    if (so !== W.so) shadow.style.opacity = W.so = so;
+    if (!held && (state === 'sit' || state === 'sleep' || state === 'idle') && Math.abs(rot) < 0.05 && y >= B.floor - 0.5) {
+      const nx = Math.min(timer, moodT > 0 ? moodT : 99, bubT > 0 ? bubT : 99, Math.max(0.2, 35.05 - sinceTalk), Math.max(0.2, (NAP_AFTER - (now - lastAct)) / 1000 + 0.05));
+      if (nx > 0.25) rest(nx);
+    }
   }
+  let W = {};
 
   // ---------- nắm kéo ----------
   function down(e) {
@@ -136,7 +166,7 @@ window.SJ = window.SJ || {};
     try { el.setPointerCapture(e.pointerId); } catch (er) { }
     const now = performance.now();
     held = { ox: e.clientX - x, oy: e.clientY - y, tx: x, ty: y, vx: 0, vy: 0, lx: e.clientX, ly: e.clientY, lt: now, sx: e.clientX, sy: e.clientY, st: now, moved: false };
-    state = 'held'; cls();
+    state = 'held'; cls(); resume();
     tempMood('wow', 0.7);
     setTimeout(() => { if (held && !held.moved) { tempMood('love', 30); } else if (held) tempMood('happy', 30); }, 650);
   }
@@ -187,10 +217,10 @@ window.SJ = window.SJ || {};
     el.addEventListener('pointerup', up);
     el.addEventListener('pointercancel', up);
     el.addEventListener('contextmenu', e => e.preventDefault());
-    last = 0; raf = requestAnimationFrame(step);
+    last = 0; W = {}; bReset(); sched();
     setTimeout(() => say('やっほー！', 'Mochi đi dạo cùng bạn nè~'), 1400);
   }
-  function destroy() { cancelAnimationFrame(raf); el && el.remove(); shadow && shadow.remove(); el = null; }
+  function destroy() { unsched(); clearTimeout(restT); restT = 0; napping = false; el && el.remove(); shadow && shadow.remove(); el = null; }
   function setOn(v) {
     if (v && !on) { on = true; create(); }
     else if (!v && on) { on = false; destroy(); }
@@ -199,6 +229,7 @@ window.SJ = window.SJ || {};
   // ---------- phản ứng với việc học ----------
   SJ.on('answer', a => {
     if (!on || held) return;
+    wake();
     if (a.ok) { if (state !== 'air') hop(a.streak >= 3 ? 700 : 480, 0); tempMood(a.streak >= 5 ? 'cheer' : 'happy', 1.6); if (a.streak && a.streak % 5 === 0) { hearts(6); say('すごい！', `Đúng ${a.streak} câu liền!`); } }
     else { tempMood('sad', 1.8); if (Math.random() < .5) say('だいじょうぶ', 'Không sao, thử lại nha!', 2.4); }
   });
@@ -209,10 +240,12 @@ window.SJ = window.SJ || {};
   document.addEventListener('visibilitychange', () => {
     if (!on) return;
     // huỷ vòng cũ trước khi chạy vòng mới (tạo Mochi lúc tab đang ẩn → không bị 2 vòng lặp chạy song song)
-    cancelAnimationFrame(raf);
-    if (!document.hidden) { last = 0; raf = requestAnimationFrame(step); }
+    unsched();
+    raf = 0;
+    if (!document.hidden && !napping && !restT) { last = 0; sched(); }
   });
-  window.addEventListener('resize', () => { if (!on) return; const ns = window.innerWidth < 760 ? 62 : 76; if (ns !== size) { size = ns; el.style.setProperty('--pw', size + 'px'); render(); } });
+  window.addEventListener('hashchange', () => { bReset(); setTimeout(() => { bReset(); if (on) resume(); }, 700); });
+  window.addEventListener('resize', () => { bReset(); if (!on) return; resume(); const ns = window.innerWidth < 760 ? 62 : 76; if (ns !== size) { size = ns; el.style.setProperty('--pw', size + 'px'); render(); } });
 
   function init() {
     const go = () => setOn(SJ.store.get().settings.pet !== false);
@@ -220,6 +253,6 @@ window.SJ = window.SJ || {};
     if (document.querySelector('.welcome')) { let once = false; SJ.on('welcome-done', () => { if (!once) { once = true; setTimeout(go, 300); } }); }
     else go();
   }
-  SJ.pet = { setOn, say, hop, isOn: () => on, state: () => ({ x, y, vx, vy, state, mood }) };
+  SJ.pet = { setOn, say, hop, nap, wake, isOn: () => on, state: () => ({ x, y, vx, vy, state, mood, napping }) };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else setTimeout(init, 0);
 })(window.SJ);

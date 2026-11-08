@@ -94,6 +94,16 @@ window.SJ = window.SJ || {};
     catch (e) { console.error(e); view.innerHTML = `<div class="page-narrow center pad-xl">${U.mascot('sad', 110)}<h2>Ối, có lỗi nhỏ xảy ra</h2><p class="muted">${U.esc(e.message)}</p><a class="btn" href="#/">Về trang chủ</a></div>`; }
     window.scrollTo(0, 0);
     renderNav();
+    pauseOffscreen(view);
+  }
+  // hiệu ứng chạy mãi (mây, cánh hoa, icon nhún nhảy…) ở phần trang đã cuộn khuất: tạm dừng cho máy đỡ nóng, đỡ tốn pin
+  let animIO = null;
+  function pauseOffscreen(view) {
+    if (!('IntersectionObserver' in window)) return;
+    if (animIO) animIO.disconnect();
+    const io = animIO = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle('anim-off', !e.isIntersecting)), { rootMargin: '160px 0px' });
+    const watch = () => { if (animIO === io) view.querySelectorAll('.map-zone, .hello, .unit-banner, .ub-icon').forEach(el => io.observe(el)); };
+    watch(); setTimeout(watch, 400);
   }
 
   const badgeFor = k => {

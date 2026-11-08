@@ -43,6 +43,8 @@ window.SJ = window.SJ || {};
   function ac() {
     if (!ctx) {
       const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null;
+      // trình duyệt chỉ cho phát tiếng sau lần chạm / bấm đầu tiên: chưa chạm thì bỏ qua (khỏi tạo bộ âm vô ích)
+      if (navigator.userActivation && !navigator.userActivation.hasBeenActive) return null;
       ctx = new AC();
       master = ctx.createGain(); master.gain.value = 0.55;
       const comp = ctx.createDynamicsCompressor(); comp.threshold.value = -14; comp.ratio.value = 4;

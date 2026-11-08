@@ -173,7 +173,8 @@
 .pet-tilt { width: 100%; height: 100%; transform-origin: 50% 25%; }
 .pet-flip { width: 100%; height: 100%; transition: transform .25s var(--spring); }
 .pet.left .pet-flip { transform: scaleX(-1); }
-.pet .mascot { width: 100%; height: 100%; display: block; overflow: visible; filter: drop-shadow(0 4px 6px rgba(58, 46, 77, .12)); }
+/* không dùng filter drop-shadow: Mochi cử động liên tục nên bóng lọc phải vẽ lại mỗi khung hình (đã có .pet-shadow dưới chân) */
+.pet .mascot { width: 100%; height: 100%; display: block; overflow: visible; }
 .pet .mascot > ellipse:first-of-type { display: none; }
 .pet .m-body { transform-origin: 60px 110px; }
 .pet.walk .m-body { animation: petBob .42s ease-in-out infinite; }
@@ -645,3 +646,6 @@ html[data-motion="reduce"] .fk.next { animation: none; }
 .jkb-top .jkb-seg button { flex: 1; justify-content: center; }
 .jkb-top .jkb-fing { order: 2; }
 .jkb-top .jkb-tog { order: 2; }
+
+/* Mochi ngủ say khi máy để yên lâu (pet.js): dừng mọi cử động */
+.pet.nap *, .pet.nap { animation-play-state: paused !important; }

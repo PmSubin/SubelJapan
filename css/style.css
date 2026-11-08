@@ -1303,3 +1303,6 @@ body[data-route="write"] .pet, body[data-route="write"] .pet-shadow { opacity: 0
 .rail-foot .bn > b { color: var(--pri-t); }
 /* chữ Nhật trong câu tiếng Việt không bị bẻ đôi giữa từ (お守\nり) */
 .shop-item small, .badge small, .tip-card p, .ub-desc { word-break: keep-all; overflow-wrap: break-word; }
+
+/* phần trang đã cuộn khuất (app.js gắn .anim-off): dừng hiệu ứng chạy mãi cho máy đỡ tốn sức */
+.anim-off, .anim-off * { animation-play-state: paused !important; }
