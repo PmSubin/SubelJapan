@@ -94,6 +94,13 @@
 .td-main { display: flex; align-items: center; gap: 12px; min-height: 70px; }
 .td-ico { width: 70px; height: 70px; flex: none; display: grid; place-items: center; border-radius: 22px; background: #fff; box-shadow: var(--sh-1); }
 .td-jp { font-size: 21px; line-height: 1.25; letter-spacing: .5px; }
+/* từ tiếng Nhật không bị cắt đôi giữa chừng (さか / な); thẻ hẹp thì xếp hình lên trên chữ */
+.td-jp { word-break: keep-all; overflow-wrap: break-word; }
+.td-card { container-type: inline-size; }
+@container (max-width: 250px) {
+  .td-main { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .td-main > .grow { width: 100%; }
+}
 .td-r { font-weight: 800; color: var(--sun-t); font-size: 13.5px; }
 .td-vi { font-weight: 700; color: var(--ink2); font-size: 14px; line-height: 1.35; }
 .td-big { width: 70px; height: 70px; flex: none; display: grid; place-items: center; border-radius: 22px; background: #fff; box-shadow: var(--sh-1); font-size: 42px; color: var(--mint-t); position: relative;

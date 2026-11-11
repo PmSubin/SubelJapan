@@ -97,4 +97,4 @@ css/ai.css, css/season.css, css/cards.css, css/games2.css   giao diện các ph�
 
 - Kết nối AI: [@anthropic-ai/sdk](https://github.com/anthropics/anthropic-sdk-typescript) — giấy phép MIT.
 - Dữ liệu thứ tự nét chữ: [KanjiVG](https://kanjivg.tagaini.net) © Ulrich Apel — giấy phép [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) (tải trực tiếp khi dùng).
-- Phông chữ: [Baloo 2](https://fonts.google.com/specimen/Baloo+2), [Nunito](https://fonts.google.com/specimen/Nunito), [Zen Maru Gothic](https://fonts.google.com/specimen/Zen+Maru+Gothic), [Klee One](https://fonts.google.com/specimen/Klee+One) — SIL Open Font License.
+- Phông chữ: [Baloo 2](https://fonts.google.com/specimen/Baloo+2), [Nunito](https://fonts.google.com/specimen/Nunito), [Kiwi Maru](https://fonts.google.com/specimen/Kiwi+Maru), [Klee One](https://fonts.google.com/specimen/Klee+One) — SIL Open Font License.
