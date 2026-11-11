@@ -93,6 +93,18 @@ js/vendor/            thư viện chính thức @anthropic-ai/sdk (đóng gói c
 css/ai.css, css/season.css, css/cards.css, css/games2.css   giao diện các phần mới
 ```
 
+## Bot kiểm tra tổng
+
+`tools/bot` là bot tự kiểm tra cả trang. Bot soát dữ liệu (chữ cái, từ vựng, Kanji, bài đọc, các bài Nói), mở mọi trang ở cỡ máy tính và điện thoại, rồi tự chơi hết các bài tới màn kết quả. Cuối cùng bot liệt kê lỗi và những phần còn thiếu.
+
+```bash
+npm ci
+npx playwright install chromium
+npm run bot
+```
+
+Bot tự chạy trên GitHub Actions mỗi lần đẩy code và mỗi sáng. Quy ước nội dung và danh sách việc cần bổ sung nằm ở [tools/bot/HUONG-DAN.md](tools/bot/HUONG-DAN.md).
+
 ## Ghi công
 
 - Kết nối AI: [@anthropic-ai/sdk](https://github.com/anthropics/anthropic-sdk-typescript) — giấy phép MIT.

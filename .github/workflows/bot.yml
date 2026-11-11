@@ -1,0 +1,33 @@
+name: Bot kiểm tra tổng
+
+# Chạy mỗi lần đẩy code lên main, mỗi sáng 8 giờ (giờ Việt Nam) và khi bấm tay trong tab Actions.
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  kiem-tra:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - name: Bot kiểm tra (dữ liệu, mọi trang, chơi hết các bài)
+        run: npm run bot
+      - name: Lưu báo cáo
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bao-cao-bot
+          path: tools/bot/BAO-CAO.md

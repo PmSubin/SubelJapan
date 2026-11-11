@@ -1,0 +1,12 @@
+{
+  "name": "subeljapan",
+  "private": true,
+  "description": "SubelJapan — web học tiếng Nhật. Thư mục tools/bot là bot kiểm tra tổng.",
+  "scripts": {
+    "bot": "node tools/bot/run.mjs",
+    "bot:nhanh": "node tools/bot/run.mjs --nhanh"
+  },
+  "devDependencies": {
+    "playwright": "1.64.1"
+  }
+}
