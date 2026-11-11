@@ -509,6 +509,18 @@ html[data-motion="reduce"] *, html[data-motion="reduce"] *::before, html[data-mo
 .lesson-title { font-size: 34px; margin: 14px 0 2px; }
 .lesson-sub { color: var(--ink2); font-weight: 700; margin-bottom: 20px; }
 .preview { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 10px 0 24px; }
+/* màn mở đầu bài chữ: thẻ chữ to, bấm để nghe */
+.preview:has(.ikana-grid) { flex-direction: column; align-items: center; gap: 8px; }
+.ikana-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; width: min(640px, 100%); }
+.ikana { width: 106px; display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 12px 6px 10px; border-radius: 20px; background: var(--card); border: 2px solid var(--line); box-shadow: 0 4px 0 var(--line2); color: var(--ink); cursor: pointer; transition: transform .18s var(--spring), box-shadow .18s, border-color .18s; animation: optIn .45s var(--spring) both; }
+.ikana:hover { transform: translateY(-3px); box-shadow: 0 7px 0 var(--line2); border-color: var(--pri); }
+.ikana:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--line2); }
+.ikana .g { font-size: 50px; line-height: 1.15; }
+.ikana.small { width: 98px; }
+.ikana.small .g { font-size: 36px; }
+.ikana b { font: 900 15px var(--f-body); color: var(--pri-t); letter-spacing: .3px; }
+.ikana small { font: 700 11.5px/1.25 var(--f-body); color: var(--ink3); text-align: center; }
+@media (max-width: 520px) { .ikana-grid { gap: 9px; } .ikana, .ikana.small { width: calc((100% - 27px) / 4); } .ikana .g { font-size: 40px; } .ikana.small .g { font-size: 30px; } }
 .chip-kana { display: inline-grid; place-items: center; min-width: 56px; height: 56px; padding: 0 10px; border-radius: 16px; background: var(--card); border: 2px solid var(--line); box-shadow: 0 3px 0 var(--line2); font: 600 28px var(--f-kana); }
 .chip-pic { display: inline-grid; place-items: center; width: 64px; height: 64px; border-radius: 18px; background: var(--card); border: 2px solid var(--line); box-shadow: 0 3px 0 var(--line2); }
 .chip-pic.big { width: 130px; height: 130px; border-radius: 30px; }
@@ -936,10 +948,11 @@ button.tile-card { border: 2px solid var(--line); background: var(--card); curso
 .type-stats { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
 .ime-out { min-height: 70px; padding: 14px 18px; border-radius: 18px; background: var(--card2); border: 2px solid var(--line); font: 700 30px/1.5 var(--f-jp); word-break: break-all; }
 .ime-out .pend { color: var(--ink3); font-family: var(--f-body); }
-.key-table { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 6px; }
+.key-table { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 8px; }
+.key-table .wide { grid-column: span 2; }
 .key-table div { display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; border-radius: 12px; background: var(--card2); border: 2px solid var(--line); font-weight: 800; }
 .key-table .jp { font-size: 19px; }
-.key-table code { font: 800 13px var(--f-body); color: var(--pri-t); }
+.key-table code { font: 800 13px var(--f-body); color: var(--pri-t); white-space: nowrap; }
 
 /* =========================================================
    DICTIONARY

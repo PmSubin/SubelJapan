@@ -190,7 +190,7 @@ window.SJ = window.SJ || {};
         <div class="page-head"><div class="ph-icon">${I('keyboard', 52)}</div><div><h1>Gõ phím tiếng Nhật</h1><p>Người Nhật nhắn tin trên <b>điện thoại</b> bằng bàn phím <b>vuốt 12 phím</b> (<span class="jp">フリック</span>), còn trên <b>máy tính</b> thì gõ <b>romaji</b>: gõ <code>ka</code> ra か. Ở đây có sẵn cả hai bàn phím, không cần cài gì. Đã gõ đúng <b>${S.typed}</b> từ.</p></div></div>
         <div class="mode-grid">${MODES.map(m => `<button class="mode-card" data-mode="${m.id}"><span class="mc-icon">${I(m.icon, 48)}</span><b>${m.name}</b><small>${m.desc}</small></button>`).join('')}</div>
         <div class="section-label">${I('bulb', 28)} Bảng gõ nhanh</div>
-        <div class="card card-pad"><div class="key-table">${SJ.ime.CHEATS.map(c => `<div><span class="jp">${c[0]}</span><code>${esc(c[1])}</code></div>`).join('')}</div></div>
+        <div class="card card-pad"><div class="key-table">${SJ.ime.CHEATS.map(c => `<div${c[1].length > 9 ? ' class="wide"' : ''}><span class="jp">${c[0]}</span><code>${esc(c[1])}</code></div>`).join('')}</div></div>
         <div class="section-label">${I('gear', 28)} Muốn gõ tiếng Nhật ở mọi nơi? Bật bộ gõ trên máy</div>
         <p class="small muted bold mb">Chưa cài cũng không sao: khi luyện gõ ở đây, bàn phím tiếng Nhật (điện thoại 12 phím vuốt hoặc máy tính JIS) hiện ngay dưới ô gõ, chỉ từng phím cần bấm.</p>
         <div class="grid grid-3">

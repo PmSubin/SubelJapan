@@ -17,7 +17,11 @@ window.SJ = window.SJ || {};
   }
   if (hasTTS) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
   function warn() {
-    if (warned) return; warned = true;
+    if (warned) return;
+    // chỉ báo khi người dùng tự bấm nghe (không báo lúc trang tự đọc), và tối đa 1 lần mỗi ngày — khỏi che tiêu đề trang
+    if (navigator.userActivation && !navigator.userActivation.isActive) return;
+    warned = true;
+    try { const d = new Date().toDateString(); if (localStorage.getItem('sj_voice_warn') === d) return; localStorage.setItem('sj_voice_warn', d); } catch (e) { }
     SJ.ui && SJ.ui.toast(SJ.icon('mute', 22) + ' Máy bạn chưa có giọng đọc tiếng Nhật. Hãy mở bằng Chrome/Edge hoặc cài thêm giọng Nhật trong cài đặt máy nhé!', 5200);
   }
   function speak(text, opts) {

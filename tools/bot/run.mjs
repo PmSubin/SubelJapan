@@ -106,7 +106,44 @@ for (const W of [1280, 390]) {
   await page.context().close();
 }
 
-// 3c. Chơi hết các bài (bấm tự động tới màn kết quả)
+// 3c. "Bấm lung tung": trên mỗi trang và mỗi trò chơi, bấm ngẫu nhiên (có hạt giống cố định) các nút đang hiện
+//     để bắt lỗi JS ẩn mà mở trang thôi không thấy. Không bấm nút xoá / đặt lại / sao lưu / in / tải file.
+if (!QUICK) {
+  const page = await newPage(1280, { motion: 'reduce' });
+  await page.evaluate(() => { window.print = () => { }; window.open = () => null; });
+  const routes = ROUTES.concat(await page.evaluate(() => [...SJ.STORIES.slice(0, 2).map(s => 'story/' + s.id), 'dialog/' + SJ.DIALOGUES[0].id, ...SJ.games.list.map(g => 'game/' + g.id)]));
+  let clicks = 0;
+  for (const [ri, r] of routes.entries()) {
+    clicks += await page.evaluate(async ([h, seed]) => {
+      const wait = ms => new Promise(res => setTimeout(res, ms));
+      let s = seed >>> 0; const rnd = () => { s = (s + 0x6D2B79F5) >>> 0; let t = s; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+      const BAD = /xo[áà]|xóa|đặt lại|reset|sao lưu|khôi phục|nhập dữ liệu|xuất dữ liệu|tải|in phiếu|in ngay|^in$|đăng xuất|xoá khoá|quên khoá/i;
+      const go = async () => { const old = document.querySelector('#view'); location.hash = '#/' + h; for (let i = 0; i < 100 && document.querySelector('#view') === old; i++) await wait(20); await wait(150); };
+      await go();
+      const want = location.hash;
+      let n = 0;
+      for (let k = 0; k < 30; k++) {
+        if (location.hash !== want) await go();
+        const root = document.querySelector('.modal-back:last-of-type .modal') || document;
+        const els = [...root.querySelectorAll('button, [role="button"], .opt, .tile, .ttile, a[href^="#/"], input[type="checkbox"], .card[data-k], [data-k]')]
+          .filter(e => { const b = e.getBoundingClientRect(); if (!b.width || !b.height || e.disabled || e.closest('[aria-hidden="true"], .pet, nav, .sidebar, .bottom-nav')) return false; const t = (e.innerText || e.getAttribute('aria-label') || e.title || '').trim(); return !BAD.test(t) && !e.matches('a[download], a[target="_blank"], input[type="file"]'); });
+        const inp = [...document.querySelectorAll('#view input[type="text"], #view input:not([type]), #view textarea')].find(e => e.offsetParent && !e.disabled && !/key|khoá|api/i.test(e.placeholder + e.id + e.name));
+        if (inp && rnd() < 0.15) { inp.focus(); inp.value = ['neko', 'ka', 'さかな', 'xin chào'][Math.floor(rnd() * 4)]; inp.dispatchEvent(new Event('input', { bubbles: true })); inp.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })); n++; await wait(120); continue; }
+        if (!els.length) { await wait(150); continue; }
+        els[Math.floor(rnd() * els.length)].click(); n++;
+        await wait(90 + Math.floor(rnd() * 120));
+      }
+      document.querySelectorAll('.modal-back').forEach(m => m.remove());
+      return n;
+    }, [r, 1000 + ri]);
+    drain(page, `Bấm thử #/${r}`);
+  }
+  notes.push(`Bấm thử ngẫu nhiên: ${clicks} cú bấm trên ${routes.length} trang / trò chơi`);
+  log('Bấm thử:', clicks, 'cú bấm trên', routes.length, 'trang');
+  await page.context().close();
+}
+
+// 3d. Chơi hết các bài (bấm tự động tới màn kết quả)
 if (!QUICK) {
   const page = await newPage(1280, { motion: 'reduce' }); // bỏ màn chuyển cảnh để bấm nhanh
   const ids = await page.evaluate(() => {

@@ -201,5 +201,21 @@ window.__audit = function () {
     if ((hira === g.length || hira === 0) && !SJ.CONFUSE_TIPS[g.join('')]) G('Nhóm dễ nhầm ' + g.join(' '), 'chưa có mẹo phân biệt');
   });
 
+  // ===== 8. HÌNH VẼ: vẽ thử mọi icon, chữ / nét không được tràn khỏi khung 48×48 =====
+  {
+    const box = document.createElement('div');
+    box.style.cssText = 'position:fixed;left:-9999px;top:0;width:2000px';
+    document.body.appendChild(box);
+    SJ.ICON_NAMES.forEach(n => {
+      box.innerHTML = SJ.icon(n, 96);
+      const svg = box.querySelector('svg'); if (!svg) return E('Hình ' + n, 'không vẽ ra được');
+      svg.querySelectorAll('text').forEach(t => { const b = t.getBBox(); if (b.x < -2 || b.y < -2 || b.x + b.width > 50 || b.y + b.height > 50) E('Hình ' + n, `chữ "${t.textContent}" tràn ra ngoài khung (cỡ chữ thật ${getComputedStyle(t).fontSize}) — có CSS nào đang đè cỡ chữ?`); });
+      const g = svg.getBBox();
+      if (g.x < -4 || g.y < -4 || g.x + g.width > 52 || g.y + g.height > 52) W('Hình ' + n, `nét vẽ ra ngoài khung 48×48 (${g.x.toFixed(0)},${g.y.toFixed(0)} → ${(g.x + g.width).toFixed(0)},${(g.y + g.height).toFixed(0)})`);
+    });
+    box.remove();
+    stats.icons = SJ.ICON_NAMES.length;
+  }
+
   return { errors, warns, gaps, stats };
 };

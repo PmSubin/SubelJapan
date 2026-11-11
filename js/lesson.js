@@ -138,17 +138,6 @@ window.SJ = window.SJ || {};
     return noListen(U().sample(pool, lesson.count || 20).map((it, i) => types[i % 5] === 'type' ? typeQ(it) : kanaQ(it, types[i % 5], pool)), pool);
   }
 
-  // ---------- Bảng a・i・u・e・o mini ----------
-  function rowGrid(items) {
-    const set = new Set(items.map(o => o.k));
-    const script = items[0].script;
-    const conv = c => script === 'kata' ? SJ.toKata(c) : c;
-    const rows = SJ.GOJUON.basic.concat(SJ.GOJUON.daku).filter(r => Array.from(r[1]).some(c => c !== '_' && set.has(conv(c))));
-    if (!rows.length) return '';
-    return `<div class="gojuon mini"><div class="gj-row gj-head"><span></span>${SJ.GOJUON.cols.map(c => `<span>${c}</span>`).join('')}</div>
-      ${rows.map(r => `<div class="gj-row"><span class="gj-lab">${r[0] || '–'}</span>${Array.from(r[1]).map(c => c === '_' ? '<span class="gj-c empty"></span>' : `<span class="gj-c ${set.has(conv(c)) ? 'on' : ''}">${conv(c)}</span>`).join('')}</div>`).join('')}</div>`;
-  }
-
   // ---------- Thẻ học ----------
   const glyph = (ch, extra) => `<div class="glyph ${extra || (ch.length > 2 ? 'xwide' : ch.length > 1 ? 'wide' : '')}" data-say="${ch}"><span class="kana">${ch}</span></div>`;
   function exampleRow(w) {
@@ -269,8 +258,10 @@ window.SJ = window.SJ || {};
 
     function renderIntro() {
       setProg(0);
-      const preview = lesson.type === 'kana' ? rowGrid(items) || items.map(o => `<span class="chip-kana">${o.k}</span>`).join('')
-        : lesson.type === 'kanji' ? items.map(o => `<span class="chip-kana">${o.k}</span>`).join('')
+      // thẻ chữ to: chữ + cách đọc, bấm để nghe — thay cho bảng chữ nhỏ
+      const card = (g, r, s, say, i) => `<button class="ikana ${items.length > 10 ? 'small' : ''}" ${say ? `data-say="${esc(say)}"` : ''} style="animation-delay:${i * .04}s"><span class="g kana">${g}</span><b>${esc(r)}</b>${s ? `<small>${esc(s)}</small>` : ''}</button>`;
+      const preview = lesson.type === 'kana' ? `<div class="ikana-grid">${items.map((o, i) => card(o.k, o.r, o.v && o.v !== o.r ? 'đọc: ' + o.v : '', o.k, i)).join('')}</div><div class="tiny muted bold">Bấm vào chữ để nghe</div>`
+        : lesson.type === 'kanji' ? `<div class="ikana-grid">${items.map((o, i) => card(o.k, o.hv, o.m, o.ex && o.ex[0] ? o.ex[0].kana : '', i)).join('')}</div>`
           : lesson.type === 'vocab' ? items.slice(0, 8).map(o => `<span class="chip-pic">${I(o.e, 46)}</span>`).join('') : `<span class="chip-pic big">${I(lesson.icon || 'book', 96)}</span>`;
       const st = SJ.store.lessonState(lesson.id);
       body.innerHTML = `<div class="intro-card pop-in">
@@ -565,5 +556,5 @@ window.SJ = window.SJ || {};
     root.querySelector('#nw-in').onkeydown = e => { if (e.key === 'Enter') run(); };
   }
 
-  SJ.lesson = { open, openTrace, onWriteDone, showScore, kanaQ, vocabQ, kanjiQ, typeQ, romajiOk, nameWidget, bindNameWidget, rowGrid, glyph, confuseRow, exampleRow };
+  SJ.lesson = { open, openTrace, onWriteDone, showScore, kanaQ, vocabQ, kanjiQ, typeQ, romajiOk, nameWidget, bindNameWidget, glyph, confuseRow, exampleRow };
 })(window.SJ);

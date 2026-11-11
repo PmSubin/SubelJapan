@@ -26,7 +26,7 @@
 .tr-tog.on { background: var(--pri-l); color: var(--pri-t); text-decoration: none; }
 .no-romaji .tr { display: none !important; }
 .tr { font: 700 14px/1.35 var(--f-body); color: var(--pri-t); letter-spacing: .2px; }
-.tj { font: 700 26px/1.4 var(--f-jp); color: var(--ink); letter-spacing: 1px; }
+.tj:not(text) { font: 700 26px/1.4 var(--f-jp); color: var(--ink); letter-spacing: 1px; }
 .tv { margin-top: 4px; font: 700 14.5px/1.4 var(--f-body); color: var(--ink2); }
 .tl-learn { max-width: 700px; margin: 0 auto; padding-bottom: 10px; }
 .tl-learn h1 { margin: 10px 0 2px; font: 800 30px/1.2 var(--f-head); }
@@ -76,7 +76,7 @@
 /* nghe & nói theo */
 .tsay { max-width: 560px; margin: 0 auto 16px; padding: 18px; text-align: center; }
 .tsay-play { display: flex; justify-content: center; gap: 10px; margin-bottom: 10px; }
-.tsay .tj { font-size: 30px; }
+.tsay .tj:not(text) { font-size: 30px; }
 .tmic-wrap { display: flex; flex-direction: column; align-items: center; gap: 12px; }
 .tmic { position: relative; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; width: 112px; height: 112px; border: 0; border-radius: 50%; background: var(--pri); color: #fff; cursor: pointer; box-shadow: 0 14px 28px -14px var(--pri), inset 0 -4px 0 rgba(0, 0, 0, .08); transition: transform .3s var(--spring); }
 .tmic::before { content: ""; position: absolute; inset: 6px; border-radius: 50%; border: 1.6px dashed rgba(255, 255, 255, .6); }
@@ -109,7 +109,7 @@
 .tdlg-ava { flex: none; }
 .tdlg-bub { display: flex; gap: 10px; align-items: flex-start; max-width: 460px; padding: 14px 16px; border-radius: 20px 20px 20px 6px; background: var(--card); box-shadow: var(--sh-2), inset 0 0 0 1.5px var(--line); cursor: pointer; }
 .tdlg-bub > .gl { flex: none; margin-top: 8px; color: var(--pri-t); }
-.tdlg-bub .tj { font-size: 22px; }
+.tdlg-bub .tj:not(text) { font-size: 22px; }
 .tsit { display: inline-flex; align-items: center; gap: 10px; max-width: 520px; padding: 14px 18px; border-radius: 18px; background: var(--sun-l); text-align: left; font: 800 16px/1.45 var(--f-body); color: var(--ink); }
 .tsit .ic { flex: none; width: 30px; height: 30px; }
 /* tự nói */
@@ -120,8 +120,8 @@
 @media (max-width: 760px) {
   .talk-how { grid-template-columns: 1fr; }
   .tl-learn h1 { font-size: 24px; }
-  .tj { font-size: 22px; }
-  .tsay .tj { font-size: 24px; }
+  .tj:not(text) { font-size: 22px; }
+  .tsay .tj:not(text) { font-size: 24px; }
   .tq-vi { font-size: 19px; }
   .tq-fill { font-size: 23px; }
   .tmic { width: 96px; height: 96px; }
@@ -137,7 +137,7 @@ html[data-motion="reduce"] .tmic.rec { animation: none; }
 .tsay .listen-btn .ic { width: 46px; height: 46px; }
 .tsay .listen-slow { width: 60px; height: 60px; }
 @media (max-width: 760px) {
-  .tsay .tj { font-size: 21px; }
+  .tsay .tj:not(text) { font-size: 21px; }
   .tsay .listen-btn { width: 74px; height: 74px; }
   .tsay .listen-slow { width: 52px; height: 52px; }
   body.focus-mode .pet, body.focus-mode .pet-shadow { display: none !important; }

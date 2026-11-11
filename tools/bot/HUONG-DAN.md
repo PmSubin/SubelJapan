@@ -7,7 +7,7 @@ SubelJapan là web học tiếng Nhật cho người Việt mới bắt đầu. 
 ```bash
 npm ci
 npx playwright install --with-deps chromium   # lần đầu
-npm run bot          # tất cả: file + dữ liệu + mở mọi trang (máy tính & điện thoại) + chơi hết các bài
+npm run bot          # tất cả: file + dữ liệu + vẽ thử mọi icon + mở mọi trang (máy tính & điện thoại) + bấm thử ngẫu nhiên + chơi hết các bài
 npm run bot:nhanh    # bỏ phần chơi từng bài
 ```
 
