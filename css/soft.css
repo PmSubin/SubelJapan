@@ -25,7 +25,7 @@
 .btn-white:hover, .btn-paper:hover { background: var(--card); border-color: color-mix(in srgb, var(--pri) 40%, var(--line)); box-shadow: var(--sh-2); }
 .btn-white:active, .btn-paper:active { box-shadow: var(--sh-1); }
 .btn-soft { --b: var(--pri-l); --bt: var(--pri-t); --bs: transparent; box-shadow: none; }
-.btn-green { --b: var(--mint); }
+.btn-green { --b: color-mix(in srgb, var(--mint) 66%, #0b6b4a); } /* xanh đậm hơn chút để chữ trắng rõ */
 .btn-red { --b: var(--red); }
 .btn-sky { --b: var(--sky); }
 .btn-lav { --b: var(--lav); }

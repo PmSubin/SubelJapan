@@ -352,3 +352,10 @@ html[data-motion="reduce"] .ss-body.swap { animation: none; }
 .ai-models-wait { margin: 0; padding: 12px 14px; border-radius: 14px; background: var(--card2); border: 1.5px dashed var(--line2); color: var(--ink2); font: 700 13px/1.45 var(--f-body); }
 .ai-keyform .ai-how { margin-top: 14px; }
 @media (max-width: 420px) { .ai-prov { grid-template-columns: 1fr; } }
+
+/* giao diện tối (Yoru): các khung nền trắng cố định đổi sang nền tối theo chủ đề, khỏi chữ sáng trên nền sáng */
+[data-theme="yoru"] .ai-ex { background: linear-gradient(170deg, var(--card2), var(--sun-l)); border-color: color-mix(in srgb, var(--sun-t) 35%, var(--line)); box-shadow: none; }
+[data-theme="yoru"] :is(.ai-sugg, .ai-tool) { background: var(--card2); }
+[data-theme="yoru"] :is(.ss-modes button.active, .ai-model.on) { background: linear-gradient(180deg, var(--card2), var(--pri-l)); }
+[data-theme="yoru"] .ai-msg.hello .ai-bub { background: linear-gradient(170deg, var(--card2), var(--card)); }
+[data-theme="yoru"] .ai-compose textarea:focus { background: var(--card2); }

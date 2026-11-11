@@ -100,9 +100,33 @@ for (const W of [1280, 390]) {
     if (o) errors.push(`Trang #/${r} (${W}px): tràn ngang ${o}px`);
     const blank = await page.evaluate(() => { const v = document.querySelector('#view') || document.querySelector('main'); return v ? v.innerText.trim().length < 20 : false; });
     if (blank) errors.push(`Trang #/${r} (${W}px): trang trắng`);
+    if (W === 1280) { // nút / ô nhập không có tên → trình đọc màn hình không biết nút làm gì
+      const unnamed = await page.evaluate(() => [...document.querySelectorAll('#view button, #view [role="button"], #view input:not([type="hidden"]), #view select, #view textarea')]
+        .filter(e => e.getClientRects().length && !((e.getAttribute('aria-label') || e.title || e.placeholder || e.textContent || '').trim() || (e.id && document.querySelector(`label[for="${e.id}"]`)) || e.closest('label')))
+        .map(e => e.outerHTML.replace(/<svg[\s\S]*?<\/svg>/g, '').slice(0, 90)));
+      [...new Set(unnamed)].forEach(h => warns.push(`Trang #/${r}: nút / ô nhập chưa có tên (thêm aria-label): ${h}`));
+    }
     drain(page, `Trang #/${r} (${W}px)`);
   }
   log('Đã mở', routes.length, 'trang ở', W + 'px');
+  await page.context().close();
+}
+
+// 3b'. Giao diện tối (Yoru): dò chữ sáng nằm trên nền sáng (màu nền viết cứng #fff…) — tỉ lệ tương phản < 2
+{
+  const page = await newPage(1280, { theme: 'yoru', motion: 'reduce' });
+  let n = 0;
+  for (const r of ROUTES.filter(r => r !== 'print')) {
+    await page.evaluate(h => { location.hash = '#/' + h; }, r);
+    await page.waitForTimeout(900);
+    await page.addScriptTag({ path: path.join(ROOT, 'tools/bot/contrast.js') });
+    const once = () => page.evaluate(() => window.__contrast().filter(x => parseFloat(x) < 2));
+    const a1 = await once(); await page.waitForTimeout(700); const a2 = new Set(await once());
+    const low = a1.filter(x => a2.has(x)); // chỉ tính chỗ khó đọc ở cả 2 lần đo (bỏ lúc đang chạy hiệu ứng)
+    low.slice(0, 6).forEach(x => warns.push(`Giao diện tối #/${r}: chữ khó đọc (tương phản ${x})`)); n += low.length;
+    drain(page, `Giao diện tối #/${r}`);
+  }
+  log('Giao diện tối:', n, 'chỗ chữ khó đọc');
   await page.context().close();
 }
 

@@ -17,7 +17,7 @@
   --card2: #fff9fb;
   --ink: #3a2e4d;
   --ink2: #7a6e8f;
-  --ink3: #b3a9c2;
+  --ink3: #9a8eac; /* chữ phụ: đậm hơn chút cho dễ đọc */
   --ink-ic: #4a3756;
   --line: #f1e2e9;
   --line2: #e6d3dc;
@@ -303,6 +303,8 @@ select.input { appearance: none; cursor: pointer; background-image: linear-gradi
 
 /* ---------- Toast ---------- */
 #toast-root { position: fixed; left: 50%; top: 16px; transform: translateX(-50%); z-index: 300; display: flex; flex-direction: column; gap: 8px; align-items: center; pointer-events: none; width: min(92vw, 440px); }
+/* đang học / chơi: hạ thông báo xuống dưới thanh tiến độ, khỏi che nút thoát */
+body.focus-mode #toast-root { top: 58px; }
 .toast { display: flex; align-items: center; gap: 10px; padding: 11px 18px; border-radius: 18px; background: var(--card); border: 2px solid var(--line); box-shadow: var(--shadow-pop); font-weight: 800; transform: translateY(-30px) scale(.9); opacity: 0; transition: transform .35s cubic-bezier(.3,1.5,.5,1), opacity .25s; pointer-events: auto; }
 .toast.show { transform: none; opacity: 1; }
 .toast-badge { display: flex; gap: 12px; align-items: center; }

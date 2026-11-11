@@ -184,3 +184,12 @@ html[data-motion="reduce"] .season { display: none; }
 html[data-motion="reduce"] .sk-cloud, html[data-motion="reduce"] .sk-orb::before, html[data-motion="reduce"] .page-head .ph-icon { animation: none; }
 /* chế độ tối: vệt sáng của mục đang chọn không bị trắng loá */
 [data-theme="yoru"] .nav-blob { background: linear-gradient(180deg, var(--card2) 0, var(--pri-l) 100%); }
+
+/* giao diện tối (Yoru): thẻ "của ngày" dùng nền tối theo màu chủ đề, khỏi chữ sáng trên nền sáng */
+[data-theme="yoru"] .td-word { background: linear-gradient(165deg, var(--card2), var(--sun-l)); }
+[data-theme="yoru"] .td-kanji { background: linear-gradient(165deg, var(--card2), var(--mint-l)); }
+[data-theme="yoru"] .td-sensei { background: radial-gradient(circle at 88% 20%, rgba(255, 255, 255, .14) 0 2px, transparent 2.5px) 0 0 / 38px 34px, linear-gradient(165deg, var(--card2), var(--lav-l)); }
+[data-theme="yoru"] .td-label { background: rgba(255, 255, 255, .08); }
+[data-theme="yoru"] .tds-chips span { background: var(--card2); }
+[data-theme="yoru"] .hello.sky .hello-jp { background: rgba(42, 35, 57, .86); }
+[data-theme="yoru"] .td-big { background-color: var(--card2); }

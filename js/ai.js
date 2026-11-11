@@ -462,7 +462,7 @@ The first user message only means "start the scene": open the scene yourself wit
     function drawSetup() {
       setBody(`<div class="ss-setup">
         <div class="card ss-wake">
-          <div class="ssw-art"><div class="ssw-moon">${I('moon', 54)}</div>${U().mascot('sleep', 132)}<span class="ssw-z z1">z</span><span class="ssw-z z2">z</span><span class="ssw-z z3">Z</span></div>
+          <div class="ssw-art"><div class="ssw-moon">${I('moon', 54)}</div>${U().mascot('sleep', 132)}<span class="ssw-z z1" aria-hidden="true">z</span><span class="ssw-z z2" aria-hidden="true">z</span><span class="ssw-z z3" aria-hidden="true">Z</span></div>
           <h2>Mochi đang ngủ trưa…</h2>
           <p>Sensei Mochi chạy bằng <b>Claude</b> (Anthropic) hoặc <b>ChatGPT</b> (OpenAI) — bạn có khoá của bên nào thì chọn bên đó. Dán khoá API vào đây để đánh thức Mochi nha!</p>
           <div class="ss-steps">${[['key', 'Lấy khoá', 'Từ Anthropic (Claude) hoặc OpenAI (ChatGPT)'], ['lock', 'Dán vào đây', 'Khoá chỉ nằm trong trình duyệt của bạn'], ['sensei', 'Hỏi Mochi', 'Trò chuyện, sửa câu, luyện nói']].map((s, i) => `<div class="ss-step"><i class="ss-num">${i + 1}</i>${I(s[0], 40)}<b>${s[1]}</b><small>${s[2]}</small></div>`).join('')}</div>

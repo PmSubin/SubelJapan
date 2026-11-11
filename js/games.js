@@ -1075,7 +1075,7 @@ window.SJ = window.SJ || {};
       startRow();
       B.loop(frame);
     }
-    setup(root, g, { sets: false, modes: [['hira', 'Hiragana'], ['kata', 'Katakana'], ['daku', 'Có dấu ゛ ゜']], note: 'Mỗi hàng đi theo thứ tự a → i → u → e → o (ví dụ か き く け こ). Bấm nổ bóng đúng thứ tự để điền vào ô nhé!', bestText: m => `${I('trophy', 24)} Kỷ lục: <b>${SJ.store.get().games[key(m)] || 0}</b> điểm` }, start);
+    setup(root, g, { sets: false, modes: [['hira', 'Hiragana'], ['kata', 'Katakana'], ['daku', 'Âm đục が・ぱ']], note: 'Mỗi hàng đi theo thứ tự a → i → u → e → o (ví dụ か き く け こ). Bấm nổ bóng đúng thứ tự để điền vào ô nhé!', bestText: m => `${I('trophy', 24)} Kỷ lục: <b>${SJ.store.get().games[key(m)] || 0}</b> điểm` }, start);
     return { destroy() { B.clear(); keyFn = null; } };
   }
 
