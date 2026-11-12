@@ -53,6 +53,8 @@ Phần soát dữ liệu nằm ở `tools/bot/audit.js` và chạy bên trong tr
 | Truyện, hội thoại, câu giao tiếp | `js/data-reading.js` | `SJ.STORIES` (cấp 1: chỉ Hiragana; cấp 2: thêm Katakana; cấp 3: Kanji có furigana `{漢字\|かな}`), `SJ.DIALOGUES`, `SJ.PHRASES` |
 | Nói & Ngữ pháp (12 chặng) | `js/data-talk.js` (khung + `SJ.TALK_UNITS`), `js/data-talk-a…e.js` (các bài) | Xem chú thích đầu `js/data-talk-e.js`. Mỗi bài cần ≥ 7 câu mẫu, ≥ 3 câu điền, ≥ 3 hội thoại. |
 
+Thêm trò chơi mới: viết vào `js/games-more.js` theo mẫu 3 trò đang có, đăng ký bằng `SJ.games.add({ id, icon, name, desc, color }, root => ({ destroy }))` và dùng `SJ.games.kit` (setup, result, top, distinctBy, setKey). Giao diện để trong `css/games3.css`, chỉ dùng màu theo chủ đề (`var(--card)`, `var(--pri)`…) để giao diện tối cũng đẹp. Bot kiểm tra tự mở và bấm thử mọi trò có trong `SJ.games.list`.
+
 Thêm một chủ đề từ vựng mới thì phải thêm cả bài học tương ứng trong `js/data-lessons.js` (`type: 'vocab'`, `topic: '…'`). Thêm Kanji mới thì phải xếp nó vào một bài `type: 'kanji'`.
 
 ## Danh sách việc dài hạn

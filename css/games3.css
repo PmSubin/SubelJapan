@@ -1,0 +1,68 @@
+/* SubelJapan — giao diện 3 trò mới (js/games-more.js): しりとり, Bingo chữ cái, Xếp câu thần tốc.
+ * Chỉ dùng màu theo chủ đề (var(--card), var(--pri)…) để giao diện tối cũng đẹp. */
+
+/* ---------- しりとり ---------- */
+.shiri .sh-trail { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 4px 6px; min-height: 34px; margin: -4px 0 12px; }
+.sh-chip { padding: 4px 11px; border-radius: 999px; font: 700 15px/1.3 var(--f-jp); background: var(--card); border: 1.5px solid var(--line); animation: optIn .35s var(--spring) both; }
+.sh-chip.mochi { background: var(--lav-l); color: var(--lav-t); border-color: transparent; }
+.sh-chip.me { background: var(--mint-l); color: var(--mint-t); border-color: transparent; }
+.sh-trail i { color: var(--ink3); display: inline-flex; }
+.sh-cur { position: relative; text-align: center; padding: 18px 16px 16px; margin-bottom: 14px; }
+.sh-who { position: absolute; left: 12px; top: 10px; display: flex; flex-direction: column; align-items: center; font: 800 11px var(--f-body); color: var(--lav-t); }
+.sh-pic { display: grid; place-items: center; margin: 2px auto 4px; }
+.sh-word { font-size: 40px; line-height: 1.2; letter-spacing: 2px; }
+.sh-last { display: inline-block; padding: 0 5px; margin-left: 1px; border-radius: 10px; color: var(--pri-t); background: var(--pri-l); animation: shBeat 1.4s ease-in-out infinite; }
+@keyframes shBeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.12); } }
+.sh-mean { margin-top: 2px; font: 700 14px var(--f-body); color: var(--ink2); }
+.sh-say { margin-top: 10px; font: 700 14.5px/1.5 var(--f-body); color: var(--ink2); }
+.sh-need { display: inline-grid; place-items: center; min-width: 36px; height: 36px; padding: 0 6px; margin-left: 4px; border-radius: 12px; font-size: 22px; color: #fff; background: var(--pri); vertical-align: middle; }
+.sh-opts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.sh-opt { position: relative; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 14px 8px 10px; min-height: 128px; }
+.sh-opt kbd { position: absolute; left: 8px; top: 8px; }
+.sh-opic { display: grid; place-items: center; height: 46px; }
+.sh-ojp { font-size: 23px; line-height: 1.3; }
+.sh-opt small { font: 700 12px var(--f-body); color: var(--ink3); text-align: center; }
+
+/* ---------- Bingo ---------- */
+.bingo .bg-call { text-align: center; padding: 12px 14px 10px; margin-bottom: 14px; }
+.bg-call.pop { animation: popIn .35s var(--spring); }
+.bg-ask { display: flex; justify-content: center; align-items: center; gap: 6px; font: 800 14px var(--f-body); color: var(--ink2); }
+.bg-big { font: 900 44px/1.15 var(--f-body); color: var(--pri-t); letter-spacing: 1px; }
+.bg-big.muted { color: var(--ink3); }
+.bg-board { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-width: 430px; margin: 0 auto; }
+.bg-cell { position: relative; aspect-ratio: 1; border-radius: 18px; border: 2px solid var(--line); background: var(--card); box-shadow: 0 4px 0 var(--line2); color: var(--ink); font: 600 34px/1 var(--f-kana); cursor: pointer; animation: optIn .4s var(--spring) both; transition: transform .15s var(--spring), background .2s, border-color .2s; }
+.bg-cell:hover { transform: translateY(-2px); border-color: var(--pri); }
+.bg-cell:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--line2); }
+.bg-cell.on { background: var(--pri-l); color: var(--pri-t); border-color: transparent; }
+.bg-cell.on::after { content: ""; position: absolute; inset: 14%; border-radius: 50%; border: 3.5px solid color-mix(in srgb, var(--red, #ff6b6b) 75%, transparent); transform: rotate(-12deg); animation: stamp .35s ease both; pointer-events: none; }
+.bg-cell.line { background: var(--sun-l); color: var(--sun-t); }
+.bg-cell.hint { animation: bgHint .45s ease 2; border-color: var(--mint); }
+@keyframes bgHint { 50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--mint) 45%, transparent), 0 4px 0 var(--line2); } }
+.bg-banner { position: absolute; left: 50%; top: 50%; z-index: 3; padding: 10px 26px; border-radius: 22px; font: 900 42px/1 var(--f-head); color: #fff; white-space: nowrap; background: linear-gradient(160deg, #ff8db0, var(--pri)); box-shadow: var(--shadow-pop); transform: translate(-50%, -50%) rotate(-6deg); animation: popIn .4s var(--spring) both; pointer-events: none; }
+.bg-banner small { font-size: 20px; opacity: .9; }
+.bg-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; max-width: 430px; margin: 14px auto 0; font: 800 14px var(--f-body); color: var(--ink2); }
+
+/* ---------- Xếp câu thần tốc ---------- */
+.sent .st-card { text-align: center; padding: 18px 16px 12px; }
+.st-vi { font: 800 19px/1.4 var(--f-body); color: var(--ink); }
+.st-line { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; min-height: 56px; margin: 16px 0 6px; }
+.st-slot { white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; min-width: 52px; height: 46px; padding: 0 8px; border-bottom: 3px dashed var(--line); font-size: 24px; color: var(--ink); }
+.st-slot.filled { border-bottom-style: solid; border-color: var(--pri); animation: popIn .25s var(--spring); }
+.st-slot.reveal { color: var(--ink3); border-color: var(--line); }
+.st-line.ok .st-slot { color: var(--mint-t); border-color: var(--mint); }
+.st-r { min-height: 20px; font: 700 13.5px var(--f-body); color: var(--ink2); }
+.st-tiles { display: flex; flex-wrap: wrap; justify-content: center; gap: 9px; margin-top: 16px; }
+.st-tile { white-space: nowrap; padding: 10px 15px; border-radius: 14px; border: 2px solid var(--line); background: var(--card); color: var(--ink); font-size: 22px; cursor: pointer; animation: optIn .35s var(--spring) both; }
+.st-tile:hover { border-color: var(--pri); }
+.st-tile.used { opacity: .2; pointer-events: none; }
+
+@media (max-width: 520px) {
+  .sh-word { font-size: 32px; }
+  .sh-opt { min-height: 112px; padding: 12px 6px 8px; }
+  .sh-ojp { font-size: 20px; }
+  .bg-board { gap: 7px; }
+  .bg-cell { font-size: 28px; border-radius: 14px; }
+  .bg-big { font-size: 38px; }
+  .st-tile { padding: 9px 12px; font-size: 20px; }
+  .st-slot { min-width: 40px; font-size: 21px; }
+}

@@ -1083,6 +1083,10 @@ window.SJ = window.SJ || {};
   SJ.games = {
     list: GAMES,
     run(id, root) { const f = RUN[id]; if (!f) { location.hash = '#/games'; return null; } return f(root); },
+    /** thêm trò mới từ file khác (js/games-more.js): add({ id, icon, name, desc, color }, root => ({ destroy })) */
+    add(meta, fn) { if (!RUN[meta.id]) GAMES.push(meta); RUN[meta.id] = fn; },
+    /** bộ dụng cụ dùng chung cho trò mới: màn chuẩn bị, màn kết quả, thanh trên cùng, phím tắt */
+    kit: { setup, result, top, distinctBy, G, setKey: f => { keyFn = f; } },
     bestLabel(id) {
       const gs = SJ.store.get().games;
       if (id === 'memory') { const v = ['kr', 'hk', 'we'].map(m => gs['memory_' + m]).filter(x => x != null); return v.length ? `Ít nhất ${Math.min(...v)} lượt` : ''; }

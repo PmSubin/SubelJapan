@@ -21,7 +21,7 @@ Web học **đọc & viết tiếng Nhật cho người mới bắt đầu từ 
 | **Đọc hiểu** | 16 truyện ngắn từ dễ đến khó (có furigana, romaji, dịch tiếng Việt, câu hỏi hiểu bài), 8 hội thoại đời thường (có chế độ đóng vai), 48 câu giao tiếp hay dùng. |
 | **Gõ phím tiếng Nhật** | Bộ gõ romaji → kana như bàn phím thật, luyện gõ chữ cái / từ / câu, đo tốc độ, hướng dẫn bật bàn phím Nhật trên máy tính và điện thoại. |
 | **Luyện tập vô tận & Ôn tập** | Đọc / nghe / viết từ trí nhớ không giới hạn, có **chuỗi đúng liên tiếp**; thẻ nhớ lặp lại ngắt quãng (SRS) tự nhắc đúng lúc. |
-| **9 trò chơi** | Thử thách 60 giây, Mưa chữ, Lật thẻ, Nghe chọn chữ, Ghép từ, Đúng hay Sai, **Câu cá chữ**, **Mochi đập chữ**, **Bóng bay あいうえお** (bấm vỡ bóng đúng thứ tự a・i・u・e・o). |
+| **12 trò chơi** | Thử thách 60 giây, Mưa chữ, Lật thẻ, Nghe chọn chữ, Ghép từ, Đúng hay Sai, **Câu cá chữ**, **Mochi đập chữ**, **Bóng bay あいうえお** (bấm vỡ bóng đúng thứ tự a・i・u・e・o), **Nối đuôi しりとり** (đấu nối chữ với Mochi), **Bingo chữ cái** (có chế độ chỉ nghe), **Xếp câu thần tốc** (xếp cụm chữ thành câu). |
 | **Sổ từ** | Tra nhanh bằng tiếng Việt, romaji, Hán Việt hoặc chữ Nhật; lưu từ yêu thích để ôn. |
 | **Thẻ ghi nhớ** | Lật thẻ 3D, vuốt trái “chưa nhớ” / phải “đã nhớ”, nối thẳng vào ôn tập ngắt quãng. |
 | **Trang trí sống động** | Lời chào trên nền **bầu trời đổi theo giờ** (bình minh, trưa, hoàng hôn, đêm sao), **hiệu ứng theo mùa** (lá phong, tuyết, hoa anh đào), thẻ **Từ của ngày** và **Chữ Hán của ngày**, gợn sóng khi bấm, chữ +XP bay lên. |
@@ -80,7 +80,8 @@ js/ui.js              mèo Mochi, hộp thoại, thông báo
 js/ime.js             bộ gõ romaji → kana
 js/writing.js         hoạt hình nét viết + chấm từng nét
 js/lesson.js          trình phát bài học
-js/games.js           9 trò chơi
+js/games.js           9 trò chơi gốc + khung dùng chung (SJ.games.add, SJ.games.kit)
+js/games-more.js      しりとり, Bingo chữ cái, Xếp câu thần tốc
 js/practice.js        luyện tập vô tận
 js/pages.js           lộ trình, bảng chữ, luyện viết, ôn tập, hồ sơ, giới thiệu
 js/pages-more.js      đọc hiểu, gõ phím, sổ từ, phiếu in, tiệm Mochi
