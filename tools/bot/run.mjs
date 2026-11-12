@@ -89,7 +89,7 @@ const drain = (page, where) => { const e = [...new Set(page.__err)]; page.__err.
 }
 
 // 3b. Mở mọi trang ở máy tính và điện thoại
-const ROUTES = ['', 'talk', 'talk/book', 'talk/daily', 'sensei', 'sensei/role', 'chart', 'write', 'practice', 'read', 'type', 'games', 'cards', 'review', 'dict', 'print', 'quests', 'shop', 'profile', 'lesson/h1', 'write/さ'];
+const ROUTES = ['', 'talk', 'talk/book', 'talk/daily', 'sensei', 'sensei/role', 'chart', 'write', 'practice', 'read', 'type', 'games', 'cards', 'review', 'dict', 'print', 'quests', 'shop', 'profile', 'how', 'lesson/h1', 'write/さ'];
 for (const W of [1280, 390]) {
   const page = await newPage(W);
   const routes = ROUTES.concat(await page.evaluate(() => [...SJ.STORIES.slice(0, 3).map(s => 'story/' + s.id), ...SJ.DIALOGUES.slice(0, 2).map(d => 'dialog/' + d.id), ...SJ.games.list.map(g => 'game/' + g.id)]));

@@ -38,6 +38,9 @@ Phần soát dữ liệu nằm ở `tools/bot/audit.js` và chạy bên trong tr
   - Chỉ dùng tên icon đã có (`SJ.ICON_NAMES`), hoặc vẽ icon mới cùng phong cách bằng `SJ.addIcons({ ten: K => … })`.
   - Icon vẽ trên khung 48×48, nét viền `K.P(...)`, màu lấy từ `K.C.*`. Xem mẫu trong `js/icons.js` (apple, tomato, umbrella) và `js/ai.js`.
   - Không dùng emoji, không dùng ảnh ngoài.
+- **Hình phải thật cute (kawaii)**: đồ ăn, đồ vật, thiên nhiên nên có mặt dễ thương (mắt có đốm sáng, miệng cười nhỏ, má hồng). Vẽ icon mới thì vẽ luôn mặt, hoặc thêm một dòng `[x, y, cỡ]` vào `FACES` trong `js/icons-kawaii.js` (đặt mặt vào phần thân trơn, tránh chi tiết).
+- **Hình gợi nhớ cho mẹo nhớ** (`SJ.MNEMO_PIC` cuối `js/data-kana.js`): hình phải **khớp đúng câu mẹo nhớ** của chữ đó (mã hoá kép chữ + hình). Không có icon hợp thì vẽ icon mới theo câu mẹo, đừng ghép đại.
+- **Phương pháp học**: giữ đúng các nguyên tắc ở trang #/how (`js/plan.js`): ôn ngắt quãng, tự kiểm tra, chữ + hình, học xen kẽ, viết tay, nói thành tiếng, ít mà đều, phản hồi ngay. Tính năng mới phải theo ít nhất một nguyên tắc.
 - **Giao diện**: sáng, dễ thương, 2D, không làm menu tối hay 3D.
 - **Đổi số phiên bản**: mỗi lần sửa file trong `js/` hoặc `css/`, tăng `?v=N` cho **mọi** file trong `index.html` (cùng một số). Thêm file js mới thì nhớ nạp nó trong `index.html`.
 - **Không đổi cấu trúc dữ liệu đã lưu của người dùng** (`localStorage` `subeljapan_v1`) theo cách làm mất tiến độ học.
@@ -82,3 +85,5 @@ Có thể thêm việc mới vào cuối danh sách nếu thấy app còn thiế
 - [ ] Nói & Ngữ pháp: mỗi chặng có ít nhất 5 bài, bắt đầu từ chặng ít bài nhất
 - [ ] Câu giao tiếp: mỗi nhóm có ít nhất 8 câu
 - [ ] Bài lý thuyết ngữ pháp (g1–g6): mỗi bài có ít nhất 5 câu bài tập nhỏ
+- [ ] Vẽ icon hình gợi nhớ cho các chữ còn thiếu (bot kiểm tra liệt kê ở mục "Còn thiếu"): す (dây đu), よ (yo-yo), る (tàu lượn), り, を, ア (cái rìu), ケ, ソ, タ, ト, ヒ, フ, ム, ユ, ヨ, ラ, リ, レ, ロ, ン… rồi thêm vào SJ.MNEMO_PIC
+- [ ] Thêm mặt kawaii cho các icon đồ ăn / đồ vật còn lại (bánh kem, kem, pizza, dưa lưới, cốc nước, cốc trà, quà, sách…) nếu đặt được mặt gọn gàng

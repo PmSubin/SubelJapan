@@ -27,6 +27,7 @@ window.SJ = window.SJ || {};
     cards: (r, a) => SJ.cards.open(r, a),
     sensei: (r, a) => SJ.ai.page(r, a),
     talk: (r, a) => SJ.talk.page(r, a),
+    how: r => SJ.plan.howPage(r),
   };
   const NAV = [
     ['', 'home', 'Học'], ['talk', 'talk', 'Nói & Ngữ pháp'], ['sensei', 'sensei', 'Sensei Mochi'], ['chart', 'kana', 'Bảng chữ'], ['write', 'pencil', 'Luyện viết'], ['practice', 'infinity', 'Luyện tập'],

@@ -317,3 +317,25 @@ window.SJ = window.SJ || {};
     return { list: Array.from(out), tip };
   };
 })(window.SJ);
+
+/* Hình gợi nhớ cho mẹo nhớ (mã hoá kép — dual coding: chữ + hình nhớ lâu hơn chữ không).
+ * Chỉ ghép khi hình KHỚP đúng câu mẹo nhớ (か = thanh kiếm "Ka!", き = chìa khoá, ね = con mèo…); chữ nào chưa có hình hợp thì để trống. */
+(function (SJ) {
+  SJ.MNEMO_PIC = {
+    // Hiragana
+    'あ': 'dizzy', 'い': 'ramen', 'う': 'yum', 'え': 'ninja', 'お': 'wow', 'か': 'sword', 'き': 'key', 'く': 'bird', 'け': 'books', 'こ': 'sleep',
+    'さ': 'sprout', 'し': 'fish_rod', 'せ': 'cart', 'そ': 'bolt', 'た': 'pencil', 'ち': 'n5', 'つ': 'wave', 'て': 'hand', 'と': 'footprints',
+    'な': 'ribbon', 'に': 'n2', 'ぬ': 'bowl', 'ね': 'cat', 'の': 'batsu', 'は': 'laugh', 'ひ': 'happy', 'ふ': 'fuji', 'へ': 'mountain', 'ほ': 'speaker',
+    'ま': 'mom', 'み': 'pho', 'む': 'cow', 'め': 'eye', 'も': 'bug', 'や': 'target', 'ゆ': 'fish', 'ら': 'slow', 'れ': 'walk', 'ろ': 'map', 'わ': 'teary', 'ん': 'write',
+    // Katakana
+    'イ': 'bird', 'ウ': 'grandpa', 'エ': 'building', 'カ': 'sword', 'キ': 'key', 'ク': 'bird', 'コ': 'gift', 'サ': 'cabbage', 'シ': 'happy', 'ス': 'walk',
+    'セ': 'cart', 'チ': 'cheer', 'ツ': 'wink', 'テ': 'tv', 'ナ': 'knife', 'ニ': 'n2', 'ヌ': 'ramen', 'ネ': 'cat', 'ノ': 'batsu', 'ハ': 'laugh',
+    'ヘ': 'mountain', 'ホ': 'drop', 'マ': 'mask', 'ミ': 'pho', 'メ': 'chest', 'モ': 'bug', 'ヤ': 'target', 'ル': 'footprints', 'ワ': 'wine',
+  };
+  /** khung mẹo nhớ: có hình gợi nhớ (kèm chữ nhỏ ở góc) nếu có, không thì bóng đèn như cũ */
+  SJ.mnemoBox = function (k, text, extraCls) {
+    const pic = SJ.MNEMO_PIC[k], esc = SJ.ui.esc;
+    if (!pic || !SJ.hasIcon(pic)) return `<div class="mnemo ${extraCls || ''}">${SJ.icon('bulb', 28)}<span>${esc(text)}</span></div>`;
+    return `<div class="mnemo has-pic ${extraCls || ''}"><span class="mn-pic">${SJ.icon(pic, 58)}<b class="mn-k kana">${k}</b></span><span><small class="mn-lab">Mẹo nhớ bằng hình</small>${esc(text)}</span></div>`;
+  };
+})(window.SJ);

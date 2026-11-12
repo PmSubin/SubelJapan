@@ -217,6 +217,7 @@ window.SJ = window.SJ || {};
       <div class="main-col">
         <div class="hello card sky">${SJ.deco ? SJ.deco.skyHTML() : ''}${U().mascot(SJ.store.doneToday() ? 'cheer' : 'happy', 84, 'bob')}<div class="hello-txt"><div class="hello-jp jp" data-say="${g.jp}">${g.jp}！</div><h1>${g.vi}, ${name}!</h1><div class="muted small bold">${I(nextUnit.icon, 16)} ${esc(nextUnit.title)} · ${esc(next.title)}</div></div>
           <a class="btn btn-cat hello-cta" href="#/lesson/${next.id}">${U().ears()}${Object.keys(S.lessons).length ? 'Học tiếp' : 'Bắt đầu học'} ${I('arrow_r', 20)}</a></div>
+        ${SJ.plan ? SJ.plan.homeHTML() : ''}
         ${SJ.deco ? SJ.deco.todayHTML() : ''}
         ${SJ.talk ? SJ.talk.teaser() : ''}
         <div class="rail-mobile">${railHTML(true)}</div>
@@ -455,7 +456,7 @@ window.SJ = window.SJ || {};
         <div class="kd-top">${SJ.lesson.glyph(k.k)}<div class="stroke-box" data-sv></div></div>
         <div class="lc-romaji">${k.r}</div>
         <div class="info-row center-row mt-s"><span class="tag tag-pink">${I('talk', 16)} Đọc gần giống</span><b>${esc(k.v || k.r)}</b></div>
-        <div class="mnemo mt" style="text-align:left">${I('bulb', 26)}<span>${esc(k.m)}</span></div>
+        ${SJ.mnemoBox(k.k, k.m, 'mt')}
         ${c.list.length ? `<div class="mt"><div class="mini-label mb-s">Dễ nhầm với</div><div class="confuse">${c.list.map(x => `<button class="chip-kana" data-go="${x}">${x}</button>`).join('')}</div>${c.tip ? `<p class="small muted bold mt-s">${esc(c.tip)}</p>` : ''}</div>` : ''}
         ${k.w ? `<div class="mt" style="text-align:left">${SJ.lesson.exampleRow(k.w)}</div>` : ''}
         <div class="kd-nav"><button class="btn btn-white btn-round" data-nav="-1" ${i <= 0 ? 'disabled' : ''} aria-label="Chữ trước">${I('arrow_l', 22)}</button>
@@ -514,7 +515,7 @@ window.SJ = window.SJ || {};
             <div class="row center-row mt-s"><label class="switch small"><input type="checkbox" data-auto ${auto ? 'checked' : ''}><i></i><span>Viết đẹp thì tự sang chữ mới</span></label></div>
             <div data-res class="mt"></div></div>
         </div>
-        ${isK ? `<div class="mnemo mt">${I('bulb', 26)}<span>${esc(cur.o.tip)}</span></div>` : cur.o.m ? `<div class="mnemo mt">${I('bulb', 26)}<span>${esc(cur.o.m)}</span></div>` : ''}
+        ${isK ? `<div class="mnemo mt">${I('bulb', 26)}<span>${esc(cur.o.tip)}</span></div>` : cur.o.m ? SJ.mnemoBox(cur.k, cur.o.m, 'mt') : ''}
         ${c.list.length ? `<div class="warn-note mt">${I('eye', 26)}<div><b>Dễ nhầm với:</b> <span class="jp">${c.list.join('、')}</span>${c.tip ? `<div class="small muted mt-s">${esc(c.tip)}</div>` : ''}</div></div>` : ''}
       </div>`;
       sv = SJ.writing.strokeView(main.querySelector('[data-sv]'), cur.k);
@@ -573,7 +574,7 @@ window.SJ = window.SJ || {};
     // từ lưu từ truyện đọc (Sổ từ): [chữ Nhật, romaji, nghĩa]
     if (key.startsWith('w:')) { const w = SJ.STORIES.flatMap(s => s.words).find(x => 'w:' + x[0] === key); return w && { front: `<div class="word jp">${SJ.ui.ruby(w[0])}</div>`, say: SJ.ui.reading(w[0]), back: `<div class="bold" style="color:var(--pri-t);font-size:18px">${esc(w[1])}</div><div class="q-mean">${esc(w[2])}</div>` }; }
     if (key.startsWith('j:')) { const o = SJ.KANJI_MAP[key.slice(2)]; return o && { front: `<div class="big">${o.k}</div>`, say: o.ex[0].kana, back: `<div class="hv-badge">${o.hv}</div><div class="q-mean">${esc(o.m)}</div><div class="jp muted">${o.on} · ${o.kun}</div><div class="muted small bold">${esc(o.ex[0].jp)} (${o.ex[0].kana}) = ${esc(o.ex[0].vi)}</div>` }; }
-    const o = SJ.KANA_MAP[key]; return o && { front: `<div class="big">${o.k}</div>`, say: o.k, back: `<div class="lc-romaji">${o.r}</div><div class="muted bold">Đọc gần giống: ${esc(o.v || o.r)}</div><div class="mnemo" style="text-align:left">${I('bulb', 22)}<span>${esc(o.m)}</span></div>` };
+    const o = SJ.KANA_MAP[key]; return o && { front: `<div class="big">${o.k}</div>`, say: o.k, back: `<div class="lc-romaji">${o.r}</div><div class="muted bold">Đọc gần giống: ${esc(o.v || o.r)}</div>${SJ.mnemoBox(o.k, o.m)}` };
   }
   P.review = function (root) {
     let queue = [], i = 0, done = 0, keyFn = null, srs = true;

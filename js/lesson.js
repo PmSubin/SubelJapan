@@ -158,7 +158,7 @@ window.SJ = window.SJ || {};
       </div>
       <div class="lc-info">
         <div class="info-row"><span class="tag tag-pink">${I('talk', 16)} Đọc gần giống</span><b>${esc(it.v || it.r)}</b></div>
-        <div class="mnemo">${I('bulb', 28)}<span>${esc(it.m)}</span></div>
+        ${SJ.mnemoBox(it.k, it.m)}
         ${confuseRow(it.k)}
         ${it.w ? exampleRow(it.w) : ''}
       </div></div>`;

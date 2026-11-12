@@ -201,6 +201,14 @@ window.__audit = function () {
     if ((hira === g.length || hira === 0) && !SJ.CONFUSE_TIPS[g.join('')]) G('Nhóm dễ nhầm ' + g.join(' '), 'chưa có mẹo phân biệt');
   });
 
+  // ===== 7b. HÌNH GỢI NHỚ (mẹo nhớ bằng hình) =====
+  Object.keys(SJ.MNEMO_PIC || {}).forEach(k => {
+    if (!SJ.KANA_MAP[k]) E('Hình gợi nhớ ' + k, 'chữ này không có trong bảng chữ');
+    if (!SJ.hasIcon(SJ.MNEMO_PIC[k])) E('Hình gợi nhớ ' + k, 'icon "' + SJ.MNEMO_PIC[k] + '" không tồn tại');
+  });
+  SJ.KANA.hira.basic.concat(SJ.KANA.kata.basic).forEach(o => { if (o.m && !(SJ.MNEMO_PIC || {})[o.k] && o.k !== 'ヲ') G('Chữ ' + o.k, 'chưa có hình gợi nhớ cho mẹo nhớ (SJ.MNEMO_PIC trong js/data-kana.js) — vẽ icon khớp với câu mẹo'); });
+  stats.mnemoPics = Object.keys(SJ.MNEMO_PIC || {}).length;
+
   // ===== 8. HÌNH VẼ: vẽ thử mọi icon, chữ / nét không được tràn khỏi khung 48×48 =====
   {
     const box = document.createElement('div');

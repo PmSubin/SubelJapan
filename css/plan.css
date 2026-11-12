@@ -1,0 +1,45 @@
+/* SubelJapan — "Kế hoạch hôm nay" (js/plan.js) và trang "Học sao cho nhớ lâu" (#/how). Chỉ dùng màu theo chủ đề. */
+.plan-card { padding: 16px 18px 14px; margin: 0 0 22px; }
+.plan-card.all { background: linear-gradient(165deg, var(--card), var(--mint-l)); }
+.plan-head { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+.plan-head h2 { margin: 0 0 2px; font-size: 19px; }
+.plan-head p { margin: 0; font: 700 13.5px/1.45 var(--f-body); color: var(--ink2); }
+.plan-ring { --p: 0; flex: none; width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; grid-auto-flow: column; align-items: baseline; justify-content: center;
+  background: radial-gradient(closest-side, var(--card) 76%, transparent 78% 100%), conic-gradient(var(--mint) calc(var(--p) * 360deg), var(--bg2) 0); }
+.plan-ring b { font: 900 21px var(--f-head); color: var(--ink); }
+.plan-ring small { font: 800 12px var(--f-body); color: var(--ink3); }
+.plan-how { flex: none; display: inline-flex; align-items: center; gap: 4px; padding: 6px 11px; border-radius: 999px; background: var(--sun-l); color: var(--sun-t); font: 800 12.5px var(--f-body); }
+.plan-how:hover { filter: brightness(.97); }
+.plan-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+.plan-steps a { display: flex; align-items: center; gap: 11px; height: 100%; padding: 10px 12px; border-radius: 18px; border: 2px solid var(--line); background: var(--card); color: var(--ink); transition: transform .2s var(--spring), border-color .2s, box-shadow .2s; }
+.plan-steps a:hover { transform: translateY(-2px); border-color: var(--pri); box-shadow: var(--sh-1); }
+.ps-ico { flex: none; width: 46px; height: 46px; display: grid; place-items: center; border-radius: 15px; background: var(--bg2); }
+.ps-txt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.ps-txt small { font: 800 11px var(--f-body); letter-spacing: .3px; color: var(--ink3); text-transform: uppercase; }
+.ps-txt b { font: 800 14.5px/1.3 var(--f-body); }
+.ps-txt span { font: 700 12.5px/1.35 var(--f-body); color: var(--ink2); }
+.ps-go { flex: none; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--pri); color: #fff; }
+.plan-steps li.next a { border-color: var(--pri); background: linear-gradient(165deg, var(--card), var(--pri-l)); }
+.plan-steps li.done a { border-color: transparent; background: var(--mint-l); }
+.plan-steps li.done .ps-ico { background: var(--mint); color: #fff; }
+.plan-steps li.done b { color: var(--mint-t); }
+.plan-steps li.skip a { opacity: .72; border-style: dashed; }
+
+/* trang Học sao cho nhớ lâu */
+.how-page .plan-card { margin-top: 4px; }
+.how-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.how-card { display: flex; flex-direction: column; gap: 10px; padding: 16px 18px; animation: optIn .45s var(--spring) both; }
+.hc-head { display: flex; align-items: center; gap: 12px; }
+.hc-ico { flex: none; width: 58px; height: 58px; display: grid; place-items: center; border-radius: 18px; background: var(--sun-l); }
+.hc-head h2 { margin: 0; font-size: 18px; }
+.hc-head small { font: 800 12px var(--f-body); color: var(--ink3); letter-spacing: .3px; }
+.hc-why { margin: 0; font: 600 14px/1.55 var(--f-body); color: var(--ink2); }
+.hc-app { padding: 10px 12px; border-radius: 14px; background: var(--mint-l); font: 700 13.5px/1.5 var(--f-body); color: var(--ink); }
+.hc-app b { color: var(--mint-t); }
+.how-card .btn { align-self: flex-start; margin-top: auto; }
+
+@media (max-width: 720px) {
+  .plan-steps, .how-grid { grid-template-columns: 1fr; }
+  .plan-head { flex-wrap: wrap; }
+  .plan-head .grow { flex: 1 1 60%; }
+}
