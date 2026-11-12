@@ -116,4 +116,34 @@ window.SJ = window.SJ || {};
     face_n: K => K.O(24, 24, 18, K.C.pink) + line('M11 15.5 l5 2.6', INK, 3.2) + line('M13 35 Q30 32 37.5 15', INK, 3.2)
       + eye(29, 14, 1.9) + blush(32, 30, 1.1) + K.H('M13 9.5 q3 -3.2 7 -3.6'),
   });
+  // ---- Hình cho từ ví dụ còn trống (js/data-kana.js) ----
+  SJ.addIcons({
+    // ウール — cuộn len hồng cắm hai que đan, sợi len thả ra
+    yarn: K => tube('M9 5 L29 29', K.C.brn, 2.2) + tube('M39 5 L19 29', K.C.brn, 2.2) + K.D(9, 5, 2.6, K.C.yel) + K.D(39, 5, 2.6, K.C.yel)
+      + tube('M33 37 q7 1 8.5 5 q1 3 -3 3.5', K.C.rose, 2)
+      + K.O(22, 29, 14, K.C.rose) + K.P('M10.5 22 q9 -2.5 18 -6.5 M11 37 q11 5 22 -2 M31 17.5 q5.5 9 1.5 21', 'none')
+      + face(21.5, 29, .85) + K.H('M12.5 22 q1.4 -3.6 5 -5.4'),
+    // ゾンビ — thây ma dễ thương: da xanh, băng dán trên đầu, hai tay giơ ra trước
+    zombie: K => tube('M17 34 L6 31', K.C.grn, 3.6) + tube('M31 34 L42 31', K.C.grn, 3.6)
+      + K.P('M15 30 H33 V44 l-3 -2.4 l-3 2.4 l-3 -2.4 l-3 2.4 l-3 -2.4 l-3 2.4 Z', K.C.lav)
+      + K.O(24, 18.5, 13, K.C.grn) + K.P('M19 6.5 q2 -3 4 0 q2 -3.4 4.5 .2', 'none')
+      + K.G('rotate(-24 16 11.5)', K.R(10.5, 9, 11, 5, 1.8, K.C.wht) + line('M14 10.4 v2.2 M17.5 10.4 v2.2', INK, 1))
+      + line('M31.5 9.5 l3.5 6 M31 13.2 l3.6 -1.4 M32.6 16 l3.2 -1.5', INK, 1.3)
+      + face(24, 21, .82, 'o'),
+    // リャマ — lạc đà không bướu (llama) lông xù, cổ dài, khoác khăn hồng
+    llama: K => K.R(11, 32, 4.4, 12, 2.2, K.C.cream) + K.R(18, 33, 4.4, 11, 2.2, K.C.cream) + K.R(26, 33, 4.4, 11, 2.2, K.C.cream) + K.R(32.5, 32, 4.4, 12, 2.2, K.C.cream)
+      + K.P('M8 26 q-3 -6 4 -7.5 q2 -3 6 -1.5 q3 -2.5 6.5 0 q3.5 -2.5 6.5 0 L39 21 V33 q-2 4 -7 3 q-3 2.5 -6.5 0 q-3.5 2.5 -6.5 0 q-3.5 2.5 -6.5 0 q-6.5 1 -6.5 -4.5 q-3 -3 -1 -6.5 Z', K.C.cream)
+      + K.P('M19 20.5 h12 v10 q-6 3.4 -12 0 Z', K.C.pink) + K.P('M19 25 h12', 'none')
+      + K.R(30.5, 12, 9, 22, 4.5, K.C.cream)
+      + K.P('M30.6 9 l.6 -6.5 l4 5.4 Z', K.C.cream) + K.P('M39.5 9 l1.6 -6.4 l3 5.8 Z', K.C.cream)
+      + K.E(37, 12.5, 8.2, 6.4, K.C.cream) + K.P('M31.5 7.5 q2.5 -2.6 5 -.4 q2.5 -2.4 5 .2', 'none')
+      + eye(34.6, 11.6, 1.2) + eye(40.2, 11.6, 1.2) + blush(32.2, 14.4, .7) + blush(42.6, 14.4, .7)
+      + line('M36.6 14.6 q.8 .9 1.6 0', INK, 1),
+    // はなぢ — bạn nhỏ bị chảy máu cam: giọt máu nhỏ ở mũi, tay cầm khăn giấy
+    nosebleed: K => K.O(22, 24, 16, K.C.skin) + hairCap(K, 22, 22, 16, K.C.dbrn)
+      + line('M13.5 21 l3.4 1.6 l-3.4 1.6 M30.5 21 l-3.4 1.6 l3.4 1.6', INK, 1.9) + blush(11.5, 28, 1.2) + blush(32.5, 28, 1.2)
+      + K.P('M22 25 q1.4 1 0 2', 'none') + line('M19.5 33.5 q2.5 -1.6 5 0', INK, 1.5)
+      + K.P('M23.5 27.8 q-2.4 3 -2.4 4.4 a2.4 2.4 0 0 0 4.8 0 q0 -1.4 -2.4 -4.4 Z', K.C.red)
+      + K.G('rotate(14 39 33)', K.P('M33 27 h12 l-1 4 l1 4 l-1 4 h-12 l1 -4 l-1 -4 l1 -4 Z', K.C.wht)) + line('M5 9 l2.6 2.6 M3.5 15 h3.4', INK, 1.4),
+  });
 })(window.SJ);

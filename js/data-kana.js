@@ -55,7 +55,7 @@ window.SJ = window.SJ || {};
   const KATA = [
     ['ア','a','Cái rìu (axe) — giống chữ "A" nghiêng','アイス','aisu','kem','icecream'],
     ['イ','i','Chú chim đại bàng (eagle) đậu trên cành','インク','inku','mực','pen'],
-    ['ウ','u','Giống う nhưng có mũ vuông — ông cụ đội mũ kêu "ư".','ウール','uuru','len',''],
+    ['ウ','u','Giống う nhưng có mũ vuông — ông cụ đội mũ kêu "ư".','ウール','uuru','len','yarn'],
     ['エ','e','Chiếc thang máy (elevator) — giống chữ I in hoa.','エアコン','eakon','máy lạnh','snow'],
     ['オ','o','Người dang tay chạy hớn hở "Ồ!"','オレンジ','orenji','quả cam','mandarin'],
     ['カ','ka','Giống か nhưng không có tia lửa — lưỡi dao sắc lẹm','カメラ','kamera','máy ảnh','camera'],
@@ -160,7 +160,7 @@ window.SJ = window.SJ || {};
   const EXAMPLES = {
     'が':['がっこう','gakkou','trường học','school'],'ぎ':['うさぎ','usagi','con thỏ','rabbit'],'ぐ':['かぐ','kagu','đồ nội thất','chair'],'げ':['げんき','genki','khoẻ khoắn','cheer'],'ご':['ごはん','gohan','cơm','rice'],
     'ざ':['ざっし','zasshi','tạp chí','note'],'じ':['じかん','jikan','thời gian','alarm'],'ず':['ちず','chizu','bản đồ','map'],'ぜ':['かぜ','kaze','gió','wind'],'ぞ':['ぞう','zou','con voi','elephant'],
-    'だ':['だいがく','daigaku','đại học','gradcap'],'ぢ':['はなぢ','hanaji','chảy máu cam',''],'づ':['つづく','tsuzuku','tiếp tục','arrow_r'],'で':['でんわ','denwa','điện thoại','phone'],'ど':['どうぶつ','doubutsu','động vật','paw'],
+    'だ':['だいがく','daigaku','đại học','gradcap'],'ぢ':['はなぢ','hanaji','chảy máu cam','nosebleed'],'づ':['つづく','tsuzuku','tiếp tục','arrow_r'],'で':['でんわ','denwa','điện thoại','phone'],'ど':['どうぶつ','doubutsu','động vật','paw'],
     'ば':['ばら','bara','hoa hồng','flower'],'び':['えび','ebi','con tôm','shrimp'],'ぶ':['ぶた','buta','con lợn','pig'],'べ':['べんとう','bentou','cơm hộp','bowl'],'ぼ':['ぼうし','boushi','cái mũ','kid'],
     'ぱ':['かんぱい','kanpai','cạn ly!','party'],'ぴ':['えんぴつ','enpitsu','bút chì','pencil'],'ぷ':['てんぷら','tenpura','tempura','fish'],'ぺ':['ぺこぺこ','pekopeko','đói meo','yum'],'ぽ':['さんぽ','sanpo','đi dạo','walk'],
     'きゃ':['きゃく','kyaku','khách','suitcase'],'きゅ':['きゅうり','kyuuri','dưa chuột','cucumber'],'きょ':['きょう','kyou','hôm nay','calendar'],
@@ -176,7 +176,7 @@ window.SJ = window.SJ || {};
     'ぴゃ':['はっぴゃく','happyaku','tám trăm','n100'],'ぴょ':['ぴょんぴょん','pyonpyon','nhảy tưng tưng','rabbit'],
     'びゅ':['びゅんびゅん','byunbyun','vun vút (gió, xe lao nhanh)','wind'],'ぴゅ':['ぴゅうぴゅう','pyuupyuu','vù vù (gió thổi)','wind'],
     'ガ':['ガム','gamu','kẹo cao su','candy'],'ギ':['ギター','gitaa','đàn guitar','music'],'グ':['グラス','gurasu','cái ly','wine'],'ゲ':['ゲーム','geemu','trò chơi','game'],'ゴ':['ゴルフ','gorufu','môn golf','ball'],
-    'ザ':['ピザ','piza','pizza','pizza'],'ジ':['ジーンズ','jiinzu','quần jean','jeans'],'ズ':['ズボン','zubon','cái quần','trousers'],'ゼ':['ゼロ','zero','số 0','n0'],'ゾ':['ゾンビ','zonbi','thây ma',''],
+    'ザ':['ピザ','piza','pizza','pizza'],'ジ':['ジーンズ','jiinzu','quần jean','jeans'],'ズ':['ズボン','zubon','cái quần','trousers'],'ゼ':['ゼロ','zero','số 0','n0'],'ゾ':['ゾンビ','zonbi','thây ma','zombie'],
     'ダ':['ダンス','dansu','nhảy múa','music'],'デ':['デパート','depaato','trung tâm thương mại','building'],'ド':['ドア','doa','cánh cửa','house'],
     'バ':['バナナ','banana','quả chuối','banana'],'ビ':['ビール','biiru','bia','beer'],'ブ':['ブログ','burogu','blog','tv'],'ベ':['ベトナム','betonamu','Việt Nam','flag_vn'],'ボ':['ボール','booru','quả bóng','ball'],
     'パ':['パンダ','panda','gấu trúc','panda'],'ピュ':['コンピューター','konpyuutaa','máy tính','keyboard'],'ピョ':['ピョンピョン','pyonpyon','nhảy tưng tưng (tiếng tượng hình)','rabbit'],'ピ':['ピアノ','piano','đàn piano','music'],'プ':['プール','puuru','bể bơi','wave'],'ペ':['ペン','pen','cây bút','pen'],'ポ':['ポスト','posuto','hòm thư','postbox'],
@@ -185,7 +185,7 @@ window.SJ = window.SJ || {};
     'チャ':['チャンス','chansu','cơ hội','clover'],'チュ':['チューリップ','chuurippu','hoa tulip','tulip'],'チョ':['チョコレート','chokoreeto','sô-cô-la','chocolate'],
     'ニャ':['ニャー','nyaa','meo (tiếng mèo kêu)','cat'],'ニュ':['メニュー','menyuu','thực đơn','note'],'ニョ':['ニョッキ','nyokki','bánh gnocchi (món Ý)',''],
     'ヒュ':['ヒューズ','hyuuzu','cầu chì (fuse)','bolt'],'ヒョ':['ヒョウ','hyou','con báo (tên loài vật hay viết Katakana)','cat'],'ミョ':['ミョウガ','myouga','gừng myoga (rau gia vị Nhật)','leaf'],
-    'リャ':['リャマ','ryama','lạc đà không bướu (llama)',''],'ギュ':['フィギュア','figyua','mô hình nhân vật (figure)','robot'],'ミャ':['ミャンマー','myanmaa','Myanmar','flag'],'ミュ':['ミュージック','myuujikku','âm nhạc','music'],
+    'リャ':['リャマ','ryama','lạc đà không bướu (llama)','llama'],'ギュ':['フィギュア','figyua','mô hình nhân vật (figure)','robot'],'ミャ':['ミャンマー','myanmaa','Myanmar','flag'],'ミュ':['ミュージック','myuujikku','âm nhạc','music'],
     'リュ':['リュック','ryukku','ba lô','backpack'],'ギャ':['ギャグ','gyagu','trò đùa','laugh'],'ギョ':['ギョーザ','gyooza','bánh gyoza','gyoza'],
     'ジャ':['ジャズ','jazu','nhạc jazz','music'],'ジュ':['ジュース','juusu','nước ép','juice'],'ジョ':['ジョギング','jogingu','chạy bộ','walk'],'ビュ':['ビュッフェ','byuffe','buffet','bowl'],
   };
