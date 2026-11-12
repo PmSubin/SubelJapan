@@ -64,7 +64,7 @@ Mỗi lần chạy, bot làm theo thứ tự ưu tiên:
 
 Có thể thêm việc mới vào cuối danh sách nếu thấy app còn thiếu.
 
-- [ ] Vẽ icon mới cho các từ ví dụ còn trống hình: ウール, ハンバーガー, はなぢ, ジーンズ, ズボン, ゾンビ, ビール, ちょっと, じゃがいも, ニョッキ, リャマ, ヴェール, タトゥー (mỗi lần vài icon)
+- [ ] Vẽ icon mới cho các từ ví dụ còn trống hình: ウール, はなぢ, ゾンビ, ちょっと, ニョッキ, リャマ, ヴェール, タトゥー (mỗi lần vài icon)
 - [ ] Thêm truyện đọc: mỗi cấp 1, 2, 3 có ít nhất 6 truyện (mỗi truyện ≥ 6 câu, ≥ 5 từ mới, 3 câu hỏi)
 - [ ] Thêm hội thoại tình huống cho đủ 12 bài (ở nhà ga, đi khám bệnh, hỏi đường, gọi điện, nhà hàng, khách sạn…)
 - [ ] Chủ đề từ vựng mới: Cơ thể (からだ)
