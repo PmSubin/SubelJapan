@@ -145,5 +145,34 @@ window.SJ = window.SJ || {};
       + K.P('M22 25 q1.4 1 0 2', 'none') + line('M19.5 33.5 q2.5 -1.6 5 0', INK, 1.5)
       + K.P('M23.5 27.8 q-2.4 3 -2.4 4.4 a2.4 2.4 0 0 0 4.8 0 q0 -1.4 -2.4 -4.4 Z', K.C.red)
       + K.G('rotate(14 39 33)', K.P('M33 27 h12 l-1 4 l1 4 l-1 4 h-12 l1 -4 l-1 -4 l1 -4 Z', K.C.wht)) + line('M5 9 l2.6 2.6 M3.5 15 h3.4', INK, 1.4),
+    // ちょっと — bàn tay làm dấu "một chút xíu": ngón cái và ngón trỏ gần chạm nhau, kẹp một hạt đỏ bé tí
+    pinch: K => K.G('rotate(2 14 26)', K.R(11, 13, 26, 9, 4.5, K.C.skin) + K.P('M32.5 14 q2.4 1 2.6 3.6', 'none'))
+      + K.G('rotate(-2 14 26)', K.R(11, 30, 24, 9, 4.5, K.C.skin))
+      + K.O(14, 26, 11, K.C.skin) + K.R(15, 15.6, 8, 21, 3, K.C.skin).replace('class="o"', '')
+      + face(13, 26.5, .7)
+      + K.D(36, 26, 1.7, K.C.red)
+      + line('M43.5 17 v5.2 l-1.8 -1.8 M43.5 22.2 l1.8 -1.8 M43.5 34 v-5.2 l-1.8 1.8 M43.5 28.8 l1.8 1.8', INK, 1.4)
+      + spark(40, 6, 3.2) + spark(5, 9, 2.4, '#ffc4d4'),
+    // ニョッキ — đĩa bánh gnocchi Ý: những viên bánh khoai tây có vân, lá húng xanh, sốt cà chua
+    gnocchi: K => K.E(24, 33, 22, 11, K.C.wht) + K.E(24, 32.5, 16.5, 7.4, K.C.sky)
+      + K.P('M11 32 q3 -4 8 -2 q4 -3.4 9 -.6 q4.6 -2.4 9 1 q-1 4.6 -8 4 q-4 2.6 -9 .6 q-7 1.4 -9 -3 Z', K.C.red)
+      + K.E(14.5, 31, 6.4, 4.8, K.C.cream, -12) + K.P('M11.5 28.6 l.8 4.2 M14.5 27.6 l.8 4.4 M17.5 27.4 l.6 4.2', 'none')
+      + K.E(33.5, 31, 6.4, 4.8, K.C.cream, 12) + K.P('M30.6 27.6 l-.6 4.2 M33.6 27.6 l-.8 4.4 M36.6 28.6 l-.8 4.2', 'none')
+      + K.E(24, 27, 8.4, 6.4, K.C.cream) + face(24, 27.4, .72)
+      + K.P('M29 17 q5 -6 10.5 -3.4 q-2.4 6 -10.5 3.4 Z', K.C.dgrn) + K.P('M30.6 16.4 q3.8 -1.9 7.4 -2.6', 'none')
+      + spark(8, 13, 3.2) + spark(42, 6, 2.4, '#ffc4d4'),
+    // ヴェール — cô dâu nhỏ đội khăn voan trắng trong suốt, cài vòng hoa
+    veil: K => K.P('M10 21 Q8 33 4.5 44 H43.5 Q40 33 38 21 Q37 9 24 8.5 Q11 9 10 21 Z', '#f6f2ff')
+      + K.O(24, 24, 10.5, K.C.skin) + K.P('M13.6 22 q2 -8.6 10.4 -8.6 q8.4 0 10.4 8.6 q-4.4 -4.4 -10.4 -4.4 q-6 0 -10.4 4.4 Z', K.C.dbrn)
+      + face(24, 25.6, .72)
+      + K.P('M15 38 Q24 42.5 33 38 L35 44 H13 Z', K.C.wht)
+      + K.O(16, 13, 2.8, K.C.pink) + K.O(24, 10.6, 3, K.C.rose) + K.O(32, 13, 2.8, K.C.pink) + K.D(24, 10.6, 1, K.C.yel)
+      + line('M9 28 q-1.6 7 -3.4 13 M39 28 q1.6 7 3.4 13', '#c9bde0', 1.2) + spark(42, 8, 3.2),
+    // タトゥー — cánh tay gồng nhẹ có hình xăm trái tim và dải ruy băng
+    tattoo: K => K.P('M3 38 Q4 27 16 26 L26 25 Q31 18 34 9 Q36 4.5 40.5 6 Q44.5 7.5 43.5 12 L40 26 Q38 35 28 37 L18 39 Q8 41 3 38 Z', K.C.skin)
+      + K.P('M33 13.5 q3 -1.4 5.2 .6', 'none') + K.P('M28 30 q3.4 -1.6 5.4 .2', 'none')
+      + K.P('M17 37 l-6.4 -6.2 a4 4 0 0 1 6.4 -5 a4 4 0 0 1 6.4 5 Z', K.C.red) + K.H('M12 29 q.6 -1.6 2.2 -1.8')
+      + K.P('M7.5 35 L9.4 33 H24.6 L26.5 35 L24.6 37 H9.4 Z', K.C.dblue)
+      + K.H('M35.6 9.4 q1 -1.8 3 -2') + spark(10, 14, 3.6) + spark(20, 8, 2.4, '#ffc4d4'),
   });
 })(window.SJ);
