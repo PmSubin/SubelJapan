@@ -68,7 +68,7 @@ window.SJ = window.SJ || {};
     ['ス','su','Người đang sải bước "xư" qua đường','スープ','suupu','món súp','pho'],
     ['セ','se','Giống せ nhưng gọn và vuông hơn.','セーター','seetaa','áo len','shirt'],
     ['ソ','so','Hai nét như mũi kim khâu — nét dài đi từ TRÊN xuống (khác ン).','ソファ','sofa','ghế sofa','chair'],
-    ['タ','ta','Giống ク thêm một nét giữa — "ta" có thêm gì nào?','タクシー','takushii','taxi','car'],
+    ['タ','ta','Giống ク (mỏ chim cu) thêm một nét ở giữa — như chú chim ngậm thêm cành cây. "Ta" có thêm gì nào?','タクシー','takushii','taxi','car'],
     ['チ','chi','Cô cổ động viên (cheerleader) dang tay','チーズ','chiizu','phô mai','cheese'],
     ['ツ','tsu','Mặt cười có 2 mắt ở TRÊN, nét cuối kéo từ trên xuống (khác シ).','ツアー','tsuaa','chuyến du lịch','suitcase'],
     ['テ','te','Ăng-ten của cái tivi (テレビ)','テレビ','terebi','tivi','tv'],
@@ -94,7 +94,7 @@ window.SJ = window.SJ || {};
     ['ラ','ra','Số 7 có cái nắp đậy phía trên.','ラジオ','rajio','radio','music'],
     ['リ','ri','Giống り nhưng thẳng tắp hơn.','リボン','ribon','ruy băng','ribbon'],
     ['ル','ru','Hai cái chân dài đang đi "rư rư"','ルール','ruuru','luật lệ','note'],
-    ['レ','re','Chữ L nghiêng nghiêng — "lê".','レモン','remon','chanh vàng','lemon'],
+    ['レ','re','Như dấu tích ✓ (hay chữ L nghiêng) — "lê" đúng rồi!','レモン','remon','chanh vàng','lemon'],
     ['ロ','ro','Cái hộp vuông — giống chữ Hán 口 (miệng).','ロボット','robotto','rô-bốt','robot'],
     ['ワ','wa','Ly rượu vang (wine) — "oa".','ワイン','wain','rượu vang','wine'],
     ['ヲ','wo','Giống フ có thêm gạch ngang — rất hiếm khi dùng.','','','',''],
@@ -326,10 +326,11 @@ window.SJ = window.SJ || {};
     'あ': 'dizzy', 'い': 'ramen', 'う': 'yum', 'え': 'ninja', 'お': 'wow', 'か': 'sword', 'き': 'key', 'く': 'bird', 'け': 'books', 'こ': 'sleep',
     'さ': 'sprout', 'し': 'fish_rod', 'せ': 'cart', 'そ': 'bolt', 'た': 'pencil', 'ち': 'n5', 'つ': 'wave', 'て': 'hand', 'と': 'footprints',
     'な': 'ribbon', 'に': 'n2', 'ぬ': 'bowl', 'ね': 'cat', 'の': 'batsu', 'は': 'laugh', 'ひ': 'happy', 'ふ': 'fuji', 'へ': 'mountain', 'ほ': 'speaker',
-    'ま': 'mom', 'み': 'pho', 'む': 'cow', 'め': 'eye', 'も': 'bug', 'や': 'target', 'ゆ': 'fish', 'ら': 'slow', 'れ': 'walk', 'ろ': 'map', 'わ': 'teary', 'ん': 'write',
+    'ま': 'mom', 'み': 'pho', 'む': 'cow', 'め': 'eye', 'も': 'bug', 'や': 'target', 'ゆ': 'fish', 'よ': 'yoyo', 'ら': 'slow', 'り': 'dangle', 'る': 'coaster', 'れ': 'walk', 'ろ': 'map', 'わ': 'teary', 'を': 'hurdle', 'ん': 'write', 'す': 'swing',
     // Katakana
-    'イ': 'bird', 'ウ': 'grandpa', 'エ': 'building', 'カ': 'sword', 'キ': 'key', 'ク': 'bird', 'コ': 'gift', 'サ': 'cabbage', 'シ': 'happy', 'ス': 'walk',
-    'セ': 'cart', 'チ': 'cheer', 'ツ': 'wink', 'テ': 'tv', 'ナ': 'knife', 'ニ': 'n2', 'ヌ': 'ramen', 'ネ': 'cat', 'ノ': 'batsu', 'ハ': 'laugh',
+    'ア': 'axe', 'イ': 'bird', 'オ': 'run_happy', 'ケ': 'block_k', 'ソ': 'needle', 'タ': 'bird_twig', 'ト': 'totem', 'ヒ': 'sit_laugh', 'フ': 'hook', 'ム': 'muscle',
+    'ユ': 'uturn', 'ヨ': 'mirror_e', 'ラ': 'seven_lid', 'リ': 'dangle', 'レ': 'tick', 'ロ': 'square_mouth', 'ン': 'face_n', 'ウ': 'grandpa', 'エ': 'building', 'カ': 'sword', 'キ': 'key', 'ク': 'bird', 'コ': 'gift', 'サ': 'cabbage', 'シ': 'face_side', 'ス': 'walk',
+    'セ': 'cart', 'チ': 'cheer', 'ツ': 'face_up', 'テ': 'tv', 'ナ': 'knife', 'ニ': 'n2', 'ヌ': 'ramen', 'ネ': 'cat', 'ノ': 'batsu', 'ハ': 'laugh',
     'ヘ': 'mountain', 'ホ': 'drop', 'マ': 'mask', 'ミ': 'pho', 'メ': 'chest', 'モ': 'bug', 'ヤ': 'target', 'ル': 'footprints', 'ワ': 'wine',
   };
   /** khung mẹo nhớ: có hình gợi nhớ (kèm chữ nhỏ ở góc) nếu có, không thì bóng đèn như cũ */

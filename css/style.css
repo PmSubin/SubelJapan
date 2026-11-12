@@ -568,7 +568,7 @@ html[data-motion="reduce"] *, html[data-motion="reduce"] *::before, html[data-mo
 .mnemo .ic { flex: none; margin-top: -2px; }
 /* mẹo nhớ có hình (mã hoá kép): hình gợi nhớ to + chữ đang học ở góc */
 .mnemo.has-pic { align-items: center; gap: 14px; text-align: left; }
-.mn-pic { position: relative; flex: none; display: grid; place-items: center; width: 74px; height: 74px; border-radius: 22px; background: var(--card); box-shadow: var(--sh-1); }
+.mn-pic { position: relative; flex: none; display: grid; place-items: center; width: 74px; height: 74px; border-radius: 22px; background: #fff; /* luôn trắng như sticker: viền hình đậm, nền tối sẽ làm chìm */ box-shadow: var(--sh-1); }
 .mn-pic .ic { margin: 0; }
 .mn-k { position: absolute; right: -8px; bottom: -8px; display: grid; place-items: center; min-width: 30px; height: 30px; padding: 0 4px; border-radius: 11px; background: var(--pri); color: #fff; font-size: 19px; line-height: 1; box-shadow: 0 3px 8px -4px var(--pri); }
 .mn-lab { display: block; margin-bottom: 2px; font: 800 11px var(--f-body); letter-spacing: .3px; text-transform: uppercase; color: var(--sun-t); }

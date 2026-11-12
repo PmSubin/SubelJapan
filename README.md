@@ -73,6 +73,9 @@ css/style.css         giao diện "Mochi Pop"
 css/soft.css          nút mềm, hoạt ảnh, Mochi đi dạo
 css/map.css           bản đồ hành trình, cảnh vật, màn thưởng
 js/icons.js           bộ hình vẽ tay SVG
+js/icons-kawaii.js    thêm mặt kawaii cho đồ ăn, thiên nhiên, đồ vật
+js/icons-mnemo.js     hình gợi nhớ vẽ riêng cho mẹo nhớ bảng chữ (シ・ツ・ソ・ン vẽ đúng dáng chữ)
+js/plan.js            Kế hoạch hôm nay + trang Học sao cho nhớ lâu (#/how)
 js/data-*.js          dữ liệu Kana, từ vựng, Kanji, bài học, truyện & hội thoại
 js/store.js           XP, chuỗi ngày, cá vàng, nhiệm vụ, tiệm đồ, huy hiệu, SRS
 js/audio.js           phát âm + bộ tổng hợp âm thanh
