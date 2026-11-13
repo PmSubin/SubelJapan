@@ -474,6 +474,22 @@ window.SJ = window.SJ || {};
         ['B', 'こちらこそ、よろしくね。', 'kochira koso, yoroshiku ne.', 'Bác cũng vậy, mong được làm quen nhé.'],
       ],
       note: 'Khi chuyển nhà ở Nhật, người ta thường mang một món quà nhỏ sang chào hàng xóm. Phân loại rác (ゴミ) và đổ đúng ngày cũng rất quan trọng!' },
+    { id: 'd9', title: 'Đi khám bệnh', jp: 'びょういんで', icon: 'mask', level: 2,
+      people: { A: ['Bác sĩ', 'dad'], B: ['Bạn', 'student'] },
+      lines: [
+        ['A', 'こんにちは。どう しましたか。', 'konnichiwa. dou shimashita ka.', 'Chào em. Em thấy trong người thế nào?'],
+        ['B', 'きのうから {熱|ねつ}が あります。', 'kinou kara netsu ga arimasu.', 'Từ hôm qua em bị sốt ạ.'],
+        ['A', '{頭|あたま}も {痛|いた}いですか。', 'atama mo itai desu ka.', 'Em có đau đầu không?'],
+        ['B', 'はい、{頭|あたま}と のどが {痛|いた}いです。', 'hai, atama to nodo ga itai desu.', 'Dạ có, em bị đau đầu và đau họng.'],
+        ['A', 'そうですか。ちょっと {口|くち}を {開|あ}けて ください。', 'sou desu ka. chotto kuchi o akete kudasai.', 'Thế à. Em há miệng ra một chút nào.'],
+        ['A', 'かぜですね。{三日|みっか}ぐらい {休|やす}んで ください。', 'kaze desu ne. mikka gurai yasunde kudasai.', 'Em bị cảm rồi. Em nghỉ ngơi khoảng ba ngày nhé.'],
+        ['B', 'お{風呂|ふろ}に {入|はい}っても いいですか。', 'ofuro ni haitte mo ii desu ka.', 'Em ngâm bồn tắm có được không ạ?'],
+        ['A', '{今日|きょう}は やめて ください。', 'kyou wa yamete kudasai.', 'Hôm nay thì em đừng ngâm nhé.'],
+        ['A', 'これは {薬|くすり}です。{一日|いちにち} {三回|さんかい}、ごはんの あとに {飲|の}んで ください。', 'kore wa kusuri desu. ichinichi sankai, gohan no ato ni nonde kudasai.', 'Đây là thuốc. Mỗi ngày uống 3 lần, sau bữa ăn nhé.'],
+        ['B', 'わかりました。ありがとうございました。', 'wakarimashita. arigatou gozaimashita.', 'Em hiểu rồi ạ. Em cảm ơn bác sĩ.'],
+        ['A', 'おだいじに。', 'odaiji ni.', 'Em mau khỏi nhé.'],
+      ],
+      note: 'どう しましたか là câu bác sĩ hỏi "Em bị làm sao?". Muốn nói chỗ nào đau thì dùng 〜が いたいです (あたまが いたいです = đau đầu). Tiếng Nhật "uống" thuốc là のむ, giống uống nước. Khi bạn ra về, người ta chúc おだいじに (mau khỏi nhé). Đi khám nhớ mang thẻ bảo hiểm (ほけんしょう) nha!' },
   ];
 
   // ===== CÂU GIAO TIẾP: [tiếng Nhật, romaji, nghĩa] =====
