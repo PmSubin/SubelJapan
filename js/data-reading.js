@@ -210,6 +210,27 @@ window.SJ = window.SJ || {};
         { q: 'Bữa tối hôm nay là món gì?', o: ['Cơm cuộn trứng (omurice)', 'Cà ri', 'Sushi'] },
       ],
     },
+    { id: 's17', level: 2, title: 'ゆきだるまを つくろう', vi: 'Làm người tuyết', icon: 'snowman',
+      desc: 'Tuyết rơi trắng xoá! Cùng anh trai làm một bạn người tuyết thật to.',
+      lines: [
+        { jp: 'けさ、まどの そとを みました。', r: 'kesa, mado no soto o mimashita.', vi: 'Sáng nay, mình nhìn ra ngoài cửa sổ.' },
+        { jp: 'そとは まっしろでした。ゆきです！', r: 'soto wa masshiro deshita. yuki desu!', vi: 'Bên ngoài trắng xoá. Tuyết rơi rồi!' },
+        { jp: 'おにいさんと こうえんへ いきました。', r: 'oniisan to kouen e ikimashita.', vi: 'Mình đi ra công viên với anh trai.' },
+        { jp: 'ふたりで おおきい ゆきだるまを つくりました。', r: 'futari de ookii yukidaruma o tsukurimashita.', vi: 'Hai anh em cùng làm một người tuyết thật to.' },
+        { jp: 'めは くろい ボタンです。', r: 'me wa kuroi botan desu.', vi: 'Mắt là hai chiếc cúc áo màu đen.' },
+        { jp: 'あたまに バケツを のせました。', r: 'atama ni baketsu o nosemashita.', vi: 'Tụi mình đội cho bạn ấy một cái xô lên đầu.' },
+        { jp: 'わたしの マフラーも まきました。', r: 'watashi no mafuraa mo makimashita.', vi: 'Mình còn quàng cả khăn của mình cho bạn ấy nữa.' },
+        { jp: 'てが とても つめたく なりました。', r: 'te ga totemo tsumetaku narimashita.', vi: 'Tay mình lạnh cóng luôn.' },
+        { jp: 'いえで あたたかい ココアを のみました。', r: 'ie de atatakai kokoa o nomimashita.', vi: 'Về nhà, mình uống một cốc ca cao nóng.' },
+        { jp: '「また あした あそぼうね、ゆきだるまさん！」', r: '"mata ashita asobou ne, yukidaruma-san!"', vi: '"Mai lại chơi tiếp nhé, bạn người tuyết!"' },
+      ],
+      words: [['ゆき', 'yuki', 'tuyết'], ['ゆきだるま', 'yukidaruma', 'người tuyết'], ['つくります', 'tsukurimasu', 'làm, tạo ra'], ['ボタン', 'botan', 'cúc áo'], ['バケツ', 'baketsu', 'cái xô'], ['マフラー', 'mafuraa', 'khăn quàng cổ'], ['つめたい', 'tsumetai', 'lạnh buốt (khi chạm vào)'], ['ココア', 'kokoa', 'ca cao']],
+      quiz: [
+        { q: 'Bạn nhỏ làm người tuyết với ai?', o: ['Anh trai', 'Mẹ', 'Em gái'] },
+        { q: 'Mắt của người tuyết làm bằng gì?', o: ['Cúc áo màu đen', 'Củ cà rốt', 'Hòn đá nhỏ'] },
+        { q: 'Về nhà, bạn nhỏ uống gì?', o: ['Ca cao nóng', 'Trà xanh', 'Nước cam'] },
+      ],
+    },
 
     // ---------- LEVEL 3: LÀM QUEN KANJI ----------
     { id: 's12', level: 3, title: 'リンさんの がっこう', vi: 'Lớp học của Linh', icon: 'school',
