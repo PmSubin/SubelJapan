@@ -331,6 +331,26 @@ window.SJ = window.SJ || {};
         { q: 'Cả nhà ăn cơm hộp ở đâu?', o: ['Dưới gốc cây', 'Trên đỉnh núi', 'Trong nhà'] },
       ],
     },
+    { id: 's18', level: 3, title: 'わたしの いっしゅうかん', vi: 'Một tuần của mình', icon: 'calendar',
+      desc: 'Từ thứ Hai đến Chủ nhật — luyện đọc Kanji các ngày trong tuần.',
+      lines: [
+        { jp: '{月曜日|げつようび}から {金曜日|きんようび}まで がっこうへ いきます。', r: "getsuyoubi kara kin'youbi made gakkou e ikimasu.", vi: 'Từ thứ Hai đến thứ Sáu, mình đi học.' },
+        { jp: '{月曜日|げつようび}は {日本語|にほんご}の じゅぎょうが あります。', r: 'getsuyoubi wa nihongo no jugyou ga arimasu.', vi: 'Thứ Hai có giờ học tiếng Nhật.' },
+        { jp: '{火曜日|かようび}と {木曜日|もくようび}は プールで およぎます。', r: 'kayoubi to mokuyoubi wa puuru de oyogimasu.', vi: 'Thứ Ba và thứ Năm, mình đi bơi ở hồ bơi.' },
+        { jp: '{水曜日|すいようび}は {友|とも}だちと としょかんへ いきます。', r: 'suiyoubi wa tomodachi to toshokan e ikimasu.', vi: 'Thứ Tư, mình đi thư viện với bạn.' },
+        { jp: '{金曜日|きんようび}の よるは かぞくと テレビを みます。', r: "kin'youbi no yoru wa kazoku to terebi o mimasu.", vi: 'Tối thứ Sáu, mình xem tivi cùng cả nhà.' },
+        { jp: '{土曜日|どようび}は おばあさんの いえへ いきます。', r: 'doyoubi wa obaasan no ie e ikimasu.', vi: 'Thứ Bảy, mình đến nhà bà.' },
+        { jp: 'おばあさんは いつも おいしい ケーキを つくります。', r: 'obaasan wa itsumo oishii keeki o tsukurimasu.', vi: 'Bà lúc nào cũng làm bánh kem thật ngon.' },
+        { jp: '{日曜日|にちようび}は いえで ゆっくり やすみます。', r: 'nichiyoubi wa ie de yukkuri yasumimasu.', vi: 'Chủ nhật, mình ở nhà nghỉ ngơi thong thả.' },
+        { jp: 'わたしは {日曜日|にちようび}が いちばん すきです。', r: 'watashi wa nichiyoubi ga ichiban suki desu.', vi: 'Mình thích Chủ nhật nhất!' },
+      ],
+      words: [['月曜日', 'getsuyoubi', 'thứ Hai'], ['火曜日', 'kayoubi', 'thứ Ba'], ['水曜日', 'suiyoubi', 'thứ Tư'], ['木曜日', 'mokuyoubi', 'thứ Năm'], ['金曜日', "kin'youbi", 'thứ Sáu'], ['土曜日', 'doyoubi', 'thứ Bảy'], ['日曜日', 'nichiyoubi', 'Chủ nhật'], ['〜から〜まで', 'kara ... made', 'từ … đến …']],
+      quiz: [
+        { q: 'Thứ Ba và thứ Năm bạn nhỏ làm gì?', o: ['Đi bơi ở hồ bơi', 'Đi thư viện', 'Đến nhà bà'] },
+        { q: 'Thứ Bảy bạn nhỏ đi đâu?', o: ['Đến nhà bà', 'Đến thư viện', 'Đến trường'] },
+        { q: 'Bạn nhỏ thích ngày nào nhất?', o: ['Chủ nhật', 'Thứ Hai', 'Thứ Sáu'] },
+      ],
+    },
   ];
 
   // ===== HỘI THOẠI =====
