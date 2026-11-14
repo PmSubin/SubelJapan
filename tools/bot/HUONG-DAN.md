@@ -71,7 +71,7 @@ Có thể thêm việc mới vào cuối danh sách nếu thấy app còn thiế
 
 - [x] Vẽ icon mới cho các từ ví dụ còn trống hình (đã xong ウール, はなぢ, ゾンビ, リャマ, ちょっと, ニョッキ, ヴェール, タトゥー — vẽ ở cuối `js/icons-mnemo.js`)
 - [x] Thêm truyện đọc: mỗi cấp 1, 2, 3 có ít nhất 6 truyện (mỗi truyện ≥ 6 câu, ≥ 5 từ mới, 3 câu hỏi) — hiện: cấp 1 đủ 6, cấp 2 đủ 6 (thêm s17 ゆきだるま), cấp 3 đủ 6 (thêm s18 いっしゅうかん)
-- [ ] Thêm hội thoại tình huống cho đủ 12 bài (ở nhà ga, đi khám bệnh, hỏi đường, gọi điện, nhà hàng, khách sạn…) — hiện có 10 (thêm d10 khách sạn); còn thiếu: gọi điện, bưu điện, ngân hàng…
+- [ ] Thêm hội thoại tình huống cho đủ 12 bài (ở nhà ga, đi khám bệnh, hỏi đường, gọi điện, nhà hàng, khách sạn…) — hiện có 11 (thêm d11 gọi điện đặt bàn); còn thiếu: bưu điện, ngân hàng…
 - [ ] Chủ đề từ vựng mới: Cơ thể (からだ)
 - [ ] Chủ đề từ vựng mới: Nghề nghiệp (しごと)
 - [ ] Chủ đề từ vựng mới: Thời tiết (てんき)

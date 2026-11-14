@@ -506,6 +506,22 @@ window.SJ = window.SJ || {};
         ['B', 'ありがとうございます。', 'arigatou gozaimasu.', 'Cảm ơn chị ạ.'],
       ],
       note: 'チェックイン = nhận phòng, チェックアウト = trả phòng. Đếm số đêm dùng 〜はく: いっぱく (1 đêm), にはく (2 đêm), さんぱく (3 đêm). Số phòng đọc từng chữ số, số 0 thường đọc là まる (503 = ご まる さん). 〜さま là cách gọi khách rất lịch sự, còn ございます là cách nói kính trọng của あります.' },
+    { id: 'd11', title: 'Gọi điện đặt bàn', jp: 'でんわで よやく', icon: 'phone', level: 2,
+      people: { A: ['Nhân viên quán', 'bro'], B: ['Bạn', 'student'] },
+      lines: [
+        ['A', 'はい、さくら {食堂|しょくどう}です。', 'hai, sakura shokudou desu.', 'Vâng, quán ăn Sakura xin nghe ạ.'],
+        ['B', 'もしもし。{予約|よやく}を したいんですが。', 'moshimoshi. yoyaku o shitai n desu ga.', 'A lô. Tôi muốn đặt bàn ạ.'],
+        ['A', 'ありがとうございます。いつが よろしいですか。', 'arigatou gozaimasu. itsu ga yoroshii desu ka.', 'Cảm ơn quý khách. Quý khách muốn đặt hôm nào ạ?'],
+        ['B', '{土曜日|どようび}の {夜|よる} {七時|しちじ}は {空|あ}いて いますか。', 'doyoubi no yoru shichiji wa aite imasu ka.', 'Tối thứ Bảy lúc 7 giờ quán còn chỗ không ạ?'],
+        ['A', '{何名様|なんめいさま}ですか。', 'nanmeisama desu ka.', 'Quý khách đi mấy người ạ?'],
+        ['B', '{四人|よにん}です。', 'yonin desu.', 'Bốn người ạ.'],
+        ['A', 'はい、だいじょうぶです。お{名前|なまえ}と お{電話番号|でんわばんごう}を おねがいします。', 'hai, daijoubu desu. onamae to odenwa bangou o onegaishimasu.', 'Vâng, được ạ. Cho tôi xin tên và số điện thoại của quý khách.'],
+        ['B', 'グエンです。{番号|ばんごう}は ゼロきゅうゼロ、いちにさんよん、ごろくななはちです。', 'guen desu. bangou wa zero kyuu zero, ichi ni san yon, go roku nana hachi desu.', 'Tôi là Nguyễn. Số điện thoại là 090-1234-5678.'],
+        ['A', '{土曜日|どようび}の {七時|しちじ}、{四名様|よんめいさま}ですね。お{待|ま}ちして おります。', 'doyoubi no shichiji, yonmeisama desu ne. omachi shite orimasu.', 'Vậy là 7 giờ thứ Bảy, 4 người nhé. Quán rất mong được đón quý khách.'],
+        ['B', 'よろしく おねがいします。', 'yoroshiku onegaishimasu.', 'Nhờ quán giúp nhé.'],
+        ['B', 'しつれいします。', 'shitsurei shimasu.', 'Tôi xin phép cúp máy ạ.'],
+      ],
+      note: 'もしもし là câu "a lô" khi nói chuyện điện thoại. Muốn xin điều gì một cách nhẹ nhàng, thêm 〜んですが ở cuối (よやくを したいんですが = tôi muốn đặt chỗ…). Số điện thoại đọc từng chữ số một, số 0 đọc là ゼロ. Đếm người: よにん (4 người), còn quán sẽ nói lịch sự là よんめいさま. Trước khi cúp máy, người Nhật hay nói しつれいします.' },
   ];
 
   // ===== CÂU GIAO TIẾP: [tiếng Nhật, romaji, nghĩa] =====
