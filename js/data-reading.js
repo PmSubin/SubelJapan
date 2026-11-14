@@ -490,6 +490,22 @@ window.SJ = window.SJ || {};
         ['A', 'おだいじに。', 'odaiji ni.', 'Em mau khỏi nhé.'],
       ],
       note: 'どう しましたか là câu bác sĩ hỏi "Em bị làm sao?". Muốn nói chỗ nào đau thì dùng 〜が いたいです (あたまが いたいです = đau đầu). Tiếng Nhật "uống" thuốc là のむ, giống uống nước. Khi bạn ra về, người ta chúc おだいじに (mau khỏi nhé). Đi khám nhớ mang thẻ bảo hiểm (ほけんしょう) nha!' },
+    { id: 'd10', title: 'Nhận phòng khách sạn', jp: 'ホテルで', icon: 'key', level: 2,
+      people: { A: ['Lễ tân', 'sis'], B: ['Bạn', 'student'] },
+      lines: [
+        ['A', 'いらっしゃいませ。', 'irasshaimase.', 'Xin kính chào quý khách.'],
+        ['B', 'チェックイン おねがいします。{予約|よやく}した グエンです。', 'chekkuin onegaishimasu. yoyaku shita guen desu.', 'Cho tôi nhận phòng. Tôi là Nguyễn, đã đặt phòng trước ạ.'],
+        ['A', 'グエンさまですね。パスポートを おねがいします。', 'guen-sama desu ne. pasupooto o onegaishimasu.', 'Quý khách Nguyễn phải không ạ. Cho tôi xem hộ chiếu ạ.'],
+        ['B', 'はい、どうぞ。', 'hai, douzo.', 'Vâng, đây ạ.'],
+        ['A', 'ありがとうございます。{二泊|にはく}ですね。おへやは {五階|ごかい}の {五〇三|ごまるさん}です。', 'arigatou gozaimasu. nihaku desu ne. oheya wa gokai no go maru san desu.', 'Cảm ơn quý khách. Quý khách ở 2 đêm nhỉ. Phòng của quý khách là phòng 503 ở tầng 5.'],
+        ['B', '{朝|あさ}ごはんは {何時|なんじ}からですか。', 'asagohan wa nanji kara desu ka.', 'Bữa sáng bắt đầu từ mấy giờ ạ?'],
+        ['A', '{七時|しちじ}から {十時|じゅうじ}までです。{二階|にかい}の レストランで どうぞ。', 'shichiji kara juuji made desu. nikai no resutoran de douzo.', 'Từ 7 giờ đến 10 giờ ạ. Mời quý khách dùng ở nhà hàng tầng 2.'],
+        ['B', 'Wi-Fiは ありますか。', 'waifai wa arimasu ka.', 'Ở đây có Wi-Fi không ạ?'],
+        ['A', 'はい、ございます。パスワードは この カードに あります。', 'hai, gozaimasu. pasuwaado wa kono kaado ni arimasu.', 'Dạ có ạ. Mật khẩu ghi ở tấm thẻ này.'],
+        ['A', 'こちらが かぎです。ごゆっくり どうぞ。', 'kochira ga kagi desu. goyukkuri douzo.', 'Đây là chìa khoá phòng. Chúc quý khách nghỉ ngơi thoải mái.'],
+        ['B', 'ありがとうございます。', 'arigatou gozaimasu.', 'Cảm ơn chị ạ.'],
+      ],
+      note: 'チェックイン = nhận phòng, チェックアウト = trả phòng. Đếm số đêm dùng 〜はく: いっぱく (1 đêm), にはく (2 đêm), さんぱく (3 đêm). Số phòng đọc từng chữ số, số 0 thường đọc là まる (503 = ご まる さん). 〜さま là cách gọi khách rất lịch sự, còn ございます là cách nói kính trọng của あります.' },
   ];
 
   // ===== CÂU GIAO TIẾP: [tiếng Nhật, romaji, nghĩa] =====
