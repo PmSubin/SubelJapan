@@ -522,6 +522,23 @@ window.SJ = window.SJ || {};
         ['B', 'しつれいします。', 'shitsurei shimasu.', 'Tôi xin phép cúp máy ạ.'],
       ],
       note: 'もしもし là câu "a lô" khi nói chuyện điện thoại. Muốn xin điều gì một cách nhẹ nhàng, thêm 〜んですが ở cuối (よやくを したいんですが = tôi muốn đặt chỗ…). Số điện thoại đọc từng chữ số một, số 0 đọc là ゼロ. Đếm người: よにん (4 người), còn quán sẽ nói lịch sự là よんめいさま. Trước khi cúp máy, người Nhật hay nói しつれいします.' },
+    { id: 'd12', title: 'Gửi đồ ở bưu điện', jp: 'ゆうびんきょくで', icon: 'letter', level: 2,
+      people: { A: ['Nhân viên bưu điện', 'sis'], B: ['Bạn', 'student'] },
+      lines: [
+        ['A', 'いらっしゃいませ。', 'irasshaimase.', 'Xin kính chào quý khách.'],
+        ['B', 'すみません。この {荷物|にもつ}を ベトナムに {送|おく}りたいんですが。', 'sumimasen. kono nimotsu o betonamu ni okuritai n desu ga.', 'Xin lỗi chị. Tôi muốn gửi gói đồ này về Việt Nam ạ.'],
+        ['A', 'はい。{中|なか}は {何|なん}ですか。', 'hai. naka wa nan desu ka.', 'Vâng. Bên trong là gì vậy ạ?'],
+        ['B', '{服|ふく}と おかしです。', 'fuku to okashi desu.', 'Là quần áo và bánh kẹo ạ.'],
+        ['A', '{航空便|こうくうびん}と {船便|ふなびん}が ありますが、どちらに しますか。', 'koukuubin to funabin ga arimasu ga, dochira ni shimasu ka.', 'Có gửi máy bay và gửi tàu biển, quý khách chọn loại nào ạ?'],
+        ['B', '{何日|なんにち}ぐらい かかりますか。', 'nannichi gurai kakarimasu ka.', 'Mất khoảng mấy ngày ạ?'],
+        ['A', '{航空便|こうくうびん}は {一週間|いっしゅうかん}ぐらい、{船便|ふなびん}は {一か月|いっかげつ}ぐらいです。', 'koukuubin wa isshuukan gurai, funabin wa ikkagetsu gurai desu.', 'Gửi máy bay mất khoảng 1 tuần, gửi tàu biển khoảng 1 tháng ạ.'],
+        ['B', 'じゃあ、{航空便|こうくうびん}で おねがいします。', 'jaa, koukuubin de onegaishimasu.', 'Vậy cho tôi gửi máy bay ạ.'],
+        ['A', 'わかりました。この {紙|かみ}に {住所|じゅうしょ}を {書|か}いて ください。', 'wakarimashita. kono kami ni juusho o kaite kudasai.', 'Vâng ạ. Quý khách viết địa chỉ vào tờ giấy này nhé.'],
+        ['B', 'あと、{百十円|ひゃくじゅうえん}の {切手|きって}を {五枚|ごまい} ください。', 'ato, hyakujuu en no kitte o gomai kudasai.', 'À, cho tôi thêm 5 con tem loại 110 yên nữa ạ.'],
+        ['A', 'ぜんぶで {二千八百五十円|にせんはっぴゃくごじゅうえん}です。', 'zenbu de nisen happyaku gojuu en desu.', 'Tất cả là 2.850 yên ạ.'],
+        ['B', 'はい、おねがいします。', 'hai, onegaishimasu.', 'Vâng, gửi chị ạ.'],
+      ],
+      note: 'ゆうびんきょく = bưu điện, にもつ = hành lý / gói đồ, きって = con tem. こうくうびん là gửi bằng máy bay (nhanh), ふなびん là gửi bằng tàu biển (chậm mà rẻ). Đếm đồ mỏng và phẳng như tem, giấy, áo dùng 〜まい: いちまい, にまい, ごまい… Chọn một cách thì nói 〜で おねがいします. Nhớ biến âm khi đọc tiền: 300 = さんびゃく, 800 = はっぴゃく, nên 2.850 = にせん はっぴゃく ごじゅう.' },
   ];
 
   // ===== CÂU GIAO TIẾP: [tiếng Nhật, romaji, nghĩa] =====

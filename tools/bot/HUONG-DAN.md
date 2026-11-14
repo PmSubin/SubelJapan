@@ -71,7 +71,7 @@ Có thể thêm việc mới vào cuối danh sách nếu thấy app còn thiế
 
 - [x] Vẽ icon mới cho các từ ví dụ còn trống hình (đã xong ウール, はなぢ, ゾンビ, リャマ, ちょっと, ニョッキ, ヴェール, タトゥー — vẽ ở cuối `js/icons-mnemo.js`)
 - [x] Thêm truyện đọc: mỗi cấp 1, 2, 3 có ít nhất 6 truyện (mỗi truyện ≥ 6 câu, ≥ 5 từ mới, 3 câu hỏi) — hiện: cấp 1 đủ 6, cấp 2 đủ 6 (thêm s17 ゆきだるま), cấp 3 đủ 6 (thêm s18 いっしゅうかん)
-- [ ] Thêm hội thoại tình huống cho đủ 12 bài (ở nhà ga, đi khám bệnh, hỏi đường, gọi điện, nhà hàng, khách sạn…) — hiện có 11 (thêm d11 gọi điện đặt bàn); còn thiếu: bưu điện, ngân hàng…
+- [x] Thêm hội thoại tình huống cho đủ 12 bài (ở nhà ga, đi khám bệnh, hỏi đường, gọi điện, nhà hàng, khách sạn…) — đủ 12 (thêm d12 gửi đồ ở bưu điện, icon mới `letter`)
 - [ ] Chủ đề từ vựng mới: Cơ thể (からだ)
 - [ ] Chủ đề từ vựng mới: Nghề nghiệp (しごと)
 - [ ] Chủ đề từ vựng mới: Thời tiết (てんき)
@@ -88,3 +88,4 @@ Có thể thêm việc mới vào cuối danh sách nếu thấy app còn thiế
 - [x] Vẽ icon hình gợi nhớ cho các chữ còn thiếu (đủ 91 chữ cơ bản, hình vẽ riêng nằm ở `js/icons-mnemo.js`)
 - [ ] Hình gợi nhớ cho âm đục / âm ghép nếu có mẹo nhớ riêng (hiện dùng chung mẹo của chữ gốc)
 - [ ] Thêm mặt kawaii cho các icon đồ ăn / đồ vật còn lại (bánh kem, kem, pizza, dưa lưới, cốc nước, cốc trà, quà, sách…) nếu đặt được mặt gọn gàng
+- [ ] Thêm hội thoại tình huống nâng cao: ngân hàng, cắt tóc, mất đồ ở đồn cảnh sát (mỗi bài ≥ 10 câu)

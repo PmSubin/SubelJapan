@@ -174,5 +174,12 @@ window.SJ = window.SJ || {};
       + K.P('M17 37 l-6.4 -6.2 a4 4 0 0 1 6.4 -5 a4 4 0 0 1 6.4 5 Z', K.C.red) + K.H('M12 29 q.6 -1.6 2.2 -1.8')
       + K.P('M7.5 35 L9.4 33 H24.6 L26.5 35 L24.6 37 H9.4 Z', K.C.dblue)
       + K.H('M35.6 9.4 q1 -1.8 3 -2') + spark(10, 14, 3.6) + spark(20, 8, 2.4, '#ffc4d4'),
+    // てがみ — phong thư nhỏ dễ thương có tim dán ở nắp thư (dùng cho hội thoại ở bưu điện)
+    letter: K => K.R(5, 12, 38, 26, 3.5, '#fff7e8')
+      + K.P('M6.5 14 L24 26 L41.5 14', 'none')
+      + line('M6.5 36.5 L17 28.5 M41.5 36.5 L31 28.5', INK, 1.4)
+      + K.P('M24 29.4 l-3.6 -3.4 a2.2 2.2 0 0 1 3.6 -2.8 a2.2 2.2 0 0 1 3.6 2.8 Z', K.C.red)
+      + face(24, 33.6, .55)
+      + spark(42, 6, 3.2) + spark(6, 6, 2.4, '#ffc4d4'),
   });
 })(window.SJ);
