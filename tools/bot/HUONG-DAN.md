@@ -73,7 +73,7 @@ Có thể thêm việc mới vào cuối danh sách nếu thấy app còn thiế
 - [x] Thêm truyện đọc: mỗi cấp 1, 2, 3 có ít nhất 6 truyện (mỗi truyện ≥ 6 câu, ≥ 5 từ mới, 3 câu hỏi) — hiện: cấp 1 đủ 6, cấp 2 đủ 6 (thêm s17 ゆきだるま), cấp 3 đủ 6 (thêm s18 いっしゅうかん)
 - [x] Thêm hội thoại tình huống cho đủ 12 bài (ở nhà ga, đi khám bệnh, hỏi đường, gọi điện, nhà hàng, khách sạn…) — đủ 12 (thêm d12 gửi đồ ở bưu điện, icon mới `letter`)
 - [x] Chủ đề từ vựng mới: Cơ thể (からだ) — bài v11, 12 từ, 8 icon mới (body, head, kao, ear, nose, mouth, tummy, finger) ở cuối `js/icons-mnemo.js`
-- [ ] Chủ đề từ vựng mới: Nghề nghiệp (しごと)
+- [x] Chủ đề từ vựng mới: Nghề nghiệp (しごと) — bài v12, 12 từ, 4 icon mới (doctor, nurse, police, worker) ở cuối `js/icons-mnemo.js`
 - [ ] Chủ đề từ vựng mới: Thời tiết (てんき)
 - [ ] Chủ đề từ vựng mới: Phương tiện (のりもの)
 - [ ] Chủ đề từ vựng mới: Quần áo (ふく)

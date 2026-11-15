@@ -67,6 +67,7 @@ window.SJ = window.SJ || {};
         { id:'v9', title:'Tính từ', sub:'けいようし', type:'vocab', topic:'adj', icon:'love', intro:'Để khen: かわいい! おいしい!' },
         { id:'v10', title:'Động từ', sub:'どうし', type:'vocab', topic:'verb', icon:'walk', intro:'Động từ dạng lịch sự ます — dùng được ngay!' },
         { id:'v11', title:'Cơ thể', sub:'からだ', type:'vocab', topic:'body', icon:'body', intro:'Từ đầu tới chân! はな (mũi) đọc giống はな (hoa) đó, nghe câu là đoán được nha. あし là cả chân lẫn bàn chân.' },
+        { id:'v12', title:'Nghề nghiệp', sub:'しごと', type:'vocab', topic:'job', icon:'doctor', intro:'Giới thiệu nghề của mình thật dễ: わたしは かいしゃいんです。 Nói về người khác thì lịch sự hơn bằng おいしゃさん (bác sĩ), てんいんさん (nhân viên cửa hàng) nha.' },
       ],
     },
     {

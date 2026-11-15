@@ -229,5 +229,36 @@ window.SJ = window.SJ || {};
       + K.P('M27.5 26 H35 M27.5 31 H35', 'none')
       + K.E(12, 29, 3.2, 6, K.C.skin, -30) + blush(18.5, 35, 1.1)
       + K.H('M21.8 8 v5') + spark(36, 8, 3) + spark(9, 12, 2.2, '#ffc4d4'),
+    // ===== Từ vựng nghề nghiệp (しごと) =====
+    // いしゃ — bác sĩ áo blouse trắng, đeo ống nghe, túi áo có chữ thập đỏ
+    doctor: K => K.P('M7 47 Q7 33 24 33 Q41 33 41 47 Z', K.C.wht)
+      + K.P('M19 33.6 L24 41 L29 33.6 Z', K.C.sky)
+      + tube('M17.5 34.5 Q14.5 42 20.5 43', K.C.dblue, 1.4) + K.O(22.2, 43, 2.2, K.C.gry)
+      + K.F('M32 37 h2 v2 h2 v2 h-2 v2 h-2 v-2 h-2 v-2 h2 Z', K.C.red)
+      + K.O(24, 19, 11, K.C.skin) + bangs(K, 24, 19, 11, K.C.dbrn) + face(24, 20.6, .7)
+      + spark(42, 7, 3) + spark(6, 9, 2.2, '#ffc4d4'),
+    // かんごし — cô y tá áo hồng, mũ trắng có chữ thập đỏ
+    nurse: K => K.P('M7 47 Q7 34 24 34 Q41 34 41 47 Z', K.C.pink)
+      + K.P('M19 34.6 L24 40.5 L29 34.6 Z', K.C.wht)
+      + K.E(12.5, 24, 3.6, 6, K.C.dbrn) + K.E(35.5, 24, 3.6, 6, K.C.dbrn)
+      + K.O(24, 22, 11, K.C.skin) + bangs(K, 24, 22, 11, K.C.dbrn) + face(24, 23.6, .7)
+      + K.P('M14.5 14 Q15 6.5 24 6.5 Q33 6.5 33.5 14 Q24 10.5 14.5 14 Z', K.C.wht)
+      + K.F('M23 7.6 h2 v1.6 h1.6 v2 h-1.6 v1.6 h-2 v-1.6 h-1.6 v-2 h1.6 Z', K.C.red)
+      + spark(42, 8, 3),
+    // けいさつかん — chú cảnh sát đội mũ kê-pi xanh có huy hiệu ngôi sao vàng
+    police: K => K.P('M7 47 Q7 34 24 34 Q41 34 41 47 Z', K.C.dblue)
+      + K.P('M20 34.6 L24 39.5 L28 34.6 Z', K.C.sky)
+      + K.F('M31 37 l1.4 2.9 l3.2 .4 l-2.3 2.2 l.6 3.1 l-2.9 -1.5 l-2.9 1.5 l.6 -3.1 l-2.3 -2.2 l3.2 -.4 Z', K.C.yel)
+      + K.O(24, 23, 10.5, K.C.skin) + face(24, 25, .7)
+      + K.P('M12 16 Q12 5 24 5 Q36 5 36 16 Z', K.C.dblue)
+      + K.P('M12.5 15.5 H35.5 Q35.5 19 24 19 Q12.5 19 12.5 15.5 Z', K.C.ink)
+      + K.O(24, 11, 2.6, K.C.yel) + spark(42, 7, 3) + spark(6, 9, 2.2, '#ffc4d4'),
+    // かいしゃいん — anh nhân viên văn phòng mặc vest, thắt cà vạt đỏ
+    worker: K => K.P('M7 47 Q7 33 24 33 Q41 33 41 47 Z', K.C.dgry)
+      + K.P('M18.5 33.6 L24 42 L29.5 33.6 Z', K.C.wht)
+      + K.P('M22.4 35 H25.6 L26.6 42 L24 45 L21.4 42 Z', K.C.red)
+      + K.O(24, 19, 11, K.C.skin) + face(24, 21, .7)
+      + K.P('M13.2 17 Q12.5 7.5 24 7.5 Q35.5 7.5 34.8 17 Q31 12.5 22 13.5 Q17 14 13.2 17 Z', K.C.ink)
+      + spark(42, 7, 3) + spark(6, 9, 2.2, '#ffc4d4'),
   });
 })(window.SJ);

@@ -76,6 +76,11 @@ window.SJ = window.SJ || {};
       ['みみ','mimi','cái tai','ear'],['はな','hana','cái mũi','nose'],['くち','kuchi','cái miệng','mouth'],['て','te','bàn tay','hand'],
       ['ゆび','yubi','ngón tay','finger'],['うで','ude','cánh tay','muscle'],['おなか','onaka','cái bụng','tummy'],['あし','ashi','chân, bàn chân','footprints'],
     ],
+    job: [
+      ['しごと','shigoto','công việc','building'],['いしゃ','isha','bác sĩ','doctor'],['かんごし','kangoshi','y tá','nurse'],['けいさつかん','keisatsukan','cảnh sát','police'],
+      ['かいしゃいん','kaishain','nhân viên công ty','worker'],['てんいん','ten\'in','nhân viên cửa hàng','shop'],['コック','kokku','đầu bếp','chef'],['うんてんしゅ','untenshu','tài xế','car'],
+      ['パイロット','pairotto','phi công','plane'],['かしゅ','kashu','ca sĩ','music'],['がか','gaka','hoạ sĩ','palette'],['エンジニア','enjinia','kỹ sư','gear'],
+    ],
   };
   SJ.VOCAB = {};
   SJ.VOCAB_ALL = [];
