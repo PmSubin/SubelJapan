@@ -81,6 +81,11 @@ window.SJ = window.SJ || {};
       ['かいしゃいん','kaishain','nhân viên công ty','worker'],['てんいん','ten\'in','nhân viên cửa hàng','shop'],['コック','kokku','đầu bếp','chef'],['うんてんしゅ','untenshu','tài xế','car'],
       ['パイロット','pairotto','phi công','plane'],['かしゅ','kashu','ca sĩ','music'],['がか','gaka','hoạ sĩ','palette'],['エンジニア','enjinia','kỹ sư','gear'],
     ],
+    weather: [
+      ['てんき','tenki','thời tiết','cloudsun'],['はれ','hare','trời nắng, trời quang','sun'],['くもり','kumori','trời nhiều mây','cloudy'],['あめ','ame','mưa','rain'],
+      ['ゆき','yuki','tuyết','snow'],['かぜ','kaze','gió','wind'],['かみなり','kaminari','sấm sét','thunder'],['たいふう','taifuu','bão','typhoon'],
+      ['にじ','niji','cầu vồng','rainbow'],['そら','sora','bầu trời','sky'],['あたたかい','atatakai','ấm áp','warm'],['すずしい','suzushii','mát mẻ','uchiwa'],
+    ],
   };
   SJ.VOCAB = {};
   SJ.VOCAB_ALL = [];

@@ -68,6 +68,7 @@ window.SJ = window.SJ || {};
         { id:'v10', title:'Động từ', sub:'どうし', type:'vocab', topic:'verb', icon:'walk', intro:'Động từ dạng lịch sự ます — dùng được ngay!' },
         { id:'v11', title:'Cơ thể', sub:'からだ', type:'vocab', topic:'body', icon:'body', intro:'Từ đầu tới chân! はな (mũi) đọc giống はな (hoa) đó, nghe câu là đoán được nha. あし là cả chân lẫn bàn chân.' },
         { id:'v12', title:'Nghề nghiệp', sub:'しごと', type:'vocab', topic:'job', icon:'doctor', intro:'Giới thiệu nghề của mình thật dễ: わたしは かいしゃいんです。 Nói về người khác thì lịch sự hơn bằng おいしゃさん (bác sĩ), てんいんさん (nhân viên cửa hàng) nha.' },
+        { id:'v13', title:'Thời tiết', sub:'てんき', type:'vocab', topic:'weather', icon:'cloudsun', intro:'Người Nhật hay mở lời bằng thời tiết: いい てんきですね! (Trời đẹp quá nhỉ!). Hôm nay mưa thì nói: きょうは あめです。 Nhớ nha: は ở đây đọc là wa.' },
       ],
     },
     {

@@ -260,5 +260,32 @@ window.SJ = window.SJ || {};
       + K.O(24, 19, 11, K.C.skin) + face(24, 21, .7)
       + K.P('M13.2 17 Q12.5 7.5 24 7.5 Q35.5 7.5 34.8 17 Q31 12.5 22 13.5 Q17 14 13.2 17 Z', K.C.ink)
       + spark(42, 7, 3) + spark(6, 9, 2.2, '#ffc4d4'),
+    // ===== Từ vựng thời tiết (てんき) =====
+    // くもり — trời nhiều mây: đám mây xám phía sau, đám mây trắng mặt cười phía trước
+    cloudy: K => K.P('M25 22 q-1 -9 8.5 -9 q7 0 8.5 6 q5 1 5 6 q0 5.5 -6 5.5 H30 Z', K.C.gry)
+      + K.P('M13 39 q-8 0 -8 -7 q0 -7 8 -7 q1 -9 11 -9 q9 0 11 8 q8 0 8 7.5 q0 7.5 -8 7.5 Z', K.C.wht)
+      + face(23.5, 31.5, .8) + spark(8, 10, 2.4, '#ffc4d4'),
+    // かみなり — đám mây xám mặt tròn xoe, tia sét vàng loé xuống
+    thunder: K => K.P('M21 26 L13.5 37.5 H19.5 L16.5 46 L28 32.5 H22 L26 26 Z', K.C.yel)
+      + K.P('M12 28 q-7 0 -7 -6 q0 -6 7 -6 q1 -9 11 -9 q9 0 11 7 q8 0 8 7 q0 7 -8 7 Z', K.C.gry)
+      + face(23, 21, .75, 'o') + spark(40, 38, 3) + spark(7, 40, 2.2),
+    // たいふう — cơn bão xoáy tròn, mắt bão là một chấm mây nhỏ mặt cười
+    typhoon: K => K.O(24, 24, 19, K.C.sky)
+      + tube('M31 22 q-1 -6.5 -7.5 -6 q-8.5 1 -8 9.5 q1 8.5 10.5 8 q10.5 -1 11 -11.5 q0 -11.5 -12.5 -13.5', K.C.dblue, 2.6)
+      + K.O(24, 24.5, 4.6, K.C.wht) + face(24, 24.8, .5) + spark(41, 41, 2.6, '#ffc4d4'),
+    // そら — khung trời xanh, ông mặt trời nhỏ, đám mây mặt cười, chú chim bay xa
+    sky: K => K.R(4, 8, 40, 32, 9, K.C.blue)
+      + K.O(35, 17, 4.5, K.C.yel)
+      + K.P('M14 34 q-5.5 0 -5.5 -4.5 q0 -4.5 5.5 -4.5 q1 -5.5 7.5 -5.5 q5.5 0 7 5 q5.5 0 5.5 5 q0 4.5 -5.5 4.5 Z', K.C.wht)
+      + face(20.5, 29.6, .55) + line('M10 16 q2 -2.2 4 0 q2 -2.2 4 0', K.C.ink, 1.6),
+    // あたたかい — mặt trời nhỏ toả nắng ấm màu cam, ôm trái tim hồng
+    warm: K => K.O(23, 21, 16, K.C.cream) + K.O(23, 21, 10.5, K.C.yel) + face(23, 22, .85)
+      + K.P('M36 45 q-8.5 -5 -8.5 -10 q0 -3.6 3.6 -3.6 q3.1 0 4.9 3.1 q1.8 -3.1 4.9 -3.1 q3.6 0 3.6 3.6 q0 5 -8.5 10 Z', K.C.rose)
+      + spark(41, 8, 3) + spark(6, 41, 2.2, '#ffab5c'),
+    // すずしい — chiếc quạt うちわ mát rượi có sóng nước, gió thổi vi vu
+    uchiwa: K => K.R(22, 30, 4, 15, 2, K.C.brn)
+      + K.O(24, 19, 14, K.C.sky) + face(24, 15.5, .7)
+      + line('M13.5 23.5 q2.6 -2.6 5.2 0 q2.6 2.6 5.3 0 q2.6 -2.6 5.2 0 q2.6 2.6 5.3 0', K.C.dblue, 2)
+      + line('M3 9 h5 M2 15 h3.5 M41 36 h4.5 M42.5 42 h3', K.C.dblue, 1.8),
   });
 })(window.SJ);

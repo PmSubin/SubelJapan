@@ -74,7 +74,7 @@ Có thể thêm việc mới vào cuối danh sách nếu thấy app còn thiế
 - [x] Thêm hội thoại tình huống cho đủ 12 bài (ở nhà ga, đi khám bệnh, hỏi đường, gọi điện, nhà hàng, khách sạn…) — đủ 12 (thêm d12 gửi đồ ở bưu điện, icon mới `letter`)
 - [x] Chủ đề từ vựng mới: Cơ thể (からだ) — bài v11, 12 từ, 8 icon mới (body, head, kao, ear, nose, mouth, tummy, finger) ở cuối `js/icons-mnemo.js`
 - [x] Chủ đề từ vựng mới: Nghề nghiệp (しごと) — bài v12, 12 từ, 4 icon mới (doctor, nurse, police, worker) ở cuối `js/icons-mnemo.js`
-- [ ] Chủ đề từ vựng mới: Thời tiết (てんき)
+- [x] Chủ đề từ vựng mới: Thời tiết (てんき) — bài v13, 12 từ, 6 icon mới (cloudy, thunder, typhoon, sky, warm, uchiwa) ở cuối `js/icons-mnemo.js`
 - [ ] Chủ đề từ vựng mới: Phương tiện (のりもの)
 - [ ] Chủ đề từ vựng mới: Quần áo (ふく)
 - [ ] Chủ đề từ vựng mới: Địa điểm trong thành phố (まち)
