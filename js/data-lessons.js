@@ -66,6 +66,7 @@ window.SJ = window.SJ || {};
         { id:'v8', title:'Đồ vật', sub:'もの', type:'vocab', topic:'thing', icon:'backpack', intro:'Đồ dùng hằng ngày, trường lớp và thầy trò.' },
         { id:'v9', title:'Tính từ', sub:'けいようし', type:'vocab', topic:'adj', icon:'love', intro:'Để khen: かわいい! おいしい!' },
         { id:'v10', title:'Động từ', sub:'どうし', type:'vocab', topic:'verb', icon:'walk', intro:'Động từ dạng lịch sự ます — dùng được ngay!' },
+        { id:'v11', title:'Cơ thể', sub:'からだ', type:'vocab', topic:'body', icon:'body', intro:'Từ đầu tới chân! はな (mũi) đọc giống はな (hoa) đó, nghe câu là đoán được nha. あし là cả chân lẫn bàn chân.' },
       ],
     },
     {

@@ -71,6 +71,11 @@ window.SJ = window.SJ || {};
       ['ねます','nemasu','ngủ','sleep'],['おきます','okimasu','thức dậy','alarm'],['はなします','hanashimasu','nói chuyện','talk'],['かいます','kaimasu','mua','cart'],
       ['べんきょうします','benkyoushimasu','học','books'],['あそびます','asobimasu','chơi','game'],
     ],
+    body: [
+      ['からだ','karada','cơ thể','body'],['あたま','atama','cái đầu','head'],['かお','kao','khuôn mặt','kao'],['め','me','con mắt','eye'],
+      ['みみ','mimi','cái tai','ear'],['はな','hana','cái mũi','nose'],['くち','kuchi','cái miệng','mouth'],['て','te','bàn tay','hand'],
+      ['ゆび','yubi','ngón tay','finger'],['うで','ude','cánh tay','muscle'],['おなか','onaka','cái bụng','tummy'],['あし','ashi','chân, bàn chân','footprints'],
+    ],
   };
   SJ.VOCAB = {};
   SJ.VOCAB_ALL = [];

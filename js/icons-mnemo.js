@@ -19,6 +19,9 @@ window.SJ = window.SJ || {};
   const spark = (x, y, r, col) => `<path d="M${n(x)} ${n(y - r)} L${n(x + r * .3)} ${n(y - r * .3)} L${n(x + r)} ${n(y)} L${n(x + r * .3)} ${n(y + r * .3)} L${n(x)} ${n(y + r)} L${n(x - r * .3)} ${n(y + r * .3)} L${n(x - r)} ${n(y)} L${n(x - r * .3)} ${n(y - r * .3)} Z" fill="${col || '#ffd85e'}" stroke="${INK}" stroke-width="1.2" stroke-linejoin="round"/>`;
   const hairCap = (K, x, y, r, col) => K.P(`M${x - r} ${y} q0 ${-r * 1.15} ${r} ${-r * 1.15} q${r} 0 ${r} ${r * 1.15} q${-r * .5} ${-r * .45} ${-r} ${-r * .35} q${-r * .5} ${r * .1} ${-r} ${r * .35} Z`, col);
 
+  // tóc mái cho đầu tròn (tâm cx, cy, bán kính R): phủ phần trên, chừa mắt
+  const bangs = (K, cx, cy, R, col) => K.P(`M${n(cx - .97 * R)} ${n(cy - .25 * R)} A${R} ${R} 0 0 1 ${n(cx + .97 * R)} ${n(cy - .25 * R)} q${n(-.45 * R)} ${n(-.32 * R)} ${n(-.97 * R)} ${n(-.26 * R)} q${n(-.52 * R)} ${n(-.06 * R)} ${n(-.97 * R)} ${n(.26 * R)} Z`, col);
+
   SJ.addIcons({
     // す — chiếc xích đu: dây đu xoắn một vòng rồi thả xuống, Mochi ngồi đu
     swing: K => K.R(5, 4, 38, 5, 2.5, K.C.brn)
@@ -181,5 +184,50 @@ window.SJ = window.SJ || {};
       + K.P('M24 29.4 l-3.6 -3.4 a2.2 2.2 0 0 1 3.6 -2.8 a2.2 2.2 0 0 1 3.6 2.8 Z', K.C.red)
       + face(24, 33.6, .55)
       + spark(42, 6, 3.2) + spark(6, 6, 2.4, '#ffc4d4'),
+    // ===== Từ vựng cơ thể (からだ) =====
+    // からだ — bạn nhỏ đứng thẳng: đầu, thân, tay, chân đủ cả
+    body: K => K.R(17.5, 39, 5, 7, 2.5, K.C.skin) + K.R(25.5, 39, 5, 7, 2.5, K.C.skin)
+      + K.G('rotate(18 13 26)', K.R(10, 25, 6, 13, 3, K.C.skin)) + K.G('rotate(-18 35 26)', K.R(32, 25, 6, 13, 3, K.C.skin))
+      + K.P('M15 27 Q15 24 19 24 H29 Q33 24 33 27 L34 41 H14 Z', K.C.blue)
+      + K.O(24, 14, 10, K.C.skin) + bangs(K, 24, 14, 10, K.C.dbrn)
+      + face(24, 15.4, .62) + spark(41, 8, 3) + spark(7, 10, 2.2, '#ffc4d4'),
+    // あたま — cái đầu tròn, mũi tên hồng chỉ vào đỉnh đầu
+    head: K => K.O(24, 29, 14, K.C.skin) + bangs(K, 24, 29, 14, K.C.dbrn)
+      + face(24, 31.5, .85)
+      + tube('M24 2.5 V7.5', K.C.rose, 2.6) + K.P('M19.5 7 L24 12 L28.5 7 Z', K.C.rose)
+      + spark(40, 9, 3) + spark(8, 10, 2.2, '#ffc4d4'),
+    // かお — soi gương thấy khuôn mặt mình đang cười
+    kao: K => K.R(21.5, 36, 5, 10, 2.5, K.C.rose)
+      + K.E(24, 21, 16, 17, K.C.pink) + K.E(24, 21, 12, 13, K.C.sky)
+      + K.O(24, 22, 8.6, K.C.skin) + bangs(K, 24, 22, 8.6, K.C.dbrn) + face(24, 23.4, .62)
+      + K.H('M14.5 15 q1.6 -4.6 5 -6.4') + spark(42, 7, 3),
+    // みみ — cái tai dễ thương nghe tiếng sóng âm thanh
+    ear: K => K.P('M17 9 Q31 3 35 16 Q37.5 25 30 30 Q27 32 27 36.5 Q27 43 21 43 Q14.5 43 14.5 36 L14.5 19 Q14.5 12 17 9 Z', K.C.skin)
+      + K.P('M20.5 16.5 Q28 13 29.5 20 Q30.5 25 25 27.5 Q22 29 22 33', 'none')
+      + blush(19.5, 38.5, 1.1)
+      + line('M39.5 19 q3 4.5 0 9 M43.5 15.5 q5 8 0 16', '#ff8fae', 2.2) + spark(8, 8, 2.6),
+    // はな — khuôn mặt có chiếc mũi tròn hồng nổi bật
+    nose: K => K.O(24, 25, 18, K.C.skin) + bangs(K, 24, 25, 18, K.C.dbrn)
+      + eye(17, 24, 2.2) + eye(31, 24, 2.2) + blush(13, 31, 1.5) + blush(35, 31, 1.5)
+      + K.E(24, 30.5, 4.4, 3.6, K.C.rose) + K.H('M22 29 q1 -1.2 2.4 -1.3')
+      + line('M21 37.5 q3 2 6 0', INK, 1.6) + spark(42, 7, 3),
+    // くち — cái miệng cười toe: môi hồng, răng trắng, lưỡi nhỏ
+    mouth: K => K.P('M6 19 Q24 13 42 19 Q41 39 24 39 Q7 39 6 19 Z', K.C.rose)
+      + K.P('M11 21 Q24 17.5 37 21 Q35.5 34.5 24 34.5 Q12.5 34.5 11 21 Z', '#c4506e')
+      + K.P('M12 21 Q24 18 36 21 L35.4 24.6 Q24 22.4 12.6 24.6 Z', K.C.wht)
+      + K.E(24, 31, 7, 3.6, K.C.pink) + K.H('M13 16 q4 -1.6 8 -1.8')
+      + spark(42, 7, 3) + spark(6, 8, 2.2, '#ffc4d4'),
+    // おなか — bạn nhỏ bụng tròn xoe, xoa bụng no căng
+    tummy: K => K.R(16, 39, 6, 6, 3, K.C.skin) + K.R(26, 39, 6, 6, 3, K.C.skin)
+      + K.E(24, 30, 13.5, 11.5, K.C.skin) + K.P('M22.6 31 q1.4 1.6 2.8 0', 'none')
+      + K.E(12.5, 30, 3.6, 5, K.C.skin, 30) + K.E(35.5, 30, 3.6, 5, K.C.skin, -30)
+      + K.O(24, 12, 8.5, K.C.skin) + bangs(K, 24, 12, 8.5, K.C.dbrn) + face(24, 13.4, .58)
+      + line('M3.5 24 q2 2 0 4 q-2 2 0 4 M44.5 24 q-2 2 0 4 q2 2 0 4', '#ff8fae', 1.6) + spark(42, 7, 2.6),
+    // ゆび — bàn tay giơ một ngón trỏ lên: "một!"
+    finger: K => K.R(19.5, 4, 8, 22, 4, K.C.skin)
+      + K.P('M13 24 Q13 20 17.5 20 H32 Q36.5 20 36.5 25 V33 Q36.5 43 25 43 Q13 43 13 33 Z', K.C.skin)
+      + K.P('M27.5 26 H35 M27.5 31 H35', 'none')
+      + K.E(12, 29, 3.2, 6, K.C.skin, -30) + blush(18.5, 35, 1.1)
+      + K.H('M21.8 8 v5') + spark(36, 8, 3) + spark(9, 12, 2.2, '#ffc4d4'),
   });
 })(window.SJ);
