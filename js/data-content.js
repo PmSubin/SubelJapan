@@ -86,6 +86,11 @@ window.SJ = window.SJ || {};
       ['ゆき','yuki','tuyết','snow'],['かぜ','kaze','gió','wind'],['かみなり','kaminari','sấm sét','thunder'],['たいふう','taifuu','bão','typhoon'],
       ['にじ','niji','cầu vồng','rainbow'],['そら','sora','bầu trời','sky'],['あたたかい','atatakai','ấm áp','warm'],['すずしい','suzushii','mát mẻ','uchiwa'],
     ],
+    vehicle: [
+      ['のりもの','norimono','phương tiện, xe cộ','car'],['でんしゃ','densha','tàu điện','train'],['ちかてつ','chikatetsu','tàu điện ngầm','subway'],['しんかんせん','shinkansen','tàu siêu tốc Shinkansen','shinkansen'],
+      ['バス','basu','xe buýt','bus'],['タクシー','takushii','xe taxi','taxi'],['じてんしゃ','jitensha','xe đạp','bicycle'],['バイク','baiku','xe máy','motorbike'],
+      ['ひこうき','hikouki','máy bay','plane'],['ふね','fune','tàu thuỷ, con thuyền','boat'],['えき','eki','nhà ga','station'],['きっぷ','kippu','vé tàu xe','ticket'],
+    ],
   };
   SJ.VOCAB = {};
   SJ.VOCAB_ALL = [];

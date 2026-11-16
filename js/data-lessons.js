@@ -69,6 +69,7 @@ window.SJ = window.SJ || {};
         { id:'v11', title:'Cơ thể', sub:'からだ', type:'vocab', topic:'body', icon:'body', intro:'Từ đầu tới chân! はな (mũi) đọc giống はな (hoa) đó, nghe câu là đoán được nha. あし là cả chân lẫn bàn chân.' },
         { id:'v12', title:'Nghề nghiệp', sub:'しごと', type:'vocab', topic:'job', icon:'doctor', intro:'Giới thiệu nghề của mình thật dễ: わたしは かいしゃいんです。 Nói về người khác thì lịch sự hơn bằng おいしゃさん (bác sĩ), てんいんさん (nhân viên cửa hàng) nha.' },
         { id:'v13', title:'Thời tiết', sub:'てんき', type:'vocab', topic:'weather', icon:'cloudsun', intro:'Người Nhật hay mở lời bằng thời tiết: いい てんきですね! (Trời đẹp quá nhỉ!). Hôm nay mưa thì nói: きょうは あめです。 Nhớ nha: は ở đây đọc là wa.' },
+        { id:'v14', title:'Phương tiện', sub:'のりもの', type:'vocab', topic:'vehicle', icon:'train', intro:'Muốn nói đi bằng gì thì thêm で (nghĩa là “bằng”): でんしゃで いきます。 (Tôi đi bằng tàu điện.) Đi bộ thì nói あるいて いきます。 Còn しんかんせん là tàu siêu tốc nổi tiếng của Nhật đó!' },
       ],
     },
     {

@@ -75,7 +75,7 @@ Có thể thêm việc mới vào cuối danh sách nếu thấy app còn thiế
 - [x] Chủ đề từ vựng mới: Cơ thể (からだ) — bài v11, 12 từ, 8 icon mới (body, head, kao, ear, nose, mouth, tummy, finger) ở cuối `js/icons-mnemo.js`
 - [x] Chủ đề từ vựng mới: Nghề nghiệp (しごと) — bài v12, 12 từ, 4 icon mới (doctor, nurse, police, worker) ở cuối `js/icons-mnemo.js`
 - [x] Chủ đề từ vựng mới: Thời tiết (てんき) — bài v13, 12 từ, 6 icon mới (cloudy, thunder, typhoon, sky, warm, uchiwa) ở cuối `js/icons-mnemo.js`
-- [ ] Chủ đề từ vựng mới: Phương tiện (のりもの)
+- [x] Chủ đề từ vựng mới: Phương tiện (のりもの) — bài v14, 12 từ, 8 icon mới (train, subway, shinkansen, bus, taxi, bicycle, motorbike, ticket) ở cuối `js/icons-mnemo.js`
 - [ ] Chủ đề từ vựng mới: Quần áo (ふく)
 - [ ] Chủ đề từ vựng mới: Địa điểm trong thành phố (まち)
 - [ ] Kanji N5 bài mới: 東 西 南 北 外 前 後 間

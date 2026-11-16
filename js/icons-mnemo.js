@@ -287,5 +287,53 @@ window.SJ = window.SJ || {};
       + K.O(24, 19, 14, K.C.sky) + face(24, 15.5, .7)
       + line('M13.5 23.5 q2.6 -2.6 5.2 0 q2.6 2.6 5.3 0 q2.6 -2.6 5.2 0 q2.6 2.6 5.3 0', K.C.dblue, 2)
       + line('M3 9 h5 M2 15 h3.5 M41 36 h4.5 M42.5 42 h3', K.C.dblue, 1.8),
+    // ===== Từ vựng phương tiện (のりもの) =====
+    // でんしゃ — toa tàu điện xanh lá chạy trên đường ray, mặt cười ở đầu tàu, cần lấy điện trên nóc
+    train: K => line('M18 12 L22 6.5 L26 12 M17 6.5 H27', K.C.ink, 1.8)
+      + K.R(4, 12, 40, 22, 7, K.C.grn) + K.R(4, 26.5, 40, 3, 1.5, K.C.dgrn)
+      + K.R(8, 16, 7, 6, 1.5, K.C.sky) + K.R(17.5, 16, 7, 6, 1.5, K.C.sky)
+      + face(34.5, 20.5, .65)
+      + K.O(12, 36, 3.4, K.C.gry) + K.O(24, 36, 3.4, K.C.gry) + K.O(36, 36, 3.4, K.C.gry)
+      + line('M2 41 H46', K.C.ink, 2) + spark(43, 6, 2.6),
+    // ちかてつ — tàu điện ngầm vàng ló ra khỏi đường hầm, hai đèn pha sáng, mặt cười ở giữa
+    subway: K => K.P('M3 44 V24 a21 21 0 0 1 42 0 V44 Z', K.C.dgry)
+      + K.P('M8 44 V25 a16 16 0 0 1 32 0 V44 Z', K.C.ink)
+      + K.R(13, 15, 22, 25, 6, K.C.yel) + K.R(16, 18, 16, 8, 3, K.C.sky)
+      + face(24, 31.5, .62) + K.O(17.5, 36, 1.7, K.C.wht) + K.O(30.5, 36, 1.7, K.C.wht)
+      + line('M18 44 L19.5 40 M30 44 L28.5 40', K.C.gry, 2),
+    // しんかんせん — tàu siêu tốc trắng mũi dài, sọc xanh, vút nhanh như gió
+    shinkansen: K => line('M1.5 18 h4 M1 24 h3', K.C.dblue, 1.8)
+      + K.P('M6 35 V20 q0 -5 5 -5 H26 q11 0 16.5 13.5 q1.5 6.5 -4.5 6.5 Z', K.C.wht)
+      + K.P('M29 18.5 q6 .5 9.5 6.5 H30.5 Z', K.C.sky)
+      + K.R(10, 19, 5, 4.5, 1.5, K.C.sky) + K.R(18, 19, 5, 4.5, 1.5, K.C.sky)
+      + line('M7 31 H43', K.C.dblue, 2.4) + face(18, 27, .55)
+      + K.O(12, 37.5, 2.4, K.C.gry) + K.O(32, 37.5, 2.4, K.C.gry) + line('M3 41.5 H46', K.C.ink, 2),
+    // バス — xe buýt vàng dài nhiều cửa sổ, mặt cười trên thân xe
+    bus: K => K.R(4, 11, 40, 25, 6, K.C.yel)
+      + K.R(8, 15, 7, 7, 2, K.C.sky) + K.R(18, 15, 7, 7, 2, K.C.sky) + K.R(28, 15, 6, 7, 2, K.C.sky) + K.R(37, 15, 4.5, 11, 1.8, K.C.sky)
+      + face(20, 29, .62) + K.O(40.5, 31, 1.4, K.C.org)
+      + K.O(13, 37, 4.4, K.C.ink) + K.D(13, 37, 1.5, '#fff') + K.O(34, 37, 4.4, K.C.ink) + K.D(34, 37, 1.5, '#fff'),
+    // タクシー — xe taxi vàng có biển đèn trên nóc, mặt cười ở cửa xe
+    taxi: K => K.R(19, 7, 10, 5, 2, K.C.org)
+      + K.P('M5 32 V26 q0 -3 3 -4 l7 -1 l5 -7 q1 -2 4 -2 h8 q3 0 4 2 l4 7 h2 q5 0 5 5 V32 Z', K.C.yel)
+      + K.P('M18 21 l4 -6 h4 V21 Z', K.C.sky) + K.P('M30 21 V15 h2 l3 6 Z', K.C.sky)
+      + face(24, 26.5, .6)
+      + K.O(14, 33, 4.8, K.C.ink) + K.D(14, 33, 1.6, '#fff') + K.O(34, 33, 4.8, K.C.ink) + K.D(34, 33, 1.6, '#fff')
+      + spark(41, 9, 2.6),
+    // じてんしゃ — chiếc xe đạp hồng có giỏ phía trước, giỏ xe có mặt cười
+    bicycle: K => K.O(12, 33, 8.5, K.C.sky) + K.O(12, 33, 2, K.C.wht) + K.O(36, 33, 8.5, K.C.sky) + K.O(36, 33, 2, K.C.wht)
+      + tube('M12 33 L19 22 H31.5 L24 33 Z M31.5 22 L36 33 M19 22 L17.5 18 M31.5 22 L30.5 15', K.C.rose, 2)
+      + K.R(14, 16, 8, 3.2, 1.6, K.C.brn) + line('M27.5 14.5 H32', K.C.ink, 2.2)
+      + K.R(33.5, 12, 11, 8.5, 2.5, K.C.cream) + face(39, 16.3, .45),
+    // バイク — chiếc xe máy hồng nhỏ xinh, đèn pha vàng, mặt cười trên thân xe
+    motorbike: K => tube('M37 36 L33.5 14.5', K.C.rose, 2.6) + line('M30 14 H38', K.C.ink, 2.2)
+      + K.O(37.5, 19, 2.3, K.C.yel)
+      + K.P('M6 33 q0 -9.5 9 -10.5 h9 q3.5 0 4.8 3.4 l2.6 7.1 Z', K.C.rose)
+      + K.R(9.5, 18.5, 13, 4.5, 2.2, K.C.brn) + face(18.5, 28.5, .58)
+      + K.O(11, 36, 5, K.C.ink) + K.D(11, 36, 1.7, '#fff') + K.O(37, 36, 5, K.C.ink) + K.D(37, 36, 1.7, '#fff'),
+    // きっぷ — tấm vé tàu hồng có hai khấc hai bên, đường xé chấm chấm, mặt cười
+    ticket: K => K.P('M5 14 h38 v7 a3 3 0 0 0 0 6 v7 h-38 v-7 a3 3 0 0 0 0 -6 Z', K.C.pink)
+      + line('M33 17 V31', K.C.rose, 1.8, '2 2.6') + K.O(38, 24, 2.2, K.C.wht)
+      + face(19, 24, .78) + spark(40, 8, 2.8) + spark(7, 40, 2.2, '#a3d5ff'),
   });
 })(window.SJ);
