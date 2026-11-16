@@ -71,6 +71,7 @@ window.SJ = window.SJ || {};
         { id:'v13', title:'Thời tiết', sub:'てんき', type:'vocab', topic:'weather', icon:'cloudsun', intro:'Người Nhật hay mở lời bằng thời tiết: いい てんきですね! (Trời đẹp quá nhỉ!). Hôm nay mưa thì nói: きょうは あめです。 Nhớ nha: は ở đây đọc là wa.' },
         { id:'v14', title:'Phương tiện', sub:'のりもの', type:'vocab', topic:'vehicle', icon:'train', intro:'Muốn nói đi bằng gì thì thêm で (nghĩa là “bằng”): でんしゃで いきます。 (Tôi đi bằng tàu điện.) Đi bộ thì nói あるいて いきます。 Còn しんかんせん là tàu siêu tốc nổi tiếng của Nhật đó!' },
         { id:'v15', title:'Quần áo', sub:'ふく', type:'vocab', topic:'clothes', icon:'tshirt', intro:'Mặc đồ trong tiếng Nhật có nhiều động từ lắm: áo thì きます (Tシャツを きます), quần, váy, tất thì はきます (ズボンを はきます), mũ thì かぶります (ぼうしを かぶります). Nhớ nha: を ở đây đọc là o.' },
+        { id:'v16', title:'Địa điểm', sub:'まち', type:'vocab', topic:'town', icon:'town', intro:'Muốn hỏi chỗ nào ở đâu thì nói: ぎんこうは どこですか。 (Ngân hàng ở đâu ạ?). Đi đến đâu thì thêm へ: こうえんへ いきます。 (Tôi đi công viên.) Nhớ nha: は đọc là wa, へ đọc là e.' },
       ],
     },
     {

@@ -375,5 +375,49 @@ window.SJ = window.SJ || {};
     mitten: K => K.P('M14 38 V19 a10 10 0 0 1 20 0 V24 l4 -4 q3 -2.5 5 0 q2 2.5 -.5 5 L34 33 V38 Z', K.C.blue)
       + K.R(12, 36, 24, 7, 2.5, K.C.wht) + line('M15 39.5 h18', K.C.gry, 1.6)
       + face(23.5, 24.5, .7) + spark(8, 10, 2.6),
+    // ===== Từ vựng địa điểm trong thành phố (まち) =====
+    // まち — phố nhỏ: toà nhà cao tím phía sau, ngôi nhà mái hồng có mặt cười phía trước, bãi cỏ
+    town: K => K.R(25, 7, 16, 35, 2.5, K.C.lav)
+      + [12, 19, 26].map(y => K.R(28, y, 4, 4, 1, K.C.sky) + K.R(34, y, 4, 4, 1, K.C.sky)).join('')
+      + K.R(9, 25, 18, 17, 2, K.C.cream) + K.P('M6 26 L18 15 L30 26 Z', K.C.rose)
+      + K.R(14.5, 34, 5, 8, 1.2, K.C.brn) + face(18, 29.5, .55)
+      + K.P('M4 42 H44', K.C.grn) + spark(8, 9, 2.6),
+    // コンビニ — cửa hàng tiện lợi: biển sọc xanh–cam ghi 24, cửa kính, mặt cười trên tường
+    konbini: K => K.R(7, 16, 34, 26, 2.5, K.C.wht)
+      + K.R(5, 5, 38, 13, 3, K.C.wht) + K.F('M6 12.4 H42 V14.8 H6 Z', K.C.dgrn) + K.F('M6 14.8 H42 V17 H6 Z', K.C.org)
+      + K.R(5, 5, 38, 13, 3) + K.T(24, 11.2, '24', 6, K.C.ink)
+      + K.R(10, 28, 12, 14, 1.5, K.C.sky) + line('M16 28 V42', K.C.ink, 1.6) + K.R(26, 28, 12, 9, 1.5, K.C.sky)
+      + face(24, 22.5, .62),
+    // ぎんこう — ngân hàng: mái tam giác vàng có mặt cười, hàng cột trắng, đồng xu ¥
+    bank: K => K.P('M5 17 L24 5 L43 17 Z', K.C.yel) + K.R(7, 17, 34, 4, 1.2, K.C.cream)
+      + [10.5, 18.5, 26.5, 34.5].map(x => K.R(x, 21, 3.4, 16, 1, K.C.wht)).join('')
+      + K.R(5, 37, 38, 5, 1.5, K.C.cream) + face(24, 13, .55)
+      + K.O(40, 34, 5.5, K.C.yel) + K.T(40, 36.6, '¥', 7, K.C.ink) + spark(8, 7, 2.4),
+    // びょういん — bệnh viện: toà nhà trắng, biển chữ thập đỏ, mặt cười, cửa xanh
+    hospital: K => K.R(8, 13, 32, 29, 2.5, K.C.wht)
+      + K.R(16, 4, 16, 13, 3, K.C.wht)
+      + K.P('M22 6.5 h4 v4 h4 v4 h-4 v4 h-4 v-4 h-4 v-4 h4 Z', K.C.red)
+      + K.R(11, 27, 6, 5, 1, K.C.sky) + K.R(31, 27, 6, 5, 1, K.C.sky)
+      + K.R(19.5, 33, 9, 9, 1.5, K.C.mint) + face(24, 25.5, .6),
+    // ゆうびんきょく — bưu điện: toà nhà kem, biển đỏ có dấu 〒, phong thư nhỏ, mặt cười
+    postoffice: K => K.R(8, 15, 32, 27, 2.5, K.C.cream) + K.P('M5 16 L10 8 H38 L43 16 Z', K.C.red)
+      + K.O(24, 22, 5.5, K.C.wht) + K.T(24, 25, '〒', 7.5, K.C.red, 1)
+      + K.R(19.5, 33, 9, 9, 1.5, K.C.brn) + face(14, 33, .5)
+      + K.R(32, 30, 9, 6.5, 1, K.C.wht) + line('M32.4 30.6 l4.1 3.2 l4.1 -3.2', K.C.ink, 1.3),
+    // としょかん — thư viện: toà nhà mái xanh, quyển sách mở to giữa nhà có mặt cười
+    library: K => K.R(7, 17, 34, 25, 2.5, K.C.cream) + K.P('M4 18 L24 6 L44 18 Z', K.C.dblue)
+      + K.P('M10 23 q7 -3 14 1 q7 -4 14 -1 V38 q-7 -3 -14 1 q-7 -4 -14 -1 Z', K.C.wht)
+      + line('M24 24 V39', K.C.ink, 1.6) + line('M13 34 q4 -1.5 8 0 M27 34 q4 -1.5 8 0', K.C.dgry, 1.3)
+      + face(17, 29, .5) + face(31, 29, .5) + spark(40, 7, 2.4),
+    // こうえん — công viên: cây tròn xanh có mặt cười, ghế băng gỗ, bãi cỏ
+    park: K => K.R(14, 26, 5, 16, 2, K.C.brn) + K.O(16.5, 18, 11, K.C.grn) + face(16.5, 18.5, .7)
+      + K.R(26, 30, 17, 3.5, 1.5, K.C.org) + K.R(26, 35, 17, 3, 1.2, K.C.org) + line('M28 38 V42 M41 38 V42', K.C.ink, 2)
+      + K.P('M3 42 H45', K.C.dgrn) + K.D(10.5, 13, 1.5, K.C.pink) + K.D(23, 23.5, 1.5, K.C.pink) + spark(40, 9, 2.6),
+    // えいがかん — rạp chiếu phim: màn hình có mặt cười giữa hai tấm rèm đỏ, xô bỏng ngô
+    cinema: K => K.R(5, 6, 38, 28, 3, K.C.sky)
+      + K.P('M5 7 q8 0 9 6 q-2 10 0 21 H5 Z', K.C.red) + K.P('M43 7 q-8 0 -9 6 q2 10 0 21 H43 Z', K.C.red)
+      + K.R(4, 4, 40, 4, 2, K.C.rose) + face(24, 19, .7) + spark(19, 11, 2.2)
+      + K.O(29.5, 34.5, 2.6, K.C.cream) + K.O(33.5, 33.5, 2.6, K.C.cream) + K.O(37.5, 34.5, 2.6, K.C.cream)
+      + K.P('M27 35 H40 L38 45 H29 Z', K.C.wht) + line('M31.5 36 L32 44.5 M35.5 36 L35 44.5', K.C.red, 1.8),
   });
 })(window.SJ);

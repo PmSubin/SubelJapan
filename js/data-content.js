@@ -96,6 +96,11 @@ window.SJ = window.SJ || {};
       ['ズボン','zubon','cái quần dài','trousers'],['ジーンズ','jiinzu','quần jean','jeans'],['スカート','sukaato','chân váy','skirt'],['ワンピース','wanpiisu','váy liền','dress'],
       ['ぼうし','boushi','cái mũ','hat'],['くつした','kutsushita','đôi tất','socks'],['てぶくろ','tebukuro','găng tay','mitten'],['きもの','kimono','áo kimono','kimono'],
     ],
+    town: [
+      ['まち','machi','thành phố, khu phố','town'],['みせ','mise','cửa hàng','shop'],['スーパー','suupaa','siêu thị','cart'],['コンビニ','konbini','cửa hàng tiện lợi','konbini'],
+      ['ぎんこう','ginkou','ngân hàng','bank'],['びょういん','byouin','bệnh viện','hospital'],['ゆうびんきょく','yuubinkyoku','bưu điện','postoffice'],['としょかん','toshokan','thư viện','library'],
+      ['こうえん','kouen','công viên','park'],['レストラン','resutoran','nhà hàng','chef'],['えいがかん','eigakan','rạp chiếu phim','cinema'],['こうばん','kouban','đồn cảnh sát nhỏ (chốt công an)','police'],
+    ],
   };
   SJ.VOCAB = {};
   SJ.VOCAB_ALL = [];
