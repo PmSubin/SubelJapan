@@ -91,6 +91,11 @@ window.SJ = window.SJ || {};
       ['バス','basu','xe buýt','bus'],['タクシー','takushii','xe taxi','taxi'],['じてんしゃ','jitensha','xe đạp','bicycle'],['バイク','baiku','xe máy','motorbike'],
       ['ひこうき','hikouki','máy bay','plane'],['ふね','fune','tàu thuỷ, con thuyền','boat'],['えき','eki','nhà ga','station'],['きっぷ','kippu','vé tàu xe','ticket'],
     ],
+    clothes: [
+      ['ふく','fuku','quần áo','shirt'],['Tシャツ','tiishatsu','áo phông','tshirt'],['セーター','seetaa','áo len','sweater'],['コート','kooto','áo khoác','coat'],
+      ['ズボン','zubon','cái quần dài','trousers'],['ジーンズ','jiinzu','quần jean','jeans'],['スカート','sukaato','chân váy','skirt'],['ワンピース','wanpiisu','váy liền','dress'],
+      ['ぼうし','boushi','cái mũ','hat'],['くつした','kutsushita','đôi tất','socks'],['てぶくろ','tebukuro','găng tay','mitten'],['きもの','kimono','áo kimono','kimono'],
+    ],
   };
   SJ.VOCAB = {};
   SJ.VOCAB_ALL = [];

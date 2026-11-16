@@ -76,7 +76,7 @@ Có thể thêm việc mới vào cuối danh sách nếu thấy app còn thiế
 - [x] Chủ đề từ vựng mới: Nghề nghiệp (しごと) — bài v12, 12 từ, 4 icon mới (doctor, nurse, police, worker) ở cuối `js/icons-mnemo.js`
 - [x] Chủ đề từ vựng mới: Thời tiết (てんき) — bài v13, 12 từ, 6 icon mới (cloudy, thunder, typhoon, sky, warm, uchiwa) ở cuối `js/icons-mnemo.js`
 - [x] Chủ đề từ vựng mới: Phương tiện (のりもの) — bài v14, 12 từ, 8 icon mới (train, subway, shinkansen, bus, taxi, bicycle, motorbike, ticket) ở cuối `js/icons-mnemo.js`
-- [ ] Chủ đề từ vựng mới: Quần áo (ふく)
+- [x] Chủ đề từ vựng mới: Quần áo (ふく) — bài v15, 12 từ, 9 icon mới (tshirt, sweater, coat, skirt, dress, hat, socks, mitten, kimono) ở cuối `js/icons-mnemo.js`
 - [ ] Chủ đề từ vựng mới: Địa điểm trong thành phố (まち)
 - [ ] Kanji N5 bài mới: 東 西 南 北 外 前 後 間
 - [ ] Kanji N5 bài mới: 父 母 行 来 出 入 休 見

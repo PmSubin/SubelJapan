@@ -335,5 +335,45 @@ window.SJ = window.SJ || {};
     ticket: K => K.P('M5 14 h38 v7 a3 3 0 0 0 0 6 v7 h-38 v-7 a3 3 0 0 0 0 -6 Z', K.C.pink)
       + line('M33 17 V31', K.C.rose, 1.8, '2 2.6') + K.O(38, 24, 2.2, K.C.wht)
       + face(19, 24, .78) + spark(40, 8, 2.8) + spark(7, 40, 2.2, '#a3d5ff'),
+    // ===== Từ vựng quần áo (ふく) =====
+    // Tシャツ — áo phông vàng tay ngắn, mặt cười giữa ngực
+    tshirt: K => K.P('M16 9 L5 15 L9 24 L14 22 V41 H34 V22 L39 24 L43 15 L32 9 q-8 5 -16 0 Z', K.C.yel)
+      + line('M18.5 10.5 q5.5 3.5 11 0', K.C.org, 1.8) + face(24, 29, .75) + spark(42, 36, 2.6),
+    // スカート — chân váy hồng xếp ly, cạp váy đậm, mặt cười giữa váy
+    skirt: K => K.P('M14 15 H34 L42 38 q-18 5 -36 0 Z', K.C.pink)
+      + line('M19.5 16 L16 38.5 M28.5 16 L32 38.5', K.C.rose, 1.6)
+      + K.R(13, 9, 22, 6, 2.5, K.C.rose) + face(24, 27, .65) + spark(42, 9, 2.6),
+    // ワンピース — váy liền tím nhạt có dây vai, nơ hồng ngang eo, mặt cười trên tà váy
+    dress: K => line('M18.5 4 V12 M29.5 4 V12', K.C.ink, 2)
+      + K.P('M17 12 H31 L29 22 L40 41 q-16 4 -32 0 L19 22 Z', K.C.lav)
+      + line('M19.5 22 H28.5', K.C.rose, 2.6) + K.O(24, 22, 2, K.C.pink)
+      + face(24, 32, .7),
+    // コート — áo khoác dài màu cam, cổ bẻ, hàng cúc bên phải, mặt cười bên trái
+    coat: K => K.P('M17 7 L8 12 L5 38 H11 L13 24 V43 H35 V24 L37 38 H43 L40 12 L31 7 L24 15 Z', K.C.org)
+      + line('M17 7 L20.5 17 L24 15 L27.5 17 L31 7 M24 15 V43', K.C.ink, 1.8)
+      + K.D(29, 23, 1.3, K.C.dbrn) + K.D(29, 30, 1.3, K.C.dbrn) + K.D(29, 37, 1.3, K.C.dbrn)
+      + face(18.5, 28, .52),
+    // セーター — áo len cổ lọ xanh bạc hà, hoa văn răng cưa, mặt cười
+    sweater: K => K.P('M17 10 q7 3 14 0 L41 15 L44 36 L37.5 37 L35 25 V40 H13 V25 L10.5 37 L4 36 L7 15 Z', K.C.mint)
+      + K.R(18, 5.5, 12, 6, 3, K.C.mint) + K.R(13, 36, 22, 5, 2, K.C.grn)
+      + line('M15 19 l3 3 l3 -3 l3 3 l3 -3 l3 3 l3 -3 l3 3', K.C.dgrn, 1.6)
+      + face(24, 29.5, .7),
+    // ぼうし — mũ rơm vàng vành rộng có ruy băng hồng, mặt cười trên chóp mũ
+    hat: K => K.E(24, 32, 21, 6, K.C.cream)
+      + K.P('M13 32 V22 q0 -10 11 -10 q11 0 11 10 V32 Z', K.C.yel)
+      + K.R(13, 25, 22, 4.5, 2, K.C.rose) + face(24, 19.5, .6) + spark(41, 12, 2.6),
+    // くつした — chiếc tất hồng có sọc trắng, cổ tất trắng, mặt cười
+    socks: K => K.P('M15 11 H27 V28 l9 5 q4 3 2 7 q-2 3 -6 1.5 L19 37 q-4 -2 -4 -7 Z', K.C.rose)
+      + line('M15.8 17 H26.2', K.C.wht, 2.4) + K.R(14, 5, 14, 6.5, 2.5, K.C.wht)
+      + face(21, 25.5, .6) + spark(38, 12, 2.6) + spark(9, 40, 2.2, '#a3d5ff'),
+    // きもの — áo kimono hồng tay rộng, cổ áo chéo hình chữ y, thắt lưng obi, mặt cười phía dưới
+    kimono: K => K.P('M18 7 L4 11 V28 H13 V43 H35 V28 H44 V11 L30 7 Z', K.C.pink)
+      + tube('M19.5 7.5 L24 16', K.C.wht, 2) + tube('M28.5 7.5 L18.5 25', K.C.wht, 2)
+      + K.R(13, 24, 22, 7, 1.5, K.C.rose) + line('M13.5 27.5 H34.5', K.C.yel, 1.6)
+      + K.D(8, 19, 1.4, '#fff') + K.D(40, 19, 1.4, '#fff') + K.D(29, 36, 1.2, '#fff') + face(22, 36.5, .6),
+    // てぶくろ — chiếc găng tay len xanh có ngón cái, cổ tay trắng, mặt cười
+    mitten: K => K.P('M14 38 V19 a10 10 0 0 1 20 0 V24 l4 -4 q3 -2.5 5 0 q2 2.5 -.5 5 L34 33 V38 Z', K.C.blue)
+      + K.R(12, 36, 24, 7, 2.5, K.C.wht) + line('M15 39.5 h18', K.C.gry, 1.6)
+      + face(23.5, 24.5, .7) + spark(8, 10, 2.6),
   });
 })(window.SJ);
