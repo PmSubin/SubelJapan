@@ -84,6 +84,7 @@ window.SJ = window.SJ || {};
         { id:'j5', title:'山 川 花', sub:'Thiên nhiên', type:'kanji', items: ch('山川田天気雨花空'), icon:'mountain', intro:'Núi sông, mưa hoa và bầu trời' },
         { id:'j6', title:'学 生 先', sub:'Trường học', type:'kanji', items: ch('学生先年名何今友'), icon:'school', intro:'先生 (TIÊN SINH) = giáo viên, 学生 (HỌC SINH) = học sinh. Hán Việt quá đỉnh!' },
         { id:'j7', title:'百 千 円', sub:'Tiền & giờ', type:'kanji', items: ch('百千万円時分半'), icon:'n10000', intro:'Đọc giá tiền và xem giờ như người Nhật' },
+        { id:'j8', title:'東 西 南 北', sub:'Phương hướng & vị trí', type:'kanji', items: ch('東西南北外前後間'), icon:'map', intro:'Đông – Tây – Nam – Bắc, trong – ngoài, trước – sau. Nhìn biển ở nhà ga Nhật: 東口 là cửa đông, 西口 là cửa tây đó! Còn 午前 là buổi sáng, 午後 là buổi chiều.' },
       ],
     },
     {

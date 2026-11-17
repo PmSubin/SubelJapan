@@ -174,6 +174,14 @@ window.SJ = window.SJ || {};
     ['時','THỜI','giờ, thời gian','ジ','とき','Mặt trời (日) + chùa (寺): chùa gõ chuông báo giờ',[['一時','いちじ','ichiji','1 giờ'],['時間','じかん','jikan','thời gian']]],
     ['分','PHÂN','phút, chia','フン・ブン','わ(ける)','Con dao (刀) chia đôi (八) — phân chia',[['五分','ごふん','gofun','5 phút'],['自分','じぶん','jibun','bản thân, chính mình']]],
     ['半','BÁN','một nửa','ハン','なか(ば)','Một vật bị chia đôi chính giữa — một nửa ½',[['三時半','さんじはん','sanjihan','3 giờ rưỡi'],['半分','はんぶん','hanbun','một nửa']]],
+    ['東','ĐÔNG','phía đông','トウ','ひがし','Mặt trời (日) ló ra sau cái cây (木) — hướng mặt trời mọc là phía đông',[['東','ひがし','higashi','phía đông'],['東京','とうきょう','toukyou','Tokyo (thủ đô Nhật)']]],
+    ['西','TÂY','phía tây','セイ・サイ','にし','Mặt trời chui vào cái hũ có nắp đậy — hướng mặt trời lặn là phía tây',[['西','にし','nishi','phía tây'],['西口','にしぐち','nishiguchi','cửa tây (nhà ga)']]],
+    ['南','NAM','phía nam','ナン','みなみ','Căn lều có chữ thập (十) trên nóc, ấm áp ở phương nam',[['南','みなみ','minami','phía nam'],['南口','みなみぐち','minamiguchi','cửa nam (nhà ga)']]],
+    ['北','BẮC','phía bắc','ホク','きた','Hai người ngồi quay lưng vào nhau để tránh gió lạnh phương bắc',[['北','きた','kita','phía bắc'],['北海道','ほっかいどう','hokkaidou','Hokkaido (đảo cực bắc Nhật)']]],
+    ['外','NGOẠI','bên ngoài','ガイ・ゲ','そと','Buổi tối (夕) ông thầy bói (卜) ngồi xem quẻ ở bên ngoài',[['外','そと','soto','bên ngoài'],['外国人','がいこくじん','gaikokujin','người nước ngoài']]],
+    ['前','TIỀN','phía trước, trước','ゼン','まえ','Đôi sừng nhỏ trên đầu, cầm dao (刂) đi trước mở đường',[['名前','なまえ','namae','tên'],['午前','ごぜん','gozen','buổi sáng (trước 12 giờ trưa)']]],
+    ['後','HẬU','phía sau, sau','ゴ・コウ','うし(ろ)・あと','Người bước chậm (彳) lững thững đi theo phía sau',[['後ろ','うしろ','ushiro','phía sau'],['午後','ごご','gogo','buổi chiều (sau 12 giờ trưa)']]],
+    ['間','GIAN','khoảng giữa','カン・ケン','あいだ・ま','Ánh mặt trời (日) lọt qua khe giữa hai cánh cổng (門)',[['時間','じかん','jikan','thời gian'],['間','あいだ','aida','khoảng giữa']]],
   ];
   SJ.KANJI = KJ.map(a => ({ key:'j:' + a[0], k: a[0], hv: a[1], m: a[2], on: a[3], kun: a[4], tip: a[5], ex: a[6].map(e => ({ jp: e[0], kana: e[1], r: e[2], vi: e[3] })) }));
   SJ.KANJI_MAP = {};
