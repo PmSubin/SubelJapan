@@ -1,0 +1,11 @@
+/* TEAM */
+  Tác giả: PmSubin
+  GitHub: https://github.com/PmSubin
+  Mã nguồn: https://github.com/PmSubin/SubelJapan
+
+/* SITE */
+  Tên: SubelJapan — Học tiếng Nhật dễ như ăn mochi
+  Địa chỉ: https://pmsubin.github.io/SubelJapan/
+  Ngôn ngữ: Tiếng Việt, tiếng Nhật
+  Công nghệ: HTML, CSS, JavaScript thuần
+  Dữ liệu nét chữ: KanjiVG (CC BY-SA 3.0)

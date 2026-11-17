@@ -38,7 +38,8 @@ window.SJ = window.SJ || {};
 
   let layer = null;
   function mountSeason() {
-    const on = st().season !== false && !reduced();
+    // lá / hoa rơi trên màn hình: mặc định TẮT (khóa mới 'leaves'), ai thích thì bật trong Cài đặt
+    const on = st().leaves === true && !reduced();
     if (!on) { if (layer) { layer.remove(); layer = null; } return; }
     const s = season();
     if (layer && layer.dataset.s === s) return;
@@ -148,7 +149,7 @@ window.SJ = window.SJ || {};
   // ---------- khởi động ----------
   function boot() {
     mountSeason(); watchNav();
-    SJ.on('settings', k => { if (k === 'season' || k === 'motion') mountSeason(); });
+    SJ.on('settings', k => { if (k === 'leaves' || k === 'motion') mountSeason(); });
     let lastPhase = phase();
     setInterval(() => { const p = phase(); if (p !== lastPhase) { lastPhase = p; const sky = document.querySelector('.hello-sky'); if (sky) { const t = document.createElement('div'); t.innerHTML = skyHTML(); sky.replaceWith(t.firstElementChild); } } mountSeason(); }, 60000);
   }

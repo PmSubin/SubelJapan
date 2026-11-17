@@ -2,7 +2,7 @@
 
 Web học **đọc & viết tiếng Nhật cho người mới bắt đầu từ con số 0**, giao diện tiếng Việt, đồng hành cùng mèo **Mochi** siêu dễ thương.
 
-**Vào học ngay:** https://pmsubin.github.io/SubelJapan/
+**Vào học ngay:** https://pmsubin.github.io/SubelJapan/ · **Tác giả:** [PmSubin](https://github.com/PmSubin)
 
 ![Trang chủ — lộ trình học](assets/screens/home.png)
 
@@ -12,7 +12,7 @@ Web học **đọc & viết tiếng Nhật cho người mới bắt đầu từ 
 |---|---|
 | **Sensei Mochi (AI)** | Gia sư AI chạy bằng **Claude** của Anthropic: hỏi đáp mọi thứ về tiếng Nhật, **luyện hội thoại nhập vai** 10 tình huống (quán cà phê, cửa hàng tiện lợi, hỏi đường, khách sạn…), **sửa câu** có chấm điểm bằng con dấu, giảng ngữ pháp kèm câu đố, dịch Việt ⇄ Nhật. Câu ví dụ nào cũng có furigana, romaji, nghĩa và nút nghe; gõ romaji tự đổi ra kana, nói bằng micro được luôn. |
 | **AI trong bài học & truyện** | Trả lời sai thì bấm **“Vì sao?”** để Mochi giải thích kèm mẹo nhớ. **Mochi viết truyện mới** theo trình độ và chủ đề bạn chọn, có giọng đọc, từ vựng, câu hỏi. Sổ từ và bảng chữ có nút hỏi Mochi. |
-| **Bản đồ hành trình xứ Nhật** | 6 vùng đất có cảnh riêng (vườn anh đào, phố Tokyo, chợ ẩm thực, núi Phú Sĩ, trời sao đêm), con đường uốn lượn tô màu theo tiến độ, 56 bài siêu ngắn + **16 màn thưởng** (trò chơi, truyện, thử thách viết, gõ phím, chuỗi đúng) + rương cuối mỗi phần. |
+| **Bản đồ hành trình xứ Nhật** | 6 vùng đất có cảnh riêng (vườn anh đào, phố Tokyo, chợ ẩm thực, núi Phú Sĩ, trời sao đêm), con đường uốn lượn tô màu theo tiến độ và in dấu chân mèo Mochi, cảnh vật đứng trên đảo cỏ nhỏ, 66 bài siêu ngắn + **16 màn thưởng** (trò chơi, truyện, thử thách viết, gõ phím, chuỗi đúng) + rương cuối mỗi phần. |
 | **Nhiều mục tiêu** | Mỗi phần: gom sao, phá màn thưởng để nhận vương miện. Mỗi ngày 3 nhiệm vụ, mỗi tuần 3 thử thách lớn, 10 mục tiêu dài hạn nhiều bậc có thưởng. |
 | **Đủ mọi chữ theo a・i・u・e・o** | 46 chữ cơ bản, âm đục ゛/゜, âm ghép (きゃ…), chữ nhỏ (っゃゅょ…), âm ngoại lai Katakana (ファ, ティ, ヴ…). Có mẹo nhớ tiếng Việt và cảnh báo **chữ dễ nhầm** (シ/ツ, ソ/ン, ぬ/め…). |
 | **Bài tập đa dạng** | Chọn đáp án, nghe chọn chữ, ghép cặp, gõ romaji, xếp chữ thành từ, **viết từng nét** ngay trong bài. |

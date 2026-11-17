@@ -107,10 +107,10 @@ window.SJ = window.SJ || {};
   const THEMES = {
     start: { name: 'Khu vườn nhỏ', big: ['sprout', 'tulip', 'flower', 'sun'], small: ['leaf', 'sprout', 'tulip'], fx: 'leaf' },
     hira: { name: 'Vườn hoa anh đào', big: ['sakura_tree', 'lantern', 'sakura_tree', 'torii', 'sakura_tree', 'onigiri'], small: ['sakura', 'tulip', 'flower'], fx: 'sakura' },
-    kata: { name: 'Phố Tokyo', big: ['building', 'tower', 'rocket', 'building', 'robot', 'plane'], small: ['star_s', 'camera', 'headphones'], fx: 'star_s' },
+    kata: { name: 'Phố Tokyo', big: ['tower', 'konbini', 'shinkansen', 'building', 'robot', 'cinema'], small: ['star_s', 'camera', 'headphones'], fx: 'star_s' },
     vocab: { name: 'Chợ ẩm thực', big: ['ramen', 'lantern', 'sushi', 'tea', 'onigiri', 'cake'], small: ['bowl', 'apple', 'egg'], fx: 'sparkle' },
-    kanji: { name: 'Núi Phú Sĩ', big: ['fuji', 'torii', 'mountain', 'maple', 'torii', 'scroll'], small: ['maple', 'leaf', 'brush'], fx: 'maple' },
-    grammar: { name: 'Trời sao đêm', big: ['moon', 'night', 'gradcap', 'book', 'star_s'], small: ['star_s', 'sparkle', 'star_s'], fx: 'star_s' },
+    kanji: { name: 'Núi Phú Sĩ', big: ['fuji', 'torii', 'maple', 'scroll', 'lantern', 'mountain'], small: ['maple', 'leaf', 'brush'], fx: 'maple' },
+    grammar: { name: 'Trời sao đêm', big: ['moon', 'gradcap', 'book', 'night', 'star_s'], small: ['star_s', 'sparkle', 'star_s'], fx: 'star_s' },
   };
   // Màn thưởng xen giữa các bài: trò chơi, truyện, thử thách viết, gõ phím, chuỗi đúng
   const BONUS = {};
@@ -145,26 +145,22 @@ window.SJ = window.SJ || {};
     grammar: '<path class="h1" d="M0 86 Q100 46 210 78 T420 64 T600 74 V140 H0Z"/><path class="h2" d="M0 114 Q150 84 300 108 T600 102 V140 H0Z"/>',
   };
   const hash = (a, b) => { let x = (a * 374761393 + b * 668265263) >>> 0; x = (x ^ (x >>> 13)) * 1274126177 >>> 0; return (x % 1000) / 1000; };
-  const tuft = '<svg class="tuft" viewBox="0 0 34 16" aria-hidden="true"><path d="M3 16 Q6 5 9 16 M12 16 Q16 1 19 16 M22 16 Q26 6 29 16"/></svg>';
+  /** Cảnh vật bên đường: mỗi hàng tối đa MỘT hình, đứng trên một đảo cỏ nhỏ ở phía đối diện nút bài, ~1/3 số hàng để trống cho thoáng */
   function scenery(u, ui, i, off, isCur, mood) {
     const T = THEMES[u.id] || THEMES.start;
     const side = off > 0 ? -1 : off < 0 ? 1 : (i % 2 ? -1 : 1);
-    const r1 = hash(ui + 1, i + 1), r2 = hash(ui + 7, i + 3), r3 = hash(ui + 3, i + 11);
-    let out = '';
-    if (isCur) out += `<span class="deco here" style="--f:${side * 0.74};--dy:-6px">${U().mascot(mood, 76, 'bob')}<span class="here-tag">Mochi ở đây nè!</span></span>`;
-    else {
-      const big = T.big[(i + ui) % T.big.length];
-      const sz = Math.round(70 + r1 * 26);
-      out += `<span class="deco big" style="--f:${(side * (0.68 + r2 * 0.16)).toFixed(2)};--dy:${Math.round(r3 * 24 - 12)}px;--sz:${sz}">${I(big, sz)}${tuft}</span>`;
-    }
-    if (r2 > 0.35) out += `<span class="deco far" style="--f:${(-side * (0.88 + r1 * 0.07)).toFixed(2)};--dy:${Math.round(r2 * 40 - 20)}px;--sz:30">${I(T.small[(i * 3 + ui) % T.small.length], 30)}</span>`;
-    if (r3 > 0.55) out += `<span class="deco tiny" style="--f:${(side * (0.42 + r3 * 0.1)).toFixed(2)};--dy:${Math.round(34 + r1 * 14)}px">${tuft}</span>`;
-    return out;
+    const r1 = hash(ui + 1, i + 1), r2 = hash(ui + 7, i + 3);
+    if (isCur) return `<span class="deco here" style="--f:${side * 0.7};--dy:-2px">${U().mascot(mood, 76, 'bob')}<span class="here-tag">Mochi ở đây nè!</span></span>`;
+    if (r1 < 0.34) return '';
+    const big = r2 > 0.38;
+    const name = big ? T.big[(i + ui * 2) % T.big.length] : T.small[(i * 3 + ui) % T.small.length];
+    const sz = big ? Math.round(62 + r2 * 16) : 34;
+    return `<span class="deco ${big ? 'big' : 'small'}" style="--f:${(side * (0.64 + r1 * 0.14)).toFixed(2)};--dy:${Math.round(r2 * 14 - 7)}px">${big ? '<span class="isle"></span>' : ''}${I(name, sz)}</span>`;
   }
   function zoneFx(u) {
     const T = THEMES[u.id] || THEMES.start;
     let fx = '';
-    for (let k = 0; k < 7; k++) fx += `<span class="fx fx-${T.fx}" style="--l:${(8 + k * 13 + hash(k, 5) * 6).toFixed(1)}%;--t:${(6 + hash(k, 7) * 80).toFixed(1)}%;--d:${(9 + hash(k, 9) * 8).toFixed(1)}s;--w:${(-hash(k, 2) * 12).toFixed(1)}s">${I(T.fx, 26)}</span>`;
+    if (SJ.store.get().settings.leaves === true) for (let k = 0; k < 7; k++) fx += `<span class="fx fx-${T.fx}" style="--l:${(8 + k * 13 + hash(k, 5) * 6).toFixed(1)}%;--t:${(6 + hash(k, 7) * 80).toFixed(1)}%;--d:${(9 + hash(k, 9) * 8).toFixed(1)}s;--w:${(-hash(k, 2) * 12).toFixed(1)}s">${I(T.fx, 26)}</span>`;
     return `<span class="cloud c1"></span><span class="cloud c2"></span><span class="cloud c3"></span>${fx}
       <svg class="map-hills" viewBox="0 0 600 140" preserveAspectRatio="none" aria-hidden="true">${HORIZON[u.id] || HORIZON.start}</svg>`;
   }
@@ -222,7 +218,7 @@ window.SJ = window.SJ || {};
         ${SJ.talk ? SJ.talk.teaser() : ''}
         <div class="rail-mobile">${railHTML(true)}</div>
         ${units}
-        <div class="path-end">${U().mascot('love', 90)}Học hết lộ trình rồi thì luyện vô tận, đọc truyện và ôn thẻ nhớ mỗi ngày để nhớ mãi nha!</div>
+        <div class="path-end">${U().mascot('love', 90)}Học hết lộ trình rồi thì luyện vô tận, đọc truyện và ôn thẻ nhớ mỗi ngày để nhớ mãi nha!<div class="made-line">SubelJapan · làm bởi <a href="https://github.com/PmSubin" target="_blank" rel="author noopener"><b>PmSubin</b></a> ${I('heart', 14)}</div></div>
       </div>
       <aside class="rail">${railHTML()}</aside></div>`;
     bindRail(root.querySelector('.rail')); bindRail(root.querySelector('.rail-mobile'));
@@ -320,20 +316,38 @@ window.SJ = window.SJ || {};
       // vẽ đường vào ảnh nền của vùng (luôn hiển thị ổn định, không bị lớp hoạt ảnh che)
       const uc = getComputedStyle(z.closest('.unit')).getPropertyValue('--uc').trim() || '#ff6b9a';
       const card = getComputedStyle(document.documentElement).getPropertyValue('--card').trim() || '#ffffff';
-      const night = z.classList.contains('t-grammar');
-      const cEdge = night ? 'rgba(255,255,255,.28)' : mixHex(uc, card, .55), cBase = night ? 'rgba(255,255,255,.95)' : '#fffaf2';
-      const cTrail = mixHex(uc, '#ffffff', .78), cDots = mixHex(uc, '#ffffff', .6);
-      const sw = W < 500 ? [36, 27] : [44, 34];
+      const night = z.classList.contains('t-grammar'), dark = document.documentElement.dataset.theme === 'yoru';
+      const cEdge = night ? 'rgba(255,255,255,.16)' : mixHex(uc, card, .24), cBase = night ? 'rgba(255,255,255,.9)' : dark ? mixHex(uc, card, .2) : '#fffbf5';
+      const cTrail = night ? mixHex(uc, '#ffffff', .55) : mixHex(uc, '#ffffff', .62), cDots = night ? 'rgba(125,103,220,.45)' : mixHex(uc, dark ? card : '#ffffff', .42);
+      const sw = W < 500 ? [42, 30] : [50, 36];
       const road = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"><g fill="none" stroke-linecap="round" stroke-linejoin="round">`
         + `<path d="${all}" stroke="${cEdge}" stroke-width="${sw[0]}"/><path d="${all}" stroke="${cBase}" stroke-width="${sw[1]}"/>`
         + (trail ? `<path d="${trail}" stroke="${cTrail}" stroke-width="${sw[1]}"/>` : '')
-        + `<path d="${all}" stroke="${cDots}" stroke-width="6" stroke-dasharray="0.1 18"/>`
-        + (trail ? `<path d="${trail}" stroke="rgba(255,255,255,.85)" stroke-width="6" stroke-dasharray="0.1 18"/>` : '') + '</g></svg>';
+        + `<path d="${all}" stroke="${cDots}" stroke-width="5" stroke-dasharray="10 16"/>`
+        + (trail ? `<path d="${trail}" stroke="${cTrail}" stroke-width="7"/>` : '') + '</g>'
+        + (trail ? paws(trail) : '') + '</svg>';
       z.style.backgroundImage = `url("data:image/svg+xml,${encodeURIComponent(road)}"), linear-gradient(180deg, var(--t1), var(--t2))`;
       z.style.backgroundSize = `${W}px ${H}px, auto`;
       z.style.backgroundRepeat = 'no-repeat, no-repeat';
       svg && svg.remove();
     });
+  }
+  /** Dấu chân mèo Mochi in dọc đoạn đường đã đi: so le trái / phải, mũi chân hướng theo chiều đi */
+  let measure = null;
+  function paws(d) {
+    try {
+      if (!measure) { measure = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); measure.setAttribute('style', 'position:absolute;width:0;height:0;overflow:hidden'); measure.setAttribute('aria-hidden', 'true'); document.body.appendChild(measure); }
+      const pe = document.createElementNS('http://www.w3.org/2000/svg', 'path'); pe.setAttribute('d', d); measure.appendChild(pe);
+      const len = pe.getTotalLength(); let out = '';
+      for (let t = 34, k = 0; t < len - 12; t += 46, k++) {
+        const a = pe.getPointAtLength(t), b = pe.getPointAtLength(Math.min(len, t + 1));
+        const ang = Math.atan2(b.y - a.y, b.x - a.x), side = k % 2 ? 6 : -6;
+        const x = a.x + Math.cos(ang + Math.PI / 2) * side, y = a.y + Math.sin(ang + Math.PI / 2) * side;
+        out += `<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${(ang * 180 / Math.PI + 90).toFixed(0)}) scale(1.45)"><ellipse cx="0" cy="1.6" rx="3.6" ry="3.1"/><circle cx="-3.7" cy="-2.6" r="1.45"/><circle cx="-1.25" cy="-4.6" r="1.45"/><circle cx="1.25" cy="-4.6" r="1.45"/><circle cx="3.7" cy="-2.6" r="1.45"/></g>`;
+      }
+      pe.remove();
+      return `<g fill="#fff" opacity=".92">${out}</g>`;
+    } catch (e) { return ''; }
   }
   /** Trộn 2 màu hex: p = tỉ lệ màu a */
   function mixHex(a, b, p) {
@@ -675,7 +689,7 @@ window.SJ = window.SJ || {};
           <div class="set-row"><div class="sr-l"><b>Âm thanh</b><small>Tiếng chuông, đàn koto, mèo kêu…</small></div><label class="switch"><input type="checkbox" data-set="sound" ${st.sound ? 'checked' : ''}><i></i></label></div>
           <div class="set-row"><div class="sr-l"><b>Sensei Mochi (AI)</b><small>${SJ.ai && SJ.ai.hasKey() ? 'Đang dùng ' + SJ.ai.modelName() + '. Khoá API chỉ lưu trong trình duyệt này' : 'Dán khoá API Anthropic để trò chuyện, sửa câu, luyện nói với Mochi'}</small></div><div class="row gap-s wrap"><a class="btn btn-sm btn-white" href="#/sensei">${I('sensei', 18)} Mở</a><button class="btn btn-sm btn-white" data-ai-settings>${SJ.glyph('key', 18)} Cài đặt</button></div></div>
           <div class="set-row"><div class="sr-l"><b>Hiệu ứng chuyển động</b><small>Màn chào đón, chuyển trang, Mochi nhảy nhót… Tắt nếu máy chạy chậm hoặc bạn thấy chóng mặt</small></div><label class="switch"><input type="checkbox" data-set="motion" ${st.motion !== 'reduce' ? 'checked' : ''}><i></i></label></div>
-          <div class="set-row"><div class="sr-l"><b>Trang trí theo mùa</b><small>Lá phong mùa thu, tuyết mùa đông, hoa anh đào mùa xuân rơi nhẹ trên màn hình</small></div><label class="switch"><input type="checkbox" data-set="season" ${st.season !== false ? 'checked' : ''}><i></i></label></div>
+          <div class="set-row"><div class="sr-l"><b>Lá / hoa rơi trên màn hình</b><small>Lá phong mùa thu, tuyết mùa đông, hoa anh đào mùa xuân rơi nhẹ khắp các trang (mặc định tắt cho đỡ rối mắt)</small></div><label class="switch"><input type="checkbox" data-set="leaves" ${st.leaves === true ? 'checked' : ''}><i></i></label></div>
           <div class="set-row"><div class="sr-l"><b>Mochi đi dạo trên màn hình</b><small>Mochi đi lững thững, nói chuyện — nắm kéo, thả rơi, ném bay được luôn</small></div><label class="switch"><input type="checkbox" data-set="pet" ${st.pet !== false ? 'checked' : ''}><i></i></label></div>
           <div class="set-row"><div class="sr-l"><b>Âm lượng hiệu ứng</b></div><input class="range" style="max-width:220px" type="range" min="0.1" max="1" step="0.05" value="${esc(st.volume ?? 0.8)}" data-set="volume" aria-label="Âm lượng hiệu ứng"><div class="row gap-s">${['ok', 'meow', 'win', 'coin', 'bad'].map(x => `<button class="btn btn-sm btn-white" data-test="${x}" aria-label="Nghe thử: ${{ ok: 'trả lời đúng', meow: 'tiếng mèo', win: 'chiến thắng', coin: 'nhận cá vàng', bad: 'trả lời sai' }[x]}" title="Nghe thử: ${{ ok: 'trả lời đúng', meow: 'tiếng mèo', win: 'chiến thắng', coin: 'nhận cá vàng', bad: 'trả lời sai' }[x]}">${I({ ok: 'maru', meow: 'cat', win: 'music', coin: 'fishcoin', bad: 'batsu' }[x], 18)}</button>`).join('')}</div></div>
           <div class="set-row"><div class="sr-l"><b>Tốc độ giọng đọc</b><small>Chậm giúp nghe rõ từng âm</small></div><div class="seg">${[[0.6, 'Chậm'], [0.85, 'Vừa'], [1, 'Nhanh']].map(r => `<button data-rate="${r[0]}" class="${Math.abs(st.rate - r[0]) < .01 ? 'active' : ''}">${r[1]}</button>`).join('')}</div><button class="btn btn-sm btn-white" data-say="こんにちは、モチです">${I('speaker', 18)} Thử</button></div>
@@ -683,6 +697,7 @@ window.SJ = window.SJ || {};
           <div class="set-row"><div class="sr-l"><b>Màu giao diện</b></div><div class="theme-dots">${[['sakura', '#ff6b9a', 'Hoa anh đào'], ['matcha', '#4cbf7a', 'Trà xanh'], ['sora', '#4a9dff', 'Bầu trời'], ['yuzu', '#ff9a3c', 'Quả yuzu'], ['yoru', '#2a2339', 'Ban đêm']].map(t => `<button class="theme-dot ${st.theme === t[0] ? 'active' : ''}" style="background:${t[1]}" data-theme="${t[0]}" title="${t[2]}" aria-label="${t[2]}"></button>`).join('')}</div></div>
           <div class="set-row"><div class="sr-l"><b>Kiểu chữ mẫu</b><small>Chữ viết tay giống sách giáo khoa Nhật — dễ tập viết</small></div><div class="seg">${[['klee', 'Viết tay'], ['maru', 'Chữ tròn']].map(f => `<button data-kfont="${f[0]}" class="${st.kfont === f[0] ? 'active' : ''}"><span class="${f[0] === 'klee' ? 'kana' : 'jp'}" style="font-family:${f[0] === 'klee' ? 'var(--f-kana)' : 'var(--f-jp)'}">あア</span> ${f[1]}</button>`).join('')}</div></div>
           <div class="set-row"><div class="sr-l"><b>Sao lưu tiến độ</b><small>Chuyển sang máy khác bằng mã sao lưu</small></div><div class="row gap-s wrap"><button class="btn btn-sm btn-white" data-act="export">${I('download', 18)} Xuất</button><button class="btn btn-sm btn-white" data-act="import">${I('upload', 18)} Nhập</button><button class="btn btn-sm btn-white" data-act="intro">${I('flag_jp', 18)} Xem lại giới thiệu</button><button class="btn btn-sm btn-red" data-act="reset">${I('trash', 18)} Xoá hết</button></div></div>
+          <div class="set-row about-row"><div class="sr-l"><b>Về SubelJapan</b><small>Web học tiếng Nhật miễn phí do <span class="by-name">PmSubin</span> làm — cảm ơn bạn đã học cùng Mochi!</small></div><a class="btn btn-sm btn-white" href="https://github.com/PmSubin/SubelJapan" target="_blank" rel="author noopener">${I('heart', 18)} PmSubin</a></div>
         </div></div>`;
       SJ.lesson.bindNameWidget(root);
     };
@@ -713,7 +728,7 @@ window.SJ = window.SJ || {};
       const s = e.target.closest('[data-set]'); if (!s) return;
       if (s.dataset.set === 'sound') SJ.store.setSetting('sound', s.checked);
       if (s.dataset.set === 'pet') SJ.store.setSetting('pet', s.checked);
-      if (s.dataset.set === 'season') SJ.store.setSetting('season', s.checked);
+      if (s.dataset.set === 'leaves') SJ.store.setSetting('leaves', s.checked);
       if (s.dataset.set === 'motion') SJ.store.setSetting('motion', s.checked ? 'full' : 'reduce');
       if (s.dataset.set === 'volume') { SJ.store.setSetting('volume', +s.value); SJ.audio.sfx('ok'); }
     };

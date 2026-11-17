@@ -117,7 +117,8 @@ window.SJ = window.SJ || {};
     const lv = SJ.store.level();
     const active = curName === 'learn' ? '' : curName === 'story' || curName === 'dialog' ? 'read' : curName === 'game' ? 'games' : curName;
     U.$('#nav').innerHTML = NAV.map(n => n === '-' ? '<div class="nav-sep"></div>' : `<a href="#/${n[0]}" class="${n[0] === active ? 'active' : ''}" title="${n[2]}">${I(n[1], 32)}<span>${n[2]}</span>${badgeFor(n[0])}</a>`).join('');
-    U.$('#side-foot').innerHTML = `<a class="side-me" href="#/profile" title="Hồ sơ">${U.mascot('happy', 44)}<span class="sm-txt"><b>${U.esc(S.name || 'Bạn nhỏ')}</b><span class="lv">Cấp ${lv.level} · ${lv.title}</span></span></a>`;
+    U.$('#side-foot').innerHTML = `<a class="side-me" href="#/profile" title="Hồ sơ">${U.mascot('happy', 44)}<span class="sm-txt"><b>${U.esc(S.name || 'Bạn nhỏ')}</b><span class="lv">Cấp ${lv.level} · ${lv.title}</span></span></a>
+      <a class="made-by" href="https://github.com/PmSubin" target="_blank" rel="author noopener">Làm bởi <b>PmSubin</b> ${I('heart', 14)}</a>`;
     const streak = SJ.store.streakNow();
     const chips = `<a class="chip c-fire ${SJ.store.doneToday() ? '' : 'off'}" href="#/profile" title="Chuỗi ngày học">${I('fire', 24)}<b>${streak}</b></a><a class="chip c-fish" href="#/shop" title="Cá vàng">${I('fishcoin', 24)}<b>${S.fish}</b></a>`;
     U.$('#mtop-stats').innerHTML = chips + `<a class="chip" href="#/profile" title="Hồ sơ" style="padding:2px 6px">${U.mascot('happy', 30)}</a>`;
@@ -177,7 +178,7 @@ window.SJ = window.SJ || {};
     const S = SJ.store.get();
     const g = U.greeting();
     const back = !!S.name;
-    const petals = Array.from({ length: 14 }, (_, i) => `<span class="wl-petal" style="--l:${(i * 7.3 + (i % 3) * 4) % 100}%;--d:${6 + (i % 5) * 1.4}s;--w:${-(i * 0.9)}s;--s:${0.7 + (i % 4) * 0.18}">${SJ.deco ? '<b class="wl-fx">' + SJ.deco.particle() + '</b>' : SJ.icon('sakura', 28)}</span>`).join('');
+    const petals = S.settings.leaves !== true ? '' : Array.from({ length: 14 }, (_, i) => `<span class="wl-petal" style="--l:${(i * 7.3 + (i % 3) * 4) % 100}%;--d:${6 + (i % 5) * 1.4}s;--w:${-(i * 0.9)}s;--s:${0.7 + (i % 4) * 0.18}">${SJ.deco ? '<b class="wl-fx">' + SJ.deco.particle() + '</b>' : SJ.icon('sakura', 28)}</span>`).join('');
     const logo = Array.from('SubelJapan').map((c, i) => `<span style="--i:${i}" class="${i >= 5 ? 'b' : ''}">${c}</span>`).join('');
     // bong bóng chữ Nhật bay lên chậm rãi phía sau (Hiragana, Katakana, Kanji — 3 bộ chữ sẽ học)
     const KANA = ['あ', 'ア', '日', 'い', 'カ', 'す', '本', 'ね', 'サ', 'き', 'ミ', '山'];
@@ -195,7 +196,8 @@ window.SJ = window.SJ || {};
         ${back ? `<div class="wl-stats"><span class="chip c-fire">${SJ.icon('fire', 24)}<b>${SJ.store.streakNow()}</b> ngày</span><span class="chip c-fish">${SJ.icon('fishcoin', 24)}<b>${S.fish}</b> cá</span><span class="chip c-xp">${SJ.icon(SJ.store.level().icon, 24)}<b>Cấp ${SJ.store.level().level}</b></span></div>` : ''}
         <button class="btn btn-lg btn-cat wl-go">${U.ears()}${back ? 'Học tiếp thôi!' : 'Bắt đầu hành trình!'} ${SJ.icon('arrow_r', 22)}</button>
         <div class="wl-tip">bấm vào đâu cũng được nha</div>
-      </div>`;
+      </div>
+      <div class="wl-by">made with ${SJ.icon('heart', 14)} by <b>PmSubin</b></div>`;
     document.body.appendChild(w);
     try { sessionStorage.setItem('sj_welcome', '1'); } catch (e) { }
     let closed = false;

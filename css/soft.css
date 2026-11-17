@@ -649,3 +649,18 @@ html[data-motion="reduce"] .fk.next { animation: none; }
 
 /* Mochi ngủ say khi máy để yên lâu (pet.js): dừng mọi cử động */
 .pet.nap *, .pet.nap { animation-play-state: paused !important; }
+
+/* ---------- chữ ký tác giả ---------- */
+.made-by { display: flex; align-items: center; justify-content: center; gap: 4px; margin-top: 8px; padding: 4px 8px; border-radius: 999px; font: 700 11.5px var(--f-body); color: var(--ink3); transition: color .2s, background .2s; }
+.made-by b { color: var(--pri-t); }
+.made-by .ic { width: 14px; height: 14px; }
+.made-by:hover { background: var(--pri-l); color: var(--ink2); }
+.path-end .made-line { margin-top: 12px; font: 700 12.5px var(--f-body); color: var(--ink3); display: flex; align-items: center; justify-content: center; gap: 4px; width: 100%; }
+.path-end .made-line a b { color: var(--pri-t); }
+.path-end .made-line .ic { width: 14px; height: 14px; }
+.about-row .by-name { font-weight: 900; color: var(--pri-t); }
+.wl-by { position: absolute; left: 0; right: 0; bottom: calc(14px + env(safe-area-inset-bottom)); z-index: 3; display: flex; align-items: center; justify-content: center; gap: 4px; font: 700 12.5px var(--f-body); color: color-mix(in srgb, var(--pri-t) 70%, #fff); animation: wlUp .55s ease both 2.2s; pointer-events: none; }
+.wl-by b { color: var(--pri-t); }
+.wl-by .ic { width: 14px; height: 14px; }
+[data-theme="yoru"] .wl-by { color: rgba(255, 210, 230, .7); }
+.welcome.bye .wl-by { animation: wlOut .3s ease forwards; }
