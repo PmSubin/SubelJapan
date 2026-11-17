@@ -1,5 +1,6 @@
 /* SubelJapan — Nói & Ngữ pháp: bài bổ sung (bot kiểm tra tìm ra chặng còn thiếu bài)
  *  - g49: Ngày tháng & sinh nhật (chặng 6 · Thời gian)
+ *  - g50: Lời chúc mừng (chặng 1 · Chào hỏi)
  * Quy ước như các file data-talk-*.js: j tách cụm bằng "|", cách sau mỗi cụm (分かち書き), r cùng số cụm với j,
  * k là câu có Kanji; fill.tok là cụm cần điền; talk.a là số thứ tự câu mẫu hoặc [chữ, romaji, nghĩa].
  */
@@ -40,6 +41,42 @@ window.SJ = window.SJ || {};
         { q: 'テストは なんにちですか。', qr: 'tesuto wa nannichi desu ka?', qv: 'Bạn cùng lớp hỏi bài kiểm tra vào ngày mấy — bài kiểm tra vào ngày mùng 3.', a: 6, wrong: [['さんにちです。', 'sannichi desu.'], ['みっつです。', 'mittsu desu.']] },
         { sit: 'Bạn muốn hỏi người bạn Nhật xem hôm nay là ngày mấy tháng mấy:', a: 0, wrong: [['きょうは なんようびですか。', 'kyou wa nan\'youbi desu ka?'], ['きょうは いつでしたか。', 'kyou wa itsu deshita ka?']] },
         { q: 'こどもの ひは いつですか。', qr: 'kodomo no hi wa itsu desu ka?', qv: 'Bạn Nhật đố bạn: "Ngày Thiếu nhi ở Nhật là khi nào?"', a: ['ごがつ いつかです。', 'gogatsu itsuka desu.', 'Ngày 5 tháng 5.'], wrong: [['ごがつ ごにちです。', 'gogatsu gonichi desu.'], ['ごがつ ようかです。', 'gogatsu youka desu.']] },
+      ],
+    },
+    g50: {
+      title: 'Lời chúc mừng', jp: 'おめでとう', icon: 'cake', kind: 'phrase',
+      goal: 'Chúc mừng sinh nhật, chúc năm mới, cổ vũ bạn bè và đáp lại lời chúc',
+      points: [
+        '<b class="jp">おめでとう ございます</b> = chúc mừng (lịch sự). Với bạn bè chỉ cần <b class="jp">おめでとう</b>. Muốn nói chúc mừng chuyện gì thì đặt chuyện đó lên trước: <span class="jp">たんじょうび おめでとう</span> (chúc mừng sinh nhật), <span class="jp">ごうかく おめでとう</span> (chúc mừng thi đỗ).',
+        'Chúc năm mới có 2 câu, dùng vào 2 lúc khác nhau: <b>trước</b> khi hết năm nói <b class="jp">よい おとしを</b> (chúc đón năm mới tốt lành); <b>từ ngày 1 tháng 1</b> mới nói <b class="jp">あけまして おめでとう ございます</b>, thường kèm <span class="jp">ことしも よろしく おねがいします</span> (năm nay cũng mong được giúp đỡ).',
+        'Cổ vũ ai đó: <b class="jp">がんばって</b> (cố lên!). Người được cổ vũ đáp <b class="jp">がんばります</b> (tôi sẽ cố gắng) — đuôi <span class="jp">ます</span> vì đó là việc mình sẽ làm.',
+        'Được chúc mừng thì đáp <b class="jp">ありがとう ございます</b> — đơn giản vậy thôi!',
+      ],
+      tip: 'Dịp năm mới, người Nhật gửi bưu thiếp chúc Tết <span class="jp">ねんがじょう</span> để bưu điện phát đúng sáng ngày 1 tháng 1. Trẻ em được người lớn mừng tuổi bằng phong bao nhỏ gọi là <b class="jp">おとしだま</b> — giống lì xì ở Việt Nam!',
+      ex: [
+        { j: 'おめでとう|ございます。', r: 'omedetou|gozaimasu', v: 'Chúc mừng ạ! (lịch sự)', k: 'おめでとうございます。' },
+        { j: 'たんじょうび |おめでとう！', r: 'tanjoubi|omedetou', v: 'Chúc mừng sinh nhật!', k: '誕生日おめでとう！' },
+        { j: 'よい |おとしを。', r: 'yoi|otoshi o', v: 'Chúc năm mới tốt lành! (nói trước khi hết năm)', k: 'よいお年を。' },
+        { j: 'あけまして |おめでとう|ございます。', r: 'akemashite|omedetou|gozaimasu', v: 'Chúc mừng năm mới ạ! (nói từ ngày 1 tháng 1)', k: '明けましておめでとうございます。' },
+        { j: 'ことしも |よろしく |おねがいします。', r: 'kotoshi mo|yoroshiku|onegaishimasu', v: 'Năm nay cũng mong được giúp đỡ ạ.', k: '今年もよろしくお願いします。' },
+        { j: 'がんばって！', r: 'ganbatte', v: 'Cố lên nhé! (cổ vũ bạn bè)', k: '頑張って！' },
+        { j: 'がんばります。', r: 'ganbarimasu', v: 'Tôi sẽ cố gắng ạ. (đáp lời cổ vũ)', k: '頑張ります。' },
+        { j: 'ごうかく |おめでとう！', r: 'goukaku|omedetou', v: 'Chúc mừng thi đỗ!', k: '合格おめでとう！' },
+        { j: 'ありがとう|ございます。', r: 'arigatou|gozaimasu', v: 'Cảm ơn ạ. (đáp lời chúc)', k: 'ありがとうございます。' },
+      ],
+      fill: [
+        { ex: 3, tok: 0, wrong: ['よい', 'おはよう'], why: 'Từ ngày 1 tháng 1 nói <b class="jp">あけまして</b> おめでとう ございます (năm mới đã mở ra). <span class="jp">よい おとしを</span> là câu nói trước khi hết năm.' },
+        { ex: 6, tok: 0, wrong: ['がんばって！', 'がんばりました。'], why: 'Được cổ vũ thì đáp <b class="jp">がんばります</b> (tôi sẽ cố gắng). <span class="jp">がんばって</span> là câu mình nói để cổ vũ người khác.' },
+        { ex: 1, tok: 1, wrong: ['ございます！', 'ありがとう！'], why: 'Chúc mừng = <b class="jp">おめでとう</b>. Với bạn bè nói ngắn: たんじょうび おめでとう！' },
+        { ex: 2, tok: 1, wrong: ['おめでとう。', 'ことしを。'], why: 'Cuối năm chúc: よい <b class="jp">おとしを</b> (= chúc bạn đón một năm mới tốt lành).' },
+      ],
+      talk: [
+        { q: 'あした、テストです…。', qr: 'ashita, tesuto desu...', qv: 'Bạn thân lo lắng: "Mai mình thi rồi…"', a: 5, wrong: [6, 0] },
+        { q: 'がんばって くださいね。', qr: 'ganbatte kudasai ne.', qv: 'Trước cuộc thi hùng biện, cô giáo động viên bạn: "Cố lên nhé."', a: 6, wrong: [5, 2] },
+        { sit: 'Ngày 28 tháng 12, buổi học cuối năm kết thúc. Bạn chào thầy giáo trước kỳ nghỉ Tết:', a: 2, wrong: [3, 7] },
+        { q: 'あけまして おめでとう ございます。', qr: 'akemashite omedetou gozaimasu.', qv: 'Sáng ngày 1 tháng 1, bác hàng xóm chúc bạn năm mới.', a: 3, wrong: [2, 5] },
+        { sit: 'Hôm nay là sinh nhật bạn thân. Gặp bạn ấy ở trường, bạn nói:', a: 1, wrong: [7, 2] },
+        { q: 'リンさん、たんじょうび おめでとう！', qr: 'Rin-san, tanjoubi omedetou!', qv: 'Các bạn tặng quà sinh nhật cho bạn.', a: 8, wrong: [1, 6] },
       ],
     },
   });
