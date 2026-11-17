@@ -1,6 +1,7 @@
 /* SubelJapan — Nói & Ngữ pháp: bài bổ sung (bot kiểm tra tìm ra chặng còn thiếu bài)
  *  - g49: Ngày tháng & sinh nhật (chặng 6 · Thời gian)
  *  - g50: Lời chúc mừng (chặng 1 · Chào hỏi)
+ *  - g51: Màu gì? (chặng 3 · Đồ vật)
  * Quy ước như các file data-talk-*.js: j tách cụm bằng "|", cách sau mỗi cụm (分かち書き), r cùng số cụm với j,
  * k là câu có Kanji; fill.tok là cụm cần điền; talk.a là số thứ tự câu mẫu hoặc [chữ, romaji, nghĩa].
  */
@@ -77,6 +78,41 @@ window.SJ = window.SJ || {};
         { q: 'あけまして おめでとう ございます。', qr: 'akemashite omedetou gozaimasu.', qv: 'Sáng ngày 1 tháng 1, bác hàng xóm chúc bạn năm mới.', a: 3, wrong: [2, 5] },
         { sit: 'Hôm nay là sinh nhật bạn thân. Gặp bạn ấy ở trường, bạn nói:', a: 1, wrong: [7, 2] },
         { q: 'リンさん、たんじょうび おめでとう！', qr: 'Rin-san, tanjoubi omedetou!', qv: 'Các bạn tặng quà sinh nhật cho bạn.', a: 8, wrong: [1, 6] },
+      ],
+    },
+    g51: {
+      title: 'Màu gì?', jp: 'なにいろ？', icon: 'palette',
+      goal: 'Hỏi đồ vật màu gì bằng なにいろ và tả đồ vật theo màu: あかい かさ, みどりの ペン',
+      pattern: { parts: [['この / その / あの', 't', 'kono / sono / ano'], ['Đồ vật', 'n'], ['は', 'p', 'wa'], ['なにいろ', 'q', 'naniiro'], ['ですか', 'e', 'desu ka']], mean: '(Đồ vật) này / đó / kia màu gì?' },
+      points: [
+        'Hỏi màu: <b class="jp">なにいろ</b>ですか (màu gì?). <span class="jp">なに</span> = gì, <span class="jp">いろ</span> = màu. Hỏi kèm đồ vật: <span class="jp">なにいろの かさ</span> (ô màu gì).',
+        'Sáu màu có đuôi <b class="jp">い</b>: <span class="jp">あかい</span> (đỏ), <span class="jp">あおい</span> (xanh dương), <span class="jp">しろい</span> (trắng), <span class="jp">くろい</span> (đen), <span class="jp">きいろい</span> (vàng), <span class="jp">ちゃいろい</span> (nâu). Đặt <b>thẳng</b> trước đồ vật: <b class="jp">あかい かさ</b> (ô đỏ) — màu đứng <b>trước</b>, ngược tiếng Việt.',
+        'Các màu còn lại <b>không có い</b>: <span class="jp">みどり</span> (xanh lá), <span class="jp">ピンク</span> (hồng), <span class="jp">むらさき</span> (tím), <span class="jp">オレンジ</span> (cam)… Muốn đặt trước đồ vật thì thêm <b class="jp">の</b>: <b class="jp">みどりの ペン</b>. Không nói みどり ペン hay みどりい.',
+        'Màu đứng cuối câu chỉ cần thêm <span class="jp">です</span>: <span class="jp">この かばんは くろいです</span>, <span class="jp">わたしの かさは ピンクです</span>.',
+      ],
+      tip: 'Đèn giao thông màu xanh lá nhưng người Nhật lại gọi là <b class="jp">あお</b> (xanh dương): <span class="jp">あおしんごう</span> = đèn xanh. Ngày xưa tiếng Nhật dùng chữ <span class="jp">あお</span> cho cả xanh lá lẫn xanh dương, nên rau xanh cũng gọi là <span class="jp">あおやさい</span>!',
+      ex: [
+        { j: 'この |かさ|は |なにいろ|ですか。', r: 'kono|kasa|wa|naniiro|desu ka', v: 'Cái ô này màu gì?', k: 'この傘は何色ですか。' },
+        { j: 'あかい |かさ|です。', r: 'akai|kasa|desu', v: 'Là cái ô màu đỏ.', k: '赤い傘です。' },
+        { j: 'わたし|の |かばん|は |くろい|です。', r: 'watashi|no|kaban|wa|kuroi|desu', v: 'Cặp của tôi màu đen.', k: '私のかばんは黒いです。' },
+        { j: 'それ|は |みどりの |ペン|です。', r: 'sore|wa|midori no|pen|desu', v: 'Đó là cây bút màu xanh lá.', k: 'それは緑のペンです。' },
+        { j: 'あの |しろい |くるま|は |せんせい|の|です。', r: 'ano|shiroi|kuruma|wa|sensei|no|desu', v: 'Chiếc xe màu trắng kia là của thầy / cô giáo.', k: 'あの白い車は先生のです。' },
+        { j: 'そら|は |あおい|です。', r: 'sora|wa|aoi|desu', v: 'Bầu trời màu xanh.', k: '空は青いです。' },
+        { j: 'すきな |いろ|は |なん|ですか。', r: 'suki na|iro|wa|nan|desu ka', v: 'Màu bạn thích là màu gì?', k: '好きな色は何ですか。' },
+        { j: 'ピンク|です。', r: 'pinku|desu', v: 'Màu hồng.', k: 'ピンクです。' },
+        { j: 'この |バナナ|は |きいろい|です。', r: 'kono|banana|wa|kiiroi|desu', v: 'Quả chuối này màu vàng.', k: 'このバナナは黄色いです。' },
+      ],
+      fill: [
+        { ex: 0, tok: 3, wrong: ['なに', 'どれ'], why: 'Hỏi "màu gì" → <b class="jp">なにいろ</b> (なに = gì + いろ = màu).' },
+        { ex: 1, tok: 0, wrong: ['あかいの', 'なにいろ'], why: 'Màu có đuôi い đứng <b>thẳng</b> trước đồ vật: <b class="jp">あかい</b> かさ — không thêm の.' },
+        { ex: 3, tok: 2, wrong: ['みどり', 'みどりい'], why: '<span class="jp">みどり</span> không có đuôi い, nên phải thêm <b class="jp">の</b>: <b class="jp">みどりの</b> ペン.' },
+        { ex: 4, tok: 1, wrong: ['しろ', 'しろいの'], why: 'Trắng có đuôi い: <b class="jp">しろい</b> くるま (xe trắng).' },
+      ],
+      talk: [
+        { q: 'その かさは なにいろですか。', qr: 'sono kasa wa naniiro desu ka?', qv: 'Bạn để quên ô ở lớp. Thầy giáo hỏi: "Cái ô đó màu gì?" — ô của bạn màu đỏ.', a: 1, wrong: [['あかいの かさです。', 'akai no kasa desu.'], ['あおい かさです。', 'aoi kasa desu.']] },
+        { q: 'すきな いろは なんですか。', qr: 'suki na iro wa nan desu ka?', qv: 'Bạn mới quen hỏi màu bạn thích — bạn thích màu hồng.', a: 7, wrong: [['ピンクいです。', 'pinkui desu.'], ['くろいです。', 'kuroi desu.']] },
+        { q: 'これは なにいろの ペンですか。', qr: 'kore wa naniiro no pen desu ka?', qv: 'Cô giáo giơ một cây bút xanh lá lên và hỏi:', a: 3, wrong: [['それは みどり ペンです。', 'sore wa midori pen desu.'], ['それは みどりい ペンです。', 'sore wa midorii pen desu.']] },
+        { sit: 'Một chiếc xe màu trắng đỗ ở đằng xa, trước cổng trường. Bạn hỏi bạn Nhật xem xe đó của ai:', a: ['あの しろい くるまは だれのですか。', 'ano shiroi kuruma wa dare no desu ka?', 'Chiếc xe màu trắng kia là của ai?'], wrong: [['あの しろの くるまは だれのですか。', 'ano shiro no kuruma wa dare no desu ka?'], ['あれ しろい くるまは だれのですか。', 'are shiroi kuruma wa dare no desu ka?']] },
       ],
     },
   });
