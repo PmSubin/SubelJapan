@@ -68,7 +68,7 @@ window.SJ = window.SJ || {};
       app: 'Bảng chữ có "mẹo nhớ bằng hình" cho từng chữ (か = thanh kiếm "Ka!", ね = con mèo cuộn đuôi), từ vựng nào cũng có hình vẽ.', go: ['#/chart', 'Bảng chữ cái'] },
     { icon: 'infinity', name: 'Học xen kẽ', en: 'Interleaving',
       why: 'Rohrer và Taylor (2007): trộn nhiều dạng bài vào một buổi lúc đầu thấy khó hơn, nhưng một tuần sau làm đúng 63% so với 20% của nhóm học từng dạng một — vì não phải tự phân biệt.',
-      app: 'Chế độ "Trộn tất cả", nhóm chữ dễ nhầm (シ・ツ, ソ・ン, ぬ・め) và 12 trò chơi trộn chữ, từ, câu.', go: ['#/games', 'Trò chơi'] },
+      app: 'Chế độ "Trộn tất cả", nhóm chữ dễ nhầm (シ・ツ, ソ・ン, ぬ・め) và ' + (SJ.games ? SJ.games.list.length : 13) + ' trò chơi trộn chữ, từ, câu.', go: ['#/games', 'Trò chơi'] },
     { icon: 'pencil', name: 'Viết tay', en: 'Handwriting',
       why: 'Longcamp và cộng sự (2005): trẻ tập viết tay nhận ra chữ cái tốt hơn trẻ chỉ tập gõ phím. Cử động tay đúng thứ tự nét giúp nhớ hình chữ.',
       app: 'Luyện viết chấm từng nét (đúng vị trí, đúng chiều, đúng thứ tự) và phiếu tập viết ô vuông để in ra giấy.', go: ['#/write', 'Luyện viết'] },

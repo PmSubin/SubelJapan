@@ -85,6 +85,9 @@ window.SJ = window.SJ || {};
         { id:'j6', title:'学 生 先', sub:'Trường học', type:'kanji', items: ch('学生先年名何今友'), icon:'school', intro:'先生 (TIÊN SINH) = giáo viên, 学生 (HỌC SINH) = học sinh. Hán Việt quá đỉnh!' },
         { id:'j7', title:'百 千 円', sub:'Tiền & giờ', type:'kanji', items: ch('百千万円時分半'), icon:'n10000', intro:'Đọc giá tiền và xem giờ như người Nhật' },
         { id:'j8', title:'東 西 南 北', sub:'Phương hướng & vị trí', type:'kanji', items: ch('東西南北外前後間'), icon:'map', intro:'Đông – Tây – Nam – Bắc, trong – ngoài, trước – sau. Nhìn biển ở nhà ga Nhật: 東口 là cửa đông, 西口 là cửa tây đó! Còn 午前 là buổi sáng, 午後 là buổi chiều.' },
+        { id:'j9', title:'父 母 行 来', sub:'Gia đình & đi lại', type:'kanji', items: ch('父母行来出入休見'), icon:'family', intro:'父 (bố), 母 (mẹ) và các động từ đi lại: 行く đi, 来る đến, 出る ra, 入る vào. Nhìn biển nhà ga: 入口 là lối vào, 出口 là lối ra!' },
+        { id:'j10', title:'食 飲 読 書', sub:'Hoạt động hằng ngày', type:'kanji', items: ch('食飲話語読書聞買'), icon:'book', intro:'Ăn 食べる, uống 飲む, nói 話す, đọc 読む, viết 書く, nghe 聞く, mua 買う — cả ngày của bạn trong 8 chữ! Và 日本語 là tiếng Nhật đó.' },
+        { id:'j11', title:'高 安 新 古', sub:'Tính chất & thời gian', type:'kanji', items: ch('毎週午白高安新古長'), icon:'tag', intro:'Đi mua sắm cần ngay: 高い đắt, 安い rẻ, 新しい mới, 古い cũ, 長い dài. Thêm 毎日 mỗi ngày, 今週 tuần này nữa!' },
       ],
     },
     {

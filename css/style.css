@@ -523,6 +523,12 @@ html[data-motion="reduce"] *, html[data-motion="reduce"] *::before, html[data-mo
 .ikana b { font: 900 15px var(--f-body); color: var(--pri-t); letter-spacing: .3px; }
 .ikana small { font: 700 11.5px/1.25 var(--f-body); color: var(--ink3); text-align: center; }
 @media (max-width: 520px) { .ikana-grid { gap: 9px; } .ikana, .ikana.small { width: calc((100% - 27px) / 4); } .ikana .g { font-size: 40px; } .ikana.small .g { font-size: 30px; } }
+/* thẻ xem trước từ vựng: hình + chữ + nghĩa */
+.ikana.ivocab { width: 138px; gap: 3px; padding: 10px 6px 9px; container-type: inline-size; }
+/* từ dài tự thu nhỏ để luôn nằm trên 1 dòng (--n = số chữ) */
+.ivocab .w { font: 500 15px/1.3 var(--f-jp); font-size: min(17px, calc(100cqi / var(--n, 1))); color: var(--ink); white-space: nowrap; }
+.ivocab small { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+@media (max-width: 520px) { .ikana.ivocab { width: calc((100% - 18px) / 3); } }
 .chip-kana { display: inline-grid; place-items: center; min-width: 56px; height: 56px; padding: 0 10px; border-radius: 16px; background: var(--card); border: 2px solid var(--line); box-shadow: 0 3px 0 var(--line2); font: 600 28px var(--f-kana); }
 .chip-pic { display: inline-grid; place-items: center; width: 64px; height: 64px; border-radius: 18px; background: var(--card); border: 2px solid var(--line); box-shadow: 0 3px 0 var(--line2); }
 .chip-pic.big { width: 130px; height: 130px; border-radius: 30px; }
@@ -1065,15 +1071,54 @@ button.tile-card { border: 2px solid var(--line); background: var(--card); curso
 /* =========================================================
    ONBOARDING (intro)
    ========================================================= */
-.intro { position: fixed; inset: 0; z-index: 250; display: flex; flex-direction: column; background: var(--bg); overflow-y: auto; }
+/* màn giới thiệu lần đầu: nền có đốm màu dịu theo chủ đề, máy tính thì gom thành một thẻ giữa màn */
+.intro { position: fixed; inset: 0; z-index: 250; display: flex; flex-direction: column; overflow-y: auto; overflow-x: hidden;
+  background: radial-gradient(60% 42% at 8% 4%, var(--pri-l), transparent 70%), radial-gradient(46% 34% at 96% 18%, var(--sun-l), transparent 70%), radial-gradient(56% 40% at 92% 100%, var(--sky-l), transparent 70%), var(--bg);
+  animation: wlFade .35s ease both; }
+.intro-shell { flex: 1; display: flex; flex-direction: column; width: 100%; }
 .intro-top { display: flex; align-items: center; gap: 14px; max-width: 760px; width: 100%; margin: 0 auto; padding: 22px 20px 0; }
 .intro-dots { display: flex; gap: 6px; flex: 1; }
-.intro-dots i { flex: 1; height: 8px; border-radius: 6px; background: var(--line); transition: background .3s; }
+.intro-dots i { flex: 1; height: 8px; border-radius: 6px; background: var(--line); transition: background .3s, flex-grow .45s var(--spring); }
 .intro-dots i.on { background: var(--pri); }
+.intro-dots i.cur { flex-grow: 2.4; }
 .intro-body { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; max-width: 640px; width: 100%; margin: 0 auto; padding: 20px; }
 .intro-body h1 { font-size: 34px; margin: 14px 0 8px; }
 .intro-body p { font-size: 16.5px; color: var(--ink2); font-weight: 700; max-width: 520px; }
 .intro-foot { max-width: 640px; width: 100%; margin: 0 auto; padding: 16px 20px calc(24px + env(safe-area-inset-bottom)); display: flex; gap: 12px; }
+.intro-foot .btn-cat { margin-top: 12px; }
+/* chuyển trang: tới thì trượt từ phải, lùi thì trượt từ trái; các thẻ con bật lên lần lượt */
+.intro-body.in-first { animation: inFirst .55s cubic-bezier(.2, .8, .2, 1) both; }
+.intro-body.in-next { animation: inNext .45s cubic-bezier(.2, .8, .2, 1) both; }
+.intro-body.in-back { animation: inBack .45s cubic-bezier(.2, .8, .2, 1) both; }
+@keyframes inFirst { from { opacity: 0; transform: translateY(18px) scale(.97); } }
+@keyframes inNext { from { opacity: 0; transform: translateX(56px); } }
+@keyframes inBack { from { opacity: 0; transform: translateX(-56px); } }
+.intro-body h1, .intro-body > p { animation: inStag .5s cubic-bezier(.2, .8, .2, 1) both .06s; }
+.scripts3 > *, .feat-list > *, .goal-opts > * { animation: inStag .5s var(--spring) both; animation-delay: calc(.14s + var(--i, 0) * .05s); }
+@keyframes inStag { from { opacity: 0; transform: translateY(16px) scale(.94); } }
+/* Mochi chào: nắng toả xoay chậm + 3 bong bóng chữ (bấm nghe) */
+.in-hero { position: relative; display: grid; place-items: center; width: 230px; height: 196px; }
+.in-hero > .mascot { position: relative; z-index: 1; }
+.in-burst { position: absolute; left: 50%; top: 50%; width: 400px; height: 400px; margin: -200px 0 0 -200px; border-radius: 50%; pointer-events: none;
+  background: repeating-conic-gradient(var(--pri-l) 0 8deg, transparent 8deg 16deg);
+  -webkit-mask: radial-gradient(closest-side, #000 26%, transparent 100%); mask: radial-gradient(closest-side, #000 26%, transparent 100%);
+  animation: wlBurstIn .8s ease both .15s, wlSpin 70s linear infinite; }
+.in-orb { position: absolute; z-index: 2; width: 50px; height: 50px; display: grid; place-items: center; border-radius: 50%; background: var(--card); border: 2px solid var(--line); box-shadow: 0 4px 0 var(--line2); font-size: 25px; cursor: pointer;
+  animation: orbPop .55s var(--spring) both, orbFloat 3.2s ease-in-out infinite; transition: scale .2s var(--spring); }
+.in-orb:hover { scale: 1.12; }
+.in-orb:active { scale: .92; }
+.in-orb.o1 { left: -4px; top: 30px; color: var(--pri-t); animation-delay: .35s, 1s; }
+.in-orb.o2 { right: -6px; top: 8px; color: var(--sky-t); animation-delay: .47s, 1.5s; }
+.in-orb.o3 { right: 2px; bottom: 14px; color: var(--sun-t); animation-delay: .59s, 2s; }
+@keyframes orbPop { from { opacity: 0; transform: scale(.3) rotate(-20deg); } }
+@keyframes orbFloat { 50% { translate: 0 -7px; } }
+@media (min-width: 760px) and (min-height: 620px) {
+  .intro { padding: 28px 20px; }
+  .intro-shell { flex: 0 0 auto; margin: auto; max-width: 700px; background: var(--card); border: 2px solid var(--line); border-radius: 34px; box-shadow: var(--shadow-pop); animation: inFirst .5s cubic-bezier(.2, .8, .2, 1) both; }
+  .intro-body { flex: 0 0 auto; min-height: 430px; padding-bottom: 6px; }
+  .intro-foot { padding-bottom: 26px; }
+}
+html[data-motion="reduce"] .intro *, html[data-motion="reduce"] .intro { animation-duration: .01ms !important; animation-delay: 0s !important; animation-iteration-count: 1 !important; }
 .scripts3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 100%; margin-top: 14px; }
 .script-card { padding: 16px 10px; text-align: center; }
 .script-card .sc-k { font: 600 50px/1.1 var(--f-kana); }

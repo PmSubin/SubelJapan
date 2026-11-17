@@ -262,7 +262,9 @@ window.SJ = window.SJ || {};
       const card = (g, r, s, say, i) => `<button class="ikana ${items.length > 10 ? 'small' : ''}" ${say ? `data-say="${esc(say)}"` : ''} style="animation-delay:${i * .04}s"><span class="g kana">${g}</span><b>${esc(r)}</b>${s ? `<small>${esc(s)}</small>` : ''}</button>`;
       const preview = lesson.type === 'kana' ? `<div class="ikana-grid">${items.map((o, i) => card(o.k, o.r, o.v && o.v !== o.r ? 'đọc: ' + o.v : '', o.k, i)).join('')}</div><div class="tiny muted bold">Bấm vào chữ để nghe</div>`
         : lesson.type === 'kanji' ? `<div class="ikana-grid">${items.map((o, i) => card(o.k, o.hv, o.m, o.ex && o.ex[0] ? o.ex[0].kana : '', i)).join('')}</div>`
-          : lesson.type === 'vocab' ? items.slice(0, 8).map(o => `<span class="chip-pic">${I(o.e, 46)}</span>`).join('') : `<span class="chip-pic big">${I(lesson.icon || 'book', 96)}</span>`;
+          // từ vựng: xem trước cả bài bằng thẻ hình + chữ + nghĩa (chữ đi cùng hình), bấm để nghe
+          : lesson.type === 'vocab' ? `<div class="ikana-grid">${items.map((o, i) => `<button class="ikana ivocab" data-say="${esc(SJ.ui.reading(o.jp))}" style="animation-delay:${i * .04}s">${I(o.e, 50)}<span class="w jp" style="--n:${[...o.jp].length}">${esc(o.jp)}</span><small>${esc(o.vi)}</small></button>`).join('')}</div><div class="tiny muted bold">Bấm vào thẻ để nghe</div>`
+            : `<span class="chip-pic big">${I(lesson.icon || 'book', 96)}</span>`;
       const st = SJ.store.lessonState(lesson.id);
       body.innerHTML = `<div class="intro-card pop-in">
         <div class="unit-pill">${I(unit.icon, 22)} ${unit.title}</div>

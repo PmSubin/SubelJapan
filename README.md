@@ -21,7 +21,7 @@ Web học **đọc & viết tiếng Nhật cho người mới bắt đầu từ 
 | **Đọc hiểu** | 16 truyện ngắn từ dễ đến khó (có furigana, romaji, dịch tiếng Việt, câu hỏi hiểu bài), 8 hội thoại đời thường (có chế độ đóng vai), 48 câu giao tiếp hay dùng. |
 | **Gõ phím tiếng Nhật** | Bộ gõ romaji → kana như bàn phím thật, luyện gõ chữ cái / từ / câu, đo tốc độ, hướng dẫn bật bàn phím Nhật trên máy tính và điện thoại. |
 | **Luyện tập vô tận & Ôn tập** | Đọc / nghe / viết từ trí nhớ không giới hạn, có **chuỗi đúng liên tiếp**; thẻ nhớ lặp lại ngắt quãng (SRS) tự nhắc đúng lúc. |
-| **12 trò chơi** | Thử thách 60 giây, Mưa chữ, Lật thẻ, Nghe chọn chữ, Ghép từ, Đúng hay Sai, **Câu cá chữ**, **Mochi đập chữ**, **Bóng bay あいうえお** (bấm vỡ bóng đúng thứ tự a・i・u・e・o), **Nối đuôi しりとり** (đấu nối chữ với Mochi), **Bingo chữ cái** (có chế độ chỉ nghe), **Xếp câu thần tốc** (xếp cụm chữ thành câu). |
+| **13 trò chơi** | Thử thách 60 giây, Mưa chữ, Lật thẻ, Nghe chọn chữ, Ghép từ, Đúng hay Sai, **Câu cá chữ**, **Mochi đập chữ**, **Bóng bay あいうえお** (bấm vỡ bóng đúng thứ tự a・i・u・e・o), **Nối đuôi しりとり** (đấu nối chữ với Mochi), **Bingo chữ cái** (có chế độ chỉ nghe), **Xếp câu thần tốc** (xếp cụm chữ thành câu), **Đoán Kanji Hán Việt** (lợi thế của người Việt: nhìn chữ Hán chọn âm Hán Việt, nghĩa, hoặc ngược lại). |
 | **Sổ từ** | Tra nhanh bằng tiếng Việt, romaji, Hán Việt hoặc chữ Nhật; lưu từ yêu thích để ôn. |
 | **Thẻ ghi nhớ** | Lật thẻ 3D, vuốt trái “chưa nhớ” / phải “đã nhớ”, nối thẳng vào ôn tập ngắt quãng. |
 | **Trang trí sống động** | Lời chào trên nền **bầu trời đổi theo giờ** (bình minh, trưa, hoàng hôn, đêm sao), **hiệu ứng theo mùa** (lá phong, tuyết, hoa anh đào), thẻ **Từ của ngày** và **Chữ Hán của ngày**, gợn sóng khi bấm, chữ +XP bay lên. |

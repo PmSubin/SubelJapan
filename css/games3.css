@@ -1,4 +1,4 @@
-/* SubelJapan — giao diện 3 trò mới (js/games-more.js): しりとり, Bingo chữ cái, Xếp câu thần tốc.
+/* SubelJapan — giao diện 4 trò mới (js/games-more.js): しりとり, Bingo chữ cái, Xếp câu thần tốc.
  * Chỉ dùng màu theo chủ đề (var(--card), var(--pri)…) để giao diện tối cũng đẹp. */
 
 /* ---------- しりとり ---------- */
@@ -66,3 +66,14 @@
   .st-tile { padding: 9px 12px; font-size: 20px; }
   .st-slot { min-width: 40px; font-size: 21px; }
 }
+
+/* ---------- Đoán Kanji Hán Việt ---------- */
+.hv-prompt { text-align: center; }
+.hv-big { font: 900 clamp(38px, 9vw, 54px)/1.1 var(--f-head); letter-spacing: 2px; color: var(--pri-t); }
+.hv-mean { margin-top: 4px; font: 700 15px var(--f-body); color: var(--ink2); }
+.hv-opt { font: 900 19px var(--f-head); letter-spacing: 1px; }
+.hv-info { min-height: 46px; margin: -4px 0 12px; padding: 8px 12px; border-radius: 14px; text-align: center; font: 700 14px/1.5 var(--f-body); color: var(--ink2); }
+.hv-info .jp { font-size: 17px; color: var(--ink); }
+.hv-info b { color: var(--pri-t); }
+.hv-info small { color: var(--ink3); }
+.hv-info.pop { background: var(--sun-l); animation: optIn .35s var(--spring) both; }

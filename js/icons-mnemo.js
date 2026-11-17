@@ -223,12 +223,13 @@ window.SJ = window.SJ || {};
       + K.E(12.5, 30, 3.6, 5, K.C.skin, 30) + K.E(35.5, 30, 3.6, 5, K.C.skin, -30)
       + K.O(24, 12, 8.5, K.C.skin) + bangs(K, 24, 12, 8.5, K.C.dbrn) + face(24, 13.4, .58)
       + line('M3.5 24 q2 2 0 4 q-2 2 0 4 M44.5 24 q-2 2 0 4 q2 2 0 4', '#ff8fae', 1.6) + spark(42, 7, 2.6),
-    // ゆび — bàn tay giơ một ngón trỏ lên: "một!"
-    finger: K => K.R(19.5, 4, 8, 22, 4, K.C.skin)
-      + K.P('M13 24 Q13 20 17.5 20 H32 Q36.5 20 36.5 25 V33 Q36.5 43 25 43 Q13 43 13 33 Z', K.C.skin)
-      + K.P('M27.5 26 H35 M27.5 31 H35', 'none')
-      + K.E(12, 29, 3.2, 6, K.C.skin, -30) + blush(18.5, 35, 1.1)
-      + K.H('M21.8 8 v5') + spark(36, 8, 3) + spark(9, 12, 2.2, '#ffc4d4'),
+    // ゆび — bàn tay chỉ sang phải bằng ngón trỏ (kiểu 👉, không dựng ngón giữa cho khỏi hiểu lầm), đầu ngón có móng hồng
+    finger: K => K.R(17, 13.5, 27, 8.6, 4.3, K.C.skin) + K.P('M38.6 15.6 h2.2 a2.2 2.2 0 0 1 0 4.4 h-2.2 Z', '#ffd0dc')
+      + K.P('M5.5 22 Q5.5 15 12.5 15 H20 Q26 15 26 21.5 V33.5 Q26 41.5 17.5 41.5 H13 Q5.5 41.5 5.5 34 Z', K.C.skin)
+      + K.R(21.5, 22, 10.5, 6, 3, K.C.skin) + K.R(21.5, 28, 9.5, 6, 3, K.C.skin) + K.R(20.5, 34, 8, 5.8, 2.9, K.C.skin)
+      + K.P('M9 18.5 Q15 16.6 21 19.4', 'none')
+      + face(13.4, 29.5, .78) + K.H('M23 16 h9')
+      + line('M44 7.5 l-2.4 2.4 M45 13 h-3 M38.5 4.5 v3', INK, 1.4) + spark(9, 7.5, 2.4, '#ffc4d4'),
     // ===== Từ vựng nghề nghiệp (しごと) =====
     // いしゃ — bác sĩ áo blouse trắng, đeo ống nghe, túi áo có chữ thập đỏ
     doctor: K => K.P('M7 47 Q7 33 24 33 Q41 33 41 47 Z', K.C.wht)

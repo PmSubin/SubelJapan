@@ -182,6 +182,34 @@ window.SJ = window.SJ || {};
     ['前','TIỀN','phía trước, trước','ゼン','まえ','Đôi sừng nhỏ trên đầu, cầm dao (刂) đi trước mở đường',[['名前','なまえ','namae','tên'],['午前','ごぜん','gozen','buổi sáng (trước 12 giờ trưa)']]],
     ['後','HẬU','phía sau, sau','ゴ・コウ','うし(ろ)・あと','Người bước chậm (彳) lững thững đi theo phía sau',[['後ろ','うしろ','ushiro','phía sau'],['午後','ごご','gogo','buổi chiều (sau 12 giờ trưa)']]],
     ['間','GIAN','khoảng giữa','カン・ケン','あいだ・ま','Ánh mặt trời (日) lọt qua khe giữa hai cánh cổng (門)',[['時間','じかん','jikan','thời gian'],['間','あいだ','aida','khoảng giữa']]],
+    // bài j9 — gia đình & đi lại
+    ['父','PHỤ','bố, cha','フ','ちち','Bố nhíu đôi mày (八) và khoanh hai tay bắt chéo (乂) — dáng ông bố nghiêm nghị',[['父','ちち','chichi','bố (của mình)'],['お父さん','おとうさん','otousan','bố (gọi bố, hoặc bố người khác)']]],
+    ['母','MẪU','mẹ','ボ','はは','Hình người mẹ có hai chấm là hai dòng sữa — mẹ ôm con vào lòng',[['母','はは','haha','mẹ (của mình)'],['お母さん','おかあさん','okaasan','mẹ (gọi mẹ, hoặc mẹ người khác)']]],
+    ['行','HÀNH','đi','コウ・ギョウ','い(く)・おこな(う)','Ngã tư đường nhìn từ trên cao — người đi qua đi lại',[['行く','いく','iku','đi'],['銀行','ぎんこう','ginkou','ngân hàng']]],
+    ['来','LAI','đến','ライ','く(る)・き(ます)','Cây lúa (木) trĩu hạt (丷) — mùa gặt đến rồi!',[['来る','くる','kuru','đến'],['来年','らいねん','rainen','năm sau']]],
+    ['出','XUẤT','ra','シュツ','で(る)・だ(す)','Hai ngọn núi (山) chồng lên nhau — trèo ra khỏi núi',[['出る','でる','deru','đi ra, ra khỏi'],['出口','でぐち','deguchi','lối ra']]],
+    ['入','NHẬP','vào','ニュウ','はい(る)・い(れる)','Hai nét chụm lại như người cúi đầu chui vào cửa hang',[['入る','はいる','hairu','đi vào'],['入口','いりぐち','iriguchi','lối vào']]],
+    ['休','HƯU','nghỉ','キュウ','やす(む)','Người (亻) tựa lưng vào gốc cây (木) nghỉ ngơi',[['休む','やすむ','yasumu','nghỉ'],['休み','やすみ','yasumi','ngày nghỉ, kỳ nghỉ']]],
+    ['見','KIẾN','nhìn, xem','ケン','み(る)','Con mắt (目) mọc đôi chân (儿) chạy đi xem khắp nơi',[['見る','みる','miru','nhìn, xem'],['花見','はなみ','hanami','ngắm hoa anh đào']]],
+    // bài j10 — hoạt động hằng ngày
+    ['食','THỰC','ăn','ショク','た(べる)','Mái nhà (人) che bát cơm thơm (良) — tới giờ ăn rồi!',[['食べる','たべる','taberu','ăn'],['食べ物','たべもの','tabemono','đồ ăn']]],
+    ['飲','ẨM','uống','イン','の(む)','Bên trái là chữ ăn (食), bên phải là người há miệng (欠) — há miệng uống ực ực',[['飲む','のむ','nomu','uống'],['飲み物','のみもの','nomimono','đồ uống']]],
+    ['話','THOẠI','nói chuyện','ワ','はな(す)・はなし','Lời nói (言) bật ra từ cái lưỡi (舌) — nói chuyện',[['話す','はなす','hanasu','nói chuyện'],['電話','でんわ','denwa','điện thoại']]],
+    ['語','NGỮ','ngôn ngữ, lời','ゴ','かた(る)','Lời nói (言) của năm (五) cái miệng (口) — thành ngôn ngữ',[['日本語','にほんご','nihongo','tiếng Nhật'],['ベトナム語','ベトナムご','betonamugo','tiếng Việt']]],
+    ['読','ĐỘC','đọc','ドク','よ(む)','Lời nói (言) của người bán hàng (売) đọc to giá tiền',[['読む','よむ','yomu','đọc'],['読書','どくしょ','dokusho','đọc sách']]],
+    ['書','THƯ','viết, sách','ショ','か(く)','Bàn tay cầm cây bút (聿) viết lên trang giấy (日)',[['書く','かく','kaku','viết'],['図書館','としょかん','toshokan','thư viện']]],
+    ['聞','VĂN','nghe, hỏi','ブン・モン','き(く)','Áp tai (耳) vào cánh cổng (門) để nghe lén',[['聞く','きく','kiku','nghe, hỏi'],['新聞','しんぶん','shinbun','báo giấy']]],
+    ['買','MÃI','mua','バイ','か(う)','Cái lưới (罒) đựng đầy vỏ sò (貝) — ngày xưa vỏ sò là tiền để mua đồ',[['買う','かう','kau','mua'],['買い物','かいもの','kaimono','mua sắm']]],
+    // bài j11 — tính chất & thời gian
+    ['毎','MỖI','mỗi','マイ','ごと','Người mẹ (母) đội nón (ノ và 一) đi chợ mỗi ngày',[['毎日','まいにち','mainichi','mỗi ngày'],['毎朝','まいあさ','maiasa','mỗi sáng']]],
+    ['週','CHU','tuần','シュウ','—','Bước đi (辶) quanh một vòng (周) — đi hết một vòng là một tuần',[['今週','こんしゅう','konshuu','tuần này'],['毎週','まいしゅう','maishuu','mỗi tuần']]],
+    ['午','NGỌ','trưa','ゴ','うま','Cây kim đồng hồ đứng thẳng (十) chỉ đúng giữa trưa',[['午後','ごご','gogo','buổi chiều'],['正午','しょうご','shougo','12 giờ trưa']]],
+    ['白','BẠCH','trắng','ハク','しろ・しろ(い)','Mặt trời (日) có một tia sáng (丿) trên đầu — sáng trắng',[['白い','しろい','shiroi','màu trắng'],['面白い','おもしろい','omoshiroi','thú vị, buồn cười']]],
+    ['高','CAO','cao, đắt','コウ','たか(い)','Toà tháp nhiều tầng có mái nhọn — cao chót vót',[['高い','たかい','takai','cao, đắt'],['高校','こうこう','koukou','trường cấp 3']]],
+    ['安','AN','rẻ, yên ổn','アン','やす(い)','Người phụ nữ (女) ở dưới mái nhà (宀) — yên ổn, bình an',[['安い','やすい','yasui','rẻ'],['安心','あんしん','anshin','yên tâm']]],
+    ['新','TÂN','mới','シン','あたら(しい)','Đứng (立) cạnh cái cây (木) cầm rìu (斤) chặt củi mới',[['新しい','あたらしい','atarashii','mới'],['新幹線','しんかんせん','shinkansen','tàu cao tốc Shinkansen']]],
+    ['古','CỔ','cũ','コ','ふる(い)','Mười (十) cái miệng (口) kể đi kể lại — chuyện xưa cũ',[['古い','ふるい','furui','cũ'],['中古','ちゅうこ','chuuko','đồ cũ, hàng đã qua sử dụng']]],
+    ['長','TRƯỜNG','dài, trưởng','チョウ','なが(い)','Ông cụ tóc dài thướt tha — dài, và là người lớn đứng đầu (trưởng)',[['長い','ながい','nagai','dài'],['社長','しゃちょう','shachou','giám đốc']]],
   ];
   SJ.KANJI = KJ.map(a => ({ key:'j:' + a[0], k: a[0], hv: a[1], m: a[2], on: a[3], kun: a[4], tip: a[5], ex: a[6].map(e => ({ jp: e[0], kana: e[1], r: e[2], vi: e[3] })) }));
   SJ.KANJI_MAP = {};

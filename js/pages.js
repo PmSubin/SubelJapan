@@ -729,21 +729,22 @@ window.SJ = window.SJ || {};
     box.className = 'intro';
     document.body.appendChild(box);
     const slides = [
-      () => `${U().mascot('cheer', 190, 'bob')}<h1><span class="jp">はじめまして！</span><br>Mình là mèo Mochi</h1><p>Chào mừng đến ${U().brand('SubelJapan')} — nơi bạn học đọc và viết tiếng Nhật từ con số 0. Mỗi ngày chỉ 5–10 phút, nhẹ nhàng mà chắc chắn!</p>`,
+      () => `<div class="in-hero"><span class="in-burst" aria-hidden="true"></span>${U().mascot('cheer', 170, 'bob')}${[['あ', 'o1'], ['ア', 'o2'], ['日', 'o3', 'にち']].map(o => `<button class="in-orb ${o[1]} jp" data-say="${o[2] || o[0]}" aria-label="Nghe ${o[0]}">${o[0]}</button>`).join('')}</div><h1><span class="jp">はじめまして！</span><br>Mình là mèo Mochi</h1><p>Chào mừng đến ${U().brand('SubelJapan')} — nơi bạn học đọc và viết tiếng Nhật từ con số 0. Mỗi ngày chỉ 5–10 phút, nhẹ nhàng mà chắc chắn!</p>`,
       () => `<h1>Tiếng Nhật có 3 bộ chữ</h1><p>Đừng lo, mình sẽ đi từng bước một — bắt đầu từ Hiragana.</p>
-        <div class="scripts3">${[['あ', 'Hiragana', 'Chữ mềm mại, dùng nhiều nhất', 'var(--pri)'], ['ア', 'Katakana', 'Chữ góc cạnh cho từ nước ngoài', 'var(--sky)'], ['日', 'Kanji', 'Chữ Hán — có âm Hán Việt!', 'var(--sun)']].map(x => `<button class="card script-card hov" data-say="${x[0] === '日' ? 'にち' : x[0]}" style="border-color:${x[3]}"><div class="sc-k" style="color:${x[3]}">${x[0]}</div><b>${x[1]}</b><small>${x[2]}</small></button>`).join('')}</div>
+        <div class="scripts3">${[['あ', 'Hiragana', 'Chữ mềm mại, dùng nhiều nhất', 'var(--pri)'], ['ア', 'Katakana', 'Chữ góc cạnh cho từ nước ngoài', 'var(--sky)'], ['日', 'Kanji', 'Chữ Hán — có âm Hán Việt!', 'var(--sun)']].map((x, i) => `<button class="card script-card hov" data-say="${x[0] === '日' ? 'にち' : x[0]}" style="border-color:${x[3]};--i:${i}"><div class="sc-k" style="color:${x[3]}">${x[0]}</div><b>${x[1]}</b><small>${x[2]}</small></button>`).join('')}</div>
         <p class="small mt">Bấm vào từng chữ để nghe nha!</p>`,
       () => `<h1>Học ở đây có gì vui?</h1>
-        <div class="feat-list">${[['book', '56 bài học siêu ngắn'], ['pencil', 'Luyện viết chấm từng nét'], ['scroll', 'Truyện đọc & hội thoại'], ['keyboard', 'Tập gõ phím tiếng Nhật'], ['game', SJ.games.list.length + ' trò chơi luyện chữ'], ['sensei', 'Gia sư AI Sensei Mochi'], ['cards', 'Thẻ ghi nhớ lật 3D'], ['brain', 'Thẻ nhớ ôn đúng lúc'], ['quest', 'Nhiệm vụ mỗi ngày'], ['shop', 'Tiệm đồ cho Mochi']].map(f => `<div>${I(f[0], 34)}<span>${f[1]}</span></div>`).join('')}</div>`,
+        <div class="feat-list">${[['book', SJ.LESSONS.length + ' bài học siêu ngắn'], ['talk', ((SJ.TALK_LESSONS || []).length || 'Nhiều') + ' bài Nói & Ngữ pháp'], ['pencil', 'Luyện viết chấm từng nét'], ['scroll', (SJ.STORIES || []).filter(x => !x.ai).length + ' truyện, ' + (SJ.DIALOGUES || []).length + ' hội thoại'], ['game', SJ.games.list.length + ' trò chơi luyện chữ'], ['sensei', 'Gia sư AI Sensei Mochi'], ['sparkle', 'Mẹo nhớ bằng hình cho từng chữ'], ['brain', 'Thẻ nhớ ôn đúng lúc sắp quên'], ['keyboard', 'Tập gõ phím tiếng Nhật'], ['shop', 'Nhiệm vụ & tiệm đồ cho Mochi']].map((f, i) => `<div style="--i:${i}">${I(f[0], 34)}<span>${f[1]}</span></div>`).join('')}</div>`,
       () => `${U().mascot('love', 120)}<h1>Bạn tên là gì?</h1>
         <input class="input" id="in-name" maxlength="30" placeholder="Tên của bạn…" value="${esc(S.name || '')}" autocomplete="off" style="max-width:360px;text-align:center">
         <div class="gs-label">Mục tiêu mỗi ngày</div>
-        <div class="goal-opts">${[[10, 'turtle', 'Nhẹ nhàng', '~5 phút'], [20, 'rabbit', 'Vừa phải', '~10 phút'], [30, 'fox', 'Chăm chỉ', '~15 phút'], [50, 'dragon', 'Siêu cấp', '~25 phút']].map(g => `<button class="goal-opt ${g[0] === goal ? 'active' : ''}" data-goal="${g[0]}">${I(g[1], 40)}<span><b>${g[2]}</b><small>${g[0]} XP · ${g[3]}</small></span></button>`).join('')}</div>`,
+        <div class="goal-opts">${[[10, 'turtle', 'Nhẹ nhàng', '~5 phút'], [20, 'rabbit', 'Vừa phải', '~10 phút'], [30, 'fox', 'Chăm chỉ', '~15 phút'], [50, 'dragon', 'Siêu cấp', '~25 phút']].map((g, i) => `<button class="goal-opt ${g[0] === goal ? 'active' : ''}" data-goal="${g[0]}" style="--i:${i}">${I(g[1], 40)}<span><b>${g[2]}</b><small>${g[0]} XP · ${g[3]}</small></span></button>`).join('')}</div>`,
     ];
-    function draw() {
-      box.innerHTML = `<div class="intro-top">${step ? `<button class="lesson-x" data-back aria-label="Quay lại">${I('arrow_l', 24)}</button>` : ''}<div class="intro-dots">${slides.map((s, i) => `<i class="${i <= step ? 'on' : ''}"></i>`).join('')}</div>${again ? `<button class="lesson-x" data-close aria-label="Đóng">${I('batsu', 22)}</button>` : ''}</div>
-        <div class="intro-body pop-in">${slides[step]()}</div>
-        <div class="intro-foot">${step === slides.length - 1 ? `<button class="btn btn-lg btn-block btn-cat" data-next>${U().ears()}Bắt đầu hành trình!</button>` : '<button class="btn btn-lg btn-block" data-next>Tiếp tục</button>'}</div>`;
+    // dir: 1 = tới (trượt từ phải sang), -1 = lùi (trượt từ trái sang)
+    function draw(dir) {
+      box.innerHTML = `<div class="intro-shell"><div class="intro-top">${step ? `<button class="lesson-x" data-back aria-label="Quay lại">${I('arrow_l', 24)}</button>` : ''}<div class="intro-dots">${slides.map((s, i) => `<i class="${i <= step ? 'on' : ''} ${i === step ? 'cur' : ''}"></i>`).join('')}</div>${again ? `<button class="lesson-x" data-close aria-label="Đóng">${I('batsu', 22)}</button>` : ''}</div>
+        <div class="intro-body ${dir < 0 ? 'in-back' : dir > 0 ? 'in-next' : 'in-first'}">${slides[step]()}</div>
+        <div class="intro-foot">${step === slides.length - 1 ? `<button class="btn btn-lg btn-block btn-cat" data-next>${U().ears()}Bắt đầu hành trình!</button>` : `<button class="btn btn-lg btn-block" data-next>Tiếp tục ${I('arrow_r', 22)}</button>`}</div></div>`;
       const inp = box.querySelector('#in-name'); if (inp) setTimeout(() => inp.focus(), 200);
     }
     function finish() {
@@ -757,9 +758,9 @@ window.SJ = window.SJ || {};
     }
     box.addEventListener('click', e => {
       const g = e.target.closest('[data-goal]'); if (g) { goal = +g.dataset.goal; box.querySelectorAll('[data-goal]').forEach(x => x.classList.toggle('active', x === g)); SJ.audio.sfx('tap'); return; }
-      if (e.target.closest('[data-back]')) { step--; draw(); return; }
+      if (e.target.closest('[data-back]')) { step--; SJ.audio.sfx('tap'); draw(-1); return; }
       if (e.target.closest('[data-close]')) { box.remove(); return; }
-      if (e.target.closest('[data-next]')) { if (step < slides.length - 1) { step++; SJ.audio.sfx('flip'); draw(); } else finish(); }
+      if (e.target.closest('[data-next]')) { if (step < slides.length - 1) { step++; SJ.audio.sfx('flip'); draw(1); } else finish(); }
     });
     box.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.id === 'in-name') finish(); });
     SJ.audio.sfx('meow2');

@@ -76,7 +76,7 @@ window.SJ = window.SJ || {};
     document.body.appendChild(c);
     SJ.audio.sfx('open');
     setTimeout(() => { try { cb(); } finally { c.classList.add('out'); busy = false; } }, 620);
-    setTimeout(() => c.remove(), 1300);
+    setTimeout(() => c.remove(), 1450);
   }
   function doRoute() {
     const { name, arg } = parse();
@@ -179,12 +179,16 @@ window.SJ = window.SJ || {};
     const back = !!S.name;
     const petals = Array.from({ length: 14 }, (_, i) => `<span class="wl-petal" style="--l:${(i * 7.3 + (i % 3) * 4) % 100}%;--d:${6 + (i % 5) * 1.4}s;--w:${-(i * 0.9)}s;--s:${0.7 + (i % 4) * 0.18}">${SJ.deco ? '<b class="wl-fx">' + SJ.deco.particle() + '</b>' : SJ.icon('sakura', 28)}</span>`).join('');
     const logo = Array.from('SubelJapan').map((c, i) => `<span style="--i:${i}" class="${i >= 5 ? 'b' : ''}">${c}</span>`).join('');
+    // bong bóng chữ Nhật bay lên chậm rãi phía sau (Hiragana, Katakana, Kanji — 3 bộ chữ sẽ học)
+    const KANA = ['あ', 'ア', '日', 'い', 'カ', 'す', '本', 'ね', 'サ', 'き', 'ミ', '山'];
+    const bubbles = KANA.map((k, i) => `<span class="wl-kana jp" style="--x:${(i * 8.3 + (i % 2) * 3) % 96 + 2}%;--d:${11 + (i % 4) * 2.5}s;--w:${-(i * 1.7)}s;--z:${0.75 + (i % 3) * 0.2}">${k}</span>`).join('');
     const w = document.createElement('div');
     w.className = 'welcome';
-    w.innerHTML = `<div class="wl-bg">${petals}<span class="cloud c1"></span><span class="cloud c2"></span><span class="cloud c3"></span>
+    w.innerHTML = `<div class="wl-bg">${bubbles}${petals}<span class="cloud c1"></span><span class="cloud c2"></span><span class="cloud c3"></span>
+      <svg class="wl-fuji" viewBox="0 0 200 90" aria-hidden="true"><path class="fj" d="M0 90 L78 14 Q100 -2 122 14 L200 90 Z"/><path class="cap" d="M78 14 Q100 -2 122 14 L134 26 L124 22 L115 30 L104 22 L95 30 L86 22 L66 26 Z"/></svg>
       <svg class="wl-hills" viewBox="0 0 600 140" preserveAspectRatio="none" aria-hidden="true"><path class="h1" d="M0 80 Q90 25 190 70 T390 55 T600 65 V140 H0Z"/><path class="h2" d="M0 110 Q140 60 300 100 T600 95 V140 H0Z"/></svg></div>
       <div class="wl-center">
-        <div class="wl-mochi"><span class="wl-bubble jp">ようこそ！</span>${U.mascot('happy', 168)}<span class="wl-shadow"></span></div>
+        <div class="wl-mochi"><span class="wl-burst" aria-hidden="true"></span><span class="wl-bubble jp">ようこそ！</span><span class="wl-drop"><span class="wl-bob">${U.mascot('happy', 168)}</span></span><span class="wl-shadow"></span></div>
         <h1 class="wl-logo" aria-label="SubelJapan">${logo}</h1>
         <div class="wl-sub jp">にほんご、いっしょに がんばろう！</div>
         <div class="wl-hello">${back ? `${g.vi}, <b>${U.esc(S.name)}</b>! Mochi nhớ bạn lắm đó` : 'Học tiếng Nhật dễ như ăn mochi'}</div>
@@ -195,11 +199,17 @@ window.SJ = window.SJ || {};
     document.body.appendChild(w);
     try { sessionStorage.setItem('sj_welcome', '1'); } catch (e) { }
     let closed = false;
+    // tạm biệt kiểu phim hoạt hình: chữ lui đi, vòng tròn khép lại quanh Mochi, Mochi nháy mắt "いくよ！" rồi đóng hẳn
     const close = () => {
       if (closed) return; closed = true;
-      SJ.audio.sfx('meow2'); setTimeout(() => SJ.audio.sfx('open'), 180);
+      SJ.audio.sfx('meow2'); setTimeout(() => SJ.audio.sfx('open'), 380);
+      const m = w.querySelector('.wl-bob'), r = m.getBoundingClientRect();
+      w.style.setProperty('--cx', Math.round(r.left + r.width / 2) + 'px');
+      w.style.setProperty('--cy', Math.round(r.top + r.height * .55) + 'px');
+      const bub = w.querySelector('.wl-bubble'); if (bub) bub.textContent = 'いくよ！';
+      setTimeout(() => { m.innerHTML = U.mascot('wink', 168); }, 260);
       w.classList.add('bye');
-      setTimeout(() => { w.remove(); SJ.emit('welcome-done'); done && done(); }, 750);
+      setTimeout(() => { w.remove(); SJ.emit('welcome-done'); done && done(); }, reduced() ? 120 : 1000);
     };
     setTimeout(() => w.addEventListener('click', close), 400);
     const onKey = e => { if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') { document.removeEventListener('keydown', onKey); close(); } };

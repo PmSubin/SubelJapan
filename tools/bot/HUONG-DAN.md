@@ -56,7 +56,7 @@ Phần soát dữ liệu nằm ở `tools/bot/audit.js` và chạy bên trong tr
 | Truyện, hội thoại, câu giao tiếp | `js/data-reading.js` | `SJ.STORIES` (cấp 1: chỉ Hiragana; cấp 2: thêm Katakana; cấp 3: Kanji có furigana `{漢字\|かな}`), `SJ.DIALOGUES`, `SJ.PHRASES` |
 | Nói & Ngữ pháp (12 chặng) | `js/data-talk.js` (khung + `SJ.TALK_UNITS`), `js/data-talk-a…e.js` (các bài) | Xem chú thích đầu `js/data-talk-e.js`. Mỗi bài cần ≥ 7 câu mẫu, ≥ 3 câu điền, ≥ 3 hội thoại. |
 
-Thêm trò chơi mới: viết vào `js/games-more.js` theo mẫu 3 trò đang có, đăng ký bằng `SJ.games.add({ id, icon, name, desc, color }, root => ({ destroy }))` và dùng `SJ.games.kit` (setup, result, top, distinctBy, setKey). Giao diện để trong `css/games3.css`, chỉ dùng màu theo chủ đề (`var(--card)`, `var(--pri)`…) để giao diện tối cũng đẹp. Bot kiểm tra tự mở và bấm thử mọi trò có trong `SJ.games.list`.
+Thêm trò chơi mới: viết vào `js/games-more.js` theo mẫu 4 trò đang có, đăng ký bằng `SJ.games.add({ id, icon, name, desc, color }, root => ({ destroy }))` và dùng `SJ.games.kit` (setup, result, top, distinctBy, setKey). Giao diện để trong `css/games3.css`, chỉ dùng màu theo chủ đề (`var(--card)`, `var(--pri)`…) để giao diện tối cũng đẹp. Bot kiểm tra tự mở và bấm thử mọi trò có trong `SJ.games.list`.
 
 Thêm một chủ đề từ vựng mới thì phải thêm cả bài học tương ứng trong `js/data-lessons.js` (`type: 'vocab'`, `topic: '…'`). Thêm Kanji mới thì phải xếp nó vào một bài `type: 'kanji'`.
 
@@ -79,13 +79,15 @@ Có thể thêm việc mới vào cuối danh sách nếu thấy app còn thiế
 - [x] Chủ đề từ vựng mới: Quần áo (ふく) — bài v15, 12 từ, 9 icon mới (tshirt, sweater, coat, skirt, dress, hat, socks, mitten, kimono) ở cuối `js/icons-mnemo.js`
 - [x] Chủ đề từ vựng mới: Địa điểm trong thành phố (まち) — bài v16, 12 từ, 8 icon mới (town, konbini, bank, hospital, postoffice, library, park, cinema) ở cuối `js/icons-mnemo.js`
 - [x] Kanji N5 bài mới: 東 西 南 北 外 前 後 間 — bài j8 (Phương hướng & vị trí)
-- [ ] Kanji N5 bài mới: 父 母 行 来 出 入 休 見
-- [ ] Kanji N5 bài mới: 食 飲 話 語 読 書 聞 買
-- [ ] Kanji N5 bài mới: 毎 週 午 白 高 安 新 古 長
+- [x] Kanji N5 bài mới: 父 母 行 来 出 入 休 見 — bài j9
+- [x] Kanji N5 bài mới: 食 飲 話 語 読 書 聞 買 — bài j10
+- [x] Kanji N5 bài mới: 毎 週 午 白 高 安 新 古 長 — bài j11
 - [ ] Nói & Ngữ pháp: mỗi chặng có ít nhất 5 bài, bắt đầu từ chặng ít bài nhất
 - [ ] Câu giao tiếp: mỗi nhóm có ít nhất 8 câu
 - [ ] Bài lý thuyết ngữ pháp (g1–g6): mỗi bài có ít nhất 5 câu bài tập nhỏ
 - [x] Vẽ icon hình gợi nhớ cho các chữ còn thiếu (đủ 91 chữ cơ bản, hình vẽ riêng nằm ở `js/icons-mnemo.js`)
 - [ ] Hình gợi nhớ cho âm đục / âm ghép nếu có mẹo nhớ riêng (hiện dùng chung mẹo của chữ gốc)
-- [ ] Thêm mặt kawaii cho các icon đồ ăn / đồ vật còn lại (bánh kem, kem, pizza, dưa lưới, cốc nước, cốc trà, quà, sách…) nếu đặt được mặt gọn gàng
+- [ ] Thêm mặt kawaii cho các icon đồ ăn / đồ vật còn lại nếu đặt được mặt gọn gàng (đã có: bánh kem, cốc nước, cốc bia, chồng sách, cái ghế, mảnh ghép; kem, pizza, dưa lưới, cốc trà, quà có nhiều chi tiết nên chưa gắn)
 - [ ] Thêm hội thoại tình huống nâng cao: ngân hàng, cắt tóc, mất đồ ở đồn cảnh sát (mỗi bài ≥ 10 câu)
+- [ ] Kanji N5 bài mới: 店 駅 道 社 会 電 車 校 (bài j12, nơi chốn & đi lại)
+- [ ] Kanji N5 bài mới: 朝 昼 夜 夕 春 夏 秋 冬 (bài j13, thời gian trong ngày & bốn mùa)

@@ -13,12 +13,14 @@ window.SJ = window.SJ || {};
     apple: [24, 27.5, 1.1], banana: [17.5, 25.5, .65], bread: [24, 30.5, .8], candy: [24, 24.2, .6], cheese: [21.5, 28.5, .65],
     chocolate: [15.5, 33, .7], hamburger: [24, 34.5, .7], lemon: [25, 26, .85], mandarin: [24.5, 28.5, .95], milk: [24, 28.5, .7],
     mushroom: [24, 35, .65], peach: [29.5, 27.5, .7], sushi: [24, 32, .7], tomato: [24, 29, 1.05],
+    cake: [24, 35, .6], juice: [24, 19, .55], beer: [24, 30, .65],
     // thiên nhiên
     cloudsun: [16, 23, .75], rain: [22, 21, .85], rain_s: [23, 21, .85], mountain: [16, 33, .8], fuji: [24, 34, .8],
     volcano: [24, 34.5, .85], tulip: [24, 18.5, .7],
     // đồ vật
     backpack: [24, 21.5, .7], bag: [24, 33, .8], house: [28, 26.5, .65], home: [28, 26.5, .65], car: [24.5, 28.5, .7],
     boat: [24, 37.5, .55], rocket: [24, 29.5, .65], phone: [24, 22, .85], suitcase: [24, 26, .8], shoes: [17, 26.5, .7], notebook: [25, 30.5, .85],
+    books: [26, 34, .55], chair: [24, 11.4, .55], puzzle: [23.5, 30, .75],
   };
   const f = v => +v.toFixed(2);
   /** khuôn mặt: 2 mắt có đốm sáng, miệng cười nét mảnh, 2 má hồng */

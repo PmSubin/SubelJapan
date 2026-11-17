@@ -1,7 +1,8 @@
-/* SubelJapan — 3 trò chơi mới, cắm vào khung trò chơi có sẵn qua SJ.games.add():
+/* SubelJapan — 4 trò chơi mới, cắm vào khung trò chơi có sẵn qua SJ.games.add():
  *  - しりとり Nối đuôi chữ: đấu với Mochi, từ sau bắt đầu bằng chữ cuối của từ trước, chọn từ tận cùng ん là thua
  *  - ビンゴ Bingo chữ cái: Mochi gọi âm, tìm chữ trên bảng 4×4, đủ một hàng là BINGO
  *  - Xếp câu thần tốc: nhìn nghĩa tiếng Việt, xếp các cụm chữ thành câu (lấy từ phần Nói & Ngữ pháp)
+ *  - Đoán Kanji Hán Việt: nhìn chữ Hán chọn âm Hán Việt / nghĩa, hoặc ngược lại (chữ trong các bài Kanji đã học)
  * Giao diện nằm trong css/games3.css.
  */
 window.SJ = window.SJ || {};
@@ -298,7 +299,79 @@ window.SJ = window.SJ || {};
     return { destroy() { clearInterval(timer); clearTimeout(tmo); } };
   }
 
+  // ===================== ĐOÁN KANJI HÁN VIỆT =====================
+  // Lợi thế riêng của người Việt: phần lớn Kanji có âm Hán Việt quen thuộc (日 = NHẬT, 学生 = HỌC SINH).
+  // Nhìn chữ chọn âm Hán Việt / nghĩa, hoặc ngược lại; ôn đúng các chữ đã học (tự kiểm tra + ôn ngắt quãng).
+  function hanviet(root) {
+    const g = K.G('hanviet'); let timer = null, tmo = null;
+    const KL = () => SJ.LESSONS.filter(l => l.type === 'kanji');
+    function pool() {
+      const learned = KL().filter(l => (SJ.store.lessonState(l.id) || {}).done).flatMap(l => l.items);
+      const base = learned.length >= 12 ? learned : KL().slice(0, 4).flatMap(l => l.items).concat(learned);
+      return [...new Set(base)].map(k => SJ.KANJI_MAP[k]).filter(Boolean);
+    }
+    function start(cfg) {
+      const mode = cfg.mode, list = pool(), TIME = 60;
+      const field = mode === 'mean' ? 'm' : 'hv';
+      let time = TIME, score = 0, combo = 0, maxCombo = 0, correct = 0, wrong = 0, cur = null, lock = false, over = false;
+      root.innerHTML = `<div class="container-sm game hv-game">${K.top(`<div class="timer-bar"><div class="timer-fill"></div></div><div class="g-score">${I('star', 22)} <b data-sc>0</b></div>`)}
+        <div class="combo" data-combo></div><div class="gq-prompt paper hv-prompt" data-pr></div><div class="hv-info" data-info>&nbsp;</div><div class="quiz-opts four" data-op></div></div>`;
+      const tf = root.querySelector('.timer-fill'), sc = root.querySelector('[data-sc]'), pr = root.querySelector('[data-pr]'), op = root.querySelector('[data-op]'), cb = root.querySelector('[data-combo]'), info = root.querySelector('[data-info]');
+      root.querySelector('[data-quit]').onclick = () => end();
+      function q() {
+        if (over) return;
+        const it = U().pick(list.filter(o => !cur || o.k !== cur.k)); cur = it;
+        const opts = U().shuffle([it].concat(K.distinctBy(list.filter(o => o.k !== it.k), 3, o => o[field], [it[field]])));
+        pr.innerHTML = mode === 'rev' ? `<div class="hv-big pop-in">${esc(it.hv)}</div><div class="hv-mean">${esc(it.m)}</div>`
+          : `<div class="q-big jp pop-in">${it.k}</div>`;
+        op.innerHTML = opts.map((o, i) => `<button class="opt" data-nosfx="1" data-k="${o.k}"><kbd>${i + 1}</kbd>${mode === 'rev' ? `<span class="jp opt-jp">${o.k}</span>` : mode === 'mean' ? esc(o.m) : `<b class="hv-opt">${esc(o.hv)}</b>`}</button>`).join('');
+        lock = false;
+      }
+      op.onclick = e => { const b = e.target.closest('.opt'); if (b && !lock) answer(b); };
+      function answer(b) {
+        lock = true; const ok = b.dataset.k === cur.k; SJ.store.rec(cur.key, ok);
+        if (ok) { combo++; maxCombo = Math.max(maxCombo, combo); score += combo >= 10 ? 3 : combo >= 5 ? 2 : 1; correct++; b.classList.add('ok'); SJ.audio.sfx(combo % 5 === 0 ? 'combo' : 'ok'); }
+        else { combo = 0; wrong++; time = Math.max(0, time - 3); b.classList.add('bad'); const r = op.querySelector(`[data-k="${cur.k}"]`); r && r.classList.add('ok'); SJ.audio.sfx('bad'); }
+        // luôn hiện đủ: chữ · Hán Việt · nghĩa · một từ ví dụ — sai cũng học được
+        const ex = cur.ex && cur.ex[0];
+        info.innerHTML = `<span class="jp">${cur.k}</span> <b>${esc(cur.hv)}</b> · ${esc(cur.m)}${ex ? ` · <span class="jp">${esc(ex.jp)}</span> <small>(${esc(ex.kana)} — ${esc(ex.vi)})</small>` : ''}`;
+        info.classList.remove('pop'); void info.offsetWidth; info.classList.add('pop');
+        if (ex) SJ.audio.speak(ex.kana);
+        sc.textContent = score;
+        cb.innerHTML = combo >= 2 ? `<span class="combo-pill pop-in">${I('fire', 18)} Combo x${combo}${combo >= 5 ? ` · ${combo >= 10 ? 3 : 2}× điểm` : ''}</span>` : '';
+        tmo = setTimeout(q, ok ? 650 : 1500);
+      }
+      let last = Date.now(), lastSec = TIME;
+      timer = setInterval(() => {
+        const now = Date.now(); if (document.hidden) { last = now; return; } time -= (now - last) / 1000; last = now;
+        tf.style.width = U().clamp(time / TIME * 100, 0, 100) + '%'; tf.classList.toggle('low', time < 10);
+        if (time < 10 && Math.ceil(time) !== lastSec) { lastSec = Math.ceil(time); SJ.audio.sfx('tick'); }
+        if (time <= 0) end();
+      }, 100);
+      function end() {
+        if (over) return; over = true; clearInterval(timer); clearTimeout(tmo); K.setKey(null);
+        const id = 'hanviet_' + mode, isNew = SJ.store.setBest(id, score);
+        K.result(root, g, { title: score >= 25 ? 'Cao thủ Hán Việt!' : 'Hết giờ rồi!', score, best: SJ.store.get().games[id], isNew, xp: Math.min(50, score + Math.floor(maxCombo / 2)), mood: score >= 25 ? 'love' : score >= 12 ? 'happy' : 'wink', stats: [[correct, 'chữ đoán đúng'], [maxCombo, 'combo cao nhất'], [wrong, 'lần nhầm']], again: () => start(cfg) });
+      }
+      K.setKey(e => { if (/^[1-4]$/.test(e.key) && !lock && !over) { const b = op.querySelectorAll('.opt')[+e.key - 1]; b && answer(b); } });
+      q();
+    }
+    K.setup(root, g, {
+      sets: false, modes: [['hv', 'Kanji → Hán Việt'], ['mean', 'Kanji → Nghĩa'], ['rev', 'Hán Việt → Kanji']],
+      note: 'Người Việt có lợi thế lớn: phần lớn Kanji đọc theo <b>âm Hán Việt</b> (日 = NHẬT, 山 = SƠN). Trò này lấy các chữ trong bài Kanji bạn đã học — chưa học đủ thì Mochi thêm chữ của 4 bài đầu. Sai bị trừ 3 giây nhưng luôn hiện lời giải để nhớ.',
+      bestText: m => `${I('trophy', 24)} Kỷ lục: <b>${SJ.store.get().games['hanviet_' + (m || 'hv')] || 0}</b> điểm`,
+    }, start);
+    return { destroy() { clearInterval(timer); clearTimeout(tmo); K.setKey(null); } };
+  }
+
+  SJ.addIcons && SJ.addIcons({
+    // thẻ chữ Hán + nhãn "HV" hồng
+    hanviet_card: k => k.R(8, 5, 32, 38, 6, k.C.cream) + k.T(24, 31, '漢', 21, undefined, 1)
+      + k.R(25, 33, 19, 11, 5.5, k.C.pink) + k.T(34.5, 41.2, 'HV', 7.5, '#fff') + k.H('M12 10 h8'),
+  });
+
   SJ.games.add({ id: 'shiritori', icon: 'chain', name: 'Nối đuôi しりとり', desc: 'Trò chơi chữ quốc dân của Nhật: đấu với Mochi, từ sau bắt đầu bằng chữ cuối của từ trước. Chọn từ tận cùng ん là thua!', color: '#ffd1a8' }, shiritori);
   SJ.games.add({ id: 'bingo', icon: 'bingo', name: 'Bingo chữ cái', desc: 'Mochi gọi âm, bạn tìm chữ trên bảng 4×4. Đủ 4 ô thẳng hàng là BINGO!', color: '#ffc2d6' }, bingo);
+  SJ.games.add({ id: 'hanviet', icon: 'hanviet_card', name: 'Đoán Kanji Hán Việt', desc: 'Nhìn chữ Hán chọn âm Hán Việt hay nghĩa — hoặc ngược lại. Lợi thế của người Việt đó!', color: '#ffe0a8' }, hanviet);
   SJ.games.add({ id: 'sentence', icon: 'word_blocks', name: 'Xếp câu thần tốc', desc: 'Nhìn nghĩa tiếng Việt, xếp các cụm chữ thành câu tiếng Nhật đúng thứ tự trước khi hết giờ.', color: '#bfe3c8' }, sentence);
 })(window.SJ);
