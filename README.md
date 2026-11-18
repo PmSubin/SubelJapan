@@ -27,6 +27,7 @@ Web học **đọc & viết tiếng Nhật cho người mới bắt đầu từ 
 | **Trang trí sống động** | Lời chào trên nền **bầu trời đổi theo giờ** (bình minh, trưa, hoàng hôn, đêm sao), **hiệu ứng theo mùa** (lá phong, tuyết, hoa anh đào), thẻ **Từ của ngày** và **Chữ Hán của ngày**, gợn sóng khi bấm, chữ +XP bay lên. |
 | **Giữ lửa mỗi ngày** | Chuỗi ngày học, mục tiêu XP, 3 nhiệm vụ mỗi ngày, 15 cấp độ, 26 huy hiệu, lịch học dạng bản đồ nhiệt. |
 | **Mochi đi dạo** | Mèo Mochi đi lững thững trên màn hình, ngồi, ngủ, nhảy, nói chuyện bằng tiếng Nhật; vui khi bạn trả lời đúng. **Nắm kéo, thả rơi, ném bay** được luôn! (Tắt được trong Hồ sơ) |
+| **14 giao diện** | Đổi màu trong Cài đặt: 10 giao diện sáng (hoa anh đào, quả đào, dâu tây, yuzu, trà xanh, biển xanh, bầu trời, hoa tử đằng, cà phê sữa, tuyết trắng) và 4 giao diện tối dịu mắt (đêm sao, mèo đen, biển sâu, rừng đêm), có ô xem trước màu thật. |
 | **Tiệm của Mochi** | Kiếm **cá vàng** khi học để mua phụ kiện, đổi "vị" mochi (hoa anh đào, trà xanh, khoai môn…) và **bùa giữ chuỗi お守り**. |
 
 ![Bài học](assets/screens/lesson.png)

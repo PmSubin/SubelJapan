@@ -42,6 +42,7 @@ Phần soát dữ liệu nằm ở `tools/bot/audit.js` và chạy bên trong tr
 - **Hình gợi nhớ cho mẹo nhớ** (`SJ.MNEMO_PIC` cuối `js/data-kana.js`): hình phải **khớp đúng câu mẹo nhớ** của chữ đó (mã hoá kép chữ + hình). Không có icon hợp thì vẽ icon mới theo câu mẹo, đừng ghép đại.
 - **Phương pháp học**: giữ đúng các nguyên tắc ở trang #/how (`js/plan.js`): ôn ngắt quãng, tự kiểm tra, chữ + hình, học xen kẽ, viết tay, nói thành tiếng, ít mà đều, phản hồi ngay. Tính năng mới phải theo ít nhất một nguyên tắc.
 - **Giao diện**: sáng, dễ thương, 2D, không làm menu tối hay 3D.
+- **Màu theo giao diện**: có 14 giao diện (`SJ.THEMES` trong `js/app.js`, màu ở đầu `css/style.css`). Chỉ dùng biến màu (`var(--card)`, `var(--ink)`, `var(--pri)`…), không viết cứng màu nền. Quy tắc riêng cho giao diện tối viết bằng `[data-dark]` (không dùng `[data-theme="yoru"]`), vì có 4 giao diện tối. Đừng dùng `closest("[data-theme]")` hay `closest("[data-kfont]")` trong trình xử lý bấm: thẻ `<html>` cũng mang các thuộc tính này.
 - **Đổi số phiên bản**: mỗi lần sửa file trong `js/` hoặc `css/`, tăng `?v=N` cho **mọi** file trong `index.html` (cùng một số). Thêm file js mới thì nhớ nạp nó trong `index.html`.
 - **Không đổi cấu trúc dữ liệu đã lưu của người dùng** (`localStorage` `subeljapan_v1`) theo cách làm mất tiến độ học.
 - **Commit**: lời nhắn bằng tiếng Việt, nói rõ đã thêm hay sửa gì. Không thêm dòng ghi công (Co-Authored-By…).

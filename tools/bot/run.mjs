@@ -112,21 +112,49 @@ for (const W of [1280, 390]) {
   await page.context().close();
 }
 
-// 3b'. Giao diện tối (Yoru): dò chữ sáng nằm trên nền sáng (màu nền viết cứng #fff…) — tỉ lệ tương phản < 2
+// 3b'. Giao diện tối: dò chữ sáng nằm trên nền sáng (màu nền viết cứng #fff…) — tỉ lệ tương phản < 2.
+//      "Đêm sao" (yoru) soát mọi trang; các giao diện tối khác soát những trang chính.
 {
-  const page = await newPage(1280, { theme: 'yoru', motion: 'reduce' });
+  const KEY = ['', 'learn', 'chart', 'practice', 'games', 'review', 'dict', 'read', 'talk', 'sensei', 'profile', 'how', 'shop', 'quests'];
   let n = 0;
-  for (const r of ROUTES.filter(r => r !== 'print')) {
-    await page.evaluate(h => { location.hash = '#/' + h; }, r);
-    await page.waitForTimeout(900);
-    await page.addScriptTag({ path: path.join(ROOT, 'tools/bot/contrast.js') });
-    const once = () => page.evaluate(() => window.__contrast().filter(x => parseFloat(x) < 2));
-    const a1 = await once(); await page.waitForTimeout(700); const a2 = new Set(await once());
-    const low = a1.filter(x => a2.has(x)); // chỉ tính chỗ khó đọc ở cả 2 lần đo (bỏ lúc đang chạy hiệu ứng)
-    low.slice(0, 6).forEach(x => warns.push(`Giao diện tối #/${r}: chữ khó đọc (tương phản ${x})`)); n += low.length;
-    drain(page, `Giao diện tối #/${r}`);
+  const first = await newPage(1280, { motion: 'reduce' });
+  const darks = await first.evaluate(() => (SJ.THEMES || []).filter(t => t.dark).map(t => t.id));
+  await first.context().close();
+  for (const theme of (darks.length ? darks : ['yoru'])) {
+    const page = await newPage(1280, { theme, motion: 'reduce' });
+    for (const r of ROUTES.filter(r => r !== 'print' && (theme === 'yoru' || KEY.includes(r)))) {
+      await page.evaluate(h => { location.hash = '#/' + h; }, r);
+      await page.waitForTimeout(900);
+      await page.addScriptTag({ path: path.join(ROOT, 'tools/bot/contrast.js') });
+      const once = () => page.evaluate(() => window.__contrast().filter(x => parseFloat(x) < 2));
+      const a1 = await once(); await page.waitForTimeout(700); const a2 = new Set(await once());
+      const low = a1.filter(x => a2.has(x)); // chỉ tính chỗ khó đọc ở cả 2 lần đo (bỏ lúc đang chạy hiệu ứng)
+      low.slice(0, 6).forEach(x => warns.push(`Giao diện tối «${theme}» #/${r}: chữ khó đọc (tương phản ${x})`)); n += low.length;
+      drain(page, `Giao diện tối ${theme} #/${r}`);
+    }
+    await page.context().close();
   }
-  log('Giao diện tối:', n, 'chỗ chữ khó đọc');
+  log('Giao diện tối (' + (darks.join(', ') || 'yoru') + '):', n, 'chỗ chữ khó đọc');
+}
+
+// 3b''. Nút trong trang Hồ sơ phải chạy thật (từng bị bắt nhầm cú bấm vì thẻ <html> cũng có data-theme / data-kfont)
+{
+  const page = await newPage(1280, { motion: 'reduce' });
+  await page.evaluate(() => { location.hash = '#/profile'; }); await page.waitForTimeout(900);
+  const res = await page.evaluate(async () => {
+    const out = [], wait = ms => new Promise(r => setTimeout(r, ms)), v = () => document.getElementById('view');
+    const kf0 = SJ.store.get().settings.kfont, other = [...v().querySelectorAll('button[data-kfont]')].find(b => b.dataset.kfont !== kf0);
+    if (other) { other.click(); await wait(150); if (SJ.store.get().settings.kfont === kf0) out.push('bấm đổi "Kiểu chữ mẫu" không có tác dụng'); }
+    const pick = [...v().querySelectorAll('[data-pick-theme]')].find(b => b.dataset.pickTheme !== document.documentElement.dataset.theme);
+    if (pick) { const id = pick.dataset.pickTheme; pick.click(); await wait(150); if (document.documentElement.dataset.theme !== id) out.push('bấm chọn giao diện «' + id + '» không đổi màu'); }
+    else out.push('không thấy ô chọn giao diện');
+    const ex = v().querySelector('[data-act="export"]');
+    if (ex) { ex.click(); await wait(300); const m = document.querySelector('.modal-back'); if (!m) out.push('bấm "Xuất" không mở hộp mã sao lưu'); else m.remove(); }
+    return out;
+  });
+  res.forEach(x => errors.push('Trang Hồ sơ: ' + x));
+  drain(page, 'Trang Hồ sơ (bấm nút)');
+  log('Nút trang Hồ sơ:', res.length ? res.length + ' lỗi' : 'chạy đúng');
   await page.context().close();
 }
 

@@ -15,7 +15,7 @@
     radial-gradient(circle at 50% 50%, rgba(150, 110, 90, .04) 0 1.1px, transparent 2px) 13px 5px / 29px 31px;
   --fc-r: 28px;
 }
-[data-theme="yoru"] :is(.fc-page, .fc-session, .fc-result, .fc-empty) { --paper: var(--card2); }
+[data-dark] :is(.fc-page, .fc-session, .fc-result, .fc-empty) { --paper: var(--card2); }
 
 /* =========================================================
    TRANG CHỌN BỘ
@@ -250,7 +250,7 @@
 .fc-card.to-no .fc-stamp.no { animation: fcThumpNo .42s var(--spring) both; }
 @keyframes fcThumpOk { 0% { transform: rotate(-13deg) scale(1.5); } 100% { transform: rotate(-13deg) scale(1); } }
 @keyframes fcThumpNo { 0% { transform: rotate(12deg) scale(1.5); } 100% { transform: rotate(12deg) scale(1); } }
-[data-theme="yoru"] .fc-stamp { mix-blend-mode: normal; }
+[data-dark] .fc-stamp { mix-blend-mode: normal; }
 
 /* --- chia bài lúc mở & gợi ý vuốt --- */
 .fc-stack.deal .fc-card { animation: fcDeal .72s var(--spring) both; }

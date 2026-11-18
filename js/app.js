@@ -136,9 +136,20 @@ window.SJ = window.SJ || {};
     m.el.addEventListener('click', e => { if (e.target.closest('a')) m.close(); });
   }
 
+  // 14 giao diện: 10 sáng, 4 tối (màu nằm ở đầu css/style.css). dark = có thêm data-dark để dùng chung quy tắc giao diện tối
+  SJ.THEMES = [
+    { id: 'sakura', name: 'Hoa anh đào', jp: '桜' }, { id: 'momo', name: 'Quả đào', jp: '桃' }, { id: 'ichigo', name: 'Dâu tây', jp: '苺' },
+    { id: 'yuzu', name: 'Quả yuzu', jp: '柚子' }, { id: 'matcha', name: 'Trà xanh', jp: '抹茶' }, { id: 'umi', name: 'Biển xanh', jp: '海' },
+    { id: 'sora', name: 'Bầu trời', jp: '空' }, { id: 'fuji', name: 'Hoa tử đằng', jp: '藤' }, { id: 'kohi', name: 'Cà phê sữa', jp: 'コーヒー' },
+    { id: 'yuki', name: 'Tuyết trắng', jp: '雪' },
+    { id: 'yoru', name: 'Đêm sao', jp: '夜', dark: true }, { id: 'kuroneko', name: 'Mèo đen', jp: '黒猫', dark: true },
+    { id: 'shinkai', name: 'Biển sâu', jp: '深海', dark: true }, { id: 'mori', name: 'Rừng đêm', jp: '森', dark: true },
+  ];
   function applyTheme() {
     const st = SJ.store.get().settings;
-    document.documentElement.dataset.theme = st.theme || 'sakura';
+    const th = SJ.THEMES.find(t => t.id === st.theme) || SJ.THEMES[0];
+    document.documentElement.dataset.theme = th.id;
+    document.documentElement.toggleAttribute('data-dark', !!th.dark);
     document.documentElement.dataset.kfont = st.kfont || 'klee';
     document.documentElement.dataset.motion = st.motion || 'full';
     const meta = document.querySelector('meta[name="theme-color"]');

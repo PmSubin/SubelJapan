@@ -61,15 +61,34 @@
   --shadow-pop: 0 18px 50px rgba(58, 46, 77, .16);
   color-scheme: only light;
 }
-[data-theme="matcha"] { --bg: #f4faf2; --bg2: #e6f4e2; --line: #e1eedc; --line2: #cfe2c8; --pri: #4cbf7a; --pri-d: #2f9c5c; --pri-l: #dcf3e4; --pri-t: #237a47; --card2: #f9fdf8; }
-[data-theme="sora"] { --bg: #f3f8ff; --bg2: #e3efff; --line: #dfeaf8; --line2: #ccdcf0; --pri: #4a9dff; --pri-d: #2a7ee0; --pri-l: #dff0ff; --pri-t: #1f63b5; --card2: #f8fbff; }
+/* ---------- GIAO DIỆN (theme) ----------
+ * html có data-theme="tên"; giao diện tối có thêm data-dark. Ô xem trước trong Cài đặt cũng dùng đúng 2 thuộc tính này
+ * nên mỗi khối phải tự đủ màu (không dựa vào :root). Quy tắc riêng cho giao diện tối viết bằng [data-dark]. */
+:is([data-theme="sakura"], [data-theme="momo"], [data-theme="ichigo"], [data-theme="yuzu"], [data-theme="matcha"], [data-theme="umi"], [data-theme="sora"], [data-theme="fuji"], [data-theme="kohi"], [data-theme="yuki"]) {
+  --bg: #fff5f7; --bg2: #ffeaf0; --card: #ffffff; --card2: #fff9fb; --ink: #3a2e4d; --ink2: #7a6e8f; --ink3: #9a8eac; --ink-ic: #4a3756;
+  --line: #f1e2e9; --line2: #e6d3dc; --pri: #ff6b9a; --pri-d: #e0497c; --pri-l: #ffe1eb; --pri-t: #c8336a;
+  --mint-l: #d9f7ec; --mint-t: #108a61; --sky-l: #e0f0ff; --sky-t: #1f6fbf; --sun-l: #fff3d1; --sun-t: #9a6b00; --lav-l: #eee8ff; --lav-t: #5e3fcf;
+  --coral-l: #ffe8df; --red-l: #ffe3e7; --red-t: #c42840; --shadow-pop: 0 18px 50px rgba(58, 46, 77, .16); color-scheme: only light;
+}
+[data-theme="momo"] { --bg: #fff6f1; --bg2: #ffe9df; --line: #f6e2d8; --line2: #ebd0c3; --pri: #ff8a65; --pri-d: #e8693f; --pri-l: #ffe4d9; --pri-t: #b84a22; --card2: #fffaf7; }
+[data-theme="ichigo"] { --bg: #fff6f5; --bg2: #ffe7e6; --line: #f6dfde; --line2: #ebcbca; --pri: #f2546b; --pri-d: #d43650; --pri-l: #ffe0e4; --pri-t: #b02a40; --card2: #fffafa; }
 [data-theme="yuzu"] { --bg: #fff9ef; --bg2: #fff0d6; --line: #f6e8cf; --line2: #ead7b4; --pri: #ff9a3c; --pri-d: #e37a17; --pri-l: #ffecd6; --pri-t: #b45a06; --card2: #fffcf6; }
-[data-theme="yoru"] {
-  --bg: #1d1828; --bg2: #262035; --card: #2a2339; --card2: #2f2840; --ink: #f4eefb; --ink2: #b9adcc; --ink3: #7d7192; --ink-ic: #2a2236;
-  --line: #3b3250; --line2: #15111d; --pri: #ff79a6; --pri-d: #d24e7e; --pri-l: #4a2c42; --pri-t: #ffa6c4;
+[data-theme="matcha"] { --bg: #f4faf2; --bg2: #e6f4e2; --line: #e1eedc; --line2: #cfe2c8; --pri: #4cbf7a; --pri-d: #2f9c5c; --pri-l: #dcf3e4; --pri-t: #237a47; --card2: #f9fdf8; }
+[data-theme="umi"] { --bg: #effaf9; --bg2: #dcf3f1; --line: #d8ecea; --line2: #c2dfdc; --pri: #1fb5a8; --pri-d: #11948a; --pri-l: #d5f3ef; --pri-t: #0d7a71; --card2: #f7fdfc; }
+[data-theme="sora"] { --bg: #f3f8ff; --bg2: #e3efff; --line: #dfeaf8; --line2: #ccdcf0; --pri: #4a9dff; --pri-d: #2a7ee0; --pri-l: #dff0ff; --pri-t: #1f63b5; --card2: #f8fbff; }
+[data-theme="fuji"] { --bg: #f7f4ff; --bg2: #ede7ff; --line: #e7e0f7; --line2: #d6cceb; --pri: #9b7bff; --pri-d: #7957eb; --pri-l: #ebe4ff; --pri-t: #5e3fcf; --card2: #fbf9ff; }
+[data-theme="kohi"] { --bg: #faf5ef; --bg2: #f2e7da; --line: #ece0d2; --line2: #dccbb7; --pri: #b07a4f; --pri-d: #8f5d36; --pri-l: #f3e4d4; --pri-t: #7a4a26; --card2: #fdfaf6; --ink: #3d2f2b; --ink2: #7d6c62; --ink3: #9c8b80; }
+[data-theme="yuki"] { --bg: #f4f6fa; --bg2: #e8edf4; --line: #e2e7ef; --line2: #d0d8e3; --pri: #6c86d9; --pri-d: #4f69bd; --pri-l: #e3e9fb; --pri-t: #3f56a3; --card2: #fafbfd; --ink: #2f3446; --ink2: #6b7186; --ink3: #8d93a6; }
+/* giao diện tối: phần chung */
+[data-dark] {
+  --ink: #f4eefb; --ink2: #b9adcc; --ink3: #7d7192;
   --mint-l: #1f3d36; --mint-t: #6be3b8; --sky-l: #1f3350; --sky-t: #8cc6ff; --sun-l: #43381c; --sun-t: #ffd56b; --lav-l: #342b55; --lav-t: #c2b0ff;
   --coral-l: #47302a; --red-l: #4a2530; --red-t: #ff9aa8; --shadow-pop: 0 18px 50px rgba(0, 0, 0, .45); color-scheme: dark;
 }
+[data-theme="yoru"] { --bg: #1d1828; --bg2: #262035; --card: #2a2339; --card2: #2f2840; --ink-ic: #2a2236; --line: #3b3250; --line2: #15111d; --pri: #ff79a6; --pri-d: #d24e7e; --pri-l: #4a2c42; --pri-t: #ffa6c4; }
+[data-theme="kuroneko"] { --bg: #16161a; --bg2: #1f1f25; --card: #24242b; --card2: #2a2a33; --ink: #f3f1f6; --ink2: #b8b5c2; --ink3: #807d8c; --ink-ic: #24242b; --line: #35353f; --line2: #0d0d10; --pri: #f78a3b; --pri-d: #cf6a20; --pri-l: #43301f; --pri-t: #ffb47a; }
+[data-theme="shinkai"] { --bg: #0e1828; --bg2: #152238; --card: #1a2a42; --card2: #1f304b; --ink: #eaf3ff; --ink2: #a8bcd5; --ink3: #7189a7; --ink-ic: #1a2a42; --line: #2a3d5a; --line2: #08101c; --pri: #22a9b8; --pri-d: #16838f; --pri-l: #163f4c; --pri-t: #7ddfe8; }
+[data-theme="mori"] { --bg: #121b16; --bg2: #19251e; --card: #1e2c24; --card2: #23332a; --ink: #eef7f0; --ink2: #b1c7b8; --ink3: #768c7e; --ink-ic: #1e2c24; --line: #2e4136; --line2: #0a110d; --pri: #3daa76; --pri-d: #2b8659; --pri-l: #1e4030; --pri-t: #8ee0b3; }
 
 /* ---------- Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
@@ -1058,9 +1077,31 @@ button.tile-card { border: 2px solid var(--line); background: var(--card); curso
 .set-row .sr-l { flex: 1; min-width: 200px; }
 .set-row .sr-l b { display: block; font-weight: 800; }
 .set-row .sr-l small { color: var(--ink2); font-weight: 700; }
-.theme-dots { display: flex; gap: 8px; }
-.theme-dot { width: 40px; height: 40px; border-radius: 14px; border: 3px solid var(--card); box-shadow: 0 0 0 2px var(--line); cursor: pointer; }
-.theme-dot.active { box-shadow: 0 0 0 3px var(--ink); }
+/* ô chọn giao diện: mỗi thẻ có ô xem trước mang đúng data-theme của giao diện đó nên tự hiện đúng màu */
+.set-row.set-stack { display: block; }
+.set-stack > * + * { margin-top: 10px; }
+.set-stack > .th-group { margin-top: 16px; }
+.set-stack > .th-group + .theme-grid { margin-top: 8px; }
+.th-group { margin-top: 2px; font: 800 12px var(--f-body); text-transform: uppercase; letter-spacing: .6px; color: var(--ink3); }
+.theme-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 10px; }
+.theme-card { position: relative; display: flex; flex-direction: column; gap: 6px; padding: 6px 6px 8px; border-radius: 18px; border: 2px solid var(--line); background: var(--card); text-align: left; cursor: pointer; transition: transform .25s var(--spring), border-color .2s, box-shadow .2s; }
+.theme-card:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--pri) 45%, var(--line)); }
+.theme-card:active { transform: scale(.96); }
+.theme-card.active { border-color: var(--pri); box-shadow: 0 0 0 3px var(--pri-l); }
+.tc-prev { position: relative; display: block; height: 62px; border-radius: 13px; overflow: hidden; background: var(--bg); border: 1px solid var(--line); }
+.tc-prev i { position: absolute; display: block; }
+.tp-top { left: 0; right: 0; top: 0; height: 13px; background: var(--pri-l); }
+.tp-card { left: 8px; right: 32%; top: 19px; bottom: 8px; border-radius: 8px; background: var(--card); box-shadow: 0 2px 0 var(--line2); }
+.tp-dot { left: 6px; top: 7px; width: 13px; height: 13px; border-radius: 50%; background: var(--pri); }
+.tp-ln { left: 24px; right: 8px; top: 8px; height: 4px; border-radius: 4px; background: var(--ink); opacity: .78; }
+.tp-ln.s { top: 16px; right: 20px; background: var(--ink3); opacity: 1; }
+.tp-btn { right: 8px; bottom: 9px; width: 21%; height: 13px; border-radius: 999px; background: var(--pri); box-shadow: 0 2px 0 var(--pri-d); }
+.tc-name { display: flex; align-items: baseline; justify-content: space-between; gap: 4px; padding: 0 4px; }
+.set-row .tc-name b { display: block; font: 800 12.5px/1.2 var(--f-body); color: var(--ink); }
+.tc-name small { flex: none; font-size: 11.5px; color: var(--ink3); }
+.tc-ok { position: absolute; right: 10px; top: 10px; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: var(--pri); color: #fff; box-shadow: 0 0 0 2px var(--card); animation: optIn .35s var(--spring) both; }
+.tc-ok .ic { width: 14px; height: 14px; }
+@media (max-width: 520px) { .theme-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; } .tc-prev { height: 54px; } .tc-name { flex-direction: column; gap: 0; } }
 .weak-list { display: flex; flex-wrap: wrap; gap: 8px; }
 .weak-list .chip-kana { width: auto; min-width: 54px; height: 54px; font-size: 24px; cursor: pointer; flex-direction: column; gap: 0; }
 .weak-list .chip-kana small { font: 800 10px var(--f-body); color: var(--red-t); }
@@ -1283,8 +1324,8 @@ code { font: 800 .92em var(--f-body); padding: 1px 6px; border-radius: 6px; back
   .side-me { padding: 6px 10px; }
   .side-me .mascot { width: 38px; height: 38px; }
 }
-[data-theme="yoru"] .ic, [data-theme="yoru"] .mascot { filter: drop-shadow(0 0 .7px rgba(255,255,255,.85)) drop-shadow(0 0 .7px rgba(255,255,255,.6)); }
-[data-theme="yoru"] .star:not(.on) { filter: grayscale(1) opacity(.35); }
+[data-dark] .ic, [data-dark] .mascot { filter: drop-shadow(0 0 .7px rgba(255,255,255,.85)) drop-shadow(0 0 .7px rgba(255,255,255,.6)); }
+[data-dark] .star:not(.on) { filter: grayscale(1) opacity(.35); }
 
 /* =========================================================
    Nút bấm tinh chỉnh + icon nét mảnh

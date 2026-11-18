@@ -101,22 +101,22 @@
 @media (max-width: 520px) { .wl-burst { width: 560px; height: 560px; margin: -280px 0 0 -280px; } .wl-kana { width: 46px; height: 46px; font-size: 22px; } .wl-fuji { right: 3%; } }
 
 /* giao diện tối (夜 yoru): màn chào thành trời đêm có sao lấp lánh, để chữ sáng màu vẫn đọc rõ */
-[data-theme="yoru"] .welcome { background: linear-gradient(180deg, #17122a 0%, #261e3d 55%, #33264a 100%); }
-[data-theme="yoru"] .wl-bg::before { content: ""; position: absolute; inset: 0 0 30% 0; opacity: .9; animation: wlTwinkle 3.2s ease-in-out infinite alternate;
+[data-dark] .welcome { background: linear-gradient(180deg, #17122a 0%, #261e3d 55%, #33264a 100%); }
+[data-dark] .wl-bg::before { content: ""; position: absolute; inset: 0 0 30% 0; opacity: .9; animation: wlTwinkle 3.2s ease-in-out infinite alternate;
   background-image: radial-gradient(1.6px 1.6px at 12% 18%, #fff, transparent), radial-gradient(1.2px 1.2px at 28% 42%, #ffe9f3, transparent), radial-gradient(1.8px 1.8px at 46% 12%, #fff, transparent),
     radial-gradient(1.2px 1.2px at 63% 34%, #fff, transparent), radial-gradient(1.6px 1.6px at 78% 16%, #ffe9f3, transparent), radial-gradient(1.2px 1.2px at 90% 44%, #fff, transparent),
     radial-gradient(1.4px 1.4px at 8% 56%, #fff, transparent), radial-gradient(1.2px 1.2px at 36% 64%, #ffe9f3, transparent), radial-gradient(1.6px 1.6px at 86% 62%, #fff, transparent), radial-gradient(1.2px 1.2px at 56% 52%, #fff, transparent); }
 @keyframes wlTwinkle { to { opacity: .45; } }
-[data-theme="yoru"] .wl-bg .cloud { opacity: .14; }
-[data-theme="yoru"] .wl-hills .h1 { fill: #3a2c55; }
-[data-theme="yoru"] .wl-hills .h2 { fill: #48365f; }
-[data-theme="yoru"] .wl-fuji .fj { fill: #4a3d6e; }
-[data-theme="yoru"] .wl-fuji .cap { fill: #ddd5f3; }
-[data-theme="yoru"] .wl-kana { background: rgba(255, 255, 255, .07); border-color: rgba(255, 166, 196, .28); color: rgba(255, 166, 196, .62); }
-[data-theme="yoru"] .wl-burst { background: repeating-conic-gradient(rgba(255, 214, 236, .1) 0 8deg, rgba(255, 255, 255, 0) 8deg 16deg); }
-[data-theme="yoru"] .wl-burst::after { background: radial-gradient(closest-side, rgba(255, 190, 220, .22), rgba(255, 190, 220, 0)); }
-[data-theme="yoru"] .wl-shadow { background: rgba(0, 0, 0, .38); }
-[data-theme="yoru"] .wl-bubble { background: var(--card); }
+[data-dark] .wl-bg .cloud { opacity: .14; }
+[data-dark] .wl-hills .h1 { fill: #3a2c55; }
+[data-dark] .wl-hills .h2 { fill: #48365f; }
+[data-dark] .wl-fuji .fj { fill: #4a3d6e; }
+[data-dark] .wl-fuji .cap { fill: #ddd5f3; }
+[data-dark] .wl-kana { background: rgba(255, 255, 255, .07); border-color: rgba(255, 166, 196, .28); color: rgba(255, 166, 196, .62); }
+[data-dark] .wl-burst { background: repeating-conic-gradient(rgba(255, 214, 236, .1) 0 8deg, rgba(255, 255, 255, 0) 8deg 16deg); }
+[data-dark] .wl-burst::after { background: radial-gradient(closest-side, rgba(255, 190, 220, .22), rgba(255, 190, 220, 0)); }
+[data-dark] .wl-shadow { background: rgba(0, 0, 0, .38); }
+[data-dark] .wl-bubble { background: var(--card); }
 
 /* ---------- TẤM MÀN MOCHI (vào bài học / trò chơi) ---------- */
 .curtain {
