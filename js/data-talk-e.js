@@ -2,6 +2,7 @@
  *  - g49: Ngày tháng & sinh nhật (chặng 6 · Thời gian)
  *  - g50: Lời chúc mừng (chặng 1 · Chào hỏi)
  *  - g51: Màu gì? (chặng 3 · Đồ vật)
+ *  - g52: Đếm đồ vật ひとつ・ふたつ (chặng 4 · Số & mua sắm)
  * Quy ước như các file data-talk-*.js: j tách cụm bằng "|", cách sau mỗi cụm (分かち書き), r cùng số cụm với j,
  * k là câu có Kanji; fill.tok là cụm cần điền; talk.a là số thứ tự câu mẫu hoặc [chữ, romaji, nghĩa].
  */
@@ -113,6 +114,41 @@ window.SJ = window.SJ || {};
         { q: 'すきな いろは なんですか。', qr: 'suki na iro wa nan desu ka?', qv: 'Bạn mới quen hỏi màu bạn thích — bạn thích màu hồng.', a: 7, wrong: [['ピンクいです。', 'pinkui desu.'], ['くろいです。', 'kuroi desu.']] },
         { q: 'これは なにいろの ペンですか。', qr: 'kore wa naniiro no pen desu ka?', qv: 'Cô giáo giơ một cây bút xanh lá lên và hỏi:', a: 3, wrong: [['それは みどり ペンです。', 'sore wa midori pen desu.'], ['それは みどりい ペンです。', 'sore wa midorii pen desu.']] },
         { sit: 'Một chiếc xe màu trắng đỗ ở đằng xa, trước cổng trường. Bạn hỏi bạn Nhật xem xe đó của ai:', a: ['あの しろい くるまは だれのですか。', 'ano shiroi kuruma wa dare no desu ka?', 'Chiếc xe màu trắng kia là của ai?'], wrong: [['あの しろの くるまは だれのですか。', 'ano shiro no kuruma wa dare no desu ka?'], ['あれ しろい くるまは だれのですか。', 'are shiroi kuruma wa dare no desu ka?']] },
+      ],
+    },
+    g52: {
+      title: 'Đếm đồ vật', jp: 'ひとつ・ふたつ', icon: 'apple',
+      goal: 'Đếm đồ vật từ 1 đến 10 bằng ひとつ, ふたつ…, hỏi "mấy cái" bằng いくつ và mua đúng số lượng',
+      pattern: { parts: [['Đồ vật', 'n'], ['を', 'p', 'o'], ['ひとつ / ふたつ…', 't', 'hitotsu / futatsu…'], ['ください', 'e', 'kudasai']], mean: 'Cho tôi … cái (đồ vật)' },
+      points: [
+        'Đếm đồ vật (quả táo, cái bánh, viên kẹo…) có bộ số riêng: <b class="jp">ひとつ</b> (1), <b class="jp">ふたつ</b> (2), <b class="jp">みっつ</b> (3), <b class="jp">よっつ</b> (4), <b class="jp">いつつ</b> (5), <b class="jp">むっつ</b> (6), <b class="jp">ななつ</b> (7), <b class="jp">やっつ</b> (8), <b class="jp">ここのつ</b> (9), <b class="jp">とお</b> (10). Hầu hết kết thúc bằng <span class="jp">つ</span>, riêng 10 là <span class="jp">とお</span>.',
+        'Từ 11 trở lên thì dùng số thường bạn đã học: <span class="jp">じゅういち</span>, <span class="jp">じゅうに</span>…',
+        'Hỏi "mấy cái?" → <b class="jp">いくつ</b>ですか. Đừng nhầm với <span class="jp">いくら</span> (bao nhiêu tiền).',
+        'Số lượng đứng <b>sau</b> <span class="jp">を</span> và <b>trước</b> động từ: <span class="jp">りんごを <b>みっつ</b> ください</span> (cho tôi 3 quả táo). Đếm người thì khác: <span class="jp">ひとり</span>, <span class="jp">ふたり</span> — không dùng ひとつ cho người.',
+      ],
+      tip: 'Khi đếm bằng ngón tay, người Nhật xoè bàn tay ra rồi <b>gập</b> từng ngón vào, bắt đầu từ ngón cái. Còn <span class="jp">いくつ</span> thêm <span class="jp">お</span> thành <b class="jp">おいくつですか</b> là cách hỏi tuổi lịch sự đó!',
+      ex: [
+        { j: 'りんご|を |みっつ |ください。', r: 'ringo|o|mittsu|kudasai', v: 'Cho tôi 3 quả táo.', k: 'りんごを三つください。' },
+        { j: 'いくつ|ですか。', r: 'ikutsu|desu ka', v: 'Mấy cái ạ?', k: 'いくつですか。' },
+        { j: 'ふたつ|です。', r: 'futatsu|desu', v: 'Hai cái.', k: '二つです。' },
+        { j: 'この |ケーキ|を |ひとつ |ください。', r: 'kono|keeki|o|hitotsu|kudasai', v: 'Cho tôi một cái bánh kem này.', k: 'このケーキを一つください。' },
+        { j: 'みかん|を |いつつ |ください。', r: 'mikan|o|itsutsu|kudasai', v: 'Cho tôi 5 quả quýt.', k: 'みかんを五つください。' },
+        { j: 'おにぎり|を |ふたつ|と、|おちゃ|を |ひとつ |ください。', r: 'onigiri|o|futatsu|to,|ocha|o|hitotsu|kudasai', v: 'Cho tôi 2 nắm cơm và 1 chai trà.', k: 'おにぎりを二つと、お茶を一つください。' },
+        { j: 'あめ|を |とお |ください。', r: 'ame|o|too|kudasai', v: 'Cho tôi 10 viên kẹo.', k: 'あめを十ください。' },
+        { j: 'ぜんぶで |いくら|ですか。', r: 'zenbu de|ikura|desu ka', v: 'Tổng cộng bao nhiêu tiền ạ?', k: '全部でいくらですか。' },
+        { j: 'ひとつ |ひゃく|えん|です。', r: 'hitotsu|hyaku|en|desu', v: '100 yên một cái.', k: '一つ百円です。' },
+      ],
+      fill: [
+        { ex: 0, tok: 2, wrong: ['さん', 'みっか'], why: '3 cái = <b class="jp">みっつ</b>. (<span class="jp">さん</span> là số 3 khi đếm số, <span class="jp">みっか</span> là ngày mùng 3)' },
+        { ex: 1, tok: 0, wrong: ['いくら', 'なに'], why: 'Hỏi "mấy cái" → <b class="jp">いくつ</b>. (<span class="jp">いくら</span> = bao nhiêu tiền)' },
+        { ex: 3, tok: 3, wrong: ['ひとり', 'いち'], why: 'Đếm đồ vật: <b class="jp">ひとつ</b> (1 cái). <span class="jp">ひとり</span> là 1 người.' },
+        { ex: 4, tok: 2, wrong: ['ごつ', 'いつか'], why: '5 cái = <b class="jp">いつつ</b>. (<span class="jp">いつか</span> là ngày mùng 5)' },
+      ],
+      talk: [
+        { q: 'いくつですか。', qr: 'ikutsu desu ka?', qv: 'Bạn mua táo ở chợ. Cô bán hàng hỏi: "Mấy quả ạ?" — bạn cần hai quả.', a: 2, wrong: [['ふたりです。', 'futari desu.'], ['にです。', 'ni desu.']] },
+        { sit: 'Ở tiệm bánh, bạn chỉ vào chiếc bánh kem trong tủ kính và muốn mua một cái:', a: 3, wrong: [['この ケーキを ひとり ください。', 'kono keeki o hitori kudasai.'], ['この ケーキは ひとつ ください。', 'kono keeki wa hitotsu kudasai.']] },
+        { sit: 'Bạn đã chọn xong mấy món ở quầy và muốn hỏi tổng cộng hết bao nhiêu tiền:', a: 7, wrong: [['ぜんぶで いくつですか。', 'zenbu de ikutsu desu ka?'], ['ぜんぶで なんですか。', 'zenbu de nan desu ka?']] },
+        { q: 'みかんは ひとつ ひゃくえんですよ。', qr: 'mikan wa hitotsu hyaku en desu yo.', qv: 'Cô bán hàng nói quýt 100 yên một quả. Bạn muốn mua 5 quả:', a: 4, wrong: [['みかんを ごつ ください。', 'mikan o gotsu kudasai.'], ['みかんを いつか ください。', 'mikan o itsuka kudasai.']] },
       ],
     },
   });
