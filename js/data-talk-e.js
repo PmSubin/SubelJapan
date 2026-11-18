@@ -3,6 +3,7 @@
  *  - g50: Lời chúc mừng (chặng 1 · Chào hỏi)
  *  - g51: Màu gì? (chặng 3 · Đồ vật)
  *  - g52: Đếm đồ vật ひとつ・ふたつ (chặng 4 · Số & mua sắm)
+ *  - g53: Ở tầng mấy? なんがい・こちら・あちら (chặng 5 · Nơi chốn)
  * Quy ước như các file data-talk-*.js: j tách cụm bằng "|", cách sau mỗi cụm (分かち書き), r cùng số cụm với j,
  * k là câu có Kanji; fill.tok là cụm cần điền; talk.a là số thứ tự câu mẫu hoặc [chữ, romaji, nghĩa].
  */
@@ -149,6 +150,42 @@ window.SJ = window.SJ || {};
         { sit: 'Ở tiệm bánh, bạn chỉ vào chiếc bánh kem trong tủ kính và muốn mua một cái:', a: 3, wrong: [['この ケーキを ひとり ください。', 'kono keeki o hitori kudasai.'], ['この ケーキは ひとつ ください。', 'kono keeki wa hitotsu kudasai.']] },
         { sit: 'Bạn đã chọn xong mấy món ở quầy và muốn hỏi tổng cộng hết bao nhiêu tiền:', a: 7, wrong: [['ぜんぶで いくつですか。', 'zenbu de ikutsu desu ka?'], ['ぜんぶで なんですか。', 'zenbu de nan desu ka?']] },
         { q: 'みかんは ひとつ ひゃくえんですよ。', qr: 'mikan wa hitotsu hyaku en desu yo.', qv: 'Cô bán hàng nói quýt 100 yên một quả. Bạn muốn mua 5 quả:', a: 4, wrong: [['みかんを ごつ ください。', 'mikan o gotsu kudasai.'], ['みかんを いつか ください。', 'mikan o itsuka kudasai.']] },
+      ],
+    },
+    g53: {
+      title: 'Ở tầng mấy?', jp: 'なんがいですか', icon: 'building',
+      goal: 'Hỏi và nói tầng mấy bằng なんがい, chỉ chỗ lịch sự bằng こちら・そちら・あちら khi đi trung tâm thương mại',
+      pattern: { parts: [['Quầy / phòng…', 'n'], ['は', 'p', 'wa'], ['なんがい', 'q', 'nangai'], ['ですか', 'e', 'desu ka']], mean: '(Quầy / phòng…) ở tầng mấy?' },
+      points: [
+        'Tầng = số + <b class="jp">かい</b>: <span class="jp">にかい</span> (tầng 2), <span class="jp">よんかい</span> (tầng 4), <span class="jp">ごかい</span> (tầng 5), <span class="jp">ななかい</span> (tầng 7), <span class="jp">きゅうかい</span> (tầng 9). Hỏi tầng mấy: <b class="jp">なんがい</b>.',
+        'Mấy tầng bị biến âm, phải nhớ: <b class="jp">いっかい</b> (1), <b class="jp">さんがい</b> (3 — かい thành がい), <b class="jp">ろっかい</b> (6), <b class="jp">はっかい</b> (8), <b class="jp">じゅっかい</b> (10). <span class="jp">なんがい</span> cũng đổi thành がい giống <span class="jp">さんがい</span>.',
+        'Tầng hầm: <b class="jp">ちか</b> (dưới mặt đất) + số tầng: <span class="jp">ちか いっかい</span> = tầng hầm 1.',
+        'Ở cửa hàng, nhân viên chỉ chỗ bằng từ lịch sự: <b class="jp">こちら</b> (phía này), <b class="jp">そちら</b> (phía đó, gần người nghe), <b class="jp">あちら</b> (phía kia, xa cả hai) — là cách nói lịch sự của <span class="jp">ここ・そこ・あそこ</span>.',
+      ],
+      tip: 'Ở Nhật, tầng sát mặt đất đã là <b class="jp">いっかい</b> (tầng 1), không có "tầng trệt" như Việt Nam. Tầng hầm của trung tâm thương mại thường bán đồ ăn, gọi vui là <b class="jp">デパちか</b> — đến đó hay được mời ăn thử miễn phí!',
+      ex: [
+        { j: 'すみません、|くつ うりば|は |なんがい|ですか。', r: 'sumimasen,|kutsu uriba|wa|nangai|desu ka', v: 'Xin lỗi, quầy giày ở tầng mấy ạ?', k: 'すみません、靴売り場は何階ですか。' },
+        { j: 'さんがい|です。', r: 'sangai|desu', v: 'Ở tầng 3 ạ.', k: '3階です。' },
+        { j: 'レストラン|は |ろっかい|です。', r: 'resutoran|wa|rokkai|desu', v: 'Nhà hàng ở tầng 6.', k: 'レストランは6階です。' },
+        { j: 'しょくりょうひん|は |ちか |いっかい|です。', r: 'shokuryouhin|wa|chika|ikkai|desu', v: 'Đồ ăn, thực phẩm ở tầng hầm 1.', k: '食料品は地下1階です。' },
+        { j: 'エレベーター|は |あちら|です。', r: 'erebeetaa|wa|achira|desu', v: 'Thang máy ở phía kia ạ.', k: 'エレベーターはあちらです。' },
+        { j: 'トイレ|は |こちら|です。', r: 'toire|wa|kochira|desu', v: 'Nhà vệ sinh ở phía này ạ.', k: 'トイレはこちらです。' },
+        { j: 'わたし|の |へや|は |はっかい|です。', r: 'watashi|no|heya|wa|hakkai|desu', v: 'Phòng của tôi ở tầng 8.', k: '私の部屋は8階です。' },
+        { j: 'ほんや|は |なんがい|に |ありますか。', r: "hon'ya|wa|nangai|ni|arimasu ka", v: 'Hiệu sách ở tầng mấy ạ?', k: '本屋は何階にありますか。' },
+        { j: 'いっかい|に |あります。', r: 'ikkai|ni|arimasu', v: 'Ở tầng 1 ạ.', k: '1階にあります。' },
+      ],
+      fill: [
+        { ex: 0, tok: 3, wrong: ['なんじ', 'なんにち'], why: 'Hỏi tầng mấy → <b class="jp">なんがい</b>. (<span class="jp">なんじ</span> = mấy giờ, <span class="jp">なんにち</span> = ngày mấy)' },
+        { ex: 1, tok: 0, wrong: ['さんがつ', 'さんにん'], why: 'Tầng 3 = <b class="jp">さんがい</b>. (<span class="jp">さんがつ</span> = tháng 3, <span class="jp">さんにん</span> = 3 người)' },
+        { ex: 2, tok: 2, wrong: ['ろくかい', 'むっつ'], why: '6 + かい biến âm thành <b class="jp">ろっかい</b>. (<span class="jp">むっつ</span> = 6 cái)' },
+        { ex: 4, tok: 2, wrong: ['あれ', 'あの'], why: 'Chỉ chỗ, chỉ phía một cách lịch sự → <b class="jp">あちら</b>. (<span class="jp">あれ</span> = cái kia, <span class="jp">あの</span> phải đi kèm danh từ)' },
+        { ex: 3, tok: 2, wrong: ['した', 'なか'], why: 'Tầng hầm = <b class="jp">ちか</b> (dưới mặt đất) + số tầng: ちか いっかい.' },
+      ],
+      talk: [
+        { q: 'すみません、くつ うりばは なんがいですか。', qr: 'sumimasen, kutsu uriba wa nangai desu ka?', qv: 'Bạn làm thêm ở quầy thông tin của trung tâm thương mại. Khách hỏi quầy giày ở tầng mấy — quầy giày ở tầng 3.', a: 1, wrong: [['さんがつです。', 'sangatsu desu.'], ['みっつです。', 'mittsu desu.']] },
+        { sit: 'Bạn đi trung tâm thương mại và muốn hỏi nhân viên xem hiệu sách ở tầng mấy:', a: 7, wrong: [['ほんやは なんじに ありますか。', "hon'ya wa nanji ni arimasu ka?"], ['ほんやは なんがいを ありますか。', "hon'ya wa nangai o arimasu ka?"]] },
+        { q: 'エレベーターは どちらですか。', qr: 'erebeetaa wa dochira desu ka?', qv: 'Một bác lớn tuổi hỏi bạn thang máy ở hướng nào — thang máy ở tít đằng kia, xa cả hai người.', a: 4, wrong: [['エレベーターは あれです。', 'erebeetaa wa are desu.'], ['エレベーターは こちらです。', 'erebeetaa wa kochira desu.']] },
+        { q: 'リンさんの へやは なんがいですか。', qr: 'Rin-san no heya wa nangai desu ka?', qv: 'Bạn mới chuyển đến chung cư. Bác hàng xóm hỏi phòng bạn ở tầng mấy — phòng bạn ở tầng 8.', a: ['はっかいです。', 'hakkai desu.', 'Ở tầng 8 ạ.'], wrong: [['はちがいです。', 'hachigai desu.'], ['やっつです。', 'yattsu desu.']] },
       ],
     },
   });

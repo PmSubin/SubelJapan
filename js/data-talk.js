@@ -425,7 +425,7 @@ window.SJ = window.SJ || {};
     { id: 'tq2', title: 'Giới thiệu bản thân', jp: 'じこしょうかい', icon: 'nametag', color: '#ff8a3d', desc: 'Tên, nghề, quê quán; hỏi "phải không?", nói "không phải", "cũng vậy"', lessons: ['g2', 'g3', 'g4', 'g20', 'g21'] },
     { id: 'tq3', title: 'Đồ vật', jp: 'これは なんですか', icon: 'gift', color: '#4aa8ff', desc: 'Cái này, cái đó, của ai, màu gì, tiếng Nhật gọi là gì', lessons: ['g5', 'g6', 'g22', 'g23', 'g51'] },
     { id: 'tq4', title: 'Số & mua sắm', jp: 'かいもの', icon: 'shop', color: '#f2a516', desc: 'Đếm số, hỏi giá, đếm đồ vật, gọi món, mua ở cửa hàng tiện lợi', lessons: ['g24', 'g8', 'g52', 'g25', 'g26'] },
-    { id: 'tq5', title: 'Nơi chốn', jp: 'どこですか', icon: 'map', color: '#1fb5a8', desc: 'Ở đâu, có không, trên dưới trong ngoài, có ai ở đó', lessons: ['g7', 'g27', 'g28', 'g29'] },
+    { id: 'tq5', title: 'Nơi chốn', jp: 'どこですか', icon: 'map', color: '#1fb5a8', desc: 'Ở đâu, có không, trên dưới trong ngoài, có ai ở đó, ở tầng mấy', lessons: ['g7', 'g27', 'g28', 'g29', 'g53'] },
     { id: 'tq6', title: 'Thời gian', jp: 'いま なんじ？', icon: 'clock', color: '#6f7dff', desc: 'Mấy giờ, thứ mấy, hôm nay / ngày mai, từ… đến…, ngày tháng & sinh nhật', lessons: ['g30', 'g31', 'g32', 'g49'] },
     { id: 'tq7', title: 'Một ngày của tôi', jp: 'まいにち', icon: 'calendar', color: '#29c993', desc: 'Động từ ます: ăn uống, thức dậy, đi đâu, đi bằng gì', lessons: ['g9', 'g33', 'g10', 'g34'] },
     { id: 'tq8', title: 'Đã làm gì & rủ nhau', jp: 'きのう・こんど', icon: 'party', color: '#ff7a59', desc: 'Làm ở đâu, đã làm gì, rủ nhau, hẹn gặp', lessons: ['g35', 'g11', 'g12', 'g36'] },
