@@ -4,6 +4,7 @@
  *  - g51: Màu gì? (chặng 3 · Đồ vật)
  *  - g52: Đếm đồ vật ひとつ・ふたつ (chặng 4 · Số & mua sắm)
  *  - g53: Ở tầng mấy? なんがい・こちら・あちら (chặng 5 · Nơi chốn)
+ *  - g54: Mất bao lâu? 〜じかん・〜ふん・かかります (chặng 6 · Thời gian)
  * Quy ước như các file data-talk-*.js: j tách cụm bằng "|", cách sau mỗi cụm (分かち書き), r cùng số cụm với j,
  * k là câu có Kanji; fill.tok là cụm cần điền; talk.a là số thứ tự câu mẫu hoặc [chữ, romaji, nghĩa].
  */
@@ -186,6 +187,42 @@ window.SJ = window.SJ || {};
         { sit: 'Bạn đi trung tâm thương mại và muốn hỏi nhân viên xem hiệu sách ở tầng mấy:', a: 7, wrong: [['ほんやは なんじに ありますか。', "hon'ya wa nanji ni arimasu ka?"], ['ほんやは なんがいを ありますか。', "hon'ya wa nangai o arimasu ka?"]] },
         { q: 'エレベーターは どちらですか。', qr: 'erebeetaa wa dochira desu ka?', qv: 'Một bác lớn tuổi hỏi bạn thang máy ở hướng nào — thang máy ở tít đằng kia, xa cả hai người.', a: 4, wrong: [['エレベーターは あれです。', 'erebeetaa wa are desu.'], ['エレベーターは こちらです。', 'erebeetaa wa kochira desu.']] },
         { q: 'リンさんの へやは なんがいですか。', qr: 'Rin-san no heya wa nangai desu ka?', qv: 'Bạn mới chuyển đến chung cư. Bác hàng xóm hỏi phòng bạn ở tầng mấy — phòng bạn ở tầng 8.', a: ['はっかいです。', 'hakkai desu.', 'Ở tầng 8 ạ.'], wrong: [['はちがいです。', 'hachigai desu.'], ['やっつです。', 'yattsu desu.']] },
+      ],
+    },
+    g54: {
+      title: 'Mất bao lâu?', jp: 'どのくらい かかりますか', icon: 'watch',
+      goal: 'Nói khoảng thời gian bằng 〜じかん・〜ふん, hỏi "mất bao lâu" bằng どのくらい かかりますか',
+      pattern: { parts: [['Phương tiện', 'n'], ['で', 'p', 'de'], ['… じかん / … ふん', 't'], ['ぐらい', 'p', 'gurai'], ['かかります', 'e', 'kakarimasu']], mean: 'Đi bằng … mất khoảng … tiếng / … phút' },
+      points: [
+        'Bao nhiêu <b>tiếng</b> (khoảng thời gian) = số + <b class="jp">じかん</b>: <span class="jp">いちじかん</span> (1 tiếng), <span class="jp">にじかん</span> (2 tiếng), <span class="jp">よじかん</span> (4 tiếng), <span class="jp">くじかん</span> (9 tiếng). Đừng nhầm với <span class="jp">いちじ</span> = lúc 1 giờ! Hỏi: <b class="jp">なんじかん</b>. Thêm rưỡi: <span class="jp">にじかんはん</span> (2 tiếng rưỡi).',
+        '<b>Phút</b> = số + <b class="jp">ふん</b> hoặc <b class="jp">ぷん</b>: <span class="jp">にふん</span>, <span class="jp">ごふん</span>, <span class="jp">ななふん</span>, <span class="jp">きゅうふん</span> — nhưng <b class="jp">いっぷん</b> (1), <b class="jp">さんぷん</b> (3), <b class="jp">よんぷん</b> (4), <b class="jp">ろっぷん</b> (6), <b class="jp">はっぷん</b> (8), <b class="jp">じゅっぷん</b> (10). Hỏi: <b class="jp">なんぷん</b>.',
+        '<b class="jp">かかります</b> = mất (thời gian). Hỏi mất bao lâu: <b class="jp">どのくらい かかりますか</b>. <b class="jp">ぐらい</b> = khoảng, đứng <b>sau</b> số: <span class="jp">じゅっぷんぐらい</span> = khoảng 10 phút.',
+        'Đi bằng gì thì thêm <b class="jp">で</b>: <span class="jp">でんしゃで</span> (bằng tàu điện), <span class="jp">バスで</span> (bằng xe buýt). Đi bộ thì nói <b class="jp">あるいて</b>. Từ đâu đến đâu dùng lại <span class="jp">〜から 〜まで</span>.',
+      ],
+      tip: 'Ở Nhật, quảng cáo thuê nhà luôn ghi "<span class="jp">えき から あるいて ごふん</span>" (cách ga 5 phút đi bộ) — người ta tính 1 phút đi bộ là khoảng 80 mét. Nhà càng gần ga thì càng đắt!',
+      ex: [
+        { j: 'いえ|から |がっこう|まで |どのくらい |かかりますか。', r: 'ie|kara|gakkou|made|dono kurai|kakarimasu ka', v: 'Từ nhà đến trường mất bao lâu?', k: '家から学校までどのくらいかかりますか。' },
+        { j: 'じてんしゃ|で |じゅっぷん|ぐらい|です。', r: 'jitensha|de|juppun|gurai|desu', v: 'Đi xe đạp khoảng 10 phút.', k: '自転車で10分ぐらいです。' },
+        { j: 'でんしゃ|で |いちじかん |かかります。', r: 'densha|de|ichijikan|kakarimasu', v: 'Đi tàu điện mất 1 tiếng.', k: '電車で1時間かかります。' },
+        { j: 'えき|まで |あるいて |ごふん|です。', r: 'eki|made|aruite|gofun|desu', v: 'Đi bộ đến ga mất 5 phút.', k: '駅まで歩いて5分です。' },
+        { j: 'まいにち |にほんご|を |さんじゅっぷん |べんきょうします。', r: 'mainichi|nihongo|o|sanjuppun|benkyou shimasu', v: 'Mỗi ngày tôi học tiếng Nhật 30 phút.', k: '毎日日本語を30分勉強します。' },
+        { j: 'ひこうき|で |ろくじかん|ぐらい|です。', r: 'hikouki|de|rokujikan|gurai|desu', v: 'Đi máy bay khoảng 6 tiếng.', k: '飛行機で6時間ぐらいです。' },
+        { j: 'なんぷん|ぐらい |かかりますか。', r: 'nanpun|gurai|kakarimasu ka', v: 'Mất khoảng mấy phút?', k: '何分ぐらいかかりますか。' },
+        { j: 'えいが|は |にじかん|はん|です。', r: 'eiga|wa|nijikan|han|desu', v: 'Bộ phim dài 2 tiếng rưỡi.', k: '映画は2時間半です。' },
+        { j: 'バス|で |よんじゅっぷん |かかります。', r: 'basu|de|yonjuppun|kakarimasu', v: 'Đi xe buýt mất 40 phút.', k: 'バスで40分かかります。' },
+      ],
+      fill: [
+        { ex: 1, tok: 2, wrong: ['じゅうふん', 'とお'], why: '10 phút biến âm thành <b class="jp">じゅっぷん</b>. (<span class="jp">とお</span> = 10 cái)' },
+        { ex: 2, tok: 2, wrong: ['いちじ', 'ついたち'], why: 'Khoảng thời gian 1 tiếng = <b class="jp">いちじかん</b>. (<span class="jp">いちじ</span> = lúc 1 giờ, <span class="jp">ついたち</span> = ngày mùng 1)' },
+        { ex: 6, tok: 0, wrong: ['なんじ', 'なんがい'], why: 'Hỏi mấy phút → <b class="jp">なんぷん</b>. (<span class="jp">なんじ</span> = mấy giờ, <span class="jp">なんがい</span> = tầng mấy)' },
+        { ex: 0, tok: 4, wrong: ['どこ', 'いつ'], why: 'Hỏi mất bao lâu → <b class="jp">どのくらい</b>. (<span class="jp">どこ</span> = ở đâu, <span class="jp">いつ</span> = khi nào)' },
+        { ex: 5, tok: 3, wrong: ['まで', 'から'], why: '"Khoảng" → <b class="jp">ぐらい</b>, đứng sau số. (<span class="jp">まで</span> = đến, <span class="jp">から</span> = từ)' },
+      ],
+      talk: [
+        { q: 'いえから がっこうまで どのくらい かかりますか。', qr: 'ie kara gakkou made dono kurai kakarimasu ka?', qv: 'Bạn cùng lớp hỏi bạn từ nhà đến trường mất bao lâu — bạn đi xe đạp, chừng 10 phút.', a: 1, wrong: [['じてんしゃで じゅうじぐらいです。', 'jitensha de juuji gurai desu.'], ['じてんしゃを じゅっぷんぐらいです。', 'jitensha o juppun gurai desu.']] },
+        { sit: 'Bạn đứng ở bến xe, muốn hỏi người bên cạnh xem đi đến đó mất khoảng mấy phút:', a: 6, wrong: [['なんじぐらい かかりますか。', 'nanji gurai kakarimasu ka?'], ['なんぷんぐらい ありますか。', 'nanpun gurai arimasu ka?']] },
+        { q: 'ベトナムから にほんまで どのくらい かかりますか。', qr: 'betonamu kara nihon made dono kurai kakarimasu ka?', qv: 'Bạn Nhật hỏi từ Việt Nam sang Nhật mất bao lâu — đi máy bay chừng 6 tiếng.', a: 5, wrong: [['ひこうきで ろくじぐらいです。', 'hikouki de rokuji gurai desu.'], ['ひこうきで むいかぐらいです。', 'hikouki de muika gurai desu.']] },
+        { q: 'その えいがは なんじかんですか。', qr: 'sono eiga wa nanjikan desu ka?', qv: 'Bạn rủ bạn Nhật đi xem phim, bạn ấy hỏi phim dài mấy tiếng — phim dài 2 tiếng rưỡi.', a: 7, wrong: [['にじはんです。', 'niji han desu.'], ['はん にじかんです。', 'han nijikan desu.']] },
       ],
     },
   });
