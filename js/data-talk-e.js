@@ -6,6 +6,7 @@
  *  - g53: Ở tầng mấy? なんがい・こちら・あちら (chặng 5 · Nơi chốn)
  *  - g54: Mất bao lâu? 〜じかん・〜ふん・かかります (chặng 6 · Thời gian)
  *  - g55: Có hay làm không? いつも・よく・ときどき・あまり・ぜんぜん (chặng 7 · Một ngày của tôi)
+ *  - g56: Đi để làm gì? 〜に いきます (chặng 8 · Đã làm gì & rủ nhau)
  * Quy ước như các file data-talk-*.js: j tách cụm bằng "|", cách sau mỗi cụm (分かち書き), r cùng số cụm với j,
  * k là câu có Kanji; fill.tok là cụm cần điền; talk.a là số thứ tự câu mẫu hoặc [chữ, romaji, nghĩa].
  */
@@ -261,6 +262,43 @@ window.SJ = window.SJ || {};
         { q: 'よく りょうりを しますか。', qr: 'yoku ryouri o shimasu ka?', qv: 'Bạn cùng phòng hỏi bạn có hay nấu ăn không — bạn ít khi nấu.', a: 8, wrong: [['いいえ、あまり します。', 'iie, amari shimasu.'], ['いいえ、あまり しました。', 'iie, amari shimashita.']] },
         { sit: 'Đi liên hoan, bạn muốn nói với bạn Nhật rằng mình hoàn toàn không uống rượu:', a: 5, wrong: [['おさけは ぜんぜん のみます。', 'osake wa zenzen nomimasu.'], ['おさけは ときどき のみません。', 'osake wa tokidoki nomimasen.']] },
         { q: 'にちようびは はやく おきますか。', qr: 'nichiyoubi wa hayaku okimasu ka?', qv: 'Bạn Nhật hỏi chủ nhật bạn có dậy sớm không — chủ nhật nào bạn cũng dậy muộn.', a: 9, wrong: [['にちようびは いつ おそく おきます。', 'nichiyoubi wa itsu osoku okimasu.'], ['にちようびは いつも おそく おきません。', 'nichiyoubi wa itsumo osoku okimasen.']] },
+      ],
+    },
+    g56: {
+      title: 'Đi để làm gì?', jp: '〜に いきます', icon: 'walk',
+      goal: 'Nói đi đâu để làm gì bằng "động từ bỏ ます + に いきます", và rủ bạn cùng đi',
+      pattern: { parts: [['Nơi', 'n'], ['へ', 'p', 'e'], ['Việc (bỏ ます)', 'v'], ['に', 'p', 'ni'], ['いきます', 'e', 'ikimasu']], mean: 'Đi đến … để làm …' },
+      points: [
+        'Muốn nói đi <b>để làm gì</b>: lấy động từ, bỏ <span class="jp">ます</span>, thêm <b class="jp">に</b> rồi nói <b class="jp">いきます</b>: <span class="jp">みます → みに いきます</span> (đi xem), <span class="jp">かいます → かいに いきます</span> (đi mua), <span class="jp">たべます → たべに いきます</span> (đi ăn).',
+        'Với danh từ chỉ hoạt động như <span class="jp">かいもの</span> (mua sắm), <span class="jp">さんぽ</span> (đi dạo), <span class="jp">はなみ</span> (ngắm hoa) thì chỉ cần danh từ + <b class="jp">に いきます</b>: <span class="jp">かいものに いきます</span> = đi mua sắm.',
+        'Ghép cả nơi đến: <b>Nơi</b> + <b class="jp">へ</b> (đọc là <b>e</b>) + mục đích + <b class="jp">に</b> + <span class="jp">いきます</span>: <span class="jp">デパートへ くつを かいに いきます</span>. Dùng へ cho nơi chốn để câu khỏi có hai chữ に liền nhau. Thay いきます bằng <span class="jp">きます</span> (đến) hay <span class="jp">かえります</span> (về) cũng được.',
+        'Hỏi "đi để làm gì?": <b class="jp">なにを しに いきますか</b>. Rủ bạn cùng đi: <span class="jp">いっしょに 〜に いきませんか</span>. Kể chuyện đã đi: đổi thành <span class="jp">いきました</span>.',
+      ],
+      tip: 'Mùa xuân, người Nhật rủ nhau <span class="jp">はなみに いきます</span> — trải bạt dưới gốc hoa anh đào, ăn uống, ca hát. Mùa hè thì <span class="jp">はなびを みに いきます</span> (đi xem pháo hoa), nhiều người còn mặc áo yukata thật dễ thương!',
+      ex: [
+        { j: 'デパート|へ |くつ|を |かいに |いきます。', r: 'depaato|e|kutsu|o|kai ni|ikimasu', v: 'Tôi đi trung tâm thương mại để mua giày.', k: 'デパートへ靴を買いに行きます。' },
+        { j: 'ともだち|と |えいが|を |みに |いきました。', r: 'tomodachi|to|eiga|o|mi ni|ikimashita', v: 'Tôi đã đi xem phim với bạn.', k: '友達と映画を見に行きました。' },
+        { j: 'どようび、|なに|を |しに |いきますか。', r: 'doyoubi,|nani|o|shi ni|ikimasu ka', v: 'Thứ bảy bạn đi để làm gì thế?', k: '土曜日、何をしに行きますか。' },
+        { j: 'こうえん|へ |さんぽ|に |いきます。', r: 'kouen|e|sanpo|ni|ikimasu', v: 'Tôi ra công viên đi dạo.', k: '公園へ散歩に行きます。' },
+        { j: 'ひるごはん|を |たべに |かえります。', r: 'hirugohan|o|tabe ni|kaerimasu', v: 'Tôi về nhà để ăn trưa.', k: '昼ご飯を食べに帰ります。' },
+        { j: 'いっしょに |かいもの|に |いきませんか。', r: 'issho ni|kaimono|ni|ikimasen ka', v: 'Cùng đi mua sắm không?', k: '一緒に買い物に行きませんか。' },
+        { j: 'にほん|へ |にほんご|を |べんきょうしに |きました。', r: 'nihon|e|nihongo|o|benkyou shi ni|kimashita', v: 'Tôi đến Nhật để học tiếng Nhật.', k: '日本へ日本語を勉強しに来ました。' },
+        { j: 'としょかん|へ |ほん|を |かえしに |いきます。', r: 'toshokan|e|hon|o|kaeshi ni|ikimasu', v: 'Tôi đến thư viện để trả sách.', k: '図書館へ本を返しに行きます。' },
+        { j: 'はる|は |はなみ|に |いきます。', r: 'haru|wa|hanami|ni|ikimasu', v: 'Mùa xuân tôi đi ngắm hoa anh đào.', k: '春は花見に行きます。' },
+        { j: 'なつやすみ|に |うみ|へ |およぎに |いきました。', r: 'natsuyasumi|ni|umi|e|oyogi ni|ikimashita', v: 'Kỳ nghỉ hè tôi đã ra biển bơi.', k: '夏休みに海へ泳ぎに行きました。' },
+      ],
+      fill: [
+        { ex: 0, tok: 4, wrong: ['かいます', 'かって'], why: 'Đi để mua → bỏ <span class="jp">ます</span> của <span class="jp">かいます</span>, thêm に: <b class="jp">かいに</b> いきます.' },
+        { ex: 1, tok: 3, wrong: ['みます', 'みて'], why: 'Đi để xem → <span class="jp">みます</span> bỏ ます + に = <b class="jp">みに</b>.' },
+        { ex: 3, tok: 3, wrong: ['を', 'で'], why: 'Danh từ chỉ hoạt động (<span class="jp">さんぽ</span>) + <b class="jp">に</b> いきます = đi dạo.' },
+        { ex: 2, tok: 3, wrong: ['します', 'して'], why: 'Hỏi đi để làm gì → <span class="jp">なにを</span> <b class="jp">しに</b> いきますか.' },
+        { ex: 9, tok: 4, wrong: ['およぎます', 'およいで'], why: 'Đi để bơi → <span class="jp">およぎます</span> bỏ ます + に = <b class="jp">およぎに</b>.' },
+      ],
+      talk: [
+        { q: 'デパートへ なにを しに いきますか。', qr: 'depaato e nani o shi ni ikimasu ka?', qv: 'Bạn cùng phòng thấy bạn sắp đi trung tâm thương mại và hỏi đi làm gì — bạn đi mua giày.', a: 0, wrong: [['くつを かいます いきます。', 'kutsu o kaimasu ikimasu.'], ['くつを かいで いきます。', 'kutsu o kai de ikimasu.']] },
+        { q: 'きのう、なにを しましたか。', qr: 'kinou, nani o shimashita ka?', qv: 'Bạn Nhật hỏi hôm qua bạn làm gì — bạn đã đi xem phim với bạn bè.', a: 1, wrong: [['ともだちと えいがを みに いきます。', 'tomodachi to eiga o mi ni ikimasu.'], ['ともだちと えいがに みます いきました。', 'tomodachi to eiga ni mimasu ikimashita.']] },
+        { sit: 'Cuối tuần rảnh, bạn muốn rủ bạn Nhật cùng đi mua sắm:', a: 5, wrong: [['いっしょに かいものを いきませんか。', 'issho ni kaimono o ikimasen ka?'], ['いっしょに かいものに いきましたか。', 'issho ni kaimono ni ikimashita ka?']] },
+        { q: 'なにを しに にほんへ きましたか。', qr: 'nani o shi ni nihon e kimashita ka?', qv: 'Ở buổi giao lưu, một người Nhật hỏi bạn sang Nhật để làm gì — bạn sang để học tiếng Nhật.', a: 6, wrong: [['にほんごを べんきょうします きました。', 'nihongo o benkyou shimasu kimashita.'], ['にほんごを べんきょうしに いきませんか。', 'nihongo o benkyou shi ni ikimasen ka?']] },
       ],
     },
   });
