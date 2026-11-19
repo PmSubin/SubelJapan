@@ -7,6 +7,7 @@
  *  - g54: Mất bao lâu? 〜じかん・〜ふん・かかります (chặng 6 · Thời gian)
  *  - g55: Có hay làm không? いつも・よく・ときどき・あまり・ぜんぜん (chặng 7 · Một ngày của tôi)
  *  - g56: Đi để làm gì? 〜に いきます (chặng 8 · Đã làm gì & rủ nhau)
+ *  - g57: Người thế nào? どんな・〜くて・〜で (chặng 9 · Miêu tả)
  * Quy ước như các file data-talk-*.js: j tách cụm bằng "|", cách sau mỗi cụm (分かち書き), r cùng số cụm với j,
  * k là câu có Kanji; fill.tok là cụm cần điền; talk.a là số thứ tự câu mẫu hoặc [chữ, romaji, nghĩa].
  */
@@ -299,6 +300,42 @@ window.SJ = window.SJ || {};
         { q: 'きのう、なにを しましたか。', qr: 'kinou, nani o shimashita ka?', qv: 'Bạn Nhật hỏi hôm qua bạn làm gì — bạn đã đi xem phim với bạn bè.', a: 1, wrong: [['ともだちと えいがを みに いきます。', 'tomodachi to eiga o mi ni ikimasu.'], ['ともだちと えいがに みます いきました。', 'tomodachi to eiga ni mimasu ikimashita.']] },
         { sit: 'Cuối tuần rảnh, bạn muốn rủ bạn Nhật cùng đi mua sắm:', a: 5, wrong: [['いっしょに かいものを いきませんか。', 'issho ni kaimono o ikimasen ka?'], ['いっしょに かいものに いきましたか。', 'issho ni kaimono ni ikimashita ka?']] },
         { q: 'なにを しに にほんへ きましたか。', qr: 'nani o shi ni nihon e kimashita ka?', qv: 'Ở buổi giao lưu, một người Nhật hỏi bạn sang Nhật để làm gì — bạn sang để học tiếng Nhật.', a: 6, wrong: [['にほんごを べんきょうします きました。', 'nihongo o benkyou shimasu kimashita.'], ['にほんごを べんきょうしに いきませんか。', 'nihongo o benkyou shi ni ikimasen ka?']] },
+      ],
+    },
+    g57: {
+      title: 'Người thế nào?', jp: 'どんな・〜くて', icon: 'town',
+      goal: 'Hỏi "… như thế nào?" bằng どんな, nối hai tính từ bằng くて / で và nói "nhưng" bằng が',
+      pattern: { parts: [['Người / nơi', 'n'], ['は', 'p', 'wa'], ['Tính từ 1 + くて / で', 'a'], ['Tính từ 2', 'a'], ['です', 'e', 'desu']], mean: '… vừa … vừa … (nối hai tính từ)' },
+      points: [
+        '<b class="jp">どんな</b> + danh từ = … như thế nào, kiểu gì: <span class="jp">どんな まちですか</span> (thành phố như thế nào?), <span class="jp">どんな ひとですか</span> (người như thế nào?). Khác <span class="jp">どう</span>: どんな <b>luôn đứng trước danh từ</b>.',
+        'Nối hai tính từ い: bỏ <span class="jp">い</span>, thêm <b class="jp">くて</b>: <span class="jp">やすい → やすくて</span>, <span class="jp">ひろい → ひろくて</span>. <span class="jp">やすくて おいしいです</span> = vừa rẻ vừa ngon. Đặc biệt: <b class="jp">いい → よくて</b>.',
+        'Tính từ な (và danh từ) thì thêm <b class="jp">で</b>: <span class="jp">しずか → しずかで</span>, <span class="jp">きれい → きれいで</span>. <span class="jp">しずかで きれいです</span> = yên tĩnh và đẹp. Không nói しずかくて.',
+        'Hai ý trái ngược (một tốt, một chưa tốt) thì không dùng くて / で mà dùng <b class="jp">が</b> (nhưng): <span class="jp">ひろいですが、ちょっと くらいです</span> = rộng nhưng hơi tối.',
+      ],
+      tip: 'Hỏi về quê của nhau là cách bắt chuyện rất hay: <span class="jp">〜さんの まちは どんな まちですか</span>. Người Nhật nghe kể về Việt Nam thường rất thích thú — hãy chuẩn bị sẵn vài tính từ như <span class="jp">にぎやか</span> (náo nhiệt), <span class="jp">あたたかい</span> (ấm áp) nhé!',
+      ex: [
+        { j: 'ハノイ|は |どんな |まち|ですか。', r: 'hanoi|wa|donna|machi|desu ka', v: 'Hà Nội là thành phố như thế nào?', k: 'ハノイはどんな町ですか。' },
+        { j: 'にぎやかで |たのしい |まち|です。', r: 'nigiyaka de|tanoshii|machi|desu', v: 'Là thành phố náo nhiệt và vui.', k: 'にぎやかで楽しい町です。' },
+        { j: 'この |へや|は |ひろくて |あかるい|です。', r: 'kono|heya|wa|hirokute|akarui|desu', v: 'Căn phòng này rộng và sáng sủa.', k: 'この部屋は広くて明るいです。' },
+        { j: 'この |ラーメン|は |やすくて |おいしい|です。', r: 'kono|raamen|wa|yasukute|oishii|desu', v: 'Món ramen này vừa rẻ vừa ngon.', k: 'このラーメンは安くておいしいです。' },
+        { j: 'わたし|の |まち|は |しずかで |きれい|です。', r: 'watashi|no|machi|wa|shizuka de|kirei|desu', v: 'Thị trấn của tôi yên tĩnh và đẹp.', k: '私の町は静かできれいです。' },
+        { j: 'やまだ せんせい|は |どんな |ひと|ですか。', r: 'yamada sensei|wa|donna|hito|desu ka', v: 'Thầy Yamada là người như thế nào?', k: '山田先生はどんな人ですか。' },
+        { j: 'やさしくて |おもしろい |ひと|です。', r: 'yasashikute|omoshiroi|hito|desu', v: 'Là người hiền và vui tính.', k: '優しくて面白い人です。' },
+        { j: 'へや|は |ひろい|ですが、|ちょっと |くらい|です。', r: 'heya|wa|hiroi|desu ga,|chotto|kurai|desu', v: 'Phòng thì rộng nhưng hơi tối.', k: '部屋は広いですが、ちょっと暗いです。' },
+        { j: 'この |みせ|は |サービス|が |よくて |やすい|です。', r: 'kono|mise|wa|saabisu|ga|yokute|yasui|desu', v: 'Quán này phục vụ tốt mà lại rẻ.', k: 'この店はサービスがよくて安いです。' },
+        { j: 'きのう|の |パーティー|は |にぎやかで |たのしかった|です。', r: 'kinou|no|paatii|wa|nigiyaka de|tanoshikatta|desu', v: 'Bữa tiệc hôm qua náo nhiệt và vui lắm.', k: '昨日のパーティーはにぎやかで楽しかったです。' },
+      ],
+      fill: [
+        { ex: 0, tok: 2, wrong: ['どう', 'なに'], why: 'Đứng trước danh từ <span class="jp">まち</span> để hỏi "như thế nào" → <b class="jp">どんな</b>. (<span class="jp">どう</span> không đứng trước danh từ)' },
+        { ex: 2, tok: 3, wrong: ['ひろいで', 'ひろいくて'], why: 'Nối tính từ い: bỏ い + <b class="jp">くて</b> → <span class="jp">ひろくて</span>.' },
+        { ex: 4, tok: 4, wrong: ['しずかくて', 'しずかな'], why: '<span class="jp">しずか</span> là tính từ な → nối bằng <b class="jp">で</b>: <span class="jp">しずかで</span>.' },
+        { ex: 8, tok: 5, wrong: ['いくて', 'いいで'], why: 'Đặc biệt: <span class="jp">いい</span> → <b class="jp">よくて</b>.' },
+      ],
+      talk: [
+        { q: 'ハノイは どんな まちですか。', qr: 'hanoi wa donna machi desu ka?', qv: 'Bạn Nhật hỏi Hà Nội là thành phố như thế nào — bạn muốn nói náo nhiệt và vui.', a: 1, wrong: [['にぎやかくて たのしい まちです。', 'nigiyakakute tanoshii machi desu.'], ['どんな まちです。', 'donna machi desu.']] },
+        { q: 'やまだせんせいは どんな ひとですか。', qr: 'yamada sensei wa donna hito desu ka?', qv: 'Bạn mới vào lớp hỏi thầy Yamada là người thế nào — thầy hiền và vui tính.', a: 6, wrong: [['やさしいで おもしろい ひとです。', 'yasashii de omoshiroi hito desu.'], ['やさしくて おもしろいな ひとです。', 'yasashikute omoshiroi na hito desu.']] },
+        { sit: 'Bạn muốn giới thiệu với bạn Nhật rằng quán ramen này vừa rẻ vừa ngon:', a: 3, wrong: [['この ラーメンは やすいで おいしいです。', 'kono raamen wa yasui de oishii desu.'], ['この ラーメンは やすくで おいしいです。', 'kono raamen wa yasukude oishii desu.']] },
+        { q: 'あたらしい へやは どうですか。', qr: 'atarashii heya wa dou desu ka?', qv: 'Bạn Nhật hỏi phòng mới của bạn thế nào — phòng rộng nhưng hơi tối.', a: 7, wrong: [['へやは ひろくて、ちょっと くらいです。', 'heya wa hirokute, chotto kurai desu.'], ['へやは ひろいで くらいです。', 'heya wa hiroi de kurai desu.']] },
       ],
     },
   });
