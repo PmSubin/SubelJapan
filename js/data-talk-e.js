@@ -5,6 +5,7 @@
  *  - g52: Đếm đồ vật ひとつ・ふたつ (chặng 4 · Số & mua sắm)
  *  - g53: Ở tầng mấy? なんがい・こちら・あちら (chặng 5 · Nơi chốn)
  *  - g54: Mất bao lâu? 〜じかん・〜ふん・かかります (chặng 6 · Thời gian)
+ *  - g55: Có hay làm không? いつも・よく・ときどき・あまり・ぜんぜん (chặng 7 · Một ngày của tôi)
  * Quy ước như các file data-talk-*.js: j tách cụm bằng "|", cách sau mỗi cụm (分かち書き), r cùng số cụm với j,
  * k là câu có Kanji; fill.tok là cụm cần điền; talk.a là số thứ tự câu mẫu hoặc [chữ, romaji, nghĩa].
  */
@@ -223,6 +224,43 @@ window.SJ = window.SJ || {};
         { sit: 'Bạn đứng ở bến xe, muốn hỏi người bên cạnh xem đi đến đó mất khoảng mấy phút:', a: 6, wrong: [['なんじぐらい かかりますか。', 'nanji gurai kakarimasu ka?'], ['なんぷんぐらい ありますか。', 'nanpun gurai arimasu ka?']] },
         { q: 'ベトナムから にほんまで どのくらい かかりますか。', qr: 'betonamu kara nihon made dono kurai kakarimasu ka?', qv: 'Bạn Nhật hỏi từ Việt Nam sang Nhật mất bao lâu — đi máy bay chừng 6 tiếng.', a: 5, wrong: [['ひこうきで ろくじぐらいです。', 'hikouki de rokuji gurai desu.'], ['ひこうきで むいかぐらいです。', 'hikouki de muika gurai desu.']] },
         { q: 'その えいがは なんじかんですか。', qr: 'sono eiga wa nanjikan desu ka?', qv: 'Bạn rủ bạn Nhật đi xem phim, bạn ấy hỏi phim dài mấy tiếng — phim dài 2 tiếng rưỡi.', a: 7, wrong: [['にじはんです。', 'niji han desu.'], ['はん にじかんです。', 'han nijikan desu.']] },
+      ],
+    },
+    g55: {
+      title: 'Có hay làm không?', jp: 'よく・ときどき', icon: 'refresh',
+      goal: 'Nói mình làm một việc thường xuyên đến đâu: いつも・よく・ときどき・あまり・ぜんぜん',
+      pattern: { parts: [['Tần suất', 't'], ['Việc', 'n'], ['を', 'p', 'o'], ['Động từ', 'v'], ['ます / ません', 'e', 'masu / masen']], mean: 'Làm việc gì … thường xuyên đến đâu' },
+      points: [
+        'Từ nhiều đến ít: <b class="jp">いつも</b> (lúc nào cũng) → <b class="jp">よく</b> (hay, thường) → <b class="jp">ときどき</b> (thỉnh thoảng). Ba từ này đi với động từ đuôi <b class="jp">ます</b>: <span class="jp">ときどき えいがを みます</span> = thỉnh thoảng tôi xem phim.',
+        'Còn <b class="jp">あまり</b> (không… lắm, ít khi) và <b class="jp">ぜんぜん</b> (hoàn toàn không) thì luôn đi với đuôi phủ định <b class="jp">ません</b>: <span class="jp">あまり たべません</span> = không ăn mấy; <span class="jp">ぜんぜん のみません</span> = hoàn toàn không uống.',
+        'Từ chỉ tần suất thường đứng ngay trước cụm "việc + động từ", hoặc ngay trước động từ: <span class="jp">よく コーヒーを のみます</span> hay <span class="jp">コーヒーを よく のみます</span> đều đúng.',
+        'Hỏi "bạn có hay … không?": <b class="jp">よく 〜ますか</b>. Đáp: <span class="jp">はい、よく 〜ます</span> / <span class="jp">いいえ、あまり 〜ません</span>. Đừng nhầm <b class="jp">いつも</b> (lúc nào cũng) với <span class="jp">いつ</span> (khi nào?).',
+      ],
+      tip: 'Nghe người Nhật trẻ nói chuyện, bạn sẽ gặp câu <span class="jp">ぜんぜん だいじょうぶ</span> (hoàn toàn ổn) — ぜんぜん đi với câu khẳng định. Đó là kiểu nói thân mật; khi mới học, cứ dùng <b class="jp">ぜんぜん</b> với <b class="jp">ません</b> cho chuẩn nhé!',
+      ex: [
+        { j: 'よく |コーヒー|を |のみますか。', r: 'yoku|koohii|o|nomimasu ka', v: 'Bạn có hay uống cà phê không?', k: 'よくコーヒーを飲みますか。' },
+        { j: 'はい、|まいあさ |のみます。', r: 'hai,|maiasa|nomimasu', v: 'Có, sáng nào tôi cũng uống.', k: 'はい、毎朝飲みます。' },
+        { j: 'わたし|は |いつも |バス|で |がっこう|に |いきます。', r: 'watashi|wa|itsumo|basu|de|gakkou|ni|ikimasu', v: 'Tôi lúc nào cũng đi học bằng xe buýt.', k: '私はいつもバスで学校に行きます。' },
+        { j: 'ときどき |えいが|を |みます。', r: 'tokidoki|eiga|o|mimasu', v: 'Thỉnh thoảng tôi xem phim.', k: '時々映画を見ます。' },
+        { j: 'さかな|は |あまり |たべません。', r: 'sakana|wa|amari|tabemasen', v: 'Tôi không ăn cá mấy.', k: '魚はあまり食べません。' },
+        { j: 'おさけ|は |ぜんぜん |のみません。', r: 'osake|wa|zenzen|nomimasen', v: 'Tôi hoàn toàn không uống rượu.', k: 'お酒は全然飲みません。' },
+        { j: 'よる|は |よく |おんがく|を |ききます。', r: 'yoru|wa|yoku|ongaku|o|kikimasu', v: 'Buổi tối tôi hay nghe nhạc.', k: '夜はよく音楽を聞きます。' },
+        { j: 'よく |りょうり|を |しますか。', r: 'yoku|ryouri|o|shimasu ka', v: 'Bạn có hay nấu ăn không?', k: 'よく料理をしますか。' },
+        { j: 'いいえ、|あまり |しません。', r: 'iie,|amari|shimasen', v: 'Không, tôi ít khi nấu lắm.', k: 'いいえ、あまりしません。' },
+        { j: 'にちようび|は |いつも |おそく |おきます。', r: 'nichiyoubi|wa|itsumo|osoku|okimasu', v: 'Chủ nhật tôi lúc nào cũng dậy muộn.', k: '日曜日はいつも遅く起きます。' },
+      ],
+      fill: [
+        { ex: 4, tok: 2, wrong: ['よく', 'いつも'], why: 'Động từ đuôi phủ định <span class="jp">ません</span> → dùng <b class="jp">あまり</b> (không… lắm). (<span class="jp">よく</span>, <span class="jp">いつも</span> đi với <span class="jp">ます</span>)' },
+        { ex: 5, tok: 2, wrong: ['ときどき', 'よく'], why: '"Hoàn toàn không" → <b class="jp">ぜんぜん</b> + <span class="jp">ません</span>.' },
+        { ex: 3, tok: 0, wrong: ['ぜんぜん', 'あまり'], why: 'Câu khẳng định <span class="jp">みます</span>, "thỉnh thoảng" → <b class="jp">ときどき</b>. (<span class="jp">ぜんぜん</span>, <span class="jp">あまり</span> chỉ đi với <span class="jp">ません</span>)' },
+        { ex: 2, tok: 2, wrong: ['いつ', 'ぜんぜん'], why: '"Lúc nào cũng" → <b class="jp">いつも</b>. (<span class="jp">いつ</span> = khi nào?, là từ để hỏi)' },
+        { ex: 6, tok: 2, wrong: ['あまり', 'いつ'], why: '"Hay, thường" + động từ khẳng định <span class="jp">ききます</span> → <b class="jp">よく</b>.' },
+      ],
+      talk: [
+        { q: 'よく コーヒーを のみますか。', qr: 'yoku koohii o nomimasu ka?', qv: 'Bạn Nhật hỏi bạn có hay uống cà phê không — sáng nào bạn cũng uống.', a: 1, wrong: [['はい、ぜんぜん のみます。', 'hai, zenzen nomimasu.'], ['はい、まいあさ のみません。', 'hai, maiasa nomimasen.']] },
+        { q: 'よく りょうりを しますか。', qr: 'yoku ryouri o shimasu ka?', qv: 'Bạn cùng phòng hỏi bạn có hay nấu ăn không — bạn ít khi nấu.', a: 8, wrong: [['いいえ、あまり します。', 'iie, amari shimasu.'], ['いいえ、あまり しました。', 'iie, amari shimashita.']] },
+        { sit: 'Đi liên hoan, bạn muốn nói với bạn Nhật rằng mình hoàn toàn không uống rượu:', a: 5, wrong: [['おさけは ぜんぜん のみます。', 'osake wa zenzen nomimasu.'], ['おさけは ときどき のみません。', 'osake wa tokidoki nomimasen.']] },
+        { q: 'にちようびは はやく おきますか。', qr: 'nichiyoubi wa hayaku okimasu ka?', qv: 'Bạn Nhật hỏi chủ nhật bạn có dậy sớm không — chủ nhật nào bạn cũng dậy muộn.', a: 9, wrong: [['にちようびは いつ おそく おきます。', 'nichiyoubi wa itsu osoku okimasu.'], ['にちようびは いつも おそく おきません。', 'nichiyoubi wa itsumo osoku okimasen.']] },
       ],
     },
   });
