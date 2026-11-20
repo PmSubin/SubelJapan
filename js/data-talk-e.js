@@ -10,6 +10,7 @@
  *  - g57: Người thế nào? どんな・〜くて・〜で (chặng 9 · Miêu tả)
  *  - g58: Thích cái nào hơn? どちら・〜の ほうが・より・いちばん (chặng 10 · Thích & muốn)
  *  - g59: Xin đừng… 〜ないで ください (chặng 11 · Nhờ vả & xin phép)
+ *  - g60: Mình nghĩ là… 〜と おもいます (chặng 12 · Trò chuyện tự nhiên)
  * Quy ước như các file data-talk-*.js: j tách cụm bằng "|", cách sau mỗi cụm (分かち書き), r cùng số cụm với j,
  * k là câu có Kanji; fill.tok là cụm cần điền; talk.a là số thứ tự câu mẫu hoặc [chữ, romaji, nghĩa].
  */
@@ -411,6 +412,42 @@ window.SJ = window.SJ || {};
         { sit: 'Bạn của bạn bị ốm và cứ lo không kịp làm bài. Bạn an ủi:', a: 3, wrong: [['しんぱいして ください。', 'shinpai shite kudasai.'], ['しんぱいしません ください。', 'shinpai shimasen kudasai.']] },
         { sit: 'Có người định đỗ xe chắn trước cổng nhà bạn. Bạn nói lịch sự:', a: 2, wrong: [['ここに くるまを とめて ください。', 'koko ni kuruma o tomete kudasai.'], ['ここに くるまを とめても いいですか。', 'koko ni kuruma o tomete mo ii desu ka?']] },
         { q: 'あしたの テスト、わすれないで くださいね。', qr: 'ashita no tesuto, wasurenaide kudasai ne.', qv: 'Cô giáo nhắc cả lớp: "Đừng quên bài kiểm tra ngày mai nhé." Bạn đáp:', a: 6, wrong: [['はい、わすれて ください。', 'hai, wasurete kudasai.'], ['いいえ、わかりません。', 'iie, wakarimasen.']] },
+      ],
+    },
+    g60: {
+      title: 'Mình nghĩ là…', jp: '〜と おもいます', icon: 'bulb',
+      goal: 'Nói ý kiến của mình bằng 〜と おもいます, hỏi ý kiến người khác và nói "mình cũng nghĩ vậy"',
+      pattern: { parts: [['Câu ngắn (おいしい / しずかだ / ふる…)', 'n'], ['と', 'p', 'to'], ['おもいます', 'e', 'omoimasu']], mean: 'Mình nghĩ là … (nói ý kiến, phỏng đoán)' },
+      points: [
+        'Muốn nói <b>"mình nghĩ là…"</b>: đặt ý kiến dạng ngắn lên trước, rồi thêm <b class="jp">と おもいます</b>: <span class="jp">おもしろいと おもいます</span> = mình nghĩ là thú vị. Câu nghe mềm mại, không áp đặt.',
+        '<b>Tính từ い</b> giữ nguyên, <b>không</b> thêm です: <span class="jp">おいしいと おもいます</span>, <span class="jp">いいと おもいます</span>. (Sai: <span class="jp">おいしいですと</span>…)',
+        '<b>Tính từ な</b> và <b>danh từ</b> thì thêm <b class="jp">だ</b>: <span class="jp">しずか<b>だ</b>と おもいます</span>, <span class="jp">せんせい<b>だ</b>と おもいます</span>, <span class="jp">だいじょうぶ<b>だ</b>と おもいます</span>.',
+        'Hỏi ý kiến: <b class="jp">どう おもいますか</b> (bạn thấy thế nào?). Đồng ý: <b class="jp">わたしも そう おもいます</b> (mình cũng nghĩ vậy). Chưa chắc lắm thì thêm <b class="jp">たぶん</b> (chắc là) ở đầu câu.',
+      ],
+      tip: 'Người Nhật rất hay nói ý kiến một cách nhẹ nhàng. Dù khá chắc chắn, họ vẫn thêm <span class="jp">〜と おもいます</span> để câu nghe khiêm tốn, lịch sự. Dự báo thời tiết trên TV cũng hay nói kiểu này đấy! Động từ như <span class="jp">ふる</span> (mưa rơi) là "dạng từ điển" — sẽ học kỹ sau, giờ cứ nhớ cả câu <span class="jp">あめが ふると おもいます</span>.',
+      ex: [
+        { j: 'にほんご|は |おもしろい|と |おもいます。', r: 'nihongo|wa|omoshiroi|to|omoimasu', v: 'Mình nghĩ là tiếng Nhật thú vị.', k: '日本語は面白いと思います。' },
+        { j: 'この |ラーメン|は |おいしい|と |おもいます。', r: 'kono|raamen|wa|oishii|to|omoimasu', v: 'Mình thấy món ramen này ngon.', k: 'このラーメンはおいしいと思います。' },
+        { j: 'あした|は |あめ|が |ふる|と |おもいます。', r: 'ashita|wa|ame|ga|furu|to|omoimasu', v: 'Mình nghĩ là ngày mai trời sẽ mưa.', k: '明日は雨が降ると思います。' },
+        { j: 'あの |ひと|は |せんせい|だ|と |おもいます。', r: 'ano|hito|wa|sensei|da|to|omoimasu', v: 'Mình nghĩ người kia là giáo viên.', k: 'あの人は先生だと思います。' },
+        { j: 'この |まち|は |しずか|だ|と |おもいます。', r: 'kono|machi|wa|shizuka|da|to|omoimasu', v: 'Mình thấy thị trấn này yên tĩnh.', k: 'この町は静かだと思います。' },
+        { j: 'この |えいが、|どう |おもいますか。', r: 'kono|eiga,|dou|omoimasu ka', v: 'Bạn thấy bộ phim này thế nào?', k: 'この映画、どう思いますか。' },
+        { j: 'とても |いい|と |おもいます。', r: 'totemo|ii|to|omoimasu', v: 'Mình thấy rất hay.', k: 'とてもいいと思います。' },
+        { j: 'わたし|も |そう |おもいます。', r: 'watashi|mo|sou|omoimasu', v: 'Mình cũng nghĩ vậy.', k: '私もそう思います。' },
+        { j: 'たぶん |だいじょうぶ|だ|と |おもいます。', r: 'tabun|daijoubu|da|to|omoimasu', v: 'Mình nghĩ chắc là ổn thôi.', k: '多分大丈夫だと思います。' },
+      ],
+      fill: [
+        { ex: 1, tok: 4, wrong: ['が', 'を'], why: '"Nghĩ là…" → nối ý kiến với おもいます bằng <b class="jp">と</b>.' },
+        { ex: 4, tok: 4, wrong: ['です', 'な'], why: 'Tính từ な (<span class="jp">しずか</span>) đứng trước と thì thêm <b class="jp">だ</b>: <span class="jp">しずかだと おもいます</span>.' },
+        { ex: 6, tok: 1, wrong: ['いいです', 'いいだ'], why: 'Tính từ い giữ nguyên trước と, không thêm です hay だ: <b class="jp">いいと</b> おもいます.' },
+        { ex: 5, tok: 2, wrong: ['なに', 'どこ'], why: 'Hỏi ý kiến "thấy thế nào?" → <b class="jp">どう</b> おもいますか.' },
+        { ex: 7, tok: 2, wrong: ['どう', 'それ'], why: '"Mình cũng nghĩ <b>vậy</b>" → <b class="jp">そう</b> おもいます.' },
+      ],
+      talk: [
+        { q: 'この えいが、どう おもいますか。', qr: 'kono eiga, dou omoimasu ka?', qv: 'Xem phim xong, bạn Nhật hỏi bạn thấy phim thế nào — bạn thấy rất hay.', a: 6, wrong: [['とても いいだと おもいます。', 'totemo ii da to omoimasu.'], ['とても いいを おもいます。', 'totemo ii o omoimasu.']] },
+        { q: 'にほんごは おもしろいと おもいます。', qr: 'nihongo wa omoshiroi to omoimasu.', qv: 'Bạn cùng lớp nói: "Mình thấy tiếng Nhật thú vị." Bạn cũng nghĩ vậy:', a: 7, wrong: [['わたしも どう おもいます。', 'watashi mo dou omoimasu.'], ['わたしも そう おもいますか。', 'watashi mo sou omoimasu ka?']] },
+        { sit: 'Trời đầy mây đen. Bạn nói với bạn Nhật là ngày mai chắc sẽ mưa:', a: 2, wrong: [['あしたは あめを ふると おもいます。', 'ashita wa ame o furu to omoimasu.'], ['あしたは あめが ふるですと おもいます。', 'ashita wa ame ga furu desu to omoimasu.']] },
+        { q: 'あの ひとは だれですか。', qr: 'ano hito wa dare desu ka?', qv: 'Bạn Nhật chỉ một người đứng trước lớp và hỏi "Người kia là ai thế?" — bạn đoán chắc là giáo viên.', a: ['たぶん せんせいだと おもいます。', 'tabun sensei da to omoimasu.', 'Mình nghĩ chắc là giáo viên.'], wrong: [['たぶん せんせいですと おもいます。', 'tabun sensei desu to omoimasu.'], ['たぶん せんせいが おもいます。', 'tabun sensei ga omoimasu.']] },
       ],
     },
   });

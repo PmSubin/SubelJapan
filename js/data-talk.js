@@ -432,7 +432,7 @@ window.SJ = window.SJ || {};
     { id: 'tq9', title: 'Miêu tả', jp: 'どうですか', icon: 'sparkle', color: '#d65ee8', desc: 'Ngon, đẹp, yên tĩnh; rất / không lắm; hôm qua thế nào; người thế nào, vừa… vừa…', lessons: ['g13', 'g37', 'g38', 'g39', 'g57'] },
     { id: 'tq10', title: 'Thích & muốn', jp: 'すき・ほしい', icon: 'heart', color: '#ff5e8a', desc: 'Thích gì, giỏi gì, hiểu không, muốn làm gì, muốn có gì, thích cái nào hơn', lessons: ['g16', 'g40', 'g14', 'g41', 'g58'] },
     { id: 'tq11', title: 'Nhờ vả & xin phép', jp: 'おねがいします', icon: 'hand', color: '#3fa0ff', desc: 'Xin hãy…, xin đừng…, hỏi đường, xin phép, đang làm gì', lessons: ['g15', 'g42', 'g43', 'g44', 'g59'] },
-    { id: 'tq12', title: 'Trò chuyện tự nhiên', jp: 'かいわ', icon: 'friends', color: '#9b7bff', desc: 'Thời tiết, hỏi thăm, vì sao, khi bị ốm, khen và chia tay', lessons: ['g45', 'g46', 'g47', 'g48'] },
+    { id: 'tq12', title: 'Trò chuyện tự nhiên', jp: 'かいわ', icon: 'friends', color: '#9b7bff', desc: 'Thời tiết, hỏi thăm, vì sao, khi bị ốm, nói ý kiến, khen và chia tay', lessons: ['g45', 'g46', 'g47', 'g60', 'g48'] },
   ];
 
   const PUNCT = /[\s、。！？!?,.…「」（）()]/g;
