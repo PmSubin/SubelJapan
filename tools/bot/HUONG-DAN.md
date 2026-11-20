@@ -83,7 +83,7 @@ Có thể thêm việc mới vào cuối danh sách nếu thấy app còn thiế
 - [x] Kanji N5 bài mới: 父 母 行 来 出 入 休 見 — bài j9
 - [x] Kanji N5 bài mới: 食 飲 話 語 読 書 聞 買 — bài j10
 - [x] Kanji N5 bài mới: 毎 週 午 白 高 安 新 古 長 — bài j11
-- [ ] Nói & Ngữ pháp: mỗi chặng có ít nhất 5 bài, bắt đầu từ chặng ít bài nhất — đã đủ 5: tq1 (thêm g50 Lời chúc mừng), tq2, tq3 (thêm g51 Màu gì?), tq4 (thêm g52 Đếm đồ vật ひとつ・ふたつ), tq5 (thêm g53 Ở tầng mấy? なんがい), tq6 (thêm g54 Mất bao lâu? 〜じかん・〜ふん), tq7 (thêm g55 Có hay làm không? よく・ときどき・あまり), tq8 (thêm g56 Đi để làm gì? 〜に いきます), tq9 (thêm g57 Người thế nào? どんな・〜くて・〜で), tq10 (thêm g58 Thích cái nào hơn? どちら・〜の ほうが・より・いちばん); còn 4 bài: tq11–tq12. Bài mới để ở `js/data-talk-e.js`, id tiếp theo g59
+- [ ] Nói & Ngữ pháp: mỗi chặng có ít nhất 5 bài, bắt đầu từ chặng ít bài nhất — đã đủ 5: tq1 (thêm g50 Lời chúc mừng), tq2, tq3 (thêm g51 Màu gì?), tq4 (thêm g52 Đếm đồ vật ひとつ・ふたつ), tq5 (thêm g53 Ở tầng mấy? なんがい), tq6 (thêm g54 Mất bao lâu? 〜じかん・〜ふん), tq7 (thêm g55 Có hay làm không? よく・ときどき・あまり), tq8 (thêm g56 Đi để làm gì? 〜に いきます), tq9 (thêm g57 Người thế nào? どんな・〜くて・〜で), tq10 (thêm g58 Thích cái nào hơn? どちら・〜の ほうが・より・いちばん), tq11 (thêm g59 Xin đừng… 〜ないで ください); còn 4 bài: tq12. Bài mới để ở `js/data-talk-e.js`, id tiếp theo g60
 - [ ] Câu giao tiếp: mỗi nhóm có ít nhất 8 câu
 - [ ] Bài lý thuyết ngữ pháp (g1–g6): mỗi bài có ít nhất 5 câu bài tập nhỏ
 - [x] Vẽ icon hình gợi nhớ cho các chữ còn thiếu (đủ 91 chữ cơ bản, hình vẽ riêng nằm ở `js/icons-mnemo.js`)

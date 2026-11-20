@@ -9,6 +9,7 @@
  *  - g56: Đi để làm gì? 〜に いきます (chặng 8 · Đã làm gì & rủ nhau)
  *  - g57: Người thế nào? どんな・〜くて・〜で (chặng 9 · Miêu tả)
  *  - g58: Thích cái nào hơn? どちら・〜の ほうが・より・いちばん (chặng 10 · Thích & muốn)
+ *  - g59: Xin đừng… 〜ないで ください (chặng 11 · Nhờ vả & xin phép)
  * Quy ước như các file data-talk-*.js: j tách cụm bằng "|", cách sau mỗi cụm (分かち書き), r cùng số cụm với j,
  * k là câu có Kanji; fill.tok là cụm cần điền; talk.a là số thứ tự câu mẫu hoặc [chữ, romaji, nghĩa].
  */
@@ -374,6 +375,42 @@ window.SJ = window.SJ || {};
         { sit: 'Bạn muốn kể với bạn Nhật rằng Hà Nội nóng hơn Tokyo:', a: 4, wrong: [['とうきょうは ハノイより あついです。', 'toukyou wa hanoi yori atsui desu.'], ['ハノイより とうきょうは あついです。', 'hanoi yori toukyou wa atsui desu.']] },
         { q: 'くだもので なにが いちばん すきですか。', qr: 'kudamono de nani ga ichiban suki desu ka?', qv: 'Cô giáo hỏi trong các loại trái cây bạn thích gì nhất — bạn thích xoài nhất.', a: 7, wrong: [['マンゴーの ほうが すきです。', 'mangoo no hou ga suki desu.'], ['マンゴーが どちら すきです。', 'mangoo ga dochira suki desu.']] },
         { q: 'きせつで いつが いちばん すきですか。', qr: 'kisetsu de itsu ga ichiban suki desu ka?', qv: 'Bạn Nhật hỏi bạn thích mùa nào nhất — bạn thích mùa xuân nhất.', a: 9, wrong: [['はるより すきです。', 'haru yori suki desu.'], ['はるが いちばん すきでした。', 'haru ga ichiban suki deshita.']] },
+      ],
+    },
+    g59: {
+      title: 'Xin đừng…', jp: '〜ないで ください', icon: 'camera',
+      goal: 'Nhờ ai đó đừng làm gì bằng 〜ないで ください, hiểu biển cấm và đáp lại khi bị nhắc',
+      pattern: { parts: [['Động từ dạng ない', 'v'], ['で', 'p', 'de'], ['ください', 'e', 'kudasai']], mean: 'Xin đừng … (nhờ ai đó đừng làm gì)' },
+      points: [
+        'Nhờ ai <b>đừng</b> làm gì: <b>động từ dạng ない</b> + <b class="jp">で ください</b>: <span class="jp">とらないで ください</span> = xin đừng chụp. Ngược với <span class="jp">〜て ください</span> (xin hãy …).',
+        'Dạng ない sẽ học kỹ sau — giờ cứ học thuộc từng cặp: <span class="jp">とります → とらない</span> (chụp), <span class="jp">はいります → はいらない</span> (vào), <span class="jp">さわります → さわらない</span> (chạm), <span class="jp">すいます → すわない</span> (hút — chú ý い thành <b>わ</b>).',
+        'Động từ có âm e trước ます thì dễ nhất, chỉ cần bỏ ます thêm ない: <span class="jp">わすれます → わすれない</span> (quên), <span class="jp">とめます → とめない</span> (đỗ xe). Đặc biệt: <b class="jp">します → しない</b>, <b class="jp">きます → こない</b>.',
+        'Bị nhắc thì đáp <b class="jp">はい、わかりました</b> (vâng, tôi hiểu rồi) hoặc <b class="jp">あ、すみません</b> (à, xin lỗi). Với bạn bè có thể bỏ ください: <span class="jp">しんぱいしないで</span> (đừng lo nhé).',
+      ],
+      tip: 'Ở Nhật bạn sẽ gặp rất nhiều biển ghi <span class="jp">〜ないで ください</span>: trong bảo tàng, chùa, cửa hàng… Còn khi bạn bè mệt hay buồn, người Nhật hay nói hai câu ấm áp: <b class="jp">むりしないでね</b> (đừng cố quá sức nhé) và <b class="jp">しんぱいしないで</b> (đừng lo nhé).',
+      ex: [
+        { j: 'ここ|で |しゃしん|を |とらないで |ください。', r: 'koko|de|shashin|o|toranaide|kudasai', v: 'Xin đừng chụp ảnh ở đây.', k: 'ここで写真を撮らないでください。' },
+        { j: 'ここ|で |たばこ|を |すわないで |ください。', r: 'koko|de|tabako|o|suwanaide|kudasai', v: 'Xin đừng hút thuốc ở đây.', k: 'ここでたばこを吸わないでください。' },
+        { j: 'ここ|に |くるま|を |とめないで |ください。', r: 'koko|ni|kuruma|o|tomenaide|kudasai', v: 'Xin đừng đỗ xe ở đây.', k: 'ここに車を止めないでください。' },
+        { j: 'しんぱい|しないで |ください。', r: 'shinpai|shinaide|kudasai', v: 'Xin đừng lo lắng.', k: '心配しないでください。' },
+        { j: 'しゅくだい|を |わすれないで |ください。', r: 'shukudai|o|wasurenaide|kudasai', v: 'Đừng quên bài tập về nhà nhé.', k: '宿題を忘れないでください。' },
+        { j: 'この |へや|に |はいらないで |ください。', r: 'kono|heya|ni|hairanaide|kudasai', v: 'Xin đừng vào phòng này.', k: 'この部屋に入らないでください。' },
+        { j: 'はい、|わかりました。', r: 'hai,|wakarimashita', v: 'Vâng, tôi hiểu rồi.', k: 'はい、分かりました。' },
+        { j: 'あ、|すみません。', r: 'a,|sumimasen', v: 'À, xin lỗi.', k: 'あ、すみません。' },
+        { j: 'え|に |さわらないで |ください。', r: 'e|ni|sawaranaide|kudasai', v: 'Xin đừng chạm vào tranh.', k: '絵に触らないでください。' },
+        { j: 'むり|を |しないで |ください。', r: 'muri|o|shinaide|kudasai', v: 'Đừng cố quá sức nhé.', k: '無理をしないでください。' },
+      ],
+      fill: [
+        { ex: 0, tok: 4, wrong: ['とって', 'とります'], why: 'Xin <b>đừng</b> → dạng ない + で: <b class="jp">とらないで</b> ください. (<span class="jp">とって ください</span> = xin hãy chụp)' },
+        { ex: 1, tok: 4, wrong: ['すいないで', 'すって'], why: '<span class="jp">すいます</span> → dạng ない là <b class="jp">すわない</b> (い đổi thành わ) → <span class="jp">すわないで</span>.' },
+        { ex: 3, tok: 1, wrong: ['して', 'しません'], why: '<span class="jp">します</span> → <b class="jp">しない</b> → <span class="jp">しんぱい しないで ください</span>.' },
+        { ex: 5, tok: 2, wrong: ['を', 'で'], why: 'Vào <b>nơi nào</b> → <b class="jp">に</b>: <span class="jp">へやに はいります</span>.' },
+      ],
+      talk: [
+        { q: 'すみません、ここで しゃしんを とらないで ください。', qr: 'sumimasen, koko de shashin o toranaide kudasai.', qv: 'Trong bảo tàng, nhân viên nhắc bạn: "Xin lỗi, xin đừng chụp ảnh ở đây." Bạn đáp:', a: 7, wrong: [['はい、どうぞ。', 'hai, douzo.'], ['しゃしんを とっても いいです。', 'shashin o totte mo ii desu.']] },
+        { sit: 'Bạn của bạn bị ốm và cứ lo không kịp làm bài. Bạn an ủi:', a: 3, wrong: [['しんぱいして ください。', 'shinpai shite kudasai.'], ['しんぱいしません ください。', 'shinpai shimasen kudasai.']] },
+        { sit: 'Có người định đỗ xe chắn trước cổng nhà bạn. Bạn nói lịch sự:', a: 2, wrong: [['ここに くるまを とめて ください。', 'koko ni kuruma o tomete kudasai.'], ['ここに くるまを とめても いいですか。', 'koko ni kuruma o tomete mo ii desu ka?']] },
+        { q: 'あしたの テスト、わすれないで くださいね。', qr: 'ashita no tesuto, wasurenaide kudasai ne.', qv: 'Cô giáo nhắc cả lớp: "Đừng quên bài kiểm tra ngày mai nhé." Bạn đáp:', a: 6, wrong: [['はい、わすれて ください。', 'hai, wasurete kudasai.'], ['いいえ、わかりません。', 'iie, wakarimasen.']] },
       ],
     },
   });
