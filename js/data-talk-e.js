@@ -8,6 +8,7 @@
  *  - g55: Có hay làm không? いつも・よく・ときどき・あまり・ぜんぜん (chặng 7 · Một ngày của tôi)
  *  - g56: Đi để làm gì? 〜に いきます (chặng 8 · Đã làm gì & rủ nhau)
  *  - g57: Người thế nào? どんな・〜くて・〜で (chặng 9 · Miêu tả)
+ *  - g58: Thích cái nào hơn? どちら・〜の ほうが・より・いちばん (chặng 10 · Thích & muốn)
  * Quy ước như các file data-talk-*.js: j tách cụm bằng "|", cách sau mỗi cụm (分かち書き), r cùng số cụm với j,
  * k là câu có Kanji; fill.tok là cụm cần điền; talk.a là số thứ tự câu mẫu hoặc [chữ, romaji, nghĩa].
  */
@@ -336,6 +337,43 @@ window.SJ = window.SJ || {};
         { q: 'やまだせんせいは どんな ひとですか。', qr: 'yamada sensei wa donna hito desu ka?', qv: 'Bạn mới vào lớp hỏi thầy Yamada là người thế nào — thầy hiền và vui tính.', a: 6, wrong: [['やさしいで おもしろい ひとです。', 'yasashii de omoshiroi hito desu.'], ['やさしくて おもしろいな ひとです。', 'yasashikute omoshiroi na hito desu.']] },
         { sit: 'Bạn muốn giới thiệu với bạn Nhật rằng quán ramen này vừa rẻ vừa ngon:', a: 3, wrong: [['この ラーメンは やすいで おいしいです。', 'kono raamen wa yasui de oishii desu.'], ['この ラーメンは やすくで おいしいです。', 'kono raamen wa yasukude oishii desu.']] },
         { q: 'あたらしい へやは どうですか。', qr: 'atarashii heya wa dou desu ka?', qv: 'Bạn Nhật hỏi phòng mới của bạn thế nào — phòng rộng nhưng hơi tối.', a: 7, wrong: [['へやは ひろくて、ちょっと くらいです。', 'heya wa hirokute, chotto kurai desu.'], ['へやは ひろいで くらいです。', 'heya wa hiroi de kurai desu.']] },
+      ],
+    },
+    g58: {
+      title: 'Thích cái nào hơn?', jp: 'どちらが すき？', icon: 'crown',
+      goal: 'Hỏi "thích cái nào hơn" bằng どちらが, trả lời bằng 〜の ほうが, so sánh bằng より và nói "nhất" bằng いちばん',
+      pattern: { parts: [['A と B と', 'n'], ['どちら', 'q', 'dochira'], ['が', 'p', 'ga'], ['すき', 'a', 'suki'], ['ですか', 'e', 'desu ka']], mean: 'A và B, bạn thích cái nào hơn?' },
+      points: [
+        'Hỏi chọn <b>1 trong 2</b>: <b class="jp">A と B と どちらが すきですか</b> = A và B, bạn thích cái nào hơn? <span class="jp">どちら</span> dùng khi chỉ có 2 lựa chọn.',
+        'Trả lời: <b class="jp">B の ほうが すきです</b> = tôi thích B hơn (<span class="jp">ほう</span> = phía, bên). Thích cả hai: <b class="jp">どちらも すきです</b>.',
+        'So sánh "A … hơn B": <b class="jp">A は B より</b> + tính từ: <span class="jp">ハノイは とうきょうより あついです</span> = Hà Nội nóng hơn Tokyo. Cái đứng sau <span class="jp">より</span> là cái <b>bị thua</b>.',
+        'Từ 3 thứ trở lên thì dùng <b class="jp">いちばん</b> (nhất): <span class="jp">くだもので なにが いちばん すきですか</span> = trong các loại trái cây, bạn thích gì nhất? Hỏi người dùng <span class="jp">だれ</span>, nơi chốn dùng <span class="jp">どこ</span>, thời gian / mùa dùng <span class="jp">いつ</span>.',
+      ],
+      tip: 'Người Nhật thường trả lời nhẹ nhàng, ít khi chê thẳng. Nếu không muốn chọn, cứ nói <span class="jp">どちらも すきです</span> là rất tự nhiên. Còn hỏi <span class="jp">きせつで いつが いちばん すきですか</span> thì rất nhiều người Nhật trả lời <span class="jp">はる</span> — mùa hoa anh đào nở!',
+      ex: [
+        { j: 'コーヒー|と |こうちゃ|と |どちら|が |すき|ですか。', r: 'koohii|to|koucha|to|dochira|ga|suki|desu ka', v: 'Cà phê và hồng trà, bạn thích cái nào hơn?', k: 'コーヒーと紅茶とどちらが好きですか。' },
+        { j: 'コーヒー|の |ほう|が |すき|です。', r: 'koohii|no|hou|ga|suki|desu', v: 'Tôi thích cà phê hơn.', k: 'コーヒーのほうが好きです。' },
+        { j: 'どちら|も |すき|です。', r: 'dochira|mo|suki|desu', v: 'Tôi thích cả hai.', k: 'どちらも好きです。' },
+        { j: 'いぬ|と |ねこ|と |どちら|が |すき|ですか。', r: 'inu|to|neko|to|dochira|ga|suki|desu ka', v: 'Chó và mèo, bạn thích con nào hơn?', k: '犬と猫とどちらが好きですか。' },
+        { j: 'ハノイ|は |とうきょう|より |あつい|です。', r: 'hanoi|wa|toukyou|yori|atsui|desu', v: 'Hà Nội nóng hơn Tokyo.', k: 'ハノイは東京より暑いです。' },
+        { j: 'しんかんせん|は |バス|より |はやい|です。', r: 'shinkansen|wa|basu|yori|hayai|desu', v: 'Tàu Shinkansen nhanh hơn xe buýt.', k: '新幹線はバスより速いです。' },
+        { j: 'くだもの|で |なに|が |いちばん |すき|ですか。', r: 'kudamono|de|nani|ga|ichiban|suki|desu ka', v: 'Trong các loại trái cây, bạn thích loại nào nhất?', k: '果物で何が一番好きですか。' },
+        { j: 'マンゴー|が |いちばん |すき|です。', r: 'mangoo|ga|ichiban|suki|desu', v: 'Tôi thích xoài nhất.', k: 'マンゴーが一番好きです。' },
+        { j: 'きせつ|で |いつ|が |いちばん |すき|ですか。', r: 'kisetsu|de|itsu|ga|ichiban|suki|desu ka', v: 'Trong bốn mùa, bạn thích mùa nào nhất?', k: '季節でいつが一番好きですか。' },
+        { j: 'はる|が |いちばん |すき|です。', r: 'haru|ga|ichiban|suki|desu', v: 'Tôi thích mùa xuân nhất.', k: '春が一番好きです。' },
+      ],
+      fill: [
+        { ex: 0, tok: 4, wrong: ['どれ', 'なに'], why: 'Chọn <b>1 trong 2</b> thứ → <b class="jp">どちら</b>. (<span class="jp">どれ</span> dùng khi có từ 3 thứ trở lên)' },
+        { ex: 1, tok: 2, wrong: ['より', 'ほか'], why: 'Thích cái này <b>hơn</b> → <span class="jp">〜の</span> <b class="jp">ほう</b><span class="jp">が すきです</span>.' },
+        { ex: 4, tok: 3, wrong: ['ほう', 'から'], why: '"A … hơn B" → <span class="jp">A は B</span> <b class="jp">より</b> + tính từ.' },
+        { ex: 6, tok: 4, wrong: ['どちら', 'とても'], why: 'Trong nhiều thứ (trái cây) → thích <b>nhất</b> là <b class="jp">いちばん</b>.' },
+      ],
+      talk: [
+        { q: 'コーヒーと こうちゃと どちらが すきですか。', qr: 'koohii to koucha to dochira ga suki desu ka?', qv: 'Bạn Nhật mời đồ uống và hỏi bạn thích cà phê hay hồng trà hơn — bạn thích cà phê hơn.', a: 1, wrong: [['コーヒーより すきです。', 'koohii yori suki desu.'], ['コーヒーが ほうが すきです。', 'koohii ga hou ga suki desu.']] },
+        { q: 'いぬと ねこと どちらが すきですか。', qr: 'inu to neko to dochira ga suki desu ka?', qv: 'Bạn cùng lớp hỏi bạn thích chó hay mèo hơn — bạn thích cả hai.', a: 2, wrong: [['どちらが すきです。', 'dochira ga suki desu.'], ['どちらか すきです。', 'dochiraka suki desu.']] },
+        { sit: 'Bạn muốn kể với bạn Nhật rằng Hà Nội nóng hơn Tokyo:', a: 4, wrong: [['とうきょうは ハノイより あついです。', 'toukyou wa hanoi yori atsui desu.'], ['ハノイより とうきょうは あついです。', 'hanoi yori toukyou wa atsui desu.']] },
+        { q: 'くだもので なにが いちばん すきですか。', qr: 'kudamono de nani ga ichiban suki desu ka?', qv: 'Cô giáo hỏi trong các loại trái cây bạn thích gì nhất — bạn thích xoài nhất.', a: 7, wrong: [['マンゴーの ほうが すきです。', 'mangoo no hou ga suki desu.'], ['マンゴーが どちら すきです。', 'mangoo ga dochira suki desu.']] },
+        { q: 'きせつで いつが いちばん すきですか。', qr: 'kisetsu de itsu ga ichiban suki desu ka?', qv: 'Bạn Nhật hỏi bạn thích mùa nào nhất — bạn thích mùa xuân nhất.', a: 9, wrong: [['はるより すきです。', 'haru yori suki desu.'], ['はるが いちばん すきでした。', 'haru ga ichiban suki deshita.']] },
       ],
     },
   });
