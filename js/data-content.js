@@ -210,6 +210,15 @@ window.SJ = window.SJ || {};
     ['新','TÂN','mới','シン','あたら(しい)','Đứng (立) cạnh cái cây (木) cầm rìu (斤) chặt củi mới',[['新しい','あたらしい','atarashii','mới'],['新幹線','しんかんせん','shinkansen','tàu cao tốc Shinkansen']]],
     ['古','CỔ','cũ','コ','ふる(い)','Mười (十) cái miệng (口) kể đi kể lại — chuyện xưa cũ',[['古い','ふるい','furui','cũ'],['中古','ちゅうこ','chuuko','đồ cũ, hàng đã qua sử dụng']]],
     ['長','TRƯỜNG','dài, trưởng','チョウ','なが(い)','Ông cụ tóc dài thướt tha — dài, và là người lớn đứng đầu (trưởng)',[['長い','ながい','nagai','dài'],['社長','しゃちょう','shachou','giám đốc']]],
+    // bài j12 — nơi chốn & đi lại
+    ['店','ĐIẾM','cửa hàng, quán','テン','みせ','Mái hiên (广) che một sạp bói toán (占) nhỏ — cái quán ven đường',[['店','みせ','mise','cửa hàng, quán'],['喫茶店','きっさてん','kissaten','quán cà phê']]],
+    ['駅','DỊCH','nhà ga','エキ','—','Con ngựa (馬) dừng chân ở trạm — ngày xưa là trạm đổi ngựa, bây giờ là nhà ga',[['駅','えき','eki','nhà ga'],['駅員','えきいん','ekiin','nhân viên nhà ga']]],
+    ['道','ĐẠO','đường, con đường','ドウ','みち','Cái đầu (首) cứ bước đi (辶) mãi — thành con đường',[['道','みち','michi','con đường'],['柔道','じゅうどう','juudou','võ Judo (Nhu đạo)']]],
+    ['社','XÃ','công ty, đền thờ','シャ','やしろ','Bàn thờ (ネ) đặt trên đất (土) — đền thờ thần đất, nơi mọi người tụ họp',[['会社','かいしゃ','kaisha','công ty'],['神社','じんじゃ','jinja','đền thờ Thần đạo']]],
+    ['会','HỘI','gặp, hội họp','カイ','あ(う)','Dưới một mái nhà (人), mọi người tụ lại nói chuyện (云) — gặp gỡ',[['会う','あう','au','gặp'],['会社員','かいしゃいん','kaishain','nhân viên công ty']]],
+    ['電','ĐIỆN','điện','デン','—','Trời mưa (雨) rồi tia chớp loé xuống ruộng (田) — điện đó!',[['電車','でんしゃ','densha','tàu điện'],['電気','でんき','denki','điện, đèn điện']]],
+    ['車','XA','xe','シャ','くるま','Nhìn từ trên xuống: chiếc xe có hai bánh và một trục ở giữa',[['車','くるま','kuruma','xe ô tô'],['自転車','じてんしゃ','jitensha','xe đạp']]],
+    ['校','HIỆU','trường học','コウ','—','Cái cây (木) trong sân, nơi các bạn gặp nhau giao lưu (交) — trường học',[['学校','がっこう','gakkou','trường học'],['高校','こうこう','koukou','trường cấp 3']]],
   ];
   SJ.KANJI = KJ.map(a => ({ key:'j:' + a[0], k: a[0], hv: a[1], m: a[2], on: a[3], kun: a[4], tip: a[5], ex: a[6].map(e => ({ jp: e[0], kana: e[1], r: e[2], vi: e[3] })) }));
   SJ.KANJI_MAP = {};

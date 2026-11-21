@@ -88,6 +88,7 @@ window.SJ = window.SJ || {};
         { id:'j9', title:'父 母 行 来', sub:'Gia đình & đi lại', type:'kanji', items: ch('父母行来出入休見'), icon:'family', intro:'父 (bố), 母 (mẹ) và các động từ đi lại: 行く đi, 来る đến, 出る ra, 入る vào. Nhìn biển nhà ga: 入口 là lối vào, 出口 là lối ra!' },
         { id:'j10', title:'食 飲 読 書', sub:'Hoạt động hằng ngày', type:'kanji', items: ch('食飲話語読書聞買'), icon:'book', intro:'Ăn 食べる, uống 飲む, nói 話す, đọc 読む, viết 書く, nghe 聞く, mua 買う — cả ngày của bạn trong 8 chữ! Và 日本語 là tiếng Nhật đó.' },
         { id:'j11', title:'高 安 新 古', sub:'Tính chất & thời gian', type:'kanji', items: ch('毎週午白高安新古長'), icon:'tag', intro:'Đi mua sắm cần ngay: 高い đắt, 安い rẻ, 新しい mới, 古い cũ, 長い dài. Thêm 毎日 mỗi ngày, 今週 tuần này nữa!' },
+        { id:'j12', title:'店 駅 道 車', sub:'Nơi chốn & đi lại', type:'kanji', items: ch('店駅道社会電車校'), icon:'train', intro:'Ra phố là gặp ngay: 店 cửa hàng, 駅 nhà ga, 道 con đường. Đi 電車 tàu điện hay 車 ô tô tới 会社 công ty, 学校 trường học. Hán Việt: ĐIỆN XA = 電車 đó!' },
       ],
     },
     {
