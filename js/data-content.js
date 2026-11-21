@@ -280,6 +280,7 @@ window.SJ = window.SJ || {};
         { q:'Trợ từ は trong câu đọc là?', o: ['wa','ha','ba'] },
         { q:'"Tôi không phải giáo viên" là?', o: ['わたしは せんせいじゃ ありません。','わたしは せんせいです。','せんせいは わたしです。'] },
         { q:'Có nên tự gọi mình là "___さん" không?', o: ['Không nên','Nên, cho lịch sự'] },
+        { q:'Điền: ミンさんは せんせい ___。(Anh Minh là giáo viên.)', o: ['です','か','の'], big: true },
       ],
     },
     g2: {
@@ -296,6 +297,8 @@ window.SJ = window.SJ || {};
         { q:'"Vâng, đúng vậy" là:', o: ['はい、そうです。','いいえ、ちがいます。','そうですか。'] },
         { q:'なん nghĩa là gì?', o: ['cái gì','ai','ở đâu','khi nào'] },
         { q:'いいえ nghĩa là gì?', o: ['Không','Vâng','Cảm ơn'] },
+        { q:'Điền để thành câu hỏi: にほんじんです ___。', o: ['か','は','を'], big: true },
+        { q:'これは なんですか。nghĩa là:', o: ['Đây là cái gì?','Cái kia là gì?','Đây là ai?'] },
       ],
     },
     g3: {
@@ -312,6 +315,8 @@ window.SJ = window.SJ || {};
         { q:'"Quyển sách này" là:', o: ['この ほん','これ ほん','ここ ほん'] },
         { q:'どこ nghĩa là gì?', o: ['ở đâu','cái gì','ai'] },
         { q:'これは ねこです nghĩa là:', o: ['Đây là con mèo.','Kia là con mèo.','Con mèo ở đây.'] },
+        { q:'Đồ vật ở gần người nghe (cạnh bạn ấy) gọi là?', o: ['それ','これ','あれ'], big: true },
+        { q:'"Người kia là ai vậy?" là:', o: ['あの ひとは だれですか。','あれ ひとは だれですか。','あそこ ひとは だれですか。'] },
       ],
     },
     g4: {
@@ -326,6 +331,8 @@ window.SJ = window.SJ || {};
         { q:'にほんごの ほん nghĩa là:', o: ['sách tiếng Nhật','tiếng Nhật của sách','người Nhật'] },
         { q:'Điền: せんせい ___ かばん (cặp của thầy)', o: ['の','は','か'], big: true },
         { q:'これは だれの ほんですか。→ "Sách của Mai." là:', o: ['マイさんの ほんです。','ほんの マイさんです。','マイさんは ほんです。'] },
+        { q:'"Tên của tôi" là:', o: ['わたしの なまえ','なまえの わたし','わたしは なまえ'] },
+        { q:'にほんの くるま nghĩa là:', o: ['xe ô tô của Nhật','người Nhật đi ô tô','xe ô tô đi Nhật'] },
       ],
     },
     g5: {
@@ -340,6 +347,8 @@ window.SJ = window.SJ || {};
         { q:'ベトナムから きました nghĩa là:', o: ['Tôi đến từ Việt Nam.','Tôi sẽ đi Việt Nam.','Tôi là người Việt.'] },
         { q:'Câu kết thúc phần tự giới thiệu?', o: ['よろしく おねがいします','いただきます','ごちそうさま'] },
         { q:'"Tôi là sinh viên." nói thế nào?', o: ['わたしは がくせいです。','わたしの がくせいです。','がくせいは わたしです。'] },
+        { q:'はじめまして dùng khi nào?', o: ['Khi gặp ai đó lần đầu','Khi chia tay','Trước khi ăn'] },
+        { q:'Khi tự giới thiệu, người Nhật thường làm gì?', o: ['Cúi chào nhẹ (おじぎ)','Ôm nhau','Vỗ vai'] },
       ],
     },
     g6: {
@@ -354,6 +363,8 @@ window.SJ = window.SJ || {};
         { q:'"Đã uống" là:', o: ['のみました','のみます','のみません'] },
         { q:'Điền trợ từ: すし ___ たべます。', o: ['を','に','の'], big: true },
         { q:'べんきょうします nghĩa là:', o: ['học','ăn','ngủ','chơi'] },
+        { q:'"Đã không ăn" là:', o: ['たべませんでした','たべません','たべました'] },
+        { q:'"Hôm qua tôi đã xem phim." là:', o: ['きのう えいがを みました。','きのう えいがを みます。','きのう えいがに みました。'] },
       ],
     },
   };

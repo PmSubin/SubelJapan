@@ -84,8 +84,8 @@ Có thể thêm việc mới vào cuối danh sách nếu thấy app còn thiế
 - [x] Kanji N5 bài mới: 食 飲 話 語 読 書 聞 買 — bài j10
 - [x] Kanji N5 bài mới: 毎 週 午 白 高 安 新 古 長 — bài j11
 - [x] Nói & Ngữ pháp: mỗi chặng có ít nhất 5 bài, bắt đầu từ chặng ít bài nhất — đã đủ 5: tq1 (thêm g50 Lời chúc mừng), tq2, tq3 (thêm g51 Màu gì?), tq4 (thêm g52 Đếm đồ vật ひとつ・ふたつ), tq5 (thêm g53 Ở tầng mấy? なんがい), tq6 (thêm g54 Mất bao lâu? 〜じかん・〜ふん), tq7 (thêm g55 Có hay làm không? よく・ときどき・あまり), tq8 (thêm g56 Đi để làm gì? 〜に いきます), tq9 (thêm g57 Người thế nào? どんな・〜くて・〜で), tq10 (thêm g58 Thích cái nào hơn? どちら・〜の ほうが・より・いちばん), tq11 (thêm g59 Xin đừng… 〜ないで ください), tq12 (thêm g60 Mình nghĩ là… 〜と おもいます). Bài mới để ở `js/data-talk-e.js`, id tiếp theo g61
-- [ ] Câu giao tiếp: mỗi nhóm có ít nhất 8 câu
-- [ ] Bài lý thuyết ngữ pháp (g1–g6): mỗi bài có ít nhất 5 câu bài tập nhỏ
+- [x] Câu giao tiếp: mỗi nhóm có ít nhất 8 câu (đủ 6 nhóm × 8 câu)
+- [x] Bài lý thuyết ngữ pháp (g1–g6): mỗi bài có ít nhất 5 câu bài tập nhỏ (mỗi bài đã có 6 câu)
 - [x] Vẽ icon hình gợi nhớ cho các chữ còn thiếu (đủ 91 chữ cơ bản, hình vẽ riêng nằm ở `js/icons-mnemo.js`)
 - [ ] Hình gợi nhớ cho âm đục / âm ghép nếu có mẹo nhớ riêng (hiện dùng chung mẹo của chữ gốc)
 - [ ] Thêm mặt kawaii cho các icon đồ ăn / đồ vật còn lại nếu đặt được mặt gọn gàng (đã có: bánh kem, cốc nước, cốc bia, chồng sách, cái ghế, mảnh ghép; kem, pizza, dưa lưới, cốc trà, quà có nhiều chi tiết nên chưa gắn)
@@ -93,3 +93,4 @@ Có thể thêm việc mới vào cuối danh sách nếu thấy app còn thiế
 - [ ] Kanji N5 bài mới: 店 駅 道 社 会 電 車 校 (bài j12, nơi chốn & đi lại)
 - [ ] Kanji N5 bài mới: 朝 昼 夜 夕 春 夏 秋 冬 (bài j13, thời gian trong ngày & bốn mùa)
 - [ ] Nói & Ngữ pháp: thêm bài thứ 6 cho các chặng (ví dụ: 〜たり〜たり, 〜ことが できます, 〜まえに / 〜てから), bài mới ở `js/data-talk-e.js`, id tiếp theo g61
+- [ ] Câu giao tiếp: thêm nhóm mới (ở khách sạn, ở bệnh viện, nói chuyện điện thoại), mỗi nhóm 8 câu
