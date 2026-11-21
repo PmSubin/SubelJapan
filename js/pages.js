@@ -719,7 +719,7 @@ window.SJ = window.SJ || {};
       if (a.dataset.act === 'export') {
         const code = SJ.store.exportData();
         const m = U().modal(`<h3>Mã sao lưu</h3><p class="muted bold">Sao chép đoạn mã này và dán vào "Nhập" trên máy khác.</p><textarea class="input" rows="6" readonly>${code}</textarea><button class="btn btn-block mt" data-copy>${I('check', 20)} Sao chép</button>`, { cls: 'modal-sm' });
-        m.el.querySelector('[data-copy]').onclick = () => { const ta = m.el.querySelector('textarea'); ta.select(); try { navigator.clipboard.writeText(code); } catch (er) { document.execCommand('copy'); } U().toast('Đã sao chép mã sao lưu!'); };
+        m.el.querySelector('[data-copy]').onclick = () => { m.el.querySelector('textarea').select(); U().copyText(code); U().toast('Đã sao chép mã sao lưu!'); };
       }
       if (a.dataset.act === 'import') {
         const m = U().modal(`<h3>Nhập mã sao lưu</h3><textarea class="input" rows="6" placeholder="Dán mã vào đây…"></textarea><button class="btn btn-block mt" data-go>${I('upload', 20)} Khôi phục</button>`, { cls: 'modal-sm' });

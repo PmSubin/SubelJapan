@@ -293,7 +293,23 @@ window.SJ = window.SJ || {};
     return { jp: 'こんばんは', r: 'konbanwa', vi: 'Chào buổi tối', icon: 'moon' };
   }
 
+  /** Sao chép chữ vào bộ nhớ tạm. navigator.clipboard trả về Promise và có thể bị trình duyệt từ chối
+   *  (chưa cấp quyền, khung nhúng, trang không bảo mật) — khi đó dùng cách cũ execCommand. Trả về Promise<boolean>. */
+  function copyText(text) {
+    const old = () => {
+      try {
+        const ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;left:-9999px;top:0;opacity:0';
+        document.body.appendChild(ta); ta.select(); const ok = document.execCommand('copy'); ta.remove(); return ok;
+      } catch (e) { return false; }
+    };
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(text).then(() => true, () => old());
+    } catch (e) { }
+    return Promise.resolve(old());
+  }
+
   SJ.ui = {
+    copyText,
     $, $$, esc, brand, ears, shuffle, pick, sample, clamp, I, mascot, mascotSay, FURS, toast, celebrate, confetti, modal, confirm: confirmBox,
     petals: () => { }, stars, ring, bar, countUp, sayBtn, hanko, lbl, fish, ruby, reading, baseText, nameToKata, romajiToKata, greeting,
   };

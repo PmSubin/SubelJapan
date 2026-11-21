@@ -62,6 +62,9 @@ const NOISE = /fonts\.(googleapis|gstatic)\.com|raw\.githubusercontent\.com|api\
 
 async function newPage(width, settings) {
   const ctx = await browser.newContext({ viewport: { width, height: width < 500 ? 844 : 900 }, deviceScaleFactor: 1 });
+  // trình duyệt trên GitHub Actions từ chối ghi bộ nhớ tạm, còn Chrome trên máy thì cho phép → giả lập "từ chối" ở mọi nơi
+  // để chạy trên máy cũng bắt được lỗi giống GitHub (từng làm bot đỏ 2 ngày vì nút sao chép mã sao lưu)
+  await ctx.addInitScript(() => { try { if (navigator.clipboard) navigator.clipboard.writeText = () => Promise.reject(new DOMException('Write permission denied.', 'NotAllowedError')); } catch (e) { } });
   const page = await ctx.newPage();
   page.__err = [];
   page.on('pageerror', e => page.__err.push('lỗi JS: ' + e.message));

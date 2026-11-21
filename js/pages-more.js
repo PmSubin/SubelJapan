@@ -298,7 +298,7 @@ window.SJ = window.SJ || {};
       kb = SJ.jkb.mount(root.querySelector('[data-kb]'), inp, { enter: true, placeholder: { romaji: 'Gõ romaji: watashi wa mochi desu', kana: 'Bấm phím kana để gõ chữ Nhật…' } });
       root.querySelector('[data-menu]').onclick = menu;
       root.querySelectorAll('[data-sc]').forEach(b => b.onclick = () => { kata = b.dataset.sc === 'k'; root.querySelectorAll('[data-sc]').forEach(x => x.classList.toggle('active', x === b)); render(); });
-      root.querySelector('[data-copy]').onclick = () => { const t = conv(true); try { navigator.clipboard.writeText(t); U().toast('Đã sao chép: ' + esc(t)); } catch (e) { } };
+      root.querySelector('[data-copy]').onclick = () => { const t = conv(true); U().copyText(t).then(ok => U().toast(ok ? 'Đã sao chép: ' + esc(t) : 'Trình duyệt chặn sao chép — hãy chọn chữ rồi bấm Ctrl+C nha')); };
       root.querySelector('[data-read]').onclick = () => SJ.audio.speak(conv(true));
       if (!inp.hasAttribute('inputmode')) inp.focus(); render();
     }
