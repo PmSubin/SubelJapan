@@ -539,6 +539,23 @@ window.SJ = window.SJ || {};
         ['B', 'はい、おねがいします。', 'hai, onegaishimasu.', 'Vâng, gửi chị ạ.'],
       ],
       note: 'ゆうびんきょく = bưu điện, にもつ = hành lý / gói đồ, きって = con tem. こうくうびん là gửi bằng máy bay (nhanh), ふなびん là gửi bằng tàu biển (chậm mà rẻ). Đếm đồ mỏng và phẳng như tem, giấy, áo dùng 〜まい: いちまい, にまい, ごまい… Chọn một cách thì nói 〜で おねがいします. Nhớ biến âm khi đọc tiền: 300 = さんびゃく, 800 = はっぴゃく, nên 2.850 = にせん はっぴゃく ごじゅう.' },
+    { id: 'd13', title: 'Mở tài khoản ở ngân hàng', jp: 'ぎんこうで', icon: 'bank', level: 2,
+      people: { A: ['Nhân viên ngân hàng', 'sis'], B: ['Bạn', 'student'] },
+      lines: [
+        ['A', 'いらっしゃいませ。', 'irasshaimase.', 'Xin kính chào quý khách.'],
+        ['B', 'すみません。{口座|こうざ}を {作|つく}りたいんですが。', 'sumimasen. kouza o tsukuritai n desu ga.', 'Xin lỗi chị. Tôi muốn mở một tài khoản ạ.'],
+        ['A', 'はい。{在留|ざいりゅう}カードと はんこは お{持|も}ちですか。', 'hai. zairyuu kaado to hanko wa omochi desu ka.', 'Vâng. Quý khách có mang thẻ cư trú và con dấu không ạ?'],
+        ['B', 'はい、{持|も}って います。', 'hai, motte imasu.', 'Vâng, tôi có mang ạ.'],
+        ['A', 'では、この {紙|かみ}に お{名前|なまえ}と ご{住所|じゅうしょ}を {書|か}いて ください。', 'dewa, kono kami ni onamae to gojuusho o kaite kudasai.', 'Vậy quý khách viết tên và địa chỉ vào tờ giấy này nhé.'],
+        ['B', '{電話番号|でんわばんごう}も {書|か}きますか。', 'denwa bangou mo kakimasu ka.', 'Có cần viết cả số điện thoại không ạ?'],
+        ['A', 'はい、おねがいします。キャッシュカードも {作|つく}りますか。', 'hai, onegaishimasu. kyasshu kaado mo tsukurimasu ka.', 'Vâng, nhờ quý khách viết luôn. Quý khách có làm thẻ rút tiền không ạ?'],
+        ['B', 'はい。カードは いつ できますか。', 'hai. kaado wa itsu dekimasu ka.', 'Có ạ. Khi nào thì có thẻ ạ?'],
+        ['A', '{一週間|いっしゅうかん}ぐらいで、ご{自宅|じたく}に {送|おく}ります。', 'isshuukan gurai de, gojitaku ni okurimasu.', 'Khoảng 1 tuần, ngân hàng sẽ gửi thẻ về tận nhà quý khách.'],
+        ['B', 'お{金|かね}は どこで おろせますか。', 'okane wa doko de orosemasu ka.', 'Tôi có thể rút tiền ở đâu ạ?'],
+        ['A', '{駅|えき}の {前|まえ}の コンビニでも おろせますよ。', 'eki no mae no konbini demo orosemasu yo.', 'Quý khách rút được cả ở cửa hàng tiện lợi trước nhà ga đấy ạ.'],
+        ['B', 'べんりですね。ありがとうございます。', 'benri desu ne. arigatou gozaimasu.', 'Tiện quá. Cảm ơn chị nhiều ạ.'],
+      ],
+      note: 'ぎんこう = ngân hàng, こうざ = tài khoản, はんこ = con dấu cá nhân (ở Nhật hay dùng thay chữ ký), ざいりゅうカード = thẻ cư trú của người nước ngoài, キャッシュカード = thẻ rút tiền. おかねを おろす = rút tiền, おろせます là "rút được". Muốn nhờ việc gì một cách nhẹ nhàng, nói 〜たいんですが (tôi muốn… ạ) rồi để người kia tiếp lời. おもちですか là cách hỏi lịch sự của もって いますか.' },
   ];
 
   // ===== CÂU GIAO TIẾP: [tiếng Nhật, romaji, nghĩa] =====
