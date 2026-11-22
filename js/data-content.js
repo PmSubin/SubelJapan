@@ -219,6 +219,15 @@ window.SJ = window.SJ || {};
     ['電','ĐIỆN','điện','デン','—','Trời mưa (雨) rồi tia chớp loé xuống ruộng (田) — điện đó!',[['電車','でんしゃ','densha','tàu điện'],['電気','でんき','denki','điện, đèn điện']]],
     ['車','XA','xe','シャ','くるま','Nhìn từ trên xuống: chiếc xe có hai bánh và một trục ở giữa',[['車','くるま','kuruma','xe ô tô'],['自転車','じてんしゃ','jitensha','xe đạp']]],
     ['校','HIỆU','trường học','コウ','—','Cái cây (木) trong sân, nơi các bạn gặp nhau giao lưu (交) — trường học',[['学校','がっこう','gakkou','trường học'],['高校','こうこう','koukou','trường cấp 3']]],
+    // bài j13 — thời gian trong ngày & bốn mùa
+    ['朝','TRIỀU','buổi sáng','チョウ','あさ','Mặt trời (日) nhô lên giữa đám cỏ (十 trên, 十 dưới) trong khi mặt trăng (月) vẫn còn — trời vừa sáng',[['朝','あさ','asa','buổi sáng'],['今朝','けさ','kesa','sáng nay']]],
+    ['昼','TRÚ','buổi trưa, ban ngày','チュウ','ひる','Mặt trời (日) đứng bóng trên mặt đất (一), người ta nằm nghỉ (尸) — giờ nghỉ trưa',[['昼ご飯','ひるごはん','hirugohan','bữa trưa'],['昼休み','ひるやすみ','hiruyasumi','giờ nghỉ trưa']]],
+    ['夜','DẠ','ban đêm','ヤ','よる・よ','Người (亻) về dưới mái nhà (亠) khi trăng (夕) đã lên — đêm rồi',[['夜','よる','yoru','ban đêm'],['夜中','よなか','yonaka','nửa đêm']]],
+    ['夕','TỊCH','chiều tối','セキ','ゆう','Vầng trăng (月) mới ló ra một nửa — trời chiều tối',[['夕方','ゆうがた','yuugata','chiều tối'],['七夕','たなばた','tanabata','lễ Thất tịch (7/7)']]],
+    ['春','XUÂN','mùa xuân','シュン','はる','Mặt trời (日) ấm áp chiếu xuống, cây cỏ (三 và 人) đâm chồi — mùa xuân',[['春','はる','haru','mùa xuân'],['春休み','はるやすみ','haruyasumi','kỳ nghỉ xuân']]],
+    ['夏','HẠ','mùa hè','カ・ゲ','なつ','Cái đầu to (頁 thu nhỏ) lê bước chậm chạp (夂) — nóng quá đi chẳng nổi, mùa hè',[['夏','なつ','natsu','mùa hè'],['夏休み','なつやすみ','natsuyasumi','kỳ nghỉ hè']]],
+    ['秋','THU','mùa thu','シュウ','あき','Cây lúa (禾) chín vàng rực như lửa (火) — mùa thu gặt lúa',[['秋','あき','aki','mùa thu'],['春夏秋冬','しゅんかしゅうとう','shunkashuutou','xuân hạ thu đông, bốn mùa']]],
+    ['冬','ĐÔNG','mùa đông','トウ','ふゆ','Bước chậm (夂) trên hai giọt băng (⺀) — mùa đông trơn trượt lạnh cóng',[['冬','ふゆ','fuyu','mùa đông'],['真冬','まふゆ','mafuyu','giữa mùa đông']]],
   ];
   SJ.KANJI = KJ.map(a => ({ key:'j:' + a[0], k: a[0], hv: a[1], m: a[2], on: a[3], kun: a[4], tip: a[5], ex: a[6].map(e => ({ jp: e[0], kana: e[1], r: e[2], vi: e[3] })) }));
   SJ.KANJI_MAP = {};

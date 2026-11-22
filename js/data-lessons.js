@@ -89,6 +89,7 @@ window.SJ = window.SJ || {};
         { id:'j10', title:'食 飲 読 書', sub:'Hoạt động hằng ngày', type:'kanji', items: ch('食飲話語読書聞買'), icon:'book', intro:'Ăn 食べる, uống 飲む, nói 話す, đọc 読む, viết 書く, nghe 聞く, mua 買う — cả ngày của bạn trong 8 chữ! Và 日本語 là tiếng Nhật đó.' },
         { id:'j11', title:'高 安 新 古', sub:'Tính chất & thời gian', type:'kanji', items: ch('毎週午白高安新古長'), icon:'tag', intro:'Đi mua sắm cần ngay: 高い đắt, 安い rẻ, 新しい mới, 古い cũ, 長い dài. Thêm 毎日 mỗi ngày, 今週 tuần này nữa!' },
         { id:'j12', title:'店 駅 道 車', sub:'Nơi chốn & đi lại', type:'kanji', items: ch('店駅道社会電車校'), icon:'train', intro:'Ra phố là gặp ngay: 店 cửa hàng, 駅 nhà ga, 道 con đường. Đi 電車 tàu điện hay 車 ô tô tới 会社 công ty, 学校 trường học. Hán Việt: ĐIỆN XA = 電車 đó!' },
+        { id:'j13', title:'朝 昼 春 冬', sub:'Thời gian trong ngày & bốn mùa', type:'kanji', items: ch('朝昼夜夕春夏秋冬'), icon:'sakura', intro:'Sáng 朝, trưa 昼, chiều tối 夕, đêm 夜 — và bốn mùa 春 xuân, 夏 hạ, 秋 thu, 冬 đông. Hán Việt y hệt tiếng Việt luôn! 七夕 (THẤT TỊCH) là lễ ngày 7/7 đó.' },
       ],
     },
     {
