@@ -574,6 +574,24 @@ window.SJ = window.SJ || {};
         ['B', 'とても いいです。ありがとうございます。', 'totemo ii desu. arigatou gozaimasu.', 'Đẹp lắm ạ. Cảm ơn chị nhiều.'],
       ],
       note: 'びよういん = tiệm làm tóc (salon), とこや = tiệm cắt tóc nam kiểu truyền thống. カット = cắt tóc, シャンプー = gội đầu, まえがみ = tóc mái, よやく = đặt lịch trước. Muốn tóc ngắn hơn thì nói みじかく して ください (làm ngắn đi giúp tôi); chỉ muốn tỉa ít thì nói すこしだけ (chỉ một chút thôi). Thợ hay nói おつかれさまでした khi làm xong, nghĩa là "quý khách vất vả rồi ạ".' },
+    { id: 'd15', title: 'Báo mất đồ ở đồn cảnh sát', jp: 'こうばんで', icon: 'police', level: 2,
+      people: { A: ['Chú cảnh sát', 'police'], B: ['Bạn', 'student'] },
+      lines: [
+        ['B', 'すみません。さいふを なくしました。', 'sumimasen. saifu o nakushimashita.', 'Xin lỗi chú, cháu bị mất ví ạ.'],
+        ['A', 'そうですか。いつ なくしましたか。', 'sou desu ka. itsu nakushimashita ka.', 'Vậy à. Cháu làm mất lúc nào?'],
+        ['B', '{今日|きょう}の {午後|ごご}です。たぶん {三時|さんじ}ごろです。', 'kyou no gogo desu. tabun sanji goro desu.', 'Chiều nay ạ. Chắc khoảng 3 giờ.'],
+        ['A', 'どこで なくしましたか。', 'doko de nakushimashita ka.', 'Cháu làm mất ở đâu?'],
+        ['B', '{駅|えき}の ちかくの こうえんだと おもいます。', 'eki no chikaku no kouen da to omoimasu.', 'Cháu nghĩ là ở công viên gần nhà ga ạ.'],
+        ['A', 'どんな さいふですか。', 'donna saifu desu ka.', 'Cái ví như thế nào?'],
+        ['B', '{赤|あか}くて、{小|ちい}さい さいふです。', 'akakute, chiisai saifu desu.', 'Là cái ví màu đỏ, nhỏ nhỏ ạ.'],
+        ['A', '{中|なか}に {何|なに}が {入|はい}って いますか。', 'naka ni nani ga haitte imasu ka.', 'Bên trong có những gì?'],
+        ['B', 'お{金|かね}と がくせいしょうが {入|はい}って います。', 'okane to gakuseishou ga haitte imasu.', 'Có tiền và thẻ sinh viên ạ.'],
+        ['A', 'わかりました。この かみに {名前|なまえ}と でんわばんごうを {書|か}いて ください。', 'wakarimashita. kono kami ni namae to denwa bangou o kaite kudasai.', 'Được rồi. Cháu viết tên và số điện thoại vào tờ giấy này nhé.'],
+        ['B', 'はい。これで いいですか。', 'hai. kore de ii desu ka.', 'Vâng. Thế này được chưa ạ?'],
+        ['A', 'はい。みつかったら、でんわします。', 'hai. mitsukattara, denwa shimasu.', 'Được rồi. Nếu tìm thấy, chú sẽ gọi điện cho cháu.'],
+        ['B', 'よろしく おねがいします。', 'yoroshiku onegaishimasu.', 'Cháu nhờ chú giúp ạ.'],
+      ],
+      note: 'こうばん = bốt cảnh sát nhỏ ở góc phố, Nhật có ở khắp nơi. おまわりさん = cách gọi thân mật chú cảnh sát. おとしもの = đồ đánh rơi. なくしました = đã làm mất, さいふ = ví, がくせいしょう = thẻ sinh viên. Tả đồ vật thì nối tính từ bằng 〜くて: あかくて、ちいさい (đỏ và nhỏ). みつかったら = nếu tìm thấy. Ở Nhật, người nhặt được đồ thường mang đến こうばん, nên mất đồ thì cứ bình tĩnh đến hỏi nhé.' },
   ];
 
   // ===== CÂU GIAO TIẾP: [tiếng Nhật, romaji, nghĩa] =====
