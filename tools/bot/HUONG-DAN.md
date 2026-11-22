@@ -87,9 +87,9 @@ Có thể thêm việc mới vào cuối danh sách nếu thấy app còn thiế
 - [x] Câu giao tiếp: mỗi nhóm có ít nhất 8 câu (đủ 6 nhóm × 8 câu)
 - [x] Bài lý thuyết ngữ pháp (g1–g6): mỗi bài có ít nhất 5 câu bài tập nhỏ (mỗi bài đã có 6 câu)
 - [x] Vẽ icon hình gợi nhớ cho các chữ còn thiếu (đủ 91 chữ cơ bản, hình vẽ riêng nằm ở `js/icons-mnemo.js`)
-- [ ] Hình gợi nhớ cho âm đục / âm ghép nếu có mẹo nhớ riêng (hiện dùng chung mẹo của chữ gốc)
+- [ ] Hình gợi nhớ cho âm đục / âm ghép nếu có mẹo nhớ riêng (hiện dùng chung mẹo của chữ gốc) — ghi chú 22/11: bảng DAKU/YOON trong `js/data-kana.js` chưa có câu mẹo riêng nào, nên mục này chờ khi có mẹo riêng
 - [ ] Thêm mặt kawaii cho các icon đồ ăn / đồ vật còn lại nếu đặt được mặt gọn gàng (đã có: bánh kem, cốc nước, cốc bia, chồng sách, cái ghế, mảnh ghép; kem, pizza, dưa lưới, cốc trà, quà có nhiều chi tiết nên chưa gắn)
-- [ ] Thêm hội thoại tình huống nâng cao: ngân hàng, cắt tóc, mất đồ ở đồn cảnh sát (mỗi bài ≥ 10 câu) — đã có d13 Mở tài khoản ở ngân hàng (12 câu); còn cắt tóc, mất đồ ở đồn cảnh sát (id tiếp theo d14)
+- [ ] Thêm hội thoại tình huống nâng cao: ngân hàng, cắt tóc, mất đồ ở đồn cảnh sát (mỗi bài ≥ 10 câu) — đã có d13 Mở tài khoản ở ngân hàng (12 câu), d14 Cắt tóc ở tiệm (13 câu, icon mới `scissors`); còn mất đồ ở đồn cảnh sát (id tiếp theo d15)
 - [x] Kanji N5 bài mới: 店 駅 道 社 会 電 車 校 — bài j12 (Nơi chốn & đi lại)
 - [ ] Kanji N5 bài mới: 朝 昼 夜 夕 春 夏 秋 冬 (bài j13, thời gian trong ngày & bốn mùa)
 - [ ] Nói & Ngữ pháp: thêm bài thứ 6 cho các chặng (ví dụ: 〜たり〜たり, 〜ことが できます, 〜まえに / 〜てから), bài mới ở `js/data-talk-e.js`, id tiếp theo g61

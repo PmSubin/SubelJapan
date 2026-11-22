@@ -420,5 +420,14 @@ window.SJ = window.SJ || {};
       + K.R(4, 4, 40, 4, 2, K.C.rose) + face(24, 19, .7) + spark(19, 11, 2.2)
       + K.O(29.5, 34.5, 2.6, K.C.cream) + K.O(33.5, 33.5, 2.6, K.C.cream) + K.O(37.5, 34.5, 2.6, K.C.cream)
       + K.P('M27 35 H40 L38 45 H29 Z', K.C.wht) + line('M31.5 36 L32 44.5 M35.5 36 L35 44.5', K.C.red, 1.8),
+    // はさみ / びよういん — chiếc kéo cắt tóc: hai lưỡi bạc bắt chéo, hai quai hồng, mặt cười ở chốt kéo, lọn tóc rơi
+    scissors: K => K.P('M26.5 25 L12.5 5.5 Q10.5 3.8 11 7 L20.5 27 Z', K.C.gry)
+      + K.P('M21.5 25 L35.5 5.5 Q37.5 3.8 37 7 L27.5 27 Z', K.C.gry)
+      + tube('M22 27 L17.5 31.5', K.C.rose, 3) + tube('M26 27 L30.5 31.5', K.C.rose, 3)
+      + K.O(15, 36.5, 7, K.C.rose) + K.O(15, 36.5, 3.4, K.C.wht)
+      + K.O(33, 36.5, 7, K.C.rose) + K.O(33, 36.5, 3.4, K.C.wht)
+      + K.O(24, 23.5, 5.6, K.C.cream) + face(24, 23.8, .52)
+      + line('M41 15 q3 3 1 7 M43.5 19 q2.5 2.5 .5 6', K.C.dbrn, 1.8)
+      + spark(6, 18, 2.6) + spark(42, 6, 2.2, '#ffc4d4'),
   });
 })(window.SJ);

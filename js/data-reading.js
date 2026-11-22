@@ -556,6 +556,24 @@ window.SJ = window.SJ || {};
         ['B', 'べんりですね。ありがとうございます。', 'benri desu ne. arigatou gozaimasu.', 'Tiện quá. Cảm ơn chị nhiều ạ.'],
       ],
       note: 'ぎんこう = ngân hàng, こうざ = tài khoản, はんこ = con dấu cá nhân (ở Nhật hay dùng thay chữ ký), ざいりゅうカード = thẻ cư trú của người nước ngoài, キャッシュカード = thẻ rút tiền. おかねを おろす = rút tiền, おろせます là "rút được". Muốn nhờ việc gì một cách nhẹ nhàng, nói 〜たいんですが (tôi muốn… ạ) rồi để người kia tiếp lời. おもちですか là cách hỏi lịch sự của もって いますか.' },
+    { id: 'd14', title: 'Cắt tóc ở tiệm', jp: 'びよういんで', icon: 'scissors', level: 2,
+      people: { A: ['Thợ cắt tóc', 'sis'], B: ['Bạn', 'student'] },
+      lines: [
+        ['A', 'いらっしゃいませ。ご{予約|よやく}の かたですか。', 'irasshaimase. goyoyaku no kata desu ka.', 'Xin chào quý khách. Quý khách có đặt lịch trước không ạ?'],
+        ['B', 'いいえ、{予約|よやく}して いません。{今|いま}、だいじょうぶですか。', 'iie, yoyaku shite imasen. ima, daijoubu desu ka.', 'Không, tôi chưa đặt lịch. Bây giờ có được không ạ?'],
+        ['A', 'はい、だいじょうぶです。こちらへ どうぞ。', 'hai, daijoubu desu. kochira e douzo.', 'Vâng, được ạ. Mời quý khách đi lối này.'],
+        ['A', '{今日|きょう}は どう しますか。', 'kyou wa dou shimasu ka.', 'Hôm nay quý khách muốn làm thế nào ạ?'],
+        ['B', 'カットを おねがいします。', 'katto o onegaishimasu.', 'Nhờ chị cắt tóc giúp tôi.'],
+        ['A', 'どのぐらい {切|き}りますか。', 'dono gurai kirimasu ka.', 'Quý khách muốn cắt bao nhiêu ạ?'],
+        ['B', '{三|さん}センチぐらい {短|みじか}く して ください。', 'san senchi gurai mijikaku shite kudasai.', 'Chị cắt ngắn đi khoảng 3 xăng-ti-mét giúp tôi.'],
+        ['A', 'まえがみは どう しますか。', 'maegami wa dou shimasu ka.', 'Còn tóc mái thì sao ạ?'],
+        ['B', 'まえがみは {少|すこ}しだけ おねがいします。', 'maegami wa sukoshi dake onegaishimasu.', 'Tóc mái thì chị chỉ tỉa một chút thôi nhé.'],
+        ['A', 'シャンプーも しますか。', 'shanpuu mo shimasu ka.', 'Quý khách có gội đầu luôn không ạ?'],
+        ['B', 'はい、おねがいします。', 'hai, onegaishimasu.', 'Có, nhờ chị gội luôn.'],
+        ['A', 'おつかれさまでした。いかがですか。', 'otsukaresama deshita. ikaga desu ka.', 'Xong rồi ạ. Quý khách thấy thế nào ạ?'],
+        ['B', 'とても いいです。ありがとうございます。', 'totemo ii desu. arigatou gozaimasu.', 'Đẹp lắm ạ. Cảm ơn chị nhiều.'],
+      ],
+      note: 'びよういん = tiệm làm tóc (salon), とこや = tiệm cắt tóc nam kiểu truyền thống. カット = cắt tóc, シャンプー = gội đầu, まえがみ = tóc mái, よやく = đặt lịch trước. Muốn tóc ngắn hơn thì nói みじかく して ください (làm ngắn đi giúp tôi); chỉ muốn tỉa ít thì nói すこしだけ (chỉ một chút thôi). Thợ hay nói おつかれさまでした khi làm xong, nghĩa là "quý khách vất vả rồi ạ".' },
   ];
 
   // ===== CÂU GIAO TIẾP: [tiếng Nhật, romaji, nghĩa] =====
