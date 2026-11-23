@@ -13,6 +13,7 @@
  *  - g60: Mình nghĩ là… 〜と おもいます (chặng 12 · Trò chuyện tự nhiên)
  *  - g61: Lúc thì…, lúc thì… 〜たり 〜たり します (chặng 8 · Đã làm gì & rủ nhau)
  *  - g62: Trước & sau khi… 〜の まえに・〜の あとで (chặng 7 · Một ngày của tôi)
+ *  - g63: Trở nên… 〜く なります・〜に なります (chặng 9 · Miêu tả)
  * Quy ước như các file data-talk-*.js: j tách cụm bằng "|", cách sau mỗi cụm (分かち書き), r cùng số cụm với j,
  * k là câu có Kanji; fill.tok là cụm cần điền; talk.a là số thứ tự câu mẫu hoặc [chữ, romaji, nghĩa].
  */
@@ -522,6 +523,43 @@ window.SJ = window.SJ || {};
         { q: 'しごとの あとで なにを しますか。', qr: 'shigoto no ato de nani o shimasu ka?', qv: 'Đồng nghiệp hỏi sau giờ làm bạn làm gì — bạn đi tập gym.', a: 1, wrong: [['しごとの まえで ジムへ いきます。', 'shigoto no mae de jimu e ikimasu.'], ['しごとの あとで ジムを いきます。', 'shigoto no ato de jimu o ikimasu.']] },
         { sit: 'Bạn kể với bạn mới quen là trước bữa cơm bạn luôn rửa tay:', a: 0, wrong: [['ごはんの あとで てを あらいます。', 'gohan no ato de te o araimasu.'], ['ごはんを まえに てを あらいます。', 'gohan o mae ni te o araimasu.']] },
         { q: 'えいがの まえに ごはんを たべませんか。', qr: 'eiga no mae ni gohan o tabemasen ka?', qv: 'Bạn Nhật rủ đi ăn cơm trước khi xem phim. Bạn đồng ý vui vẻ:', a: 7, wrong: [['いただきます。', 'itadakimasu.'], ['ごちそうさまでした。', 'gochisousama deshita.']] },
+      ],
+    },
+    g63: {
+      title: 'Trở nên…', jp: '〜く なります・〜に なります', icon: 'sprout',
+      goal: 'Nói một thứ đã thay đổi (trời lạnh dần, khỏe lại, giỏi lên, phòng sạch rồi…) và nói "muốn trở thành…" bằng なります',
+      pattern: { parts: [['Người / vật', 'n'], ['が', 'p', 'ga'], ['〜く (tính từ い) / 〜に (tính từ な, danh từ)', 'a'], ['なります', 'e', 'narimasu']], mean: '… trở nên / trở thành …' },
+      points: [
+        '<b class="jp">なります</b> = trở nên, trở thành. Đã thay đổi rồi thì nói <b class="jp">なりました</b>: <span class="jp">さむく なりました</span> = trời lạnh rồi (trước đây chưa lạnh).',
+        '<b>Tính từ い</b>: bỏ <b class="jp">い</b>, thêm <b class="jp">く</b>: <span class="jp">さむい → さむく なります</span>, <span class="jp">つめたい → つめたく なります</span>. Đặc biệt: <b class="jp">いい → よく なります</b> (không nói いく).',
+        '<b>Tính từ な</b> và <b>danh từ</b>: thêm <b class="jp">に</b>: <span class="jp">げんき → げんきに なります</span>, <span class="jp">きれい → きれいに なります</span>, <span class="jp">はる → はるに なります</span>, <span class="jp">せんせい → せんせいに なります</span>.',
+        'Muốn trở thành gì sau này: <span class="jp">しょうらい</span> (tương lai) + nghề + <b class="jp">に なりたいです</b>. Từ hay đi cùng: <span class="jp">だんだん</span> (dần dần), <span class="jp">もうすぐ</span> (sắp), <span class="jp">もう</span> (đã… rồi).',
+      ],
+      tip: 'Người Nhật hay chào nhau bằng chuyện thời tiết thay đổi: <span class="jp">さむく なりましたね。</span> (Trời lạnh rồi nhỉ.) Khi được khen <span class="jp">にほんごが じょうずに なりましたね</span>, người Nhật thường khiêm tốn đáp <span class="jp">いいえ、まだまだです。</span> (Không đâu, mình còn kém lắm.)',
+      ex: [
+        { j: 'だんだん |さむく |なりました。', r: 'dandan|samuku|narimashita', v: 'Trời lạnh dần rồi.', k: 'だんだん寒くなりました。' },
+        { j: 'かぜ|は |よく |なりましたか。', r: 'kaze|wa|yoku|narimashita ka', v: 'Bạn đỡ cảm chưa?', k: '風邪はよくなりましたか。' },
+        { j: 'もう |げんき|に |なりました。', r: 'mou|genki|ni|narimashita', v: 'Mình khỏe lại rồi.', k: 'もう元気になりました。' },
+        { j: 'にほんご|が |じょうず|に |なりましたね。', r: 'nihongo|ga|jouzu|ni|narimashita ne', v: 'Tiếng Nhật của bạn giỏi lên rồi nhỉ!', k: '日本語が上手になりましたね。' },
+        { j: 'いいえ、|まだまだ|です。', r: 'iie|madamada|desu', v: 'Không đâu, mình còn kém lắm ạ.', k: 'いいえ、まだまだです。' },
+        { j: 'へや|が |きれい|に |なりました。', r: 'heya|ga|kirei|ni|narimashita', v: 'Căn phòng sạch đẹp rồi.', k: '部屋がきれいになりました。' },
+        { j: 'しょうらい |せんせい|に |なりたいです。', r: 'shourai|sensei|ni|naritai desu', v: 'Sau này mình muốn trở thành giáo viên.', k: '将来先生になりたいです。' },
+        { j: 'もうすぐ |はる|に |なります。', r: 'mousugu|haru|ni|narimasu', v: 'Sắp sang xuân rồi.', k: 'もうすぐ春になります。' },
+        { j: 'ジュース|が |つめたく |なりました。', r: 'juusu|ga|tsumetaku|narimashita', v: 'Nước ép mát lạnh rồi.', k: 'ジュースが冷たくなりました。' },
+        { j: 'いつ |あたたかく |なりますか。', r: 'itsu|atatakaku|narimasu ka', v: 'Khi nào trời ấm lên nhỉ?', k: 'いつ暖かくなりますか。' },
+      ],
+      fill: [
+        { ex: 0, tok: 1, wrong: ['さむい', 'さむに'], why: 'Tính từ い: bỏ い, thêm <b class="jp">く</b> → <span class="jp">さむ<b>く</b> なりました</span>.' },
+        { ex: 1, tok: 2, wrong: ['いく', 'いいく'], why: '<span class="jp">いい</span> là tính từ đặc biệt: <b class="jp">いい → よく</b> なります.' },
+        { ex: 5, tok: 3, wrong: ['く', 'を'], why: '<span class="jp">きれい</span> là tính từ な → thêm <b class="jp">に</b>: <span class="jp">きれい<b>に</b> なりました</span>. (Đừng bị lừa vì きれい có い ở cuối nhé!)' },
+        { ex: 6, tok: 2, wrong: ['が', 'を'], why: 'Danh từ (nghề) + <b class="jp">に</b> なりたいです: <span class="jp">せんせい<b>に</b> なりたいです</span>.' },
+        { ex: 8, tok: 2, wrong: ['つめたいに', 'つめたに'], why: '<span class="jp">つめたい</span> là tính từ い → <b class="jp">つめたく</b> なりました.' },
+      ],
+      talk: [
+        { q: 'かぜは よく なりましたか。', qr: 'kaze wa yoku narimashita ka?', qv: 'Đồng nghiệp hỏi bạn đã đỡ cảm chưa — bạn đã khỏe lại rồi.', a: 2, wrong: [['もう げんきく なりました。', 'mou genkiku narimashita.'], ['もう げんきを なりました。', 'mou genki o narimashita.']] },
+        { q: 'にほんごが じょうずに なりましたね。', qr: 'nihongo ga jouzu ni narimashita ne!', qv: 'Cô giáo khen tiếng Nhật của bạn đã giỏi lên. Bạn đáp khiêm tốn:', a: 4, wrong: [['はい、じょうずです。', 'hai, jouzu desu.'], ['はい、じょうずく なりました。', 'hai, jouzuku narimashita.']] },
+        { sit: 'Bạn kể với bạn Nhật là sau này bạn muốn trở thành giáo viên:', a: 6, wrong: [['しょうらい せんせいが なりたいです。', 'shourai sensei ga naritai desu.'], ['しょうらい せんせいく なりたいです。', 'shourai senseiku naritai desu.']] },
+        { q: 'いつ あたたかく なりますか。', qr: 'itsu atatakaku narimasu ka?', qv: 'Bạn Nhật hỏi khi nào trời ấm lên — bạn trả lời là sắp sang xuân rồi.', a: 7, wrong: [['もうすぐ はるく なります。', 'mousugu haruku narimasu.'], ['もうすぐ はるを なります。', 'mousugu haru o narimasu.']] },
       ],
     },
   });
