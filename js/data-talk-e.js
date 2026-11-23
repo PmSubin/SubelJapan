@@ -11,6 +11,7 @@
  *  - g58: Thích cái nào hơn? どちら・〜の ほうが・より・いちばん (chặng 10 · Thích & muốn)
  *  - g59: Xin đừng… 〜ないで ください (chặng 11 · Nhờ vả & xin phép)
  *  - g60: Mình nghĩ là… 〜と おもいます (chặng 12 · Trò chuyện tự nhiên)
+ *  - g61: Lúc thì…, lúc thì… 〜たり 〜たり します (chặng 8 · Đã làm gì & rủ nhau)
  * Quy ước như các file data-talk-*.js: j tách cụm bằng "|", cách sau mỗi cụm (分かち書き), r cùng số cụm với j,
  * k là câu có Kanji; fill.tok là cụm cần điền; talk.a là số thứ tự câu mẫu hoặc [chữ, romaji, nghĩa].
  */
@@ -448,6 +449,42 @@ window.SJ = window.SJ || {};
         { q: 'にほんごは おもしろいと おもいます。', qr: 'nihongo wa omoshiroi to omoimasu.', qv: 'Bạn cùng lớp nói: "Mình thấy tiếng Nhật thú vị." Bạn cũng nghĩ vậy:', a: 7, wrong: [['わたしも どう おもいます。', 'watashi mo dou omoimasu.'], ['わたしも そう おもいますか。', 'watashi mo sou omoimasu ka?']] },
         { sit: 'Trời đầy mây đen. Bạn nói với bạn Nhật là ngày mai chắc sẽ mưa:', a: 2, wrong: [['あしたは あめを ふると おもいます。', 'ashita wa ame o furu to omoimasu.'], ['あしたは あめが ふるですと おもいます。', 'ashita wa ame ga furu desu to omoimasu.']] },
         { q: 'あの ひとは だれですか。', qr: 'ano hito wa dare desu ka?', qv: 'Bạn Nhật chỉ một người đứng trước lớp và hỏi "Người kia là ai thế?" — bạn đoán chắc là giáo viên.', a: ['たぶん せんせいだと おもいます。', 'tabun sensei da to omoimasu.', 'Mình nghĩ chắc là giáo viên.'], wrong: [['たぶん せんせいですと おもいます。', 'tabun sensei desu to omoimasu.'], ['たぶん せんせいが おもいます。', 'tabun sensei ga omoimasu.']] },
+      ],
+    },
+    g61: {
+      title: 'Lúc thì…, lúc thì…', jp: '〜たり 〜たり', icon: 'walk',
+      goal: 'Kể vài việc tiêu biểu đã làm hoặc hay làm bằng 〜たり 〜たり します, hỏi và kể về cuối tuần, ngày nghỉ',
+      pattern: { parts: [['Việc 1 (dạng たり)', 'v'], ['Việc 2 (dạng たり)', 'v'], ['します / しました', 'e', 'shimasu / shimashita']], mean: 'Nào là …, nào là … (kể vài việc tiêu biểu, không cần kể hết)' },
+      points: [
+        'Muốn kể <b>vài việc tiêu biểu</b> (không kể hết): <b>việc 1 dạng たり</b>、<b>việc 2 dạng たり</b> + <b class="jp">します</b>: <span class="jp">ほんを よんだり、おんがくを きいたり します</span> = (lúc rảnh) mình đọc sách, nghe nhạc… các thứ.',
+        'Thì của câu nằm ở <b>cuối câu</b>: chuyện đã qua thì <b class="jp">しました</b>, chuyện thường làm thì <b class="jp">します</b>. Hai động từ たり ở giữa không đổi.',
+        'Dạng たり sẽ học kỹ sau — giờ cứ học thuộc từng cặp: <span class="jp">みます → みたり</span> (xem), <span class="jp">たべます → たべたり</span> (ăn), <span class="jp">します → したり</span> (làm), <span class="jp">いきます → いったり</span> (đi), <span class="jp">ききます → きいたり</span> (nghe).',
+        'Có nhóm đổi thành <b class="jp">だり</b>: <span class="jp">よみます → よんだり</span> (đọc), <span class="jp">のみます → のんだり</span> (uống), <span class="jp">あそびます → あそんだり</span> (chơi), <span class="jp">およぎます → およいだり</span> (bơi). Nhớ: phải có <b>đủ hai lần たり</b> rồi mới đến します.',
+      ],
+      tip: 'Sáng thứ Hai ở trường hay công ty Nhật, câu hỏi xã giao quen thuộc nhất là <b class="jp">しゅうまつは なにを しましたか</b> (cuối tuần bạn đã làm gì?). Trả lời bằng <span class="jp">〜たり 〜たり しました</span> nghe rất tự nhiên, vì mình chỉ kể vài việc vui, không cần kể hết cả ngày!',
+      ex: [
+        { j: 'しゅうまつ|は |なに|を |しましたか。', r: 'shuumatsu|wa|nani|o|shimashita ka', v: 'Cuối tuần bạn đã làm gì?', k: '週末は何をしましたか。' },
+        { j: 'えいが|を |みたり、|かいもの|を |したり |しました。', r: 'eiga|o|mitari,|kaimono|o|shitari|shimashita', v: 'Mình đã xem phim, đi mua sắm các thứ.', k: '映画を見たり、買い物をしたりしました。' },
+        { j: 'やすみ|の |ひ|は |なに|を |しますか。', r: 'yasumi|no|hi|wa|nani|o|shimasu ka', v: 'Ngày nghỉ bạn thường làm gì?', k: '休みの日は何をしますか。' },
+        { j: 'ほん|を |よんだり、|おんがく|を |きいたり |します。', r: 'hon|o|yondari,|ongaku|o|kiitari|shimasu', v: 'Mình đọc sách, nghe nhạc các thứ.', k: '本を読んだり、音楽を聞いたりします。' },
+        { j: 'ともだち|と |あそんだり、|へや|を |そうじしたり |します。', r: 'tomodachi|to|asondari,|heya|o|soujishitari|shimasu', v: 'Mình đi chơi với bạn, dọn phòng các thứ.', k: '友達と遊んだり、部屋を掃除したりします。' },
+        { j: 'きのう|は |ともだち|と |ごはん|を |たべたり、|おさけ|を |のんだり |しました。', r: 'kinou|wa|tomodachi|to|gohan|o|tabetari,|osake|o|nondari|shimashita', v: 'Hôm qua mình đi ăn cơm, uống rượu với bạn.', k: '昨日は友達とご飯を食べたり、お酒を飲んだりしました。' },
+        { j: 'なつやすみ|に |きょうと|へ |いったり、|うみ|で |およいだり |しました。', r: 'natsuyasumi|ni|kyouto|e|ittari,|umi|de|oyoidari|shimashita', v: 'Kỳ nghỉ hè mình đã đi Kyoto, bơi ở biển các thứ.', k: '夏休みに京都へ行ったり、海で泳いだりしました。' },
+        { j: 'いい|ですね。', r: 'ii|desu ne', v: 'Hay quá nhỉ!', k: 'いいですね。' },
+        { j: 'よる|は |テレビ|を |みたり、|ゲーム|を |したり |します。', r: 'yoru|wa|terebi|o|mitari,|geemu|o|shitari|shimasu', v: 'Buổi tối mình xem TV, chơi game các thứ.', k: '夜はテレビを見たり、ゲームをしたりします。' },
+      ],
+      fill: [
+        { ex: 1, tok: 2, wrong: ['みて、', 'みます、'], why: 'Kể vài việc tiêu biểu → dạng <b>たり</b>: <span class="jp">みます</span> → <b class="jp">みたり</b>.' },
+        { ex: 3, tok: 2, wrong: ['よみたり、', 'よんたり、'], why: '<span class="jp">よみます</span> → <b class="jp">よんだり</b> (み đổi thành ん, たり thành だり).' },
+        { ex: 3, tok: 5, wrong: ['ききたり', 'きって'], why: '<span class="jp">ききます</span> → <b class="jp">きいたり</b> (き đổi thành い).' },
+        { ex: 6, tok: 7, wrong: ['およぎたり', 'およんだり'], why: '<span class="jp">およぎます</span> → <b class="jp">およいだり</b> (ぎ đổi thành い, たり thành だり).' },
+        { ex: 6, tok: 3, wrong: ['を', 'で'], why: 'Đi <b>đến</b> nơi nào → <b class="jp">へ</b> (đọc là <b>e</b>) hoặc に: <span class="jp">きょうとへ いきます</span>.' },
+      ],
+      talk: [
+        { q: 'しゅうまつは なにを しましたか。', qr: 'shuumatsu wa nani o shimashita ka?', qv: 'Sáng thứ Hai, bạn Nhật hỏi cuối tuần bạn đã làm gì — bạn đã xem phim và đi mua sắm.', a: 1, wrong: [['えいがを みたり、かいものを しました。', 'eiga o mitari, kaimono o shimashita.'], ['えいがを みたり、かいものを したり します。', 'eiga o mitari, kaimono o shitari shimasu.']] },
+        { q: 'やすみの ひは なにを しますか。', qr: 'yasumi no hi wa nani o shimasu ka?', qv: 'Bạn mới quen hỏi ngày nghỉ bạn thường làm gì — bạn hay đọc sách, nghe nhạc.', a: 3, wrong: [['ほんを よみたり、おんがくを ききたり します。', 'hon o yomitari, ongaku o kikitari shimasu.'], ['ほんを よんで、おんがくを きいて ください。', 'hon o yonde, ongaku o kiite kudasai.']] },
+        { sit: 'Bạn kể với cô giáo là kỳ nghỉ hè vừa rồi bạn đã đi Kyoto và bơi ở biển:', a: 6, wrong: [['なつやすみに きょうとを いったり、うみで およいだり しました。', 'natsuyasumi ni kyouto o ittari, umi de oyoidari shimashita.'], ['なつやすみに きょうとへ いきたり、うみで およぎたり しました。', 'natsuyasumi ni kyouto e ikitari, umi de oyogitari shimashita.']] },
+        { q: 'きのうは ともだちと ごはんを たべたり、おさけを のんだり しました。', qr: 'kinou wa tomodachi to gohan o tabetari, osake o nondari shimashita.', qv: 'Đồng nghiệp kể hôm qua đi ăn uống với bạn. Bạn đáp lại vui vẻ:', a: 7, wrong: [['いいですか。', 'ii desu ka?'], ['いいえ、ちがいます。', 'iie, chigaimasu.']] },
       ],
     },
   });
