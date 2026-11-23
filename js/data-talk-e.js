@@ -12,6 +12,7 @@
  *  - g59: Xin đừng… 〜ないで ください (chặng 11 · Nhờ vả & xin phép)
  *  - g60: Mình nghĩ là… 〜と おもいます (chặng 12 · Trò chuyện tự nhiên)
  *  - g61: Lúc thì…, lúc thì… 〜たり 〜たり します (chặng 8 · Đã làm gì & rủ nhau)
+ *  - g62: Trước & sau khi… 〜の まえに・〜の あとで (chặng 7 · Một ngày của tôi)
  * Quy ước như các file data-talk-*.js: j tách cụm bằng "|", cách sau mỗi cụm (分かち書き), r cùng số cụm với j,
  * k là câu có Kanji; fill.tok là cụm cần điền; talk.a là số thứ tự câu mẫu hoặc [chữ, romaji, nghĩa].
  */
@@ -485,6 +486,42 @@ window.SJ = window.SJ || {};
         { q: 'やすみの ひは なにを しますか。', qr: 'yasumi no hi wa nani o shimasu ka?', qv: 'Bạn mới quen hỏi ngày nghỉ bạn thường làm gì — bạn hay đọc sách, nghe nhạc.', a: 3, wrong: [['ほんを よみたり、おんがくを ききたり します。', 'hon o yomitari, ongaku o kikitari shimasu.'], ['ほんを よんで、おんがくを きいて ください。', 'hon o yonde, ongaku o kiite kudasai.']] },
         { sit: 'Bạn kể với cô giáo là kỳ nghỉ hè vừa rồi bạn đã đi Kyoto và bơi ở biển:', a: 6, wrong: [['なつやすみに きょうとを いったり、うみで およいだり しました。', 'natsuyasumi ni kyouto o ittari, umi de oyoidari shimashita.'], ['なつやすみに きょうとへ いきたり、うみで およぎたり しました。', 'natsuyasumi ni kyouto e ikitari, umi de oyogitari shimashita.']] },
         { q: 'きのうは ともだちと ごはんを たべたり、おさけを のんだり しました。', qr: 'kinou wa tomodachi to gohan o tabetari, osake o nondari shimashita.', qv: 'Đồng nghiệp kể hôm qua đi ăn uống với bạn. Bạn đáp lại vui vẻ:', a: 7, wrong: [['いいですか。', 'ii desu ka?'], ['いいえ、ちがいます。', 'iie, chigaimasu.']] },
+      ],
+    },
+    g62: {
+      title: 'Trước & sau khi…', jp: '〜の まえに・〜の あとで', icon: 'alarm',
+      goal: 'Nói việc mình làm trước hoặc sau một việc khác bằng 〜の まえに / 〜の あとで, hỏi "sau giờ học / giờ làm bạn làm gì?"',
+      pattern: { parts: [['Việc / sự kiện (ごはん・しごと…)', 'n'], ['の', 'p', 'no'], ['まえに / あとで', 't', 'mae ni / ato de'], ['Việc mình làm', 'v']], mean: 'Trước / sau (việc gì đó) thì làm …' },
+      points: [
+        '<b>Trước</b> một việc: <b>danh từ</b> + <b class="jp">の まえに</b>: <span class="jp">ごはんの まえに</span> = trước bữa cơm, <span class="jp">テストの まえに</span> = trước bài kiểm tra.',
+        '<b>Sau</b> một việc: <b>danh từ</b> + <b class="jp">の あとで</b>: <span class="jp">しごとの あとで</span> = sau giờ làm, <span class="jp">じゅぎょうの あとで</span> = sau giờ học.',
+        'Danh từ đứng trước là một <b>việc / sự kiện</b>: <span class="jp">ごはん</span>, <span class="jp">しょくじ</span> (bữa ăn), <span class="jp">しごと</span>, <span class="jp">じゅぎょう</span> (giờ học), <span class="jp">えいが</span>, <span class="jp">パーティー</span>… Nhớ có <b class="jp">の</b> ở giữa nhé!',
+        'Thì của câu nằm ở <b>cuối câu</b>: thường làm thì <b class="jp">〜ます</b>, đã làm thì <b class="jp">〜ました</b>. (Ở bài "Ở đâu", <span class="jp">えきの まえ</span> là "phía trước nhà ga" — chỉ chỗ; còn ở đây <span class="jp">まえに</span> đi với một việc nên là "trước khi".)',
+      ],
+      tip: 'Ở Nhật, trước bữa ăn ai cũng nói <span class="jp">いただきます</span>, ăn xong nói <span class="jp">ごちそうさまでした</span>. Thử kể một ngày của bạn: <span class="jp">ごはんの まえに てを あらいます。ごはんの あとで はを みがきます。</span> (Trước bữa cơm rửa tay, sau bữa cơm đánh răng.)',
+      ex: [
+        { j: 'ごはん|の |まえに |て|を |あらいます。', r: 'gohan|no|mae ni|te|o|araimasu', v: 'Trước bữa cơm, mình rửa tay.', k: 'ご飯の前に手を洗います。' },
+        { j: 'しごと|の |あとで |ジム|へ |いきます。', r: 'shigoto|no|ato de|jimu|e|ikimasu', v: 'Sau giờ làm, mình đi tập gym.', k: '仕事の後でジムへ行きます。' },
+        { j: 'しょくじ|の |あとで |コーヒー|を |のみます。', r: 'shokuji|no|ato de|koohii|o|nomimasu', v: 'Sau bữa ăn, mình uống cà phê.', k: '食事の後でコーヒーを飲みます。' },
+        { j: 'じゅぎょう|の |あとで |なに|を |しますか。', r: 'jugyou|no|ato de|nani|o|shimasu ka', v: 'Sau giờ học bạn làm gì?', k: '授業の後で何をしますか。' },
+        { j: 'じゅぎょう|の |あとで |としょかん|で |べんきょうします。', r: 'jugyou|no|ato de|toshokan|de|benkyoushimasu', v: 'Sau giờ học, mình học ở thư viện.', k: '授業の後で図書館で勉強します。' },
+        { j: 'テスト|の |まえに |よく |べんきょうしました。', r: 'tesuto|no|mae ni|yoku|benkyoushimashita', v: 'Trước bài kiểm tra, mình đã học thật kỹ.', k: 'テストの前によく勉強しました。' },
+        { j: 'えいが|の |まえに |ごはん|を |たべませんか。', r: 'eiga|no|mae ni|gohan|o|tabemasen ka', v: 'Trước khi xem phim, mình đi ăn cơm nhé?', k: '映画の前にご飯を食べませんか。' },
+        { j: 'いい|ですね。', r: 'ii|desu ne', v: 'Được đấy!', k: 'いいですね。' },
+        { j: 'パーティー|の |あとで |へや|を |そうじしました。', r: 'paatii|no|ato de|heya|o|soujishimashita', v: 'Sau bữa tiệc, mình đã dọn phòng.', k: 'パーティーの後で部屋を掃除しました。' },
+      ],
+      fill: [
+        { ex: 0, tok: 1, wrong: ['を', 'が'], why: 'Nối danh từ với まえに bằng <b class="jp">の</b>: <span class="jp">ごはん<b>の</b> まえに</span>.' },
+        { ex: 0, tok: 2, wrong: ['あとで', 'うしろに'], why: 'Rửa tay <b>trước</b> bữa cơm → <b class="jp">まえに</b>. (<span class="jp">あとで</span> = sau, <span class="jp">うしろに</span> = ở phía sau (chỉ chỗ))' },
+        { ex: 1, tok: 2, wrong: ['まえに', 'まえで'], why: '<b>Sau</b> giờ làm → <b class="jp">あとで</b>.' },
+        { ex: 3, tok: 3, wrong: ['どこ', 'だれ'], why: 'Hỏi "làm <b>gì</b>?" → <b class="jp">なに</b>を しますか.' },
+        { ex: 8, tok: 2, wrong: ['まえに', 'あとを'], why: 'Dọn phòng <b>sau</b> bữa tiệc → <span class="jp">パーティーの <b>あとで</b></span>.' },
+      ],
+      talk: [
+        { q: 'じゅぎょうの あとで なにを しますか。', qr: 'jugyou no ato de nani o shimasu ka?', qv: 'Bạn cùng lớp hỏi sau giờ học bạn làm gì — bạn học ở thư viện.', a: 4, wrong: [['じゅぎょうを あとで としょかんで べんきょうします。', 'jugyou o ato de toshokan de benkyoushimasu.'], ['じゅぎょうの まえに としょかんで べんきょうしました。', 'jugyou no mae ni toshokan de benkyoushimashita.']] },
+        { q: 'しごとの あとで なにを しますか。', qr: 'shigoto no ato de nani o shimasu ka?', qv: 'Đồng nghiệp hỏi sau giờ làm bạn làm gì — bạn đi tập gym.', a: 1, wrong: [['しごとの まえで ジムへ いきます。', 'shigoto no mae de jimu e ikimasu.'], ['しごとの あとで ジムを いきます。', 'shigoto no ato de jimu o ikimasu.']] },
+        { sit: 'Bạn kể với bạn mới quen là trước bữa cơm bạn luôn rửa tay:', a: 0, wrong: [['ごはんの あとで てを あらいます。', 'gohan no ato de te o araimasu.'], ['ごはんを まえに てを あらいます。', 'gohan o mae ni te o araimasu.']] },
+        { q: 'えいがの まえに ごはんを たべませんか。', qr: 'eiga no mae ni gohan o tabemasen ka?', qv: 'Bạn Nhật rủ đi ăn cơm trước khi xem phim. Bạn đồng ý vui vẻ:', a: 7, wrong: [['いただきます。', 'itadakimasu.'], ['ごちそうさまでした。', 'gochisousama deshita.']] },
       ],
     },
   });
