@@ -15,6 +15,7 @@
  *  - g62: Trước & sau khi… 〜の まえに・〜の あとで (chặng 7 · Một ngày của tôi)
  *  - g63: Trở nên… 〜く なります・〜に なります (chặng 9 · Miêu tả)
  *  - g64: Mình có thể… 〜ことが できます (chặng 10 · Thích & muốn)
+ *  - g65: Nhờ lịch sự hơn 〜て くださいませんか (chặng 11 · Nhờ vả & xin phép)
  * Quy ước như các file data-talk-*.js: j tách cụm bằng "|", cách sau mỗi cụm (分かち書き), r cùng số cụm với j,
  * k là câu có Kanji; fill.tok là cụm cần điền; talk.a là số thứ tự câu mẫu hoặc [chữ, romaji, nghĩa].
  */
@@ -598,6 +599,42 @@ window.SJ = window.SJ || {};
         { sit: 'Ở viện bảo tàng, bạn muốn hỏi nhân viên xem ở đây có được chụp ảnh không:', a: 4, wrong: [['ここで しゃしんを とります ことが できますか。', 'koko de shashin o torimasu koto ga dekimasu ka?'], ['ここで しゃしんを とる ことに できますか。', 'koko de shashin o toru koto ni dekimasu ka?']] },
         { sit: 'Ở quầy thu ngân, bạn muốn hỏi có trả bằng thẻ được không:', a: 6, wrong: [['カードを はらう ことが できますか。', 'kaado o harau koto ga dekimasu ka?'], ['カードで はらいます ことが できますか。', 'kaado de haraimasu koto ga dekimasu ka?']] },
         { q: 'あした くる ことが できますか。', qr: 'ashita kuru koto ga dekimasu ka?', qv: 'Bạn Nhật hỏi ngày mai bạn đến được không — tiếc là mai bạn bận, không đi được.', a: ['すみません、あしたは いく ことが できません。', 'sumimasen, ashita wa iku koto ga dekimasen.', 'Xin lỗi, mai mình không đi được.'], wrong: [['すみません、あしたは いきます ことが できません。', 'sumimasen, ashita wa ikimasu koto ga dekimasen.'], ['すみません、あしたは いく ことが できます。', 'sumimasen, ashita wa iku koto ga dekimasu.']] },
+      ],
+    },
+    g65: {
+      title: 'Nhờ lịch sự hơn', jp: '〜て くださいませんか', icon: 'thanks',
+      goal: 'Nhờ người lạ, người lớn tuổi một cách mềm mỏng bằng 〜て くださいませんか, biết nhận lời và từ chối khéo',
+      pattern: { parts: [['Việc cần nhờ (しゃしんを・もう いちど…)', 'n'], ['Động từ dạng て', 'v'], ['くださいませんか', 'e', 'kudasaimasen ka']], mean: '… giúp tôi được không ạ? (nhờ lịch sự)' },
+      points: [
+        '<span class="jp">〜て ください</span> nghe hơi giống "hãy …". Muốn nhờ <b>mềm mỏng, lịch sự hơn</b> thì đổi thành <b class="jp">〜て くださいませんか</b> = "… giúp tôi được không ạ?". Dùng với người lạ, thầy cô, khách, người lớn tuổi.',
+        'Động từ vẫn ở <b>dạng て</b> như bài "Xin hãy…": <span class="jp">いいます → いって</span>, <span class="jp">はなします → はなして</span>, <span class="jp">おしえます → おしえて</span>, <span class="jp">しめます → しめて</span>, <span class="jp">かきます → かいて</span>.',
+        'Mở đầu bằng <b class="jp">すみません、</b> và thêm <b class="jp">ちょっと</b> (một chút) thì lời nhờ càng nhẹ nhàng. Cách nói gần giống: <b class="jp">〜て もらえませんか</b> (… cho tôi được không?).',
+        'Nhận lời: <b class="jp">ええ、いいですよ</b> (vâng, được chứ). Từ chối khéo: <b class="jp">すみません、ちょっと…</b> — người Nhật thường bỏ lửng câu, không nói thẳng "không được".',
+      ],
+      tip: 'Khi nghe người Nhật nói nhanh quá, đừng ngại! Câu <span class="jp">もう すこし ゆっくり はなして くださいませんか</span> là "câu cứu mạng" của người mới học. Người nghe sẽ thấy bạn rất lễ phép và sẵn lòng nói chậm lại.',
+      ex: [
+        { j: 'すみません、|ちょっと |てつだって |くださいませんか。', r: 'sumimasen|chotto|tetsudatte|kudasaimasen ka', v: 'Xin lỗi, giúp tôi một chút được không ạ?', k: 'すみません、ちょっと手伝ってくださいませんか。' },
+        { j: 'もう |いちど |いって |くださいませんか。', r: 'mou|ichido|itte|kudasaimasen ka', v: 'Nói lại một lần nữa giúp tôi được không ạ?', k: 'もう一度言ってくださいませんか。' },
+        { j: 'もう すこし |ゆっくり |はなして |くださいませんか。', r: 'mou sukoshi|yukkuri|hanashite|kudasaimasen ka', v: 'Nói chậm hơn một chút giúp tôi được không ạ?', k: 'もう少しゆっくり話してくださいませんか。' },
+        { j: 'この |かんじ|の |よみかた|を |おしえて |くださいませんか。', r: 'kono|kanji|no|yomikata|o|oshiete|kudasaimasen ka', v: 'Chỉ giúp tôi cách đọc chữ Kanji này được không ạ?', k: 'この漢字の読み方を教えてくださいませんか。' },
+        { j: 'ええ、|いいですよ。', r: 'ee|ii desu yo', v: 'Vâng, được chứ.', k: 'ええ、いいですよ。' },
+        { j: 'すみません、|いま |ちょっと…。', r: 'sumimasen|ima|chotto', v: 'Xin lỗi, bây giờ thì hơi… (không tiện lắm).', k: 'すみません、今ちょっと…。' },
+        { j: 'ここ|に |なまえ|を |かいて |くださいませんか。', r: 'koko|ni|namae|o|kaite|kudasaimasen ka', v: 'Viết tên vào đây giúp tôi được không ạ?', k: 'ここに名前を書いてくださいませんか。' },
+        { j: 'しゃしん|を |とって |もらえませんか。', r: 'shashin|o|totte|moraemasen ka', v: 'Chụp ảnh giúp tôi được không ạ?', k: '写真を撮ってもらえませんか。' },
+        { j: 'まど|を |しめて |くださいませんか。', r: 'mado|o|shimete|kudasaimasen ka', v: 'Đóng cửa sổ giúp tôi được không ạ?', k: '窓を閉めてくださいませんか。' },
+      ],
+      fill: [
+        { ex: 1, tok: 2, wrong: ['いいます', 'いう'], why: 'Trước <b class="jp">くださいませんか</b> là động từ dạng て: <span class="jp">いいます → <b>いって</b></span>.' },
+        { ex: 2, tok: 1, wrong: ['はやく', 'おおきく'], why: 'Nhờ nói <b>chậm</b> lại → <b class="jp">ゆっくり</b>. (<span class="jp">はやく</span> = nhanh, <span class="jp">おおきく</span> = to)' },
+        { ex: 3, tok: 5, wrong: ['おしえます', 'おしえる'], why: '<span class="jp">おしえます</span> → bỏ ます thêm て → <b class="jp">おしえて</b> くださいませんか.' },
+        { ex: 8, tok: 3, wrong: ['くださいません', 'くださいました'], why: 'Câu nhờ là câu hỏi phủ định: <b class="jp">くださいませんか</b> (… giúp tôi được không?). Thiếu か thì thành "không cho", nghe rất lạ.' },
+        { ex: 6, tok: 1, wrong: ['で', 'を'], why: 'Viết <b>vào</b> chỗ nào → <b class="jp">に</b>: <span class="jp">ここに かきます</span>.' },
+      ],
+      talk: [
+        { sit: 'Người Nhật nói nhanh quá, bạn nghe không kịp. Bạn muốn nhờ họ nói chậm hơn một chút:', a: 2, wrong: [['もう すこし ゆっくり はなしますか。', 'mou sukoshi yukkuri hanashimasu ka?'], ['もう すこし はやく はなして くださいませんか。', 'mou sukoshi hayaku hanashite kudasaimasen ka?']] },
+        { sit: 'Nhân viên nhà ga vừa nói mà bạn nghe không rõ. Bạn muốn nhờ họ nói lại:', a: 1, wrong: [['もう いちど いいますか。', 'mou ichido iimasu ka?'], ['もう いちど いって くださいました。', 'mou ichido itte kudasaimashita.']] },
+        { q: 'すみません、ちょっと てつだって くださいませんか。', qr: 'sumimasen, chotto tetsudatte kudasaimasen ka?', qv: 'Bác hàng xóm nhờ bạn giúp một chút — bạn vui vẻ nhận lời.', a: 4, wrong: [['ええ、てつだって くださいませんか。', 'ee, tetsudatte kudasaimasen ka?'], ['いいえ、いいですよ。', 'iie, ii desu yo.']] },
+        { q: 'あした ひっこしを てつだって くださいませんか。', qr: 'ashita hikkoshi o tetsudatte kudasaimasen ka?', qv: 'Bạn Nhật nhờ ngày mai giúp chuyển nhà — tiếc là mai bạn bận, muốn từ chối khéo.', a: ['すみません、あしたは ちょっと…。', 'sumimasen, ashita wa chotto.', 'Xin lỗi, mai thì mình hơi…'], wrong: [['はい、ちょっと てつだいます。', 'hai, chotto tetsudaimasu.'], ['すみません、あしたは てつだって ください。', 'sumimasen, ashita wa tetsudatte kudasai.']] },
       ],
     },
   });
