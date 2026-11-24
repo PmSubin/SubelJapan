@@ -92,7 +92,7 @@ Có thể thêm việc mới vào cuối danh sách nếu thấy app còn thiế
 - [x] Thêm hội thoại tình huống nâng cao: ngân hàng, cắt tóc, mất đồ ở đồn cảnh sát (mỗi bài ≥ 10 câu) — d13 Mở tài khoản ở ngân hàng (12 câu), d14 Cắt tóc ở tiệm (13 câu, icon mới `scissors`), d15 Báo mất đồ ở đồn cảnh sát (13 câu); id tiếp theo d16
 - [x] Kanji N5 bài mới: 店 駅 道 社 会 電 車 校 — bài j12 (Nơi chốn & đi lại)
 - [x] Kanji N5 bài mới: 朝 昼 夜 夕 春 夏 秋 冬 — bài j13 (Thời gian trong ngày & bốn mùa)
-- [ ] Nói & Ngữ pháp: thêm bài thứ 6 cho các chặng (ví dụ: 〜たり〜たり, 〜ことが できます, 〜まえに / 〜てから), bài mới ở `js/data-talk-e.js` — đã có: tq8 (g61 〜たり 〜たり します), tq7 (g62 Trước & sau khi… 〜の まえに・〜の あとで), tq9 (g63 Trở nên… 〜く なります・〜に なります); id tiếp theo g64
+- [ ] Nói & Ngữ pháp: thêm bài thứ 6 cho các chặng (ví dụ: 〜たり〜たり, 〜ことが できます, 〜まえに / 〜てから), bài mới ở `js/data-talk-e.js` — đã có: tq8 (g61 〜たり 〜たり します), tq7 (g62 Trước & sau khi… 〜の まえに・〜の あとで), tq9 (g63 Trở nên… 〜く なります・〜に なります), tq10 (g64 Mình có thể… 〜ことが できます); id tiếp theo g65
 - [ ] Câu giao tiếp: thêm nhóm mới (ở khách sạn, ở bệnh viện, nói chuyện điện thoại), mỗi nhóm 8 câu
 - [ ] Thêm hội thoại tình huống nâng cao khác: ở hiệu thuốc, thuê nhà, phỏng vấn làm thêm (mỗi bài ≥ 10 câu, id tiếp theo d16)
 - [x] Kanji N5 bài mới: 魚 肉 米 茶 牛 犬 鳥 町 — bài j14 (Đồ ăn, con vật & nơi ở)

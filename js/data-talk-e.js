@@ -14,6 +14,7 @@
  *  - g61: Lúc thì…, lúc thì… 〜たり 〜たり します (chặng 8 · Đã làm gì & rủ nhau)
  *  - g62: Trước & sau khi… 〜の まえに・〜の あとで (chặng 7 · Một ngày của tôi)
  *  - g63: Trở nên… 〜く なります・〜に なります (chặng 9 · Miêu tả)
+ *  - g64: Mình có thể… 〜ことが できます (chặng 10 · Thích & muốn)
  * Quy ước như các file data-talk-*.js: j tách cụm bằng "|", cách sau mỗi cụm (分かち書き), r cùng số cụm với j,
  * k là câu có Kanji; fill.tok là cụm cần điền; talk.a là số thứ tự câu mẫu hoặc [chữ, romaji, nghĩa].
  */
@@ -560,6 +561,43 @@ window.SJ = window.SJ || {};
         { q: 'にほんごが じょうずに なりましたね。', qr: 'nihongo ga jouzu ni narimashita ne!', qv: 'Cô giáo khen tiếng Nhật của bạn đã giỏi lên. Bạn đáp khiêm tốn:', a: 4, wrong: [['はい、じょうずです。', 'hai, jouzu desu.'], ['はい、じょうずく なりました。', 'hai, jouzuku narimashita.']] },
         { sit: 'Bạn kể với bạn Nhật là sau này bạn muốn trở thành giáo viên:', a: 6, wrong: [['しょうらい せんせいが なりたいです。', 'shourai sensei ga naritai desu.'], ['しょうらい せんせいく なりたいです。', 'shourai senseiku naritai desu.']] },
         { q: 'いつ あたたかく なりますか。', qr: 'itsu atatakaku narimasu ka?', qv: 'Bạn Nhật hỏi khi nào trời ấm lên — bạn trả lời là sắp sang xuân rồi.', a: 7, wrong: [['もうすぐ はるく なります。', 'mousugu haruku narimasu.'], ['もうすぐ はるを なります。', 'mousugu haru o narimasu.']] },
+      ],
+    },
+    g64: {
+      title: 'Mình có thể…', jp: '〜ことが できます', icon: 'star',
+      goal: 'Nói mình làm được việc gì, hỏi "ở đây có được… không?" bằng thể từ điển + ことが できます',
+      pattern: { parts: [['Cái gì (にほんごを・かんじを…)', 'n'], ['Động từ thể từ điển', 'v'], ['ことが', 'p', 'koto ga'], ['できます', 'e', 'dekimasu']], mean: 'Có thể / làm được (việc gì đó)' },
+      points: [
+        '<b class="jp">〜ことが できます</b> = có thể làm …, làm được … Đứng trước <b class="jp">こと</b> là động từ ở <b>thể từ điển</b> (dạng gốc, dạng in trong từ điển), không phải dạng ます.',
+        'Đổi ます → thể từ điển: <b>nhóm có い trước ます</b> thì đổi âm đó sang hàng う: <span class="jp">よみます → よむ</span>, <span class="jp">かきます → かく</span>, <span class="jp">はなします → はなす</span>, <span class="jp">およぎます → およぐ</span>, <span class="jp">つくります → つくる</span>, <span class="jp">はらいます → はらう</span>.',
+        '<b>Nhóm có え trước ます</b> và vài từ như <span class="jp">みます</span>: bỏ ます thêm <b class="jp">る</b>: <span class="jp">たべます → たべる</span>, <span class="jp">みます → みる</span>. Hai từ đặc biệt: <b class="jp">します → する</b>, <b class="jp">きます → くる</b>.',
+        'Trợ từ của việc vẫn giữ nguyên: <span class="jp">にほんごを はなす ことが できます</span>. Không làm được thì nói <b class="jp">ことが できません</b>. Hỏi xin phép lịch sự ở nơi công cộng: <span class="jp">ここで 〜 ことが できますか</span>.',
+      ],
+      tip: 'Với danh từ, chỉ cần <span class="jp">〜が できます</span> (như <span class="jp">ピアノが できます</span>). Còn khi muốn nói rõ <b>làm việc gì</b> thì dùng <span class="jp">〜ことが できます</span>. Ở bảo tàng, đền chùa Nhật Bản thường có biển cấm chụp ảnh, nên hỏi trước <span class="jp">しゃしんを とる ことが できますか</span> là rất lịch sự đó!',
+      ex: [
+        { j: 'わたし|は |およぐ |こと|が |できます。', r: 'watashi|wa|oyogu|koto|ga|dekimasu', v: 'Mình biết bơi.', k: '私は泳ぐことができます。' },
+        { j: 'にほんご|を |はなす |こと|が |できますか。', r: 'nihongo|o|hanasu|koto|ga|dekimasu ka', v: 'Bạn có nói được tiếng Nhật không?', k: '日本語を話すことができますか。' },
+        { j: 'はい、|すこし |はなす |こと|が |できます。', r: 'hai|sukoshi|hanasu|koto|ga|dekimasu', v: 'Vâng, mình nói được một chút.', k: 'はい、少し話すことができます。' },
+        { j: 'かんじ|を |よむ |こと|が |できません。', r: 'kanji|o|yomu|koto|ga|dekimasen', v: 'Mình chưa đọc được Kanji.', k: '漢字を読むことができません。' },
+        { j: 'ここ|で |しゃしん|を |とる |こと|が |できますか。', r: 'koko|de|shashin|o|toru|koto|ga|dekimasu ka', v: 'Ở đây có được chụp ảnh không ạ?', k: 'ここで写真を撮ることができますか。' },
+        { j: 'いいえ、|できません。', r: 'iie|dekimasen', v: 'Không, không được ạ.', k: 'いいえ、できません。' },
+        { j: 'カード|で |はらう |こと|が |できますか。', r: 'kaado|de|harau|koto|ga|dekimasu ka', v: 'Có trả bằng thẻ được không ạ?', k: 'カードで払うことができますか。' },
+        { j: 'りょうり|を |つくる |こと|が |できます。', r: 'ryouri|o|tsukuru|koto|ga|dekimasu', v: 'Mình biết nấu ăn.', k: '料理を作ることができます。' },
+        { j: 'ひらがな|を |かく |こと|が |できます。', r: 'hiragana|o|kaku|koto|ga|dekimasu', v: 'Mình viết được Hiragana.', k: 'ひらがなを書くことができます。' },
+        { j: 'あした |くる |こと|が |できますか。', r: 'ashita|kuru|koto|ga|dekimasu ka', v: 'Ngày mai bạn đến được không?', k: '明日来ることができますか。' },
+      ],
+      fill: [
+        { ex: 0, tok: 2, wrong: ['およぎます', 'およいで'], why: 'Trước <b class="jp">こと</b> là động từ thể từ điển: <span class="jp">およぎます → <b>およぐ</b></span>.' },
+        { ex: 1, tok: 4, wrong: ['を', 'に'], why: 'Mẫu cố định là <b class="jp">ことが できます</b>: trước できます luôn dùng <b class="jp">が</b>.' },
+        { ex: 3, tok: 2, wrong: ['よみます', 'よんで'], why: '<span class="jp">よみます</span> → đổi み (hàng い) thành む (hàng う) → <b class="jp">よむ</b> ことが できません.' },
+        { ex: 7, tok: 2, wrong: ['つくります', 'つくって'], why: '<span class="jp">つくります</span> → <b class="jp">つくる</b>. Trước こと không dùng dạng ます hay dạng て.' },
+        { ex: 9, tok: 1, wrong: ['きます', 'くます'], why: '<span class="jp">きます</span> (đến) là từ đặc biệt: thể từ điển là <b class="jp">くる</b>.' },
+      ],
+      talk: [
+        { q: 'にほんごを はなす ことが できますか。', qr: 'nihongo o hanasu koto ga dekimasu ka?', qv: 'Người Nhật hỏi bạn có nói được tiếng Nhật không — bạn nói được một chút.', a: 2, wrong: [['はい、すこし はなします ことが できます。', 'hai, sukoshi hanashimasu koto ga dekimasu.'], ['はい、すこし はなす ことを できます。', 'hai, sukoshi hanasu koto o dekimasu.']] },
+        { sit: 'Ở viện bảo tàng, bạn muốn hỏi nhân viên xem ở đây có được chụp ảnh không:', a: 4, wrong: [['ここで しゃしんを とります ことが できますか。', 'koko de shashin o torimasu koto ga dekimasu ka?'], ['ここで しゃしんを とる ことに できますか。', 'koko de shashin o toru koto ni dekimasu ka?']] },
+        { sit: 'Ở quầy thu ngân, bạn muốn hỏi có trả bằng thẻ được không:', a: 6, wrong: [['カードを はらう ことが できますか。', 'kaado o harau koto ga dekimasu ka?'], ['カードで はらいます ことが できますか。', 'kaado de haraimasu koto ga dekimasu ka?']] },
+        { q: 'あした くる ことが できますか。', qr: 'ashita kuru koto ga dekimasu ka?', qv: 'Bạn Nhật hỏi ngày mai bạn đến được không — tiếc là mai bạn bận, không đi được.', a: ['すみません、あしたは いく ことが できません。', 'sumimasen, ashita wa iku koto ga dekimasen.', 'Xin lỗi, mai mình không đi được.'], wrong: [['すみません、あしたは いきます ことが できません。', 'sumimasen, ashita wa ikimasu koto ga dekimasen.'], ['すみません、あしたは いく ことが できます。', 'sumimasen, ashita wa iku koto ga dekimasu.']] },
       ],
     },
   });
