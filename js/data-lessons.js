@@ -90,6 +90,7 @@ window.SJ = window.SJ || {};
         { id:'j11', title:'高 安 新 古', sub:'Tính chất & thời gian', type:'kanji', items: ch('毎週午白高安新古長'), icon:'tag', intro:'Đi mua sắm cần ngay: 高い đắt, 安い rẻ, 新しい mới, 古い cũ, 長い dài. Thêm 毎日 mỗi ngày, 今週 tuần này nữa!' },
         { id:'j12', title:'店 駅 道 車', sub:'Nơi chốn & đi lại', type:'kanji', items: ch('店駅道社会電車校'), icon:'train', intro:'Ra phố là gặp ngay: 店 cửa hàng, 駅 nhà ga, 道 con đường. Đi 電車 tàu điện hay 車 ô tô tới 会社 công ty, 学校 trường học. Hán Việt: ĐIỆN XA = 電車 đó!' },
         { id:'j13', title:'朝 昼 春 冬', sub:'Thời gian trong ngày & bốn mùa', type:'kanji', items: ch('朝昼夜夕春夏秋冬'), icon:'sakura', intro:'Sáng 朝, trưa 昼, chiều tối 夕, đêm 夜 — và bốn mùa 春 xuân, 夏 hạ, 秋 thu, 冬 đông. Hán Việt y hệt tiếng Việt luôn! 七夕 (THẤT TỊCH) là lễ ngày 7/7 đó.' },
+        { id:'j14', title:'魚 肉 犬 鳥', sub:'Đồ ăn, con vật & nơi ở', type:'kanji', items: ch('魚肉米茶牛犬鳥町'), icon:'fish', intro:'Đi chợ là gặp: 魚 cá, 肉 thịt, 米 gạo, お茶 trà. Con vật thân quen: 牛 bò, 犬 chó, 鳥 chim. Ghép lại: 牛肉 là thịt bò, 焼き鳥 là gà nướng xiên. Còn 町 là thị trấn nơi bạn ở đó!' },
       ],
     },
     {

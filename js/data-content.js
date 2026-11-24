@@ -228,6 +228,15 @@ window.SJ = window.SJ || {};
     ['夏','HẠ','mùa hè','カ・ゲ','なつ','Cái đầu to (頁 thu nhỏ) lê bước chậm chạp (夂) — nóng quá đi chẳng nổi, mùa hè',[['夏','なつ','natsu','mùa hè'],['夏休み','なつやすみ','natsuyasumi','kỳ nghỉ hè']]],
     ['秋','THU','mùa thu','シュウ','あき','Cây lúa (禾) chín vàng rực như lửa (火) — mùa thu gặt lúa',[['秋','あき','aki','mùa thu'],['春夏秋冬','しゅんかしゅうとう','shunkashuutou','xuân hạ thu đông, bốn mùa']]],
     ['冬','ĐÔNG','mùa đông','トウ','ふゆ','Bước chậm (夂) trên hai giọt băng (⺀) — mùa đông trơn trượt lạnh cóng',[['冬','ふゆ','fuyu','mùa đông'],['真冬','まふゆ','mafuyu','giữa mùa đông']]],
+    // bài j14 — đồ ăn, con vật & nơi ở
+    ['魚','NGƯ','con cá','ギョ','さかな・うお','Đầu cá nhọn (⺈) ở trên, thân đầy vảy (田) ở giữa, đuôi xoè (灬) ở dưới — con cá',[['魚','さかな','sakana','con cá'],['金魚','きんぎょ','kingyo','cá vàng']]],
+    ['肉','NHỤC','thịt','ニク','—','Một miếng thịt (冂) có hai thớ thịt (人 人) bên trong',[['肉','にく','niku','thịt'],['牛肉','ぎゅうにく','gyuuniku','thịt bò']]],
+    ['米','MỄ','gạo; nước Mỹ','ベイ・マイ','こめ','Hạt gạo bắn ra bốn phía quanh chiếc chày giã (十)',[['米','こめ','kome','gạo'],['新米','しんまい','shinmai','gạo mới; người mới vào nghề']]],
+    ['茶','TRÀ','trà','チャ・サ','—','Người (人) hái lá cỏ (艹) trên cây (木) — lá trà',[['お茶','おちゃ','ocha','trà'],['茶色','ちゃいろ','chairo','màu nâu']]],
+    ['牛','NGƯU','con bò','ギュウ','うし','Đầu con bò nhìn thẳng, một bên sừng (ノ) nhô lên',[['牛','うし','ushi','con bò'],['牛乳','ぎゅうにゅう','gyuunyuu','sữa bò']]],
+    ['犬','KHUYỂN','con chó','ケン','いぬ','Người to lớn (大) dắt theo một chấm nhỏ (丶) — chú chó chạy bên cạnh',[['犬','いぬ','inu','con chó'],['子犬','こいぬ','koinu','chó con']]],
+    ['鳥','ĐIỂU','con chim','チョウ','とり','Đầu chim có con mắt, thân có cánh, bốn chấm (灬) dưới cùng là móng chân',[['鳥','とり','tori','con chim'],['焼き鳥','やきとり','yakitori','gà nướng xiên']]],
+    ['町','ĐINH','thị trấn, khu phố','チョウ','まち','Cánh đồng (田) bên con đường thẳng (丁) — nhà cửa mọc lên thành thị trấn',[['町','まち','machi','thị trấn, khu phố'],['下町','したまち','shitamachi','khu phố cũ bình dân']]],
   ];
   SJ.KANJI = KJ.map(a => ({ key:'j:' + a[0], k: a[0], hv: a[1], m: a[2], on: a[3], kun: a[4], tip: a[5], ex: a[6].map(e => ({ jp: e[0], kana: e[1], r: e[2], vi: e[3] })) }));
   SJ.KANJI_MAP = {};

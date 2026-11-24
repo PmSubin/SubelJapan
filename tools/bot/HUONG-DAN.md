@@ -95,4 +95,5 @@ Có thể thêm việc mới vào cuối danh sách nếu thấy app còn thiế
 - [ ] Nói & Ngữ pháp: thêm bài thứ 6 cho các chặng (ví dụ: 〜たり〜たり, 〜ことが できます, 〜まえに / 〜てから), bài mới ở `js/data-talk-e.js` — đã có: tq8 (g61 〜たり 〜たり します), tq7 (g62 Trước & sau khi… 〜の まえに・〜の あとで), tq9 (g63 Trở nên… 〜く なります・〜に なります); id tiếp theo g64
 - [ ] Câu giao tiếp: thêm nhóm mới (ở khách sạn, ở bệnh viện, nói chuyện điện thoại), mỗi nhóm 8 câu
 - [ ] Thêm hội thoại tình huống nâng cao khác: ở hiệu thuốc, thuê nhà, phỏng vấn làm thêm (mỗi bài ≥ 10 câu, id tiếp theo d16)
-- [ ] Kanji N5 bài mới: 魚 肉 米 茶 牛 犬 鳥 町 (bài j14, đồ ăn, con vật & nơi ở)
+- [x] Kanji N5 bài mới: 魚 肉 米 茶 牛 犬 鳥 町 — bài j14 (Đồ ăn, con vật & nơi ở)
+- [ ] Kanji N5 bài mới: 少 多 早 近 遠 強 弱 明 (bài j15, tính chất — đối nghĩa)
