@@ -16,6 +16,7 @@
  *  - g63: Trở nên… 〜く なります・〜に なります (chặng 9 · Miêu tả)
  *  - g64: Mình có thể… 〜ことが できます (chặng 10 · Thích & muốn)
  *  - g65: Nhờ lịch sự hơn 〜て くださいませんか (chặng 11 · Nhờ vả & xin phép)
+ *  - g66: Đã từng… chưa? 〜た ことが あります (chặng 12 · Trò chuyện tự nhiên)
  * Quy ước như các file data-talk-*.js: j tách cụm bằng "|", cách sau mỗi cụm (分かち書き), r cùng số cụm với j,
  * k là câu có Kanji; fill.tok là cụm cần điền; talk.a là số thứ tự câu mẫu hoặc [chữ, romaji, nghĩa].
  */
@@ -635,6 +636,43 @@ window.SJ = window.SJ || {};
         { sit: 'Nhân viên nhà ga vừa nói mà bạn nghe không rõ. Bạn muốn nhờ họ nói lại:', a: 1, wrong: [['もう いちど いいますか。', 'mou ichido iimasu ka?'], ['もう いちど いって くださいました。', 'mou ichido itte kudasaimashita.']] },
         { q: 'すみません、ちょっと てつだって くださいませんか。', qr: 'sumimasen, chotto tetsudatte kudasaimasen ka?', qv: 'Bác hàng xóm nhờ bạn giúp một chút — bạn vui vẻ nhận lời.', a: 4, wrong: [['ええ、てつだって くださいませんか。', 'ee, tetsudatte kudasaimasen ka?'], ['いいえ、いいですよ。', 'iie, ii desu yo.']] },
         { q: 'あした ひっこしを てつだって くださいませんか。', qr: 'ashita hikkoshi o tetsudatte kudasaimasen ka?', qv: 'Bạn Nhật nhờ ngày mai giúp chuyển nhà — tiếc là mai bạn bận, muốn từ chối khéo.', a: ['すみません、あしたは ちょっと…。', 'sumimasen, ashita wa chotto.', 'Xin lỗi, mai thì mình hơi…'], wrong: [['はい、ちょっと てつだいます。', 'hai, chotto tetsudaimasu.'], ['すみません、あしたは てつだって ください。', 'sumimasen, ashita wa tetsudatte kudasai.']] },
+      ],
+    },
+    g66: {
+      title: 'Đã từng… chưa?', jp: '〜た ことが あります', icon: 'fuji',
+      goal: 'Kể việc mình đã từng làm (hoặc chưa từng làm), hỏi bạn "đã bao giờ… chưa?" bằng động từ dạng た + ことが あります',
+      pattern: { parts: [['Việc gì (すしを・にほんへ…)', 'n'], ['Động từ dạng た', 'v'], ['ことが', 'p', 'koto ga'], ['あります', 'e', 'arimasu']], mean: 'Đã từng (làm việc gì đó) — nói về trải nghiệm' },
+      points: [
+        '<b class="jp">〜た ことが あります</b> = <b>đã từng</b> làm …, đã có lần làm … Dùng để kể <b>trải nghiệm</b> trong đời, không cần nói lúc nào: <span class="jp">すしを たべた ことが あります</span> = mình đã từng ăn sushi.',
+        'Đứng trước <b class="jp">こと</b> là động từ <b>dạng た</b> — chính là dạng たり ở bài trước bỏ り: <span class="jp">たべます → たべた</span>, <span class="jp">みます → みた</span>, <span class="jp">します → した</span>, <span class="jp">のぼります → のぼった</span>, <span class="jp">はいります → はいった</span>. Riêng <b class="jp">いきます → いった</b> (không phải いきた).',
+        'Có nhóm đổi thành <b class="jp">だ</b>: <span class="jp">よみます → よんだ</span>, <span class="jp">のみます → のんだ</span>, <span class="jp">あそびます → あそんだ</span>. Hỏi: <b class="jp">〜た ことが ありますか</b> (đã bao giờ … chưa?). Chưa từng: <b class="jp">〜た ことが ありません</b>; chưa lần nào: <b class="jp">いちども ありません</b>.',
+        'Chuyện <b>mới hôm qua, hôm nay</b> thì chỉ cần <span class="jp">〜ました</span>: <span class="jp">きのう すしを たべました</span>. Đừng nói <span class="jp">きのう 〜た ことが あります</span> — mẫu này chỉ dùng cho trải nghiệm nói chung.',
+      ],
+      tip: 'Người Nhật rất thích hỏi người nước ngoài <span class="jp">なっとうを たべた ことが ありますか</span> (bạn ăn thử nattō bao giờ chưa?) — nattō là đậu tương lên men, dính dính và có mùi rất "đặc biệt"! Bạn cũng có thể hỏi lại: <span class="jp">ベトナムへ いった ことが ありますか</span> để kể về quê hương mình.',
+      ex: [
+        { j: 'ふじさん|に |のぼった |こと|が |ありますか。', r: 'fujisan|ni|nobotta|koto|ga|arimasu ka', v: 'Bạn đã từng leo núi Phú Sĩ chưa?', k: '富士山に登ったことがありますか。' },
+        { j: 'はい、|いちど |のぼった |こと|が |あります。', r: 'hai|ichido|nobotta|koto|ga|arimasu', v: 'Có, mình đã leo một lần rồi.', k: 'はい、一度登ったことがあります。' },
+        { j: 'すし|を |たべた |こと|が |あります。', r: 'sushi|o|tabeta|koto|ga|arimasu', v: 'Mình đã từng ăn sushi.', k: 'すしを食べたことがあります。' },
+        { j: 'にほん|へ |いった |こと|が |ありますか。', r: 'nihon|e|itta|koto|ga|arimasu ka', v: 'Bạn đã từng đi Nhật chưa?', k: '日本へ行ったことがありますか。' },
+        { j: 'いいえ、|いちども |ありません。', r: 'iie|ichido mo|arimasen', v: 'Chưa, chưa lần nào cả.', k: 'いいえ、一度もありません。' },
+        { j: 'きもの|を |きた |こと|が |ありません。', r: 'kimono|o|kita|koto|ga|arimasen', v: 'Mình chưa từng mặc kimono.', k: '着物を着たことがありません。' },
+        { j: 'なっとう|を |たべた |こと|が |ありますか。', r: 'nattou|o|tabeta|koto|ga|arimasu ka', v: 'Bạn đã ăn thử nattō bao giờ chưa?', k: '納豆を食べたことがありますか。' },
+        { j: 'にほん|の |えいが|を |みた |こと|が |あります。', r: 'nihon|no|eiga|o|mita|koto|ga|arimasu', v: 'Mình đã từng xem phim Nhật.', k: '日本の映画を見たことがあります。' },
+        { j: 'おんせん|に |はいった |こと|が |ありますか。', r: 'onsen|ni|haitta|koto|ga|arimasu ka', v: 'Bạn đã từng tắm suối nước nóng chưa?', k: '温泉に入ったことがありますか。' },
+        { j: 'ええ、|なんかいも |あります。', r: 'ee|nankai mo|arimasu', v: 'Có chứ, nhiều lần rồi.', k: 'ええ、何回もあります。' },
+      ],
+      fill: [
+        { ex: 0, tok: 2, wrong: ['のぼります', 'のぼって'], why: 'Trước <b class="jp">こと</b> là động từ dạng た: <span class="jp">のぼります → <b>のぼった</b></span> ことが ありますか.' },
+        { ex: 2, tok: 4, wrong: ['を', 'に'], why: 'Mẫu cố định là <b class="jp">ことが あります</b>: trước あります luôn dùng <b class="jp">が</b>.' },
+        { ex: 3, tok: 2, wrong: ['いきた', 'いって'], why: '<span class="jp">いきます</span> là từ đặc biệt: dạng た là <b class="jp">いった</b>, không phải いきた.' },
+        { ex: 5, tok: 5, wrong: ['あります', 'います'], why: '<b>Chưa từng</b> làm → phủ định <b class="jp">ありません</b>: <span class="jp">きた ことが ありません</span>.' },
+        { ex: 8, tok: 2, wrong: ['はいります', 'はいって'], why: '<span class="jp">はいります</span> → <b class="jp">はいった</b> ことが あります. Trước こと không dùng dạng ます hay dạng て.' },
+      ],
+      talk: [
+        { q: 'ふじさんに のぼった ことが ありますか。', qr: 'fujisan ni nobotta koto ga arimasu ka?', qv: 'Bạn Nhật hỏi bạn đã từng leo núi Phú Sĩ chưa — bạn đã leo một lần rồi.', a: 1, wrong: [['はい、いちど のぼります ことが あります。', 'hai, ichido noborimasu koto ga arimasu.'], ['はい、いちど のぼった ことを あります。', 'hai, ichido nobotta koto o arimasu.']] },
+        { sit: 'Bạn muốn hỏi bạn Nhật xem họ đã từng đến Việt Nam chưa:', a: ['ベトナムへ いった ことが ありますか。', 'betonamu e itta koto ga arimasu ka?', 'Bạn đã từng đi Việt Nam chưa?'], wrong: [['ベトナムへ いきた ことが ありますか。', 'betonamu e ikita koto ga arimasu ka?'], ['ベトナムへ いった ことが いますか。', 'betonamu e itta koto ga imasu ka?']] },
+        { q: 'なっとうを たべた ことが ありますか。', qr: 'nattou o tabeta koto ga arimasu ka?', qv: 'Bạn Nhật hỏi bạn đã ăn thử nattō chưa — bạn chưa ăn lần nào.', a: 4, wrong: [['いいえ、たべた ことが あります。', 'iie, tabeta koto ga arimasu.'], ['はい、いちども ありません。', 'hai, ichido mo arimasen.']] },
+        { q: 'おんせんに はいった ことが ありますか。', qr: 'onsen ni haitta koto ga arimasu ka?', qv: 'Bạn Nhật hỏi bạn đã tắm suối nước nóng chưa — bạn đi nhiều lần rồi.', a: 9, wrong: [['ええ、なんかいも はいります。', 'ee, nankai mo hairimasu.'], ['ええ、なんかいも ありません。', 'ee, nankai mo arimasen.']] },
       ],
     },
   });
