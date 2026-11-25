@@ -18,6 +18,7 @@
  *  - g65: Nhờ lịch sự hơn 〜て くださいませんか (chặng 11 · Nhờ vả & xin phép)
  *  - g66: Đã từng… chưa? 〜た ことが あります (chặng 12 · Trò chuyện tự nhiên)
  *  - g67: Tuần trước, tháng này, năm sau せんしゅう・こんげつ・らいねん (chặng 6 · Thời gian)
+ *  - g68: Bạn sống ở đâu? 〜に すんで います・ちかい・とおい (chặng 5 · Nơi chốn)
  * Quy ước như các file data-talk-*.js: j tách cụm bằng "|", cách sau mỗi cụm (分かち書き), r cùng số cụm với j,
  * k là câu có Kanji; fill.tok là cụm cần điền; talk.a là số thứ tự câu mẫu hoặc [chữ, romaji, nghĩa].
  */
@@ -711,6 +712,44 @@ window.SJ = window.SJ || {};
         { q: 'いつ にほんへ いきますか。', qr: 'itsu nihon e ikimasu ka?', qv: 'Bạn bè hỏi khi nào bạn đi Nhật — tháng sau bạn sẽ đi.', a: 3, wrong: [['せんげつ にほんへ いきます。', 'sengetsu nihon e ikimasu.'], ['らいげつに にほんへ いきました。', 'raigetsu ni nihon e ikimashita.']] },
         { q: 'きょねん なにを しましたか。', qr: 'kyonen nani o shimashita ka?', qv: 'Đồng nghiệp hỏi năm ngoái bạn đã làm gì — bạn đã về Việt Nam.', a: 4, wrong: [['らいねん ベトナムへ かえりました。', 'rainen betonamu e kaerimashita.'], ['きょねん ベトナムへ かえります。', 'kyonen betonamu e kaerimasu.']] },
         { sit: 'Bạn muốn rủ bạn mình gặp nhau vào thứ Sáu tuần này:', a: 9, wrong: [['せんしゅうの きんようびに あいましょう。', 'senshuu no kin\'youbi ni aimashou.'], ['こんしゅうの きんようびを あいましょう。', 'konshuu no kin\'youbi o aimashou.']] },
+      ],
+    },
+    g68: {
+      title: 'Bạn sống ở đâu?', jp: 'どこに すんで いますか', icon: 'house',
+      goal: 'Hỏi và nói mình sống ở đâu, sống với ai, nhà gần hay xa ga / trường bằng 〜に すんで います・ちかい・とおい',
+      pattern: { parts: [['Nơi chốn (とうきょう…)', 'n'], ['に', 'p', 'ni'], ['すんで います', 'e', 'sunde imasu']], mean: 'Tôi sống ở (nơi chốn)' },
+      points: [
+        'Sống ở đâu đó = nơi chốn + <b class="jp">に</b> + <b class="jp">すんで います</b>: <span class="jp">とうきょうに すんで います</span>. Vì là chuyện đang diễn ra lâu dài nên người Nhật luôn dùng dạng <span class="jp">〜て います</span>, không nói すみます. Hỏi: <span class="jp">どこに すんで いますか</span>.',
+        'Sống với ai: <b class="jp">かぞくと いっしょに</b> (cùng gia đình), <b class="jp">ひとりで</b> (một mình) — đặt trước <span class="jp">すんで います</span>.',
+        'Gần = <b class="jp">ちかい</b>, xa = <b class="jp">とおい</b>. Gần / xa chỗ nào thì dùng <b class="jp">から</b>: <span class="jp">うちは えきから ちかいです</span> (nhà gần ga).',
+        'Muốn nói "ở gần chỗ…" thì dùng <b class="jp">〜の ちかくに</b>: <span class="jp">えきの ちかくに スーパーが あります</span>. Nói khoảng cách bằng thời gian: <b class="jp">あるいて ごふん</b> (đi bộ 5 phút).',
+      ],
+      tip: 'Người Nhật hay tả nhà mình bằng số phút đi bộ ra ga: <span class="jp">えきから あるいて じゅっぷん</span> (cách ga 10 phút đi bộ). Khi thuê nhà, con số này rất quan trọng — càng gần ga thì tiền thuê càng đắt đó!',
+      ex: [
+        { j: 'どこ|に |すんで |いますか。', r: 'doko|ni|sunde|imasu ka', v: 'Bạn sống ở đâu?', k: 'どこに住んでいますか。' },
+        { j: 'とうきょう|に |すんで |います。', r: 'toukyou|ni|sunde|imasu', v: 'Tôi sống ở Tokyo.', k: '東京に住んでいます。' },
+        { j: 'うち|は |えき|から |ちかい|です。', r: 'uchi|wa|eki|kara|chikai|desu', v: 'Nhà tôi gần ga.', k: '家は駅から近いです。' },
+        { j: 'がっこう|は |うち|から |とおい|です。', r: 'gakkou|wa|uchi|kara|tooi|desu', v: 'Trường học xa nhà tôi.', k: '学校は家から遠いです。' },
+        { j: 'かぞく|と |いっしょに |すんで |います。', r: 'kazoku|to|issho ni|sunde|imasu', v: 'Tôi sống cùng gia đình.', k: '家族と一緒に住んでいます。' },
+        { j: 'ひとり|で |すんで |います。', r: 'hitori|de|sunde|imasu', v: 'Tôi sống một mình.', k: '一人で住んでいます。' },
+        { j: 'えき|の |ちかく|に |スーパー|が |あります。', r: 'eki|no|chikaku|ni|suupaa|ga|arimasu', v: 'Gần ga có siêu thị.', k: '駅の近くにスーパーがあります。' },
+        { j: 'アパート|は |えき|から |あるいて |ごふん|です。', r: 'apaato|wa|eki|kara|aruite|gofun|desu', v: 'Căn hộ cách ga 5 phút đi bộ.', k: 'アパートは駅から歩いて5分です。' },
+        { j: 'ちかく|に |コンビニ|が |ありますか。', r: 'chikaku|ni|konbini|ga|arimasu ka', v: 'Gần đây có cửa hàng tiện lợi không?', k: '近くにコンビニがありますか。' },
+        { j: 'ゆうびんきょく|は |ここ|から |とおい|ですか。', r: 'yuubinkyoku|wa|koko|kara|tooi|desu ka', v: 'Bưu điện có xa đây không?', k: '郵便局はここから遠いですか。' },
+      ],
+      fill: [
+        { ex: 1, tok: 1, wrong: ['で', 'を'], why: 'Sống <b>ở</b> đâu đó dùng <b class="jp">に</b>: <span class="jp">とうきょう<b>に</b> すんで います</span>. (<span class="jp">で</span> dùng cho nơi làm một việc, như たべます・べんきょうします)' },
+        { ex: 2, tok: 4, wrong: ['とおい', 'ちかく'], why: 'Gần = <b class="jp">ちかい</b>, đi với <span class="jp">です</span>. (<span class="jp">とおい</span> = xa, <span class="jp">ちかく</span> = chỗ gần, dùng trong 〜の ちかくに)' },
+        { ex: 3, tok: 2, wrong: ['まで', 'に'], why: 'Xa / gần <b>so với</b> chỗ nào thì dùng <b class="jp">から</b>: <span class="jp">うち<b>から</b> とおいです</span>.' },
+        { ex: 5, tok: 0, wrong: ['ひとつ', 'いちにん'], why: 'Một người = <b class="jp">ひとり</b>, ひとりで = một mình. (<span class="jp">ひとつ</span> = một cái; không nói いちにん)' },
+        { ex: 6, tok: 2, wrong: ['ちかい', 'とおく'], why: '"Ở gần ga" = <span class="jp">えきの <b>ちかく</b>に</span>. Sau の phải là danh từ ちかく, không dùng tính từ <span class="jp">ちかい</span>.' },
+        { ex: 7, tok: 4, wrong: ['あるきます', 'あるく'], why: 'Nói "đi bộ … phút" dùng dạng て: <b class="jp">あるいて</b> ごふん.' },
+      ],
+      talk: [
+        { q: 'どこに すんで いますか。', qr: 'doko ni sunde imasu ka?', qv: 'Bạn mới quen hỏi bạn sống ở đâu — bạn sống ở Tokyo.', a: 1, wrong: [['とうきょうに すみます。', 'toukyou ni sumimasu.'], ['とうきょうで すんで います。', 'toukyou de sunde imasu.']] },
+        { q: 'うちは えきから ちかいですか。', qr: 'uchi wa eki kara chikai desu ka?', qv: 'Đồng nghiệp hỏi nhà bạn có gần ga không — nhà bạn gần ga.', a: ['はい、ちかいです。', 'hai, chikai desu.', 'Vâng, gần lắm.'], wrong: [['はい、とおいです。', 'hai, tooi desu.'], ['はい、ちかくです。', 'hai, chikaku desu.']] },
+        { q: 'かぞくと すんで いますか。', qr: 'kazoku to sunde imasu ka?', qv: 'Cô giáo hỏi bạn có sống cùng gia đình không — bạn sống một mình.', a: ['いいえ、ひとりで すんで います。', 'iie, hitori de sunde imasu.', 'Không ạ, em sống một mình.'], wrong: [['いいえ、ひとつで すんで います。', 'iie, hitotsu de sunde imasu.'], ['はい、ひとりで すんで います。', 'hai, hitori de sunde imasu.']] },
+        { sit: 'Bạn vừa chuyển đến khu mới và muốn hỏi bác hàng xóm xem gần đây có cửa hàng tiện lợi không:', a: 8, wrong: [['ちかくに コンビニが いますか。', 'chikaku ni konbini ga imasu ka?'], ['ちかいに コンビニが ありますか。', 'chikai ni konbini ga arimasu ka?']] },
       ],
     },
   });
