@@ -17,6 +17,7 @@
  *  - g64: Mình có thể… 〜ことが できます (chặng 10 · Thích & muốn)
  *  - g65: Nhờ lịch sự hơn 〜て くださいませんか (chặng 11 · Nhờ vả & xin phép)
  *  - g66: Đã từng… chưa? 〜た ことが あります (chặng 12 · Trò chuyện tự nhiên)
+ *  - g67: Tuần trước, tháng này, năm sau せんしゅう・こんげつ・らいねん (chặng 6 · Thời gian)
  * Quy ước như các file data-talk-*.js: j tách cụm bằng "|", cách sau mỗi cụm (分かち書き), r cùng số cụm với j,
  * k là câu có Kanji; fill.tok là cụm cần điền; talk.a là số thứ tự câu mẫu hoặc [chữ, romaji, nghĩa].
  */
@@ -673,6 +674,43 @@ window.SJ = window.SJ || {};
         { sit: 'Bạn muốn hỏi bạn Nhật xem họ đã từng đến Việt Nam chưa:', a: ['ベトナムへ いった ことが ありますか。', 'betonamu e itta koto ga arimasu ka?', 'Bạn đã từng đi Việt Nam chưa?'], wrong: [['ベトナムへ いきた ことが ありますか。', 'betonamu e ikita koto ga arimasu ka?'], ['ベトナムへ いった ことが いますか。', 'betonamu e itta koto ga imasu ka?']] },
         { q: 'なっとうを たべた ことが ありますか。', qr: 'nattou o tabeta koto ga arimasu ka?', qv: 'Bạn Nhật hỏi bạn đã ăn thử nattō chưa — bạn chưa ăn lần nào.', a: 4, wrong: [['いいえ、たべた ことが あります。', 'iie, tabeta koto ga arimasu.'], ['はい、いちども ありません。', 'hai, ichido mo arimasen.']] },
         { q: 'おんせんに はいった ことが ありますか。', qr: 'onsen ni haitta koto ga arimasu ka?', qv: 'Bạn Nhật hỏi bạn đã tắm suối nước nóng chưa — bạn đi nhiều lần rồi.', a: 9, wrong: [['ええ、なんかいも はいります。', 'ee, nankai mo hairimasu.'], ['ええ、なんかいも ありません。', 'ee, nankai mo arimasen.']] },
+      ],
+    },
+    g67: {
+      title: 'Tuần trước, tháng này, năm sau', jp: 'せんしゅう・こんげつ・らいねん', icon: 'calendar',
+      goal: 'Nói tuần / tháng / năm trước, này, sau và hôm kia, ngày kia — biết khi nào cần に, khi nào không',
+      pattern: { parts: [['せんしゅう / こんげつ / らいねん…', 't'], ['Việc gì (にほんへ いき…)', 'n'], ['ます / ました', 'e', 'masu / mashita']], mean: '(Tuần trước / tháng này / năm sau…) làm việc gì đó' },
+      points: [
+        'Tuần: <b class="jp">せんしゅう</b> (tuần trước), <b class="jp">こんしゅう</b> (tuần này), <b class="jp">らいしゅう</b> (tuần sau). Tháng cũng theo đúng khuôn đó: <span class="jp">せんげつ</span> (tháng trước), <span class="jp">こんげつ</span> (tháng này), <span class="jp">らいげつ</span> (tháng sau).',
+        'Năm thì đọc riêng, phải học thuộc: <b class="jp">きょねん</b> (năm ngoái), <b class="jp">ことし</b> (năm nay — không nói こんねん), <b class="jp">らいねん</b> (năm sau).',
+        'Ngày: <b class="jp">おととい</b> (hôm kia) → <span class="jp">きのう</span> (hôm qua) → <span class="jp">きょう</span> (hôm nay) → <span class="jp">あした</span> (ngày mai) → <b class="jp">あさって</b> (ngày kia).',
+        'Các từ trên <b>không thêm に</b>: <span class="jp">らいげつ にほんへ いきます</span>. Còn thứ, ngày tháng, giờ thì <b>thêm に</b>: <span class="jp">きんようび<b>に</b> あいましょう</span>. Chuyện đã qua (せんしゅう, きょねん…) thì dùng <span class="jp">〜ました / でした</span>.',
+      ],
+      tip: 'Mẹo nhớ: <span class="jp">せん</span> = trước, <span class="jp">こん</span> = này, <span class="jp">らい</span> = tới — ghép với <span class="jp">しゅう</span> (tuần) hay <span class="jp">げつ</span> (tháng) là xong. Đầu năm mới, người Nhật hay chào nhau <span class="jp">ことしも よろしく おねがいします</span> (năm nay cũng mong được giúp đỡ nhé)!',
+      ex: [
+        { j: 'らいしゅう|の |どようび|は |ひま|ですか。', r: 'raishuu|no|doyoubi|wa|hima|desu ka', v: 'Thứ Bảy tuần sau bạn rảnh không?', k: '来週の土曜日は暇ですか。' },
+        { j: 'せんしゅう|は |やすみ|でした。', r: 'senshuu|wa|yasumi|deshita', v: 'Tuần trước tôi được nghỉ.', k: '先週は休みでした。' },
+        { j: 'こんげつ|は |しごと|が |いそがしい|です。', r: 'kongetsu|wa|shigoto|ga|isogashii|desu', v: 'Tháng này công việc bận.', k: '今月は仕事が忙しいです。' },
+        { j: 'らいげつ |にほん|へ |いきます。', r: 'raigetsu|nihon|e|ikimasu', v: 'Tháng sau tôi sẽ đi Nhật.', k: '来月日本へ行きます。' },
+        { j: 'きょねん |ベトナム|へ |かえりました。', r: 'kyonen|betonamu|e|kaerimashita', v: 'Năm ngoái tôi đã về Việt Nam.', k: '去年ベトナムへ帰りました。' },
+        { j: 'ことし|は |にほんご|を |べんきょうします。', r: 'kotoshi|wa|nihongo|o|benkyou shimasu', v: 'Năm nay tôi sẽ học tiếng Nhật.', k: '今年は日本語を勉強します。' },
+        { j: 'らいねん |だいがく|に |はいります。', r: 'rainen|daigaku|ni|hairimasu', v: 'Năm sau tôi sẽ vào đại học.', k: '来年大学に入ります。' },
+        { j: 'おととい |えいが|を |みました。', r: 'ototoi|eiga|o|mimashita', v: 'Hôm kia tôi đã xem phim.', k: 'おととい映画を見ました。' },
+        { j: 'あさって|は |テスト|です。', r: 'asatte|wa|tesuto|desu', v: 'Ngày kia có bài kiểm tra.', k: 'あさってはテストです。' },
+        { j: 'こんしゅう|の |きんようび|に |あいましょう。', r: 'konshuu|no|kin\'youbi|ni|aimashou', v: 'Mình gặp nhau vào thứ Sáu tuần này nhé.', k: '今週の金曜日に会いましょう。' },
+      ],
+      fill: [
+        { ex: 1, tok: 0, wrong: ['らいしゅう', 'こんしゅう'], why: 'Câu dùng <span class="jp">でした</span> (chuyện đã qua) → tuần <b>trước</b> = <b class="jp">せんしゅう</b>. (<span class="jp">らいしゅう</span> = tuần sau, <span class="jp">こんしゅう</span> = tuần này)' },
+        { ex: 5, tok: 0, wrong: ['こんねん', 'きょねん'], why: 'Năm nay = <b class="jp">ことし</b>, không nói こんねん. (<span class="jp">きょねん</span> = năm ngoái)' },
+        { ex: 3, tok: 0, wrong: ['らいげつに', 'せんげつ'], why: 'Tháng sau = <b class="jp">らいげつ</b>, và <b>không thêm に</b>. (<span class="jp">せんげつ</span> = tháng trước, mà いきます là việc chưa làm)' },
+        { ex: 8, tok: 0, wrong: ['おととい', 'きのう'], why: 'Ngày kia = <b class="jp">あさって</b>. (<span class="jp">おととい</span> = hôm kia, <span class="jp">きのう</span> = hôm qua — đều là ngày đã qua)' },
+        { ex: 9, tok: 3, wrong: ['を', 'で'], why: 'Thứ trong tuần cần <b class="jp">に</b>: <span class="jp">きんようびに あいましょう</span>. (Còn こんしゅう, らいしゅう đứng một mình thì không cần に)' },
+      ],
+      talk: [
+        { q: 'らいしゅうの どようびは ひまですか。', qr: 'raishuu no doyoubi wa hima desu ka?', qv: 'Bạn Nhật hỏi thứ Bảy tuần sau bạn có rảnh không — bạn rảnh.', a: ['はい、ひまです。', 'hai, hima desu.', 'Có, mình rảnh.'], wrong: [['はい、ひまでした。', 'hai, hima deshita.'], ['はい、せんしゅうです。', 'hai, senshuu desu.']] },
+        { q: 'いつ にほんへ いきますか。', qr: 'itsu nihon e ikimasu ka?', qv: 'Bạn bè hỏi khi nào bạn đi Nhật — tháng sau bạn sẽ đi.', a: 3, wrong: [['せんげつ にほんへ いきます。', 'sengetsu nihon e ikimasu.'], ['らいげつに にほんへ いきました。', 'raigetsu ni nihon e ikimashita.']] },
+        { q: 'きょねん なにを しましたか。', qr: 'kyonen nani o shimashita ka?', qv: 'Đồng nghiệp hỏi năm ngoái bạn đã làm gì — bạn đã về Việt Nam.', a: 4, wrong: [['らいねん ベトナムへ かえりました。', 'rainen betonamu e kaerimashita.'], ['きょねん ベトナムへ かえります。', 'kyonen betonamu e kaerimasu.']] },
+        { sit: 'Bạn muốn rủ bạn mình gặp nhau vào thứ Sáu tuần này:', a: 9, wrong: [['せんしゅうの きんようびに あいましょう。', 'senshuu no kin\'youbi ni aimashou.'], ['こんしゅうの きんようびを あいましょう。', 'konshuu no kin\'youbi o aimashou.']] },
       ],
     },
   });
