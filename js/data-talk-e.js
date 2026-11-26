@@ -21,6 +21,7 @@
  *  - g68: Bạn sống ở đâu? 〜に すんで います・ちかい・とおい (chặng 5 · Nơi chốn)
  *  - g69: Chọn đồ & thử đồ 〜を みせて ください・〜に します (chặng 4 · Số & mua sắm)
  *  - g70: Sách gì? Hàng nước nào? なんの・どこの (chặng 3 · Đồ vật)
+ *  - g71: Bao nhiêu tuổi? なんさい・おいくつ・なんねんせい (chặng 2 · Giới thiệu bản thân)
  * Quy ước như các file data-talk-*.js: j tách cụm bằng "|", cách sau mỗi cụm (分かち書き), r cùng số cụm với j,
  * k là câu có Kanji; fill.tok là cụm cần điền; talk.a là số thứ tự câu mẫu hoặc [chữ, romaji, nghĩa].
  */
@@ -826,6 +827,44 @@ window.SJ = window.SJ || {};
         { q: 'その とけいは どこのですか。', qr: 'sono tokei wa doko no desu ka?', qv: 'Đồng nghiệp hỏi về chiếc đồng hồ bạn đang đeo — đó là đồng hồ Thụy Sĩ.', a: ['スイスのです。', 'suisu no desu.', 'Của Thụy Sĩ.'], wrong: [['スイスに あります。', 'suisu ni arimasu.'], ['わたしのです。', 'watashi no desu.']] },
         { sit: 'Bạn thấy bạn cùng phòng cầm một chiếc chìa khoá lạ. Bạn muốn hỏi đó là chìa khoá gì:', a: 8, wrong: [['それは だれの かぎですか。', 'sore wa dare no kagi desu ka?'], ['それは なにの かぎですか。', 'sore wa nani no kagi desu ka?']] },
         { q: 'これは どこの コーヒーですか。', qr: 'kore wa doko no koohii desu ka?', qv: 'Bạn mời đồng nghiệp Nhật uống cà phê mang từ quê nhà. Họ hỏi đây là cà phê nước nào.', a: 10, wrong: [['ベトナムは コーヒーです。', 'betonamu wa koohii desu.'], ['これは ベトナムです。', 'kore wa betonamu desu.']] },
+      ],
+    },
+    g71: {
+      title: 'Bao nhiêu tuổi?', jp: 'なんさいですか', icon: 'cake',
+      goal: 'Nói tuổi của mình và người nhà bằng 〜さい, hỏi tuổi lịch sự bằng おいくつ và hỏi sinh viên năm mấy',
+      pattern: { parts: [['Tôi / em trai…', 'n'], ['は', 'p', 'wa'], ['Số + さい', 't', 'sai'], ['です', 'e', 'desu']], mean: 'Tôi / em trai… … tuổi' },
+      points: [
+        'Tuổi = số + <b class="jp">さい</b>: <span class="jp">にさい</span> (2 tuổi), <span class="jp">ごさい</span> (5 tuổi), <span class="jp">じゅうきゅうさい</span> (19 tuổi). Hỏi mấy tuổi: <b class="jp">なんさいですか</b>.',
+        'Mấy số đọc biến âm, phải nhớ: <b class="jp">いっさい</b> (1), <b class="jp">はっさい</b> (8), <b class="jp">じゅっさい</b> (10, cũng nói <span class="jp">じっさい</span>), <span class="jp">じゅうはっさい</span> (18). Riêng <b>20 tuổi</b> có tên đặc biệt: <b class="jp">はたち</b>.',
+        'Hỏi tuổi người lớn hơn hoặc mới quen thì dùng cách lịch sự <b class="jp">おいくつですか</b>, mở đầu bằng <span class="jp">しつれいですが</span> (xin lỗi cho tôi hỏi).',
+        'Nói về em của <b>mình</b>: <span class="jp">おとうと</span> (em trai), <span class="jp">いもうと</span> (em gái). Hỏi về em của <b>người khác</b> thì thêm さん: <span class="jp">いもうとさんは なんさいですか</span>.',
+        'Sinh viên năm mấy: <span class="jp">だいがくの <b>なんねんせい</b>ですか</span> → <span class="jp">にねんせいです</span> (năm hai). Chú ý <span class="jp">にねん</span> chỉ là "2 năm".',
+      ],
+      tip: 'Ở Nhật, người ta ít hỏi tuổi ngay khi mới gặp, nhất là với người lớn tuổi hơn. Năm tròn 20 tuổi (<span class="jp">はたち</span>) rất đặc biệt: tháng 1 có lễ <span class="jp">せいじんしき</span> (lễ trưởng thành), các bạn trẻ mặc kimono rực rỡ đi chụp ảnh cùng nhau.',
+      ex: [
+        { j: 'なんさい|ですか。', r: 'nansai|desu ka', v: 'Bạn bao nhiêu tuổi?', k: '何歳ですか。' },
+        { j: 'はたち|です。', r: 'hatachi|desu', v: 'Mình 20 tuổi.', k: '二十歳です。' },
+        { j: 'しつれいですが、|おいくつ|ですか。', r: 'shitsurei desu ga,|oikutsu|desu ka', v: 'Xin lỗi, cho tôi hỏi anh / chị bao nhiêu tuổi ạ?', k: '失礼ですが、おいくつですか。' },
+        { j: 'わたし|は |じゅうはっさい|です。', r: 'watashi|wa|juuhassai|desu', v: 'Tôi 18 tuổi.', k: '私は十八歳です。' },
+        { j: 'おとうと|は |じゅっさい|です。', r: 'otouto|wa|jussai|desu', v: 'Em trai tôi 10 tuổi.', k: '弟は十歳です。' },
+        { j: 'この こ|は |いっさい|です。', r: 'kono ko|wa|issai|desu', v: 'Bé này 1 tuổi.', k: 'この子は一歳です。' },
+        { j: 'だいがく|の |なんねんせい|ですか。', r: 'daigaku|no|nannensei|desu ka', v: 'Bạn là sinh viên năm mấy?', k: '大学の何年生ですか。' },
+        { j: 'にねんせい|です。', r: 'ninensei|desu', v: 'Mình học năm hai.', k: '二年生です。' },
+        { j: 'いもうと|は |はっさい|です。', r: 'imouto|wa|hassai|desu', v: 'Em gái tôi 8 tuổi.', k: '妹は八歳です。' },
+        { j: 'らいげつ |はたち|に |なります。', r: 'raigetsu|hatachi|ni|narimasu', v: 'Tháng sau mình tròn 20 tuổi.', k: '来月二十歳になります。' },
+      ],
+      fill: [
+        { ex: 0, tok: 0, wrong: ['なんじ', 'いくら'], why: 'Hỏi tuổi = <b class="jp">なんさい</b>. (<span class="jp">なんじ</span> = mấy giờ, <span class="jp">いくら</span> = bao nhiêu tiền)' },
+        { ex: 1, tok: 0, wrong: ['はつか', 'ふたつ'], why: '20 tuổi có tên riêng là <b class="jp">はたち</b>. (<span class="jp">はつか</span> = ngày 20, <span class="jp">ふたつ</span> = hai cái)' },
+        { ex: 5, tok: 2, wrong: ['いちさい', 'ついたち'], why: '1 tuổi đọc biến âm là <b class="jp">いっさい</b>. (<span class="jp">ついたち</span> = ngày mùng 1)' },
+        { ex: 8, tok: 2, wrong: ['はちさい', 'ようか'], why: '8 tuổi đọc biến âm là <b class="jp">はっさい</b>. (<span class="jp">ようか</span> = ngày mùng 8)' },
+        { ex: 4, tok: 2, wrong: ['じゅうさい', 'とおか'], why: '10 tuổi đọc là <b class="jp">じゅっさい</b> (hoặc じっさい), không đọc じゅうさい. (<span class="jp">とおか</span> = ngày mùng 10)' },
+      ],
+      talk: [
+        { q: 'おいくつですか。', qr: 'oikutsu desu ka?', qv: 'Bác chủ nhà người Nhật lịch sự hỏi tuổi bạn — bạn 20 tuổi.', a: 1, wrong: [['はつかです。', 'hatsuka desu.'], ['はたちでした。', 'hatachi deshita.']] },
+        { sit: 'Ở buổi giao lưu, bạn muốn hỏi tuổi một chị lớn hơn mình thật lịch sự:', a: 2, wrong: [['しつれいですが、いくらですか。', 'shitsurei desu ga, ikura desu ka?'], ['しつれいですが、なんじですか。', 'shitsurei desu ga, nanji desu ka?']] },
+        { q: 'だいがくの なんねんせいですか。', qr: 'daigaku no nannensei desu ka?', qv: 'Bạn mới quen hỏi bạn đang học năm mấy — bạn là sinh viên năm hai.', a: 7, wrong: [['にねんです。', 'ninen desu.'], ['にさいです。', 'nisai desu.']] },
+        { q: 'いもうとさんは なんさいですか。', qr: 'imouto-san wa nansai desu ka?', qv: 'Bạn Nhật hỏi em gái bạn mấy tuổi — em gái bạn 8 tuổi.', a: 8, wrong: [['いもうとは はちさいです。', 'imouto wa hachisai desu.'], ['いもうとさんは はっさいです。', 'imouto-san wa hassai desu.']] },
       ],
     },
   });
