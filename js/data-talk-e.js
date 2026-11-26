@@ -19,6 +19,7 @@
  *  - g66: Đã từng… chưa? 〜た ことが あります (chặng 12 · Trò chuyện tự nhiên)
  *  - g67: Tuần trước, tháng này, năm sau せんしゅう・こんげつ・らいねん (chặng 6 · Thời gian)
  *  - g68: Bạn sống ở đâu? 〜に すんで います・ちかい・とおい (chặng 5 · Nơi chốn)
+ *  - g69: Chọn đồ & thử đồ 〜を みせて ください・〜に します (chặng 4 · Số & mua sắm)
  * Quy ước như các file data-talk-*.js: j tách cụm bằng "|", cách sau mỗi cụm (分かち書き), r cùng số cụm với j,
  * k là câu có Kanji; fill.tok là cụm cần điền; talk.a là số thứ tự câu mẫu hoặc [chữ, romaji, nghĩa].
  */
@@ -750,6 +751,43 @@ window.SJ = window.SJ || {};
         { q: 'うちは えきから ちかいですか。', qr: 'uchi wa eki kara chikai desu ka?', qv: 'Đồng nghiệp hỏi nhà bạn có gần ga không — nhà bạn gần ga.', a: ['はい、ちかいです。', 'hai, chikai desu.', 'Vâng, gần lắm.'], wrong: [['はい、とおいです。', 'hai, tooi desu.'], ['はい、ちかくです。', 'hai, chikaku desu.']] },
         { q: 'かぞくと すんで いますか。', qr: 'kazoku to sunde imasu ka?', qv: 'Cô giáo hỏi bạn có sống cùng gia đình không — bạn sống một mình.', a: ['いいえ、ひとりで すんで います。', 'iie, hitori de sunde imasu.', 'Không ạ, em sống một mình.'], wrong: [['いいえ、ひとつで すんで います。', 'iie, hitotsu de sunde imasu.'], ['はい、ひとりで すんで います。', 'hai, hitori de sunde imasu.']] },
         { sit: 'Bạn vừa chuyển đến khu mới và muốn hỏi bác hàng xóm xem gần đây có cửa hàng tiện lợi không:', a: 8, wrong: [['ちかくに コンビニが いますか。', 'chikaku ni konbini ga imasu ka?'], ['ちかいに コンビニが ありますか。', 'chikai ni konbini ga arimasu ka?']] },
+      ],
+    },
+    g69: {
+      title: 'Chọn đồ & thử đồ', jp: 'これに します', icon: 'tshirt',
+      goal: 'Xin xem đồ, xin mặc thử, hỏi cỡ / màu khác, chọn món mình lấy và trả tiền ở cửa hàng quần áo',
+      pattern: { parts: [['Món đồ (これ…)', 'n'], ['に', 'p', 'ni'], ['します', 'e', 'shimasu']], mean: 'Tôi chọn / lấy (món đồ)' },
+      points: [
+        'Muốn nhân viên lấy cho xem: <b class="jp">〜を みせて ください</b> (cho tôi xem …). <span class="jp">みせる</span> = cho xem, khác với <span class="jp">みて ください</span> = "hãy nhìn".',
+        'Muốn mặc thử: <b class="jp">しちゃくしても いいですか</b> (tôi mặc thử được không?). <span class="jp">しちゃく</span> = mặc thử.',
+        'Hỏi có cái khác không: <b class="jp">〜は ありますか</b>. <span class="jp">もう すこし おおきいの</span> = cái to hơn một chút, <span class="jp">ほかの いろ</span> = màu khác. Chữ <b class="jp">の</b> sau tính từ thay cho "cái": <span class="jp">おおきいの</span> = cái to.',
+        'Chọn xong thì nói <b class="jp">これに します</b> (tôi lấy cái này). Chưa ưng thì nói nhẹ nhàng <b class="jp">また きます</b> (lần sau tôi quay lại). Lúc trả tiền: <span class="jp">カードで はらえますか</span> (trả bằng thẻ được không?), <span class="jp">ふくろは いりません</span> (tôi không cần túi).',
+      ],
+      tip: 'Ở Nhật, trước khi bước vào phòng thử đồ bạn phải <b>cởi giày</b> để ngoài. Từ năm 2020, túi nilon ở cửa hàng phải trả thêm vài yên, nên nhiều người mang túi riêng và nói <span class="jp">ふくろは いりません</span>.',
+      ex: [
+        { j: 'これ|を |みせて |ください。', r: 'kore|o|misete|kudasai', v: 'Cho tôi xem cái này.', k: 'これを見せてください。' },
+        { j: 'しちゃく|しても |いいですか。', r: 'shichaku|shite mo|ii desu ka', v: 'Tôi mặc thử được không?', k: '試着してもいいですか。' },
+        { j: 'もう すこし |おおきいの|は |ありますか。', r: 'mou sukoshi|ookii no|wa|arimasu ka', v: 'Có cái to hơn một chút không?', k: 'もう少し大きいのはありますか。' },
+        { j: 'ほかの |いろ|は |ありますか。', r: 'hoka no|iro|wa|arimasu ka', v: 'Có màu khác không?', k: '他の色はありますか。' },
+        { j: 'エムサイズ|は |ありますか。', r: 'emu saizu|wa|arimasu ka', v: 'Có cỡ M không?', k: 'Mサイズはありますか。' },
+        { j: 'ちょっと |ちいさい|です。', r: 'chotto|chiisai|desu', v: 'Hơi nhỏ một chút.', k: 'ちょっと小さいです。' },
+        { j: 'これ|に |します。', r: 'kore|ni|shimasu', v: 'Tôi lấy cái này.', k: 'これにします。' },
+        { j: 'カード|で |はらえますか。', r: 'kaado|de|haraemasu ka', v: 'Trả bằng thẻ được không?', k: 'カードで払えますか。' },
+        { j: 'ふくろ|は |いりません。', r: 'fukuro|wa|irimasen', v: 'Tôi không cần túi.', k: '袋はいりません。' },
+        { j: 'また |きます。', r: 'mata|kimasu', v: 'Lần sau tôi quay lại nhé.', k: 'また来ます。' },
+      ],
+      fill: [
+        { ex: 0, tok: 2, wrong: ['みて', 'みせます'], why: 'Nhờ "cho xem" = <b class="jp">みせて</b> ください. (<span class="jp">みて ください</span> = "hãy nhìn", nghĩa khác)' },
+        { ex: 6, tok: 1, wrong: ['を', 'が'], why: 'Chọn / lấy món nào thì dùng <b class="jp">〜に します</b>: <span class="jp">これ<b>に</b> します</span>.' },
+        { ex: 2, tok: 1, wrong: ['おおきい', 'おおきいな'], why: '"Cái to" = <b class="jp">おおきいの</b>: chữ の thay cho món đồ. Không có の thì câu thiếu "cái".' },
+        { ex: 7, tok: 1, wrong: ['を', 'に'], why: 'Trả tiền <b>bằng</b> thẻ / tiền mặt dùng <b class="jp">で</b>: <span class="jp">カード<b>で</b> はらえますか</span>.' },
+        { ex: 8, tok: 2, wrong: ['ありません', 'いります'], why: 'Không cần = <b class="jp">いりません</b>. (<span class="jp">ありません</span> = không có, <span class="jp">いります</span> = có cần)' },
+      ],
+      talk: [
+        { sit: 'Ở cửa hàng quần áo, bạn thấy chiếc áo ưng ý trong tủ kính. Bạn chỉ vào nó và nhờ nhân viên cho xem:', a: 0, wrong: [['これを みて ください。', 'kore o mite kudasai.'], ['これは みせて ください。', 'kore wa misete kudasai.']] },
+        { q: 'いかがですか。', qr: 'ikaga desu ka?', qv: 'Bạn mặc thử xong bước ra, nhân viên hỏi "Quý khách thấy thế nào ạ?" — áo hơi nhỏ.', a: 5, wrong: [['ちょっと ちいさいでした。', 'chotto chiisai deshita.'], ['ちょっと ちいさく です。', 'chotto chiisaku desu.']] },
+        { q: 'どちらに しますか。', qr: 'dochira ni shimasu ka?', qv: 'Bạn phân vân giữa hai cái áo, nhân viên hỏi "Quý khách chọn cái nào ạ?" — bạn chọn cái đang cầm.', a: 6, wrong: [['これを します。', 'kore o shimasu.'], ['これが します。', 'kore ga shimasu.']] },
+        { q: 'ふくろは いりますか。', qr: 'fukuro wa irimasu ka?', qv: 'Lúc tính tiền, nhân viên hỏi bạn có cần túi không — bạn đã mang túi riêng.', a: ['いいえ、いりません。', 'iie, irimasen.', 'Không, tôi không cần ạ.'], wrong: [['いいえ、ありません。', 'iie, arimasen.'], ['はい、いりません。', 'hai, irimasen.']] },
       ],
     },
   });
