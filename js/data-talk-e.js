@@ -20,6 +20,7 @@
  *  - g67: Tuần trước, tháng này, năm sau せんしゅう・こんげつ・らいねん (chặng 6 · Thời gian)
  *  - g68: Bạn sống ở đâu? 〜に すんで います・ちかい・とおい (chặng 5 · Nơi chốn)
  *  - g69: Chọn đồ & thử đồ 〜を みせて ください・〜に します (chặng 4 · Số & mua sắm)
+ *  - g70: Sách gì? Hàng nước nào? なんの・どこの (chặng 3 · Đồ vật)
  * Quy ước như các file data-talk-*.js: j tách cụm bằng "|", cách sau mỗi cụm (分かち書き), r cùng số cụm với j,
  * k là câu có Kanji; fill.tok là cụm cần điền; talk.a là số thứ tự câu mẫu hoặc [chữ, romaji, nghĩa].
  */
@@ -788,6 +789,43 @@ window.SJ = window.SJ || {};
         { q: 'いかがですか。', qr: 'ikaga desu ka?', qv: 'Bạn mặc thử xong bước ra, nhân viên hỏi "Quý khách thấy thế nào ạ?" — áo hơi nhỏ.', a: 5, wrong: [['ちょっと ちいさいでした。', 'chotto chiisai deshita.'], ['ちょっと ちいさく です。', 'chotto chiisaku desu.']] },
         { q: 'どちらに しますか。', qr: 'dochira ni shimasu ka?', qv: 'Bạn phân vân giữa hai cái áo, nhân viên hỏi "Quý khách chọn cái nào ạ?" — bạn chọn cái đang cầm.', a: 6, wrong: [['これを します。', 'kore o shimasu.'], ['これが します。', 'kore ga shimasu.']] },
         { q: 'ふくろは いりますか。', qr: 'fukuro wa irimasu ka?', qv: 'Lúc tính tiền, nhân viên hỏi bạn có cần túi không — bạn đã mang túi riêng.', a: ['いいえ、いりません。', 'iie, irimasen.', 'Không, tôi không cần ạ.'], wrong: [['いいえ、ありません。', 'iie, arimasen.'], ['はい、いりません。', 'hai, irimasen.']] },
+      ],
+    },
+    g70: {
+      title: 'Sách gì? Hàng nước nào?', jp: 'なんの・どこの', icon: 'books',
+      goal: 'Hỏi đồ vật thuộc loại gì bằng なんの và làm ở nước nào bằng どこの, rồi trả lời ngắn gọn',
+      pattern: { parts: [['これ / それ', 'n'], ['は', 'p', 'wa'], ['なんの / どこの', 'q', 'nan no / doko no'], ['Đồ vật', 'n'], ['ですか', 'e', 'desu ka']], mean: 'Cái này / đó là (đồ vật) về gì / của nước nào?' },
+      points: [
+        '<b class="jp">なんの</b> + đồ vật = (đồ vật) <b>về gì, loại gì</b>: <span class="jp">これは なんの ほんですか</span> (đây là sách gì?) → <span class="jp">にほんごの ほんです</span> (sách tiếng Nhật).',
+        '<b class="jp">どこの</b> + đồ vật = (đồ vật) <b>của nước nào, nơi nào làm ra</b>: <span class="jp">それは どこの とけいですか</span> (đó là đồng hồ nước nào?) → <span class="jp">スイスの とけいです</span> (đồng hồ Thụy Sĩ).',
+        'Đừng nhầm ba từ hỏi: <span class="jp">だれの</span> = của <b>ai</b> · <span class="jp">なんの</span> = về <b>cái gì</b> · <span class="jp">どこの</span> = ở <b>đâu</b> làm ra. Chú ý: nói <b class="jp">なんの</b>, không nói なにの.',
+        'Trả lời ngắn thì bỏ tên đồ vật, giữ lại の: <span class="jp">この カメラは どこのですか</span> → <b class="jp">にほんのです</b> (của Nhật).',
+      ],
+      tip: 'Đi xa về, người Nhật hay mang quà đặc sản gọi là <b class="jp">おみやげ</b> tặng bạn bè, đồng nghiệp. Khi tặng, họ thường nói rõ quà từ đâu. Bạn mang cà phê quê nhà sang và nói <span class="jp">ベトナムの コーヒーです</span>, chắc chắn ai cũng thích!',
+      ex: [
+        { j: 'これ|は |なんの |ほん|ですか。', r: 'kore|wa|nan no|hon|desu ka', v: 'Đây là sách gì?', k: 'これは何の本ですか。' },
+        { j: 'にほんご|の |ほん|です。', r: 'nihongo|no|hon|desu', v: 'Sách tiếng Nhật.', k: '日本語の本です。' },
+        { j: 'それ|は |どこの |とけい|ですか。', r: 'sore|wa|doko no|tokei|desu ka', v: 'Đó là đồng hồ của nước nào?', k: 'それはどこの時計ですか。' },
+        { j: 'スイス|の |とけい|です。', r: 'suisu|no|tokei|desu', v: 'Đồng hồ Thụy Sĩ.', k: 'スイスの時計です。' },
+        { j: 'これ|は |なんの |ざっし|ですか。', r: 'kore|wa|nan no|zasshi|desu ka', v: 'Đây là tạp chí gì?', k: 'これは何の雑誌ですか。' },
+        { j: 'くるま|の |ざっし|です。', r: 'kuruma|no|zasshi|desu', v: 'Tạp chí về xe hơi.', k: '車の雑誌です。' },
+        { j: 'この |カメラ|は |どこの|ですか。', r: 'kono|kamera|wa|doko no|desu ka', v: 'Cái máy ảnh này là của nước nào?', k: 'このカメラはどこのですか。' },
+        { j: 'にほん|の|です。', r: 'nihon|no|desu', v: 'Của Nhật.', k: '日本のです。' },
+        { j: 'それ|は |なんの |かぎ|ですか。', r: 'sore|wa|nan no|kagi|desu ka', v: 'Đó là chìa khoá gì?', k: 'それは何の鍵ですか。' },
+        { j: 'じてんしゃ|の |かぎ|です。', r: 'jitensha|no|kagi|desu', v: 'Chìa khoá xe đạp.', k: '自転車の鍵です。' },
+        { j: 'これ|は |ベトナム|の |コーヒー|です。', r: 'kore|wa|betonamu|no|koohii|desu', v: 'Đây là cà phê Việt Nam.', k: 'これはベトナムのコーヒーです。' },
+      ],
+      fill: [
+        { ex: 0, tok: 2, wrong: ['なにの', 'なん'], why: 'Hỏi "về cái gì, loại gì" = <b class="jp">なんの</b> + đồ vật. Không nói なにの, và phải có の để nối với ほん.' },
+        { ex: 2, tok: 2, wrong: ['どこ', 'どこに'], why: 'Hỏi "của nước nào" = <b class="jp">どこの</b> + đồ vật. Thiếu の thì không nối được với とけい.' },
+        { ex: 3, tok: 1, wrong: ['は', 'を'], why: '<b class="jp">の</b> nối nơi làm ra với đồ vật: <span class="jp">スイス<b>の</b> とけい</span> = đồng hồ Thụy Sĩ.' },
+        { ex: 7, tok: 1, wrong: ['は', 'が'], why: 'Trả lời ngắn vẫn giữ <b class="jp">の</b>: <span class="jp">にほん<b>の</b>です</span> = (cái) của Nhật.' },
+      ],
+      talk: [
+        { q: 'これは なんの ほんですか。', qr: 'kore wa nan no hon desu ka?', qv: 'Bạn Nhật cầm quyển sách học tiếng Nhật của bạn lên và hỏi đây là sách gì.', a: 1, wrong: [['わたしの ほんです。', 'watashi no hon desu.'], ['にほんごは ほんです。', 'nihongo wa hon desu.']] },
+        { q: 'その とけいは どこのですか。', qr: 'sono tokei wa doko no desu ka?', qv: 'Đồng nghiệp hỏi về chiếc đồng hồ bạn đang đeo — đó là đồng hồ Thụy Sĩ.', a: ['スイスのです。', 'suisu no desu.', 'Của Thụy Sĩ.'], wrong: [['スイスに あります。', 'suisu ni arimasu.'], ['わたしのです。', 'watashi no desu.']] },
+        { sit: 'Bạn thấy bạn cùng phòng cầm một chiếc chìa khoá lạ. Bạn muốn hỏi đó là chìa khoá gì:', a: 8, wrong: [['それは だれの かぎですか。', 'sore wa dare no kagi desu ka?'], ['それは なにの かぎですか。', 'sore wa nani no kagi desu ka?']] },
+        { q: 'これは どこの コーヒーですか。', qr: 'kore wa doko no koohii desu ka?', qv: 'Bạn mời đồng nghiệp Nhật uống cà phê mang từ quê nhà. Họ hỏi đây là cà phê nước nào.', a: 10, wrong: [['ベトナムは コーヒーです。', 'betonamu wa koohii desu.'], ['これは ベトナムです。', 'kore wa betonamu desu.']] },
       ],
     },
   });
