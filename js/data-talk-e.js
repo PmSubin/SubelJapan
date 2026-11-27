@@ -22,6 +22,7 @@
  *  - g69: Chọn đồ & thử đồ 〜を みせて ください・〜に します (chặng 4 · Số & mua sắm)
  *  - g70: Sách gì? Hàng nước nào? なんの・どこの (chặng 3 · Đồ vật)
  *  - g71: Bao nhiêu tuổi? なんさい・おいくつ・なんねんせい (chặng 2 · Giới thiệu bản thân)
+ *  - g72: Đến nhà người khác chơi おじゃまします・いらっしゃい・しつれいします (chặng 1 · Chào hỏi)
  * Quy ước như các file data-talk-*.js: j tách cụm bằng "|", cách sau mỗi cụm (分かち書き), r cùng số cụm với j,
  * k là câu có Kanji; fill.tok là cụm cần điền; talk.a là số thứ tự câu mẫu hoặc [chữ, romaji, nghĩa].
  */
@@ -865,6 +866,44 @@ window.SJ = window.SJ || {};
         { sit: 'Ở buổi giao lưu, bạn muốn hỏi tuổi một chị lớn hơn mình thật lịch sự:', a: 2, wrong: [['しつれいですが、いくらですか。', 'shitsurei desu ga, ikura desu ka?'], ['しつれいですが、なんじですか。', 'shitsurei desu ga, nanji desu ka?']] },
         { q: 'だいがくの なんねんせいですか。', qr: 'daigaku no nannensei desu ka?', qv: 'Bạn mới quen hỏi bạn đang học năm mấy — bạn là sinh viên năm hai.', a: 7, wrong: [['にねんです。', 'ninen desu.'], ['にさいです。', 'nisai desu.']] },
         { q: 'いもうとさんは なんさいですか。', qr: 'imouto-san wa nansai desu ka?', qv: 'Bạn Nhật hỏi em gái bạn mấy tuổi — em gái bạn 8 tuổi.', a: 8, wrong: [['いもうとは はちさいです。', 'imouto wa hachisai desu.'], ['いもうとさんは はっさいです。', 'imouto-san wa hassai desu.']] },
+      ],
+    },
+    g72: {
+      title: 'Đến nhà người khác chơi', jp: 'おじゃまします', icon: 'gift', kind: 'phrase',
+      goal: 'Gọi cửa, chào khi bước vào nhà người khác, tặng quà nhỏ, nhận lời mời và xin phép ra về',
+      points: [
+        'Đến trước cửa mà không thấy ai: <b class="jp">ごめんください</b> (có ai ở nhà không ạ?). Chủ nhà ra đón: <b class="jp">いらっしゃい</b> (chào mừng), rồi mời vào: <span class="jp">どうぞ あがって ください</span> (mời lên nhà).',
+        'Bước vào nhà người khác thì nói <b class="jp">おじゃまします</b> (nghĩa đen: "cháu xin làm phiền ạ"). Lúc ra về nói <b class="jp">おじゃましました</b> — đuôi <span class="jp">ました</span> vì đã làm phiền xong rồi. Đừng nói <span class="jp">ただいま</span>: câu đó chỉ dùng khi về nhà mình.',
+        'Tặng quà nhỏ, người Nhật nói khiêm tốn: <b class="jp">つまらない ものですが…</b> (chỉ là chút quà nhỏ thôi ạ). Ngày nay nhiều người thích nói <span class="jp">ほんの きもちですが</span> (chút lòng thành ạ).',
+        'Chủ nhà mời: <span class="jp">おちゃを どうぞ</span> (mời uống trà) → nhận thì nói <b class="jp">いただきます</b>. Không muốn chủ nhà bận rộn vì mình: <b class="jp">どうぞ おかまいなく</b> (xin đừng bận tâm ạ).',
+        'Muốn ra về: <b class="jp">そろそろ しつれいします</b> (cũng đến lúc cháu xin phép ạ). Chủ nhà hay đáp: <span class="jp">また きて くださいね</span> (lần sau lại đến chơi nhé).',
+      ],
+      tip: 'Cửa nhà Nhật có một khoảng thấp gọi là <span class="jp">げんかん</span>: cởi giày ở đây, quay mũi giày ra phía cửa cho gọn, rồi mới bước lên sàn. Đến chơi nhà ai, người Nhật hay mang theo một hộp bánh nhỏ gọi là <b class="jp">てみやげ</b> (quà cầm tay).',
+      ex: [
+        { j: 'ごめんください。', r: 'gomen kudasai', v: 'Có ai ở nhà không ạ? (gọi cửa)', k: 'ごめんください。' },
+        { j: 'いらっしゃい。|どうぞ |あがって |ください。', r: 'irasshai.|douzo|agatte|kudasai', v: 'Chào cháu! Mời cháu vào nhà.', k: 'いらっしゃい。どうぞ上がってください。' },
+        { j: 'おじゃまします。', r: 'ojamashimasu', v: 'Cháu xin phép vào ạ. (khi bước vào nhà người khác)', k: 'お邪魔します。' },
+        { j: 'これ、|つまらない |もの|ですが…。', r: 'kore,|tsumaranai|mono|desu ga...', v: 'Đây là chút quà nhỏ thôi ạ. (khiêm tốn khi tặng quà)', k: 'これ、つまらないものですが…。' },
+        { j: 'どうぞ |おかまいなく。', r: 'douzo|okamainaku', v: 'Xin bác đừng bận tâm ạ.', k: 'どうぞお構いなく。' },
+        { j: 'おちゃ|を |どうぞ。', r: 'ocha|o|douzo', v: 'Mời cháu uống trà.', k: 'お茶をどうぞ。' },
+        { j: 'じゃあ、|いただきます。', r: 'jaa,|itadakimasu', v: 'Vậy cháu xin ạ. (khi nhận đồ ăn, đồ uống)', k: 'じゃあ、いただきます。' },
+        { j: 'そろそろ |しつれいします。', r: 'sorosoro|shitsurei shimasu', v: 'Cũng muộn rồi, cháu xin phép về ạ.', k: 'そろそろ失礼します。' },
+        { j: 'おじゃましました。', r: 'ojamashimashita', v: 'Cảm ơn bác đã cho cháu đến chơi ạ. (lúc ra về)', k: 'お邪魔しました。' },
+        { j: 'また |きて |ください|ね。', r: 'mata|kite|kudasai|ne', v: 'Lần sau cháu lại đến chơi nhé.', k: 'また来てくださいね。' },
+      ],
+      fill: [
+        { ex: 2, tok: 0, wrong: ['おじゃましました。', 'ただいま。'], why: 'Lúc <b>bước vào</b> nhà người khác nói <b class="jp">おじゃまします</b>. <span class="jp">おじゃましました</span> là câu lúc ra về; <span class="jp">ただいま</span> chỉ nói khi về nhà mình.' },
+        { ex: 8, tok: 0, wrong: ['おじゃまします。', 'いってきます。'], why: 'Lúc <b>ra về</b> nói <b class="jp">おじゃましました</b> (đã làm phiền xong). <span class="jp">いってきます</span> là câu chào khi ra khỏi nhà mình.' },
+        { ex: 7, tok: 1, wrong: ['おじゃまします。', 'ごめんください。'], why: 'Xin phép ra về: そろそろ <b class="jp">しつれいします</b>. (<span class="jp">おじゃまします</span> = lúc vào nhà, <span class="jp">ごめんください</span> = gọi cửa)' },
+        { ex: 4, tok: 1, wrong: ['おかえりなさい。', 'おやすみなさい。'], why: 'Mong chủ nhà đừng bận rộn vì mình: どうぞ <b class="jp">おかまいなく</b>. (<span class="jp">おかえりなさい</span> = mừng bạn về nhà, <span class="jp">おやすみなさい</span> = chúc ngủ ngon)' },
+      ],
+      talk: [
+        { sit: 'Bạn đến nhà bạn Nhật chơi. Cửa đang mở nhưng không thấy ai, bạn gọi vào trong:', a: 0, wrong: [2, 8] },
+        { q: 'いらっしゃい。どうぞ あがって ください。', qr: 'irasshai. douzo agatte kudasai.', qv: 'Mẹ của bạn Nhật ra mở cửa, mời bạn vào nhà.', a: 2, wrong: [8, ['ただいま。', 'tadaima.']] },
+        { q: 'なにか のみますか。', qr: 'nanika nomimasu ka?', qv: 'Vừa ngồi xuống, chủ nhà hỏi bạn có muốn uống gì không — bạn không muốn bác phải bận rộn.', a: 4, wrong: [7, ['おかえりなさい。', 'okaerinasai.']] },
+        { q: 'おちゃを どうぞ。', qr: 'ocha o douzo.', qv: 'Chủ nhà đã rót trà, đặt cốc trước mặt bạn.', a: 6, wrong: [2, ['ごちそうさまでした。', 'gochisousama deshita.']] },
+        { sit: 'Trời đã tối, bạn muốn xin phép ra về:', a: 7, wrong: [2, ['いってきます。', 'ittekimasu.']] },
+        { sit: 'Ra đến cửa, bạn cúi chào cảm ơn gia đình đã cho mình đến chơi:', a: 8, wrong: [2, 0] },
       ],
     },
   });

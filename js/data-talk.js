@@ -421,7 +421,7 @@ window.SJ = window.SJ || {};
   SJ.TALK_X = SJ.TALK_X || {};
   BASE.forEach(l => { SJ.TALK_L[l.id] = l; });
   SJ.TALK_UNITS = [
-    { id: 'tq1', title: 'Chào hỏi', jp: 'あいさつ', icon: 'wave_hand', color: '#ff6b9a', desc: 'Chào trong ngày, cảm ơn, xin lỗi, câu cửa miệng, đáp lời khi nghe, lời chúc mừng', lessons: ['g1', 'g17', 'g18', 'g19', 'g50'] },
+    { id: 'tq1', title: 'Chào hỏi', jp: 'あいさつ', icon: 'wave_hand', color: '#ff6b9a', desc: 'Chào trong ngày, cảm ơn, xin lỗi, câu cửa miệng, đáp lời khi nghe, lời chúc mừng, đến nhà người khác chơi', lessons: ['g1', 'g17', 'g18', 'g19', 'g50', 'g72'] },
     { id: 'tq2', title: 'Giới thiệu bản thân', jp: 'じこしょうかい', icon: 'nametag', color: '#ff8a3d', desc: 'Tên, nghề, quê quán; hỏi "phải không?", nói "không phải", "cũng vậy", hỏi tuổi', lessons: ['g2', 'g3', 'g4', 'g20', 'g21', 'g71'] },
     { id: 'tq3', title: 'Đồ vật', jp: 'これは なんですか', icon: 'gift', color: '#4aa8ff', desc: 'Cái này, cái đó, của ai, màu gì, tiếng Nhật gọi là gì, sách gì, hàng nước nào', lessons: ['g5', 'g6', 'g22', 'g23', 'g51', 'g70'] },
     { id: 'tq4', title: 'Số & mua sắm', jp: 'かいもの', icon: 'shop', color: '#f2a516', desc: 'Đếm số, hỏi giá, đếm đồ vật, gọi món, mua ở cửa hàng tiện lợi, chọn & thử đồ', lessons: ['g24', 'g8', 'g52', 'g25', 'g26', 'g69'] },
