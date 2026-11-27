@@ -429,5 +429,11 @@ window.SJ = window.SJ || {};
       + K.O(24, 23.5, 5.6, K.C.cream) + face(24, 23.8, .52)
       + line('M41 15 q3 3 1 7 M43.5 19 q2.5 2.5 .5 6', K.C.dbrn, 1.8)
       + spark(6, 18, 2.6) + spark(42, 6, 2.2, '#ffc4d4'),
+    // くすり / やっきょく — thuốc: lọ thuốc nắp xanh, nhãn trắng có mặt cười, viên nhộng hồng nằm cạnh
+    medicine: K => K.R(9, 14, 22, 29, 4, K.C.org) + K.R(7.5, 6, 25, 9, 2.5, K.C.dblue)
+      + K.R(11.5, 20, 17, 15, 2, K.C.wht) + face(20, 27.5, .85)
+      + K.P('M35 37 L39 33 A3.6 3.6 0 0 1 44 38 L40 42 A3.6 3.6 0 0 1 35 37 Z', K.C.wht)
+      + K.P('M37 35 L39 33 A3.6 3.6 0 0 1 44 38 L42 40 Z', K.C.rose)
+      + spark(41, 10, 2.6) + spark(4.5, 30, 2, '#ffc4d4'),
   });
 })(window.SJ);

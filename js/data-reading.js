@@ -592,6 +592,24 @@ window.SJ = window.SJ || {};
         ['B', 'よろしく おねがいします。', 'yoroshiku onegaishimasu.', 'Cháu nhờ chú giúp ạ.'],
       ],
       note: 'こうばん = bốt cảnh sát nhỏ ở góc phố, Nhật có ở khắp nơi. おまわりさん = cách gọi thân mật chú cảnh sát. おとしもの = đồ đánh rơi. なくしました = đã làm mất, さいふ = ví, がくせいしょう = thẻ sinh viên. Tả đồ vật thì nối tính từ bằng 〜くて: あかくて、ちいさい (đỏ và nhỏ). みつかったら = nếu tìm thấy. Ở Nhật, người nhặt được đồ thường mang đến こうばん, nên mất đồ thì cứ bình tĩnh đến hỏi nhé.' },
+    { id: 'd16', title: 'Mua thuốc ở hiệu thuốc', jp: 'くすりやで', icon: 'medicine', level: 2,
+      people: { A: ['Dược sĩ', 'sis'], B: ['Bạn', 'student'] },
+      lines: [
+        ['A', 'いらっしゃいませ。どう しましたか。', 'irasshaimase. dou shimashita ka.', 'Xin chào quý khách. Bạn bị làm sao vậy?'],
+        ['B', 'かぜを ひきました。かぜぐすりは ありますか。', 'kaze o hikimashita. kazegusuri wa arimasu ka.', 'Mình bị cảm rồi. Ở đây có thuốc cảm không ạ?'],
+        ['A', 'はい、あります。ねつは ありますか。', 'hai, arimasu. netsu wa arimasu ka.', 'Vâng, có ạ. Bạn có bị sốt không?'],
+        ['B', 'すこし あります。のども いたいです。', 'sukoshi arimasu. nodo mo itai desu.', 'Hơi sốt một chút. Họng mình cũng đau nữa.'],
+        ['A', 'そうですか。いつからですか。', 'sou desu ka. itsu kara desu ka.', 'Vậy à. Bạn bị từ khi nào?'],
+        ['B', '{昨日|きのう}の {夜|よる}からです。', 'kinou no yoru kara desu.', 'Từ tối hôm qua ạ.'],
+        ['A', 'では、この くすりが いいですよ。', 'dewa, kono kusuri ga ii desu yo.', 'Vậy thì thuốc này hợp với bạn đấy.'],
+        ['B', 'どうやって のみますか。', 'dou yatte nomimasu ka.', 'Uống thế nào ạ?'],
+        ['A', '{一日|いちにち} {三回|さんかい}、ごはんの あとに {二|ふた}つ のんで ください。', 'ichinichi sankai, gohan no ato ni futatsu nonde kudasai.', 'Mỗi ngày 3 lần, uống 2 viên sau bữa ăn nhé.'],
+        ['B', 'わかりました。いくらですか。', 'wakarimashita. ikura desu ka.', 'Mình hiểu rồi. Bao nhiêu tiền ạ?'],
+        ['A', '{千二百円|せんにひゃくえん}です。', 'sennihyaku en desu.', '1200 yên ạ.'],
+        ['B', 'はい、おねがいします。', 'hai, onegaishimasu.', 'Vâng, bạn tính tiền giúp mình.'],
+        ['A', 'おだいじに。ゆっくり {休|やす}んで くださいね。', 'odaiji ni. yukkuri yasunde kudasai ne.', 'Mau khoẻ nhé. Nhớ nghỉ ngơi cho thật khoẻ nha.'],
+      ],
+      note: 'くすりや / やっきょく = hiệu thuốc, くすり = thuốc. Uống thuốc thì tiếng Nhật dùng động từ のみます (giống uống nước). かぜを ひきました = bị cảm, ねつ = sốt, のど = họng. かぜぐすり = thuốc cảm (くすり đổi thành ぐすり khi ghép từ). Cách dùng thuốc: いちにち さんかい (1 ngày 3 lần), ごはんの あとに (sau bữa ăn). おだいじに là câu chúc "mau khoẻ nhé" khi gặp người bị ốm, rất hay nghe ở hiệu thuốc và bệnh viện.' },
   ];
 
   // ===== CÂU GIAO TIẾP: [tiếng Nhật, romaji, nghĩa] =====
