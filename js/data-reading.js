@@ -610,6 +610,25 @@ window.SJ = window.SJ || {};
         ['A', 'おだいじに。ゆっくり {休|やす}んで くださいね。', 'odaiji ni. yukkuri yasunde kudasai ne.', 'Mau khoẻ nhé. Nhớ nghỉ ngơi cho thật khoẻ nha.'],
       ],
       note: 'くすりや / やっきょく = hiệu thuốc, くすり = thuốc. Uống thuốc thì tiếng Nhật dùng động từ のみます (giống uống nước). かぜを ひきました = bị cảm, ねつ = sốt, のど = họng. かぜぐすり = thuốc cảm (くすり đổi thành ぐすり khi ghép từ). Cách dùng thuốc: いちにち さんかい (1 ngày 3 lần), ごはんの あとに (sau bữa ăn). おだいじに là câu chúc "mau khoẻ nhé" khi gặp người bị ốm, rất hay nghe ở hiệu thuốc và bệnh viện.' },
+    { id: 'd17', title: 'Tìm thuê nhà', jp: 'ふどうさんやで', icon: 'house', level: 2,
+      people: { A: ['Nhân viên nhà đất', 'bro'], B: ['Bạn', 'student'] },
+      lines: [
+        ['A', 'いらっしゃいませ。どんな へやを おさがしですか。', 'irasshaimase. donna heya o osagashi desu ka.', 'Xin chào quý khách. Bạn đang tìm phòng như thế nào ạ?'],
+        ['B', '{駅|えき}から ちかい アパートを さがして います。', 'eki kara chikai apaato o sagashite imasu.', 'Mình đang tìm một căn hộ gần ga ạ.'],
+        ['A', 'やちんは いくらぐらいが いいですか。', 'yachin wa ikura gurai ga ii desu ka.', 'Tiền thuê nhà khoảng bao nhiêu thì hợp với bạn ạ?'],
+        ['B', '{六万円|ろくまんえん}ぐらいが いいです。', 'rokuman en gurai ga ii desu.', 'Khoảng 6 vạn yên (60.000 yên) thì tốt ạ.'],
+        ['A', 'この へやは どうですか。{駅|えき}から あるいて {五分|ごふん}です。', 'kono heya wa dou desu ka. eki kara aruite gofun desu.', 'Phòng này thì sao ạ? Đi bộ từ ga chỉ 5 phút thôi.'],
+        ['B', 'ひろさは どのぐらいですか。', 'hirosa wa dono gurai desu ka.', 'Phòng rộng khoảng bao nhiêu ạ?'],
+        ['A', 'ワンルームで、{六|ろく}じょうです。', 'wanruumu de, roku jou desu.', 'Là phòng đơn, rộng 6 chiếu tatami ạ.'],
+        ['B', 'やちんは いくらですか。', 'yachin wa ikura desu ka.', 'Tiền thuê bao nhiêu ạ?'],
+        ['A', '{五万八千円|ごまんはっせんえん}です。', 'gomanhassen en desu.', '58.000 yên một tháng ạ.'],
+        ['B', 'ちかくに スーパーは ありますか。', 'chikaku ni suupaa wa arimasu ka.', 'Gần đó có siêu thị không ạ?'],
+        ['A', 'はい、あります。となりに コンビニも ありますよ。', 'hai, arimasu. tonari ni konbini mo arimasu yo.', 'Có ạ. Ngay bên cạnh còn có cả cửa hàng tiện lợi nữa đấy.'],
+        ['B', 'いいですね。へやを {見|み}ても いいですか。', 'ii desu ne. heya o mite mo ii desu ka.', 'Hay quá. Mình đi xem phòng được không ạ?'],
+        ['A', 'もちろんです。いまから いっしょに いきましょう。', 'mochiron desu. ima kara issho ni ikimashou.', 'Tất nhiên rồi. Bây giờ mình cùng đi xem nhé.'],
+        ['B', 'ありがとうございます。よろしく おねがいします。', 'arigatou gozaimasu. yoroshiku onegaishimasu.', 'Cảm ơn anh. Mong anh giúp đỡ ạ.'],
+      ],
+      note: 'ふどうさんや = văn phòng môi giới nhà đất, nơi người ta đến tìm phòng thuê. やちん = tiền thuê nhà (trả mỗi tháng). アパート là căn hộ nhỏ, thường 2–3 tầng. Ở Nhật, độ rộng phòng hay tính bằng số chiếu tatami: 〜じょう (1 じょう khoảng 1,6 m², nên ろくじょう khoảng 10 m²). ワンルーム = phòng đơn. 〜から あるいて 〜ふん = đi bộ từ … mất … phút. Muốn xin phép làm gì thì nói 〜ても いいですか, ví dụ へやを みても いいですか (mình xem phòng được không?). Khi thuê nhà ở Nhật còn hay gặp しききん (tiền cọc) và れいきん (tiền lễ cảm ơn chủ nhà).' },
   ];
 
   // ===== CÂU GIAO TIẾP: [tiếng Nhật, romaji, nghĩa] =====
