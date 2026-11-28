@@ -94,8 +94,9 @@ Có thể thêm việc mới vào cuối danh sách nếu thấy app còn thiế
 - [x] Kanji N5 bài mới: 朝 昼 夜 夕 春 夏 秋 冬 — bài j13 (Thời gian trong ngày & bốn mùa)
 - [x] Nói & Ngữ pháp: thêm bài thứ 6 cho các chặng (ví dụ: 〜たり〜たり, 〜ことが できます, 〜まえに / 〜てから), bài mới ở `js/data-talk-e.js` — đã có: tq8 (g61 〜たり 〜たり します), tq7 (g62 Trước & sau khi… 〜の まえに・〜の あとで), tq9 (g63 Trở nên… 〜く なります・〜に なります), tq10 (g64 Mình có thể… 〜ことが できます), tq11 (g65 Nhờ lịch sự hơn 〜て くださいませんか), tq12 (g66 Đã từng… chưa? 〜た ことが あります), tq6 (g67 Tuần trước, tháng này, năm sau せんしゅう・こんげつ・らいねん), tq5 (g68 Bạn sống ở đâu? 〜に すんで います・ちかい・とおい), tq4 (g69 Chọn đồ & thử đồ 〜を みせて ください・〜に します), tq3 (g70 Sách gì? Hàng nước nào? なんの・どこの), tq2 (g71 Bao nhiêu tuổi? なんさい・おいくつ・なんねんせい), tq1 (g72 Đến nhà người khác chơi おじゃまします・いらっしゃい・しつれいします) — đủ 12 chặng × 6 bài; id tiếp theo g73
 - [x] Câu giao tiếp: thêm nhóm mới (ở khách sạn, ở bệnh viện, nói chuyện điện thoại), mỗi nhóm 8 câu — đã thêm 3 nhóm (icon key, hospital, phone), nay có 9 nhóm × 8 câu
-- [ ] Thêm hội thoại tình huống nâng cao khác: ở hiệu thuốc, thuê nhà, phỏng vấn làm thêm (mỗi bài ≥ 10 câu) — đã có: d16 Mua thuốc ở hiệu thuốc (13 câu, icon mới `medicine`), d17 Tìm thuê nhà ở văn phòng nhà đất (14 câu, icon `house`); còn phỏng vấn làm thêm; id tiếp theo d18
+- [x] Thêm hội thoại tình huống nâng cao khác: ở hiệu thuốc, thuê nhà, phỏng vấn làm thêm (mỗi bài ≥ 10 câu) — đã có: d16 Mua thuốc ở hiệu thuốc (13 câu, icon mới `medicine`), d17 Tìm thuê nhà ở văn phòng nhà đất (14 câu, icon `house`), d18 Phỏng vấn làm thêm ở cửa hàng tiện lợi (16 câu, icon `konbini`); id tiếp theo d19
 - [x] Kanji N5 bài mới: 魚 肉 米 茶 牛 犬 鳥 町 — bài j14 (Đồ ăn, con vật & nơi ở)
 - [ ] Kanji N5 bài mới: 少 多 早 近 遠 強 弱 明 (bài j15, tính chất — đối nghĩa)
 - [ ] Nói & Ngữ pháp: thêm bài thứ 7 cho các chặng (ví dụ: 〜て も いいですか, 〜なければ なりません, 〜ながら), bài mới ở `js/data-talk-e.js`, id tiếp theo g73
 - [ ] Câu giao tiếp: thêm nhóm mới (ở nhà ga / mua vé tàu, ở bưu điện, làm quen bạn mới), mỗi nhóm 8 câu
+- [ ] Thêm hội thoại tình huống đời sống khác: ở tiệm giặt là, đăng ký ở phường (しやくしょ), làm thẻ thành viên ở cửa hàng (mỗi bài ≥ 10 câu), id tiếp theo d19

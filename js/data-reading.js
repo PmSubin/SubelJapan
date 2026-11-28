@@ -629,6 +629,27 @@ window.SJ = window.SJ || {};
         ['B', 'ありがとうございます。よろしく おねがいします。', 'arigatou gozaimasu. yoroshiku onegaishimasu.', 'Cảm ơn anh. Mong anh giúp đỡ ạ.'],
       ],
       note: 'ふどうさんや = văn phòng môi giới nhà đất, nơi người ta đến tìm phòng thuê. やちん = tiền thuê nhà (trả mỗi tháng). アパート là căn hộ nhỏ, thường 2–3 tầng. Ở Nhật, độ rộng phòng hay tính bằng số chiếu tatami: 〜じょう (1 じょう khoảng 1,6 m², nên ろくじょう khoảng 10 m²). ワンルーム = phòng đơn. 〜から あるいて 〜ふん = đi bộ từ … mất … phút. Muốn xin phép làm gì thì nói 〜ても いいですか, ví dụ へやを みても いいですか (mình xem phòng được không?). Khi thuê nhà ở Nhật còn hay gặp しききん (tiền cọc) và れいきん (tiền lễ cảm ơn chủ nhà).' },
+    { id: 'd18', title: 'Phỏng vấn làm thêm', jp: 'アルバイトの めんせつ', icon: 'konbini', level: 2,
+      people: { A: ['Quản lý cửa hàng', 'dad'], B: ['Bạn', 'student'] },
+      lines: [
+        ['A', 'こんにちは。どうぞ、すわって ください。', 'konnichiwa. douzo, suwatte kudasai.', 'Chào bạn. Mời bạn ngồi.'],
+        ['B', 'しつれいします。グエンと もうします。よろしく おねがいします。', 'shitsurei shimasu. guen to moushimasu. yoroshiku onegaishimasu.', 'Xin phép ạ. Em tên là Nguyễn. Rất mong được giúp đỡ ạ.'],
+        ['A', 'グエンさんは どこから {来|き}ましたか。', 'guen san wa doko kara kimashita ka.', 'Bạn Nguyễn đến từ đâu vậy?'],
+        ['B', 'ベトナムから {来|き}ました。いまは にほんごがっこうの がくせいです。', 'betonamu kara kimashita. ima wa nihongo gakkou no gakusei desu.', 'Em đến từ Việt Nam. Bây giờ em là học sinh trường tiếng Nhật ạ.'],
+        ['A', 'にほんに {来|き}て どのぐらいですか。', 'nihon ni kite dono gurai desu ka.', 'Bạn sang Nhật được bao lâu rồi?'],
+        ['B', '{一年|いちねん}ぐらいです。', 'ichinen gurai desu.', 'Khoảng một năm rồi ạ.'],
+        ['A', 'まえに アルバイトを した ことが ありますか。', 'mae ni arubaito o shita koto ga arimasu ka.', 'Trước đây bạn đã từng làm thêm chưa?'],
+        ['B', 'はい、レストランで はたらいた ことが あります。', 'hai, resutoran de hataraita koto ga arimasu.', 'Dạ có, em đã từng làm ở nhà hàng ạ.'],
+        ['A', '{一週間|いっしゅうかん}に なんにち はたらけますか。', 'isshuukan ni nannichi hatarakemasu ka.', 'Một tuần bạn làm được mấy ngày?'],
+        ['B', '{三日|みっか}ぐらい はたらけます。どようびと にちようびも だいじょうぶです。', 'mikka gurai hatarakemasu. doyoubi to nichiyoubi mo daijoubu desu.', 'Em làm được khoảng 3 ngày ạ. Thứ bảy và chủ nhật cũng được ạ.'],
+        ['A', 'なんじから なんじまで はたらけますか。', 'nanji kara nanji made hatarakemasu ka.', 'Bạn làm được từ mấy giờ đến mấy giờ?'],
+        ['B', 'ごご {五時|ごじ}から {十時|じゅうじ}まで だいじょうぶです。', 'gogo goji kara juuji made daijoubu desu.', 'Từ 5 giờ chiều đến 10 giờ tối thì em làm được ạ.'],
+        ['A', 'わかりました。じきゅうは {千百円|せんひゃくえん}です。', 'wakarimashita. jikyuu wa senhyaku en desu.', 'Được rồi. Lương theo giờ là 1.100 yên nhé.'],
+        ['B', 'せいふくは ありますか。', 'seifuku wa arimasu ka.', 'Có đồng phục không ạ?'],
+        ['A', 'はい、みせで かします。では、{来週|らいしゅう}の げつようびから おねがいできますか。', 'hai, mise de kashimasu. dewa, raishuu no getsuyoubi kara onegai dekimasu ka.', 'Có, cửa hàng sẽ cho mượn. Vậy từ thứ hai tuần sau bạn bắt đầu được không?'],
+        ['B', 'はい、がんばります。ありがとうございます。', 'hai, ganbarimasu. arigatou gozaimasu.', 'Dạ được ạ, em sẽ cố gắng. Em cảm ơn ạ.'],
+      ],
+      note: 'アルバイト (バイト) = việc làm thêm. めんせつ = buổi phỏng vấn. Khi vào phòng phỏng vấn, nói しつれいします (xin phép), rồi giới thiệu tên bằng 〜と もうします (cách nói khiêm tốn của 〜です). 〜た ことが あります = đã từng làm …. はたらけます là thể "có thể" của はたらきます (làm việc), nên はたらけますか = bạn làm được không? Đếm ngày: みっか (3 ngày), いつか (5 ngày). じきゅう = lương tính theo giờ; せんひゃくえん = 1.100 yên. せいふく = đồng phục. Cuối buổi nhớ nói がんばります (em sẽ cố gắng) để thể hiện tinh thần nhé.' },
   ];
 
   // ===== CÂU GIAO TIẾP: [tiếng Nhật, romaji, nghĩa] =====
