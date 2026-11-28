@@ -91,6 +91,7 @@ window.SJ = window.SJ || {};
         { id:'j12', title:'店 駅 道 車', sub:'Nơi chốn & đi lại', type:'kanji', items: ch('店駅道社会電車校'), icon:'train', intro:'Ra phố là gặp ngay: 店 cửa hàng, 駅 nhà ga, 道 con đường. Đi 電車 tàu điện hay 車 ô tô tới 会社 công ty, 学校 trường học. Hán Việt: ĐIỆN XA = 電車 đó!' },
         { id:'j13', title:'朝 昼 春 冬', sub:'Thời gian trong ngày & bốn mùa', type:'kanji', items: ch('朝昼夜夕春夏秋冬'), icon:'sakura', intro:'Sáng 朝, trưa 昼, chiều tối 夕, đêm 夜 — và bốn mùa 春 xuân, 夏 hạ, 秋 thu, 冬 đông. Hán Việt y hệt tiếng Việt luôn! 七夕 (THẤT TỊCH) là lễ ngày 7/7 đó.' },
         { id:'j14', title:'魚 肉 犬 鳥', sub:'Đồ ăn, con vật & nơi ở', type:'kanji', items: ch('魚肉米茶牛犬鳥町'), icon:'fish', intro:'Đi chợ là gặp: 魚 cá, 肉 thịt, 米 gạo, お茶 trà. Con vật thân quen: 牛 bò, 犬 chó, 鳥 chim. Ghép lại: 牛肉 là thịt bò, 焼き鳥 là gà nướng xiên. Còn 町 là thị trấn nơi bạn ở đó!' },
+        { id:'j15', title:'多 少 強 弱', sub:'Tính chất đối nghĩa', type:'kanji', items: ch('少多早近遠強弱明'), icon:'sun', intro:'Học theo cặp ngược nghĩa cho dễ nhớ: 多い nhiều ↔ 少ない ít, 近い gần ↔ 遠い xa, 強い mạnh ↔ 弱い yếu. Thêm 早い sớm và 明るい sáng sủa nữa. Mẹo nhỏ: 明 = 日 mặt trời + 月 mặt trăng, còn 明日 (ngày mai) đọc đặc biệt là あした đó!' },
       ],
     },
     {

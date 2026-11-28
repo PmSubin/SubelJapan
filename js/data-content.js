@@ -237,6 +237,15 @@ window.SJ = window.SJ || {};
     ['犬','KHUYỂN','con chó','ケン','いぬ','Người to lớn (大) dắt theo một chấm nhỏ (丶) — chú chó chạy bên cạnh',[['犬','いぬ','inu','con chó'],['子犬','こいぬ','koinu','chó con']]],
     ['鳥','ĐIỂU','con chim','チョウ','とり','Đầu chim có con mắt, thân có cánh, bốn chấm (灬) dưới cùng là móng chân',[['鳥','とり','tori','con chim'],['焼き鳥','やきとり','yakitori','gà nướng xiên']]],
     ['町','ĐINH','thị trấn, khu phố','チョウ','まち','Cánh đồng (田) bên con đường thẳng (丁) — nhà cửa mọc lên thành thị trấn',[['町','まち','machi','thị trấn, khu phố'],['下町','したまち','shitamachi','khu phố cũ bình dân']]],
+    // bài j15 — tính chất đối nghĩa
+    ['少','THIỂU','ít','ショウ','すく(ない)・すこ(し)','Chữ nhỏ (小) bị một nét phẩy (丿) cắt bớt đi — càng ít hơn nữa',[['少し','すこし','sukoshi','một chút'],['少ない','すくない','sukunai','ít']]],
+    ['多','ĐA','nhiều','タ','おお(い)','Hai buổi tối (夕 夕) chồng lên nhau — nhiều đêm lắm luôn',[['多い','おおい','ooi','nhiều'],['多分','たぶん','tabun','có lẽ']]],
+    ['早','TẢO','sớm, nhanh','ソウ・サッ','はや(い)','Mặt trời (日) vừa nhô lên trên ngọn cỏ (十) — trời còn sớm',[['早い','はやい','hayai','sớm, nhanh'],['早口','はやくち','hayakuchi','nói nhanh']]],
+    ['近','CẬN','gần','キン','ちか(い)','Đi (⻌) vài bước là tới chỗ cái rìu (斤) — gần lắm',[['近い','ちかい','chikai','gần'],['近所','きんじょ','kinjo','hàng xóm, quanh nhà']]],
+    ['遠','VIỄN','xa','エン','とお(い)','Đi (⻌) trong bộ áo dài thướt tha (袁) — bước chậm nên đường thấy thật xa',[['遠い','とおい','tooi','xa'],['遠足','えんそく','ensoku','chuyến dã ngoại']]],
+    ['強','CƯỜNG','mạnh','キョウ・ゴウ','つよ(い)','Cây cung (弓) to bên con bọ (虫) cứng cáp — mạnh mẽ ghê',[['強い','つよい','tsuyoi','mạnh'],['勉強','べんきょう','benkyou','việc học']]],
+    ['弱','NHƯỢC','yếu','ジャク','よわ(い)','Hai cây cung (弓 弓) cong oặt, dây chùng lỏng (冫 冫) — yếu xìu',[['弱い','よわい','yowai','yếu'],['弱虫','よわむし','yowamushi','đồ nhát gan']]],
+    ['明','MINH','sáng','メイ・ミョウ','あか(るい)・あ(かり)','Mặt trời (日) đứng cạnh mặt trăng (月) — sáng rực cả ngày lẫn đêm',[['明るい','あかるい','akarui','sáng sủa, vui tươi'],['明日','あした','ashita','ngày mai']]],
   ];
   SJ.KANJI = KJ.map(a => ({ key:'j:' + a[0], k: a[0], hv: a[1], m: a[2], on: a[3], kun: a[4], tip: a[5], ex: a[6].map(e => ({ jp: e[0], kana: e[1], r: e[2], vi: e[3] })) }));
   SJ.KANJI_MAP = {};

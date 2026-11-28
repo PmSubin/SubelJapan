@@ -96,7 +96,8 @@ Có thể thêm việc mới vào cuối danh sách nếu thấy app còn thiế
 - [x] Câu giao tiếp: thêm nhóm mới (ở khách sạn, ở bệnh viện, nói chuyện điện thoại), mỗi nhóm 8 câu — đã thêm 3 nhóm (icon key, hospital, phone), nay có 9 nhóm × 8 câu
 - [x] Thêm hội thoại tình huống nâng cao khác: ở hiệu thuốc, thuê nhà, phỏng vấn làm thêm (mỗi bài ≥ 10 câu) — đã có: d16 Mua thuốc ở hiệu thuốc (13 câu, icon mới `medicine`), d17 Tìm thuê nhà ở văn phòng nhà đất (14 câu, icon `house`), d18 Phỏng vấn làm thêm ở cửa hàng tiện lợi (16 câu, icon `konbini`); id tiếp theo d19
 - [x] Kanji N5 bài mới: 魚 肉 米 茶 牛 犬 鳥 町 — bài j14 (Đồ ăn, con vật & nơi ở)
-- [ ] Kanji N5 bài mới: 少 多 早 近 遠 強 弱 明 (bài j15, tính chất — đối nghĩa)
+- [x] Kanji N5 bài mới: 少 多 早 近 遠 強 弱 明 — bài j15 (Tính chất đối nghĩa)
 - [ ] Nói & Ngữ pháp: thêm bài thứ 7 cho các chặng (ví dụ: 〜て も いいですか, 〜なければ なりません, 〜ながら), bài mới ở `js/data-talk-e.js`, id tiếp theo g73
 - [ ] Câu giao tiếp: thêm nhóm mới (ở nhà ga / mua vé tàu, ở bưu điện, làm quen bạn mới), mỗi nhóm 8 câu
 - [ ] Thêm hội thoại tình huống đời sống khác: ở tiệm giặt là, đăng ký ở phường (しやくしょ), làm thẻ thành viên ở cửa hàng (mỗi bài ≥ 10 câu), id tiếp theo d19
+- [ ] Kanji bài mới: 色 赤 青 黒 音 楽 歌 体 (bài j16, màu sắc & âm nhạc) — đã kiểm tra: 8 chữ này chưa có trong KJ
